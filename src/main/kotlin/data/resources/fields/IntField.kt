@@ -1,8 +1,8 @@
-package data.io.exporter.resources
+package data.resources.fields
 
 class IntField constructor(
     var label: String, var min: Int, var max: Int
-) : ExportFieldConfig {
+) : ConfigField {
 
     override fun getLabel(): String {
         return label

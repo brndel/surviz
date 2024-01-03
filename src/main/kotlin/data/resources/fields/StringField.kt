@@ -1,8 +1,8 @@
-package data.io.exporter.resources
+package data.resources.fields
 
 class StringField constructor(
     private var label: String
-) : ExportFieldConfig  {
+) : ConfigField  {
 
     override fun getLabel(): String {
         return label
