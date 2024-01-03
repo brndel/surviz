@@ -7,11 +7,11 @@ package data.project.data
  */
 class DataSchemeOption constructor(
 
-        var name : String,
-        var fields : List<String>)
-{
+    var name: String,
+    var fields: List<String>
+)
 
 
 
 
-}
+

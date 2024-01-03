@@ -9,6 +9,10 @@ class DataScheme {
 
    lateinit var options : MutableList<DataSchemeOption>
 
+   /**
+    * This method compares two data schemes.
+    * @param scheme the data scheme to compare
+    */
    fun compareTo(scheme : DataScheme) : Boolean {
       return false
    }

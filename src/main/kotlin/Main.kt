@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import data.project.Project
 
 @Composable
 @Preview
@@ -27,5 +28,6 @@ fun App() {
 fun main() = application {
     Window(onCloseRequest = ::exitApplication) {
         App()
+
     }
 }
