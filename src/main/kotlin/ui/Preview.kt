@@ -4,5 +4,5 @@ import androidx.compose.runtime.Composable
 import data.project.Project
 
 @Composable
-fun StartingScreen(onProjectLoad: (Project) -> Unit) {
+fun Preview(project: Project) {
 }

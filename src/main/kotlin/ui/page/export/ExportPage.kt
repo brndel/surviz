@@ -1,8 +1,8 @@
-package ui
+package ui.page.export
 
 import androidx.compose.runtime.Composable
 import data.project.Project
 
 @Composable
-fun StartingScreen(onProjectLoad: (Project) -> Unit) {
+fun ExportPage(project: Project) {
 }
