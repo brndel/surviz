@@ -1,7 +1,9 @@
 package data.project.config
 
+import androidx.compose.runtime.MutableState
+
 class SingleValueIconLevel constructor(
-        val Icon : String,
-        val lowerThreshold: Double
+        var Icon: MutableState<String?>,
+        var lowerThreshold: MutableState<Double>
 ){
 }

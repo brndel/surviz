@@ -1,10 +1,13 @@
 package data.project.config
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.snapshots.SnapshotStateList
+
 class SingleValueIcon constructor(
-        val baseIcon : String,
-        val levels : List<SingleValueIconLevel>
+    var baseIcon: MutableState<String?>,
+    var levels: SnapshotStateList<SingleValueIconLevel>
 ) {
-    fun getIcon() : String{
+    fun getIcon(value: String): String{
         return ""
     }
 }

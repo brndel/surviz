@@ -1,8 +1,10 @@
 package data.project.config
 
+import androidx.compose.runtime.MutableState
+
 class SingleValueConfig constructor(
-        val unit : String,
-        val columnScheme : String,
-        val icon : SingleValueIcon
+        var unit: MutableState<String>,
+        var columnScheme: MutableState<String>,
+        var icon: SingleValueIcon
 ) {
 }
