@@ -6,6 +6,7 @@ import data.project.data.Situation
 
 /**
  * This class represents a project data.
+ * It contains a data scheme and a list of blocks.
  */
 class ProjectData constructor(
     var dataScheme: DataScheme,
