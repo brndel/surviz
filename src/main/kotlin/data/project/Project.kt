@@ -8,8 +8,6 @@ import java.io.File
 /**
  * This class represents a project.
  * It contains all the data of a project like the data scheme, the blocks, the configuration and the icon storage.
- *
-
  */
 class Project constructor(
     var data: ProjectData,
@@ -22,6 +20,7 @@ class Project constructor(
      * @param data The project data to load.
      * @param force If true, the project data will be loaded even if the project data is not valid.
      * @return True if the project data was loaded successfully, false otherwise.
+     * 
      */
     fun loadProjectData(data: ProjectData, force: Boolean): Boolean {
         return false
@@ -35,10 +34,6 @@ class Project constructor(
 
     }
 
-    /**
-     * This object represents a project manager.
-     * It contains methods to create, load and save projects.
-     */
     companion object {
         /**
          * This method creates a project.

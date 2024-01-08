@@ -4,15 +4,20 @@ import androidx.compose.runtime.*
 import data.project.Project
 
 /**
- * TODO
+ * The root of the ui.
+ * This view holds the currently loaded [Project]
  *
+ * @state project Project
+ * @state isSettingsWindowOpen Boolean
+ * @ui StartingScreen is visible when no project is loaded
+ * @ui ProjectScreen is visible when a valid project is loaded
  */
 @Composable
 fun MainScreen() {
     var project: Project? by remember { mutableStateOf(null) }
 
     if (project == null) {
-        StartingScreen { project = it }
+        WelcomeScreen { project = it }
     } else {
         ProjectScreen(project!!)
     }
