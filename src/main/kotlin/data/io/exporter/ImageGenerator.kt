@@ -1,25 +1,24 @@
-package data.io.exporter;
+package data.io.exporter
 
-import data.project.config.ProjectConfiguration;
-import data.project.data.IconStorage;
-import data.project.data.Situation;
-import data.project.data.SituationOption;
+import data.project.config.ProjectConfiguration
+import data.project.data.IconStorage
+import data.project.data.Situation
+import data.project.data.SituationOption
+import java.awt.Image
 
-import java.awt.*;
-
-public class ImageGenerator {
-    private ProjectConfiguration config;
-    private IconStorage iconStorage;
-
-    public Image PngGenerator(ProjectConfiguration config, IconStorage iconStorage) {
-        return null;
+class ImageGenerator constructor(
+    private var config: ProjectConfiguration?,
+    private var iconStorage: IconStorage?
+) {
+    fun PngGenerator(config: ProjectConfiguration?, iconStorage: IconStorage?): Image? {
+        return null
     }
 
-    public Image generateSituation(Situation situation) {
-        return null;
+    fun generateSituation(situation: Situation?): Image? {
+        return null
     }
 
-    public Image generateOption(SituationOption option) {
-        return null;
+    fun generateOption(option: SituationOption?): Image? {
+        return null
     }
 }

@@ -1,21 +1,14 @@
-package data.io.exporter;
+package data.io.exporter
 
-import data.project.config.ProjectConfiguration;
-import data.resources.fields.NamedField;
-import org.jetbrains.annotations.NotNull;
+import data.project.config.ProjectConfiguration
+import data.resources.fields.NamedField
 
-import java.util.List;
-import java.util.Map;
-
-public class HtmlExporter implements Exporter {
-    @Override
-    public void export(@NotNull ProjectConfiguration configuration, @NotNull Map<String, ?> exportConfig) {
-
+class HtmlExporter : Exporter {
+    override fun export(configuration: ProjectConfiguration, exportConfig: Map<String, Any>) {
+        TODO("Not yet implemented")
     }
 
-    @NotNull
-    @Override
-    public List<NamedField> getFields() {
-        return null;
+    override fun getFields(): List<NamedField> {
+        TODO("Not yet implemented")
     }
 }

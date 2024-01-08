@@ -1,10 +1,8 @@
-package data.io.exporter;
+package data.io.exporter
 
-public enum ExporterVariant {
-    Png,
-    Html;
+enum class ExporterVariant {
+    Png, Html;
 
-    public ExporterVariant getExporter() {
-        return null;
-    }
+    val exporter: ExporterVariant?
+        get() = null
 }

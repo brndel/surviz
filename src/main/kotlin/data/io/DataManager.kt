@@ -7,7 +7,7 @@ import java.io.File
 
 class DataManager {
     fun loadData(file: File): ProjectData {
-        return null!!;
+        return null!!
     }
 
     fun saveData(project: Project, exporter: ExporterVariant, exportConfig: Map<String, Any>) {

@@ -1,21 +1,14 @@
-package data.io.importer;
+package data.io.importer
 
-import data.project.ProjectData;
-import org.jetbrains.annotations.NotNull;
-import java.io.File;
+import data.project.ProjectData
+import java.io.File
 
-
-public class NgeneImporter implements Importer {
-
-    @NotNull
-    @Override
-    public ProjectData importFile(@NotNull File file) {
-        return null;
+class NgeneImporter : Importer {
+    override fun importFile(file: File): ProjectData {
+        TODO("Not yet implemented")
     }
 
-    @NotNull
-    @Override
-    public String getType() {
-        return null;
+    override fun getType(): String {
+        TODO("Not yet implemented")
     }
 }

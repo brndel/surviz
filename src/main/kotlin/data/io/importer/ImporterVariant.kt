@@ -1,9 +1,8 @@
-package data.io.importer;
+package data.io.importer
 
-public enum ImporterVariant {
+enum class ImporterVariant {
     Ngene;
 
-    public Importer getImporter() {
-        return null;
-    }
+    val importer: Importer?
+        get() = null
 }
