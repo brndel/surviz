@@ -14,6 +14,11 @@ class SingleValueIcon constructor(
     var baseIcon: MutableState<String?>,
     var levels: SnapshotStateList<SingleValueIconLevel>
 ) {
+    /**
+     * This method returns the icon.
+     * @param value the value of the single value
+     * @return the icon
+     */
     fun getIcon(value: String): String{
         return ""
     }
