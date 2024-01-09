@@ -7,6 +7,13 @@ import data.project.config.columns.SingleValueColumn
 import java.awt.Color
 import java.util.UUID
 
+/**
+ * This class represents the configuration of a situation.
+ * @param name the name that is given to the situation
+ * @param color the color of the situation
+ * @param singleValueColumns the columns of the Ngene file that contain the information for this situation
+ * @param timeline the timeline entrys
+ */
 class SituationConfig constructor(
         var name: MutableState<String>,
         var color: MutableState<Color>,

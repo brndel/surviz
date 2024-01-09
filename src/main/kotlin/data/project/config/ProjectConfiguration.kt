@@ -5,7 +5,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateMap
 import java.util.UUID
 
 /**
- * This class represents a project configuration.
+ * This class represents the configuration of a project.
  * A project configuration consists of the specific configurations and sequence of single values,
  * as well as the configuration details related to the situations of the project.
  * Each configuration of a single value is stored as a SingleValueConfig
