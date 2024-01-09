@@ -6,7 +6,8 @@ package data.project.data
  * So when accessed on different devices the icons are available.
  * The icons are stored in the project date and can be accessed by the file path which can be accessed by the map.
  *
-
+ * @param icons The icons of the project.
+ *
  */
 class IconStorage(var  icons: Map<String, String>) {
     /**
@@ -18,8 +19,9 @@ class IconStorage(var  icons: Map<String, String>) {
     }
 
     /**
-     * This method returns an icon.
-     * @param filePath the file path
+     * This method returns an icons path by a given icon identifier.
+     * @param filePath the icon name
+     * @return the path of the icon
      */
     fun getIcon(filePath: String): String {
         return ""

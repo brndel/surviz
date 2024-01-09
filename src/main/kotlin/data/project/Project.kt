@@ -6,8 +6,19 @@ import data.project.data.IconStorage
 import java.io.File
 
 /**
- * This class represents a project.
- * It contains all the data of a project like the data scheme, the blocks, the configuration and the icon storage.
+ * This class represents a project,which is the root of every SurViz project.
+ * All relevant information like [data] ,[dataScheme] ,project [configuration]
+ * and the [iconStorage] of the project is stored here.
+ * From here other projects can be accessed by loading or creating them.
+ *
+ *
+ *
+ * @param data the data of the project.
+ * @param dataScheme the data scheme of the project.
+ * @param configuration the configuration of the project.
+ * @param iconStorage the icon storage of the project.
+ *
+ * @constructor Creates a project with the given data, data scheme, configuration and icon storage.
  */
 class Project constructor(
     var data: ProjectData,
@@ -20,7 +31,7 @@ class Project constructor(
      * @param data The project data to load.
      * @param force If true, the project data will be loaded even if the project data is not valid.
      * @return True if the project data was loaded successfully, false otherwise.
-     * 
+     *
      */
     fun loadProjectData(data: ProjectData, force: Boolean): Boolean {
         return false
@@ -36,8 +47,8 @@ class Project constructor(
 
     companion object {
         /**
-         * This method creates a project.
-         * @return The path to load the project data.
+         * To access the file path of a project file.
+         * @return The path of the project data. Null if not existing.
          */
         fun getLastProjectFilePath(): String {
             return ""

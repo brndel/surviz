@@ -2,22 +2,28 @@ package data.project.data
 
 /**
  * This class represents a data scheme.
- * It contains a list of data scheme options.
- * If a data scheme option is selected, current project data will be applied to new loaded nGene file if possible.
+ * A data scheme of a project describes the structure of a nGene file.
+ * It is used to safe current project data and apply it to new loaded nGene file.
  *
+ * @param options The list of data scheme options.
+ *
+ * @constructor Creates a data scheme.
  *
  */
 class DataScheme {
 
-   lateinit var options : MutableList<DataSchemeOption>
+    lateinit var options: MutableList<DataSchemeOption>
 
-   /**
-    * This method compares two data schemes.
-    * @param scheme the data scheme to compare
-    * @return true if the data schemes are equal, false otherwise
-    * In case of true , current project data will be applied to new loaded nGene file.
-    */
-   fun compareTo(scheme : DataScheme) : Boolean {
-      return false
-   }
+    /**
+     * This method compares two data schemes for compatibility.
+     * Method compares given data scheme with current project data scheme.
+     * If the data schemes are compatible the method returns true, and the data scheme will be applied to the nGene file.
+     *
+     * @param scheme the data scheme to compare
+     * @return true if the data schemes are equal, false otherwise
+     *
+     */
+    fun compareTo(scheme: DataScheme): Boolean {
+        return false
+    }
 }
