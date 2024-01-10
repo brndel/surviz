@@ -8,10 +8,15 @@ package data.project.data
  * @param situationId The simulation id of the situation.
  * @param options The options of the situation.
  *
- * @constructor Creates a situation.
  */
-class Situation constructor(
+class Situation (
+    /**
+     * The simulation id of the situation.
+     */
     var situationId: Int,
+    /**
+     * The options of the situation.
+     */
     var options: List<SituationOption>
 ) {
 }

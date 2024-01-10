@@ -10,10 +10,14 @@ package data.project.data
  *
  * @param id The id of the block.
  * @param situation The simulations contained by the block.
- *
- * @constructor Creates a block.
- *
  */
-class Block constructor(
-    private var id: Int, situation: List<Situation>
+class Block(
+    /**
+     * the id of the block
+     */
+    var id: Int,
+    /**
+     * the simulations contained by the block
+     */
+    var situation: List<Situation>
 )

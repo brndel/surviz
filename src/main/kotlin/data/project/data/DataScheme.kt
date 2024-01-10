@@ -6,12 +6,11 @@ package data.project.data
  * It is used to safe current project data and apply it to new loaded nGene file.
  *
  * @param options The list of data scheme options.
- *
- * @constructor Creates a data scheme.
- *
  */
 class DataScheme {
-
+    /**
+     * The list of data scheme options.
+     */
     lateinit var options: MutableList<DataSchemeOption>
 
     /**
