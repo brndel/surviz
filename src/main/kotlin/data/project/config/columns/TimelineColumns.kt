@@ -4,9 +4,7 @@ import data.project.config.SingleValueConfig
 import data.project.data.Situation
 
 /**
- * /**
- *  * This class is a type of SingleValueColumn. It is used for columns of the Ngene file that were used in the timeline.
- *  */
+ * This class is a type of SingleValueColumn. It is used for columns of the Ngene file that were used in the timeline.
  */
 class TimelineColumns(): SingleValueColumn {
     /**

@@ -4,9 +4,7 @@ import data.project.config.SingleValueConfig
 import data.project.data.Situation
 
 /**
- * /**
- *  * This class is a type of SingleValueColumn. It contains a zero column with the value 0.
- *  */
+ * This class is a type of SingleValueColumn. It contains a zero column with the value 0.
  */
 class ZeroColumn(): SingleValueColumn {
     /**

@@ -10,8 +10,8 @@ import androidx.compose.runtime.mutableStateOf
  *
  * @property options a [List] of all possible options
  *
- * @param initialValue the initially selected option
- * @param label label of the [FieldData]
+ * @property initialValue the initially selected option
+ * @property label label of the [FieldData]
  */
 class OptionsFieldData(initialValue: String, label: String, var options: List<String>) :
     FieldData(label) {
