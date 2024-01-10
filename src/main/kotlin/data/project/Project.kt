@@ -29,7 +29,8 @@ class Project constructor(
     /**
      * This method loads the project data.
      * @param data The project data to load.
-     * @param force If true, the project data will be loaded even if the project data is not valid.
+     * @param force If true, the project data will be loaded even if the current [DataScheme]
+     * differs from the new one.
      * @return True if the project data was loaded successfully, false otherwise.
      *
      */
@@ -47,8 +48,9 @@ class Project constructor(
 
     companion object {
         /**
-         * To access the file path of a project file.
-         * @return The path of the project data. Null if not existing.
+         * Gets the file path from the last saved project. This can allows the user to immediately
+         * continue working on their last project.
+         * @return The path of the last saved project.
          */
         fun getLastProjectFilePath(): String {
             return ""
@@ -62,7 +64,7 @@ class Project constructor(
         }
 
         /**
-         * This method loads an existing project.
+         * This method loads an existing project from a file.
          * @param projectFile The project file to load.
          */
         fun loadProjectFromFile(projectFile: File) {
