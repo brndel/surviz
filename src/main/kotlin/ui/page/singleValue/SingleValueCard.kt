@@ -9,7 +9,7 @@ import data.project.config.SingleValueConfig
  *
  * @param config the configuration that can be edited on this card
  * @param onDelete get called when the delete button on this card gets pressed
- * @ui TextField for the `unit` and the `colorScheme` of the given [SingleValueConfig]
+ * @ui TextField for the unit and the colorScheme of the given [SingleValueConfig]
  * @ui SingleValueIconCard for the icons of the given [SingleValueConfig]
  */
 @Composable

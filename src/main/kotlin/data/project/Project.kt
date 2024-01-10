@@ -13,35 +13,23 @@ import java.io.File
  *
  *
  *
- * @param data the data of the project.
- * @param dataScheme the data scheme of the project.
- * @param configuration the configuration of the project.
- * @param iconStorage the icon storage of the project.
+ * @property data the data of the project.
+ * @property dataScheme the data scheme of the project.
+ * @property configuration the configuration of the project.
+ * @property iconStorage the icon storage of the project.
  */
 class Project(
-    /**
-     *  The data of the project.
-     */
     var data: ProjectData,
-    /**
-     * The data scheme of the project.
-     */
     var dataScheme: DataScheme,
-    /**
-     * The configuration data of the project.
-     */
     var configuration: ProjectConfiguration,
-    /**
-     * The icon storage of the project.
-     */
     var iconStorage: IconStorage
 ) {
     /**
      * This method loads the project data.
      * @param data The project data to load.
-     * @param force If true, the project data will be loaded even if the project data is not valid.
+     * @param force If true, the project data will be loaded even if the current [DataScheme]
+     * differs from the new one.
      * @return True if the project data was loaded successfully, false otherwise.
-     *
      */
     fun loadProjectData(data: ProjectData, force: Boolean): Boolean {
         return false
@@ -57,8 +45,9 @@ class Project(
 
     companion object {
         /**
-         * To access the file path of a project file.
-         * @return The path of the project data. Null if not existing.
+         * Gets the file path from the last saved project. This can allows the user to immediately
+         * continue working on their last project.
+         * @return The path of the last saved project.
          */
         fun getLastProjectFilePath(): String {
             return ""
@@ -72,7 +61,7 @@ class Project(
         }
 
         /**
-         * This method loads an existing project.
+         * This method loads an existing project from a file.
          * @param projectFile The project file to load.
          */
         fun loadProjectFromFile(projectFile: File) {

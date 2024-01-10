@@ -11,7 +11,7 @@ import java.util.UUID
  * This class represents the configuration of a situation.
  * @param name the name that is given to the situation
  * @param color the color of the situation
- * @param singleValueColumns the columns of the Ngene file that contain the information for this situation
+ * @param singleValueColumns the columns of the Ngene file that contain the information for this situation. The single value UUID's will be assigned to a type of SingleValueColumn, that stores the columns in the Ngene file that contain the information of this single value.
  * @param timeline the timeline entrys
  */
 class SituationConfig constructor(
