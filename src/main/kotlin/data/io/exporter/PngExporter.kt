@@ -16,7 +16,7 @@ class PngExporter : Exporter {
         TODO("Not yet implemented")
     }
     /**
-     * Get the fields that can be used in the export configuration.
+     * This method returns the fields that the UI uses to configure the export.
      * @return The fields that can be used in the export configuration.
      */
     override fun getFields(): List<NamedField> {

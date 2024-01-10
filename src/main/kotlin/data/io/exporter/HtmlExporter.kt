@@ -18,8 +18,7 @@ class HtmlExporter : Exporter {
     }
 
     /**
-     * This method returns the fields of the exporter.
-     *
+     * This method returns the fields that the UI uses to configure the export.
      * @return The fields of the exporter.
      */
     override fun getFields(): List<NamedField> {

@@ -14,7 +14,7 @@ interface Exporter {
      */
     fun export(configuration: ProjectConfiguration, exportConfig: Map<String, Any>)
     /**
-     * This method returns the fields that can be exported.
+     * This method returns the fields that the UI uses to configure the export.
      * @return The fields that can be exported.
      */
     fun getFields():List<NamedField>
