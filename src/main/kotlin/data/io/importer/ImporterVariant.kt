@@ -2,6 +2,7 @@ package data.io.importer
 
 /**
  * This enum describes the different types of importers.
+ * @param importer The importer of this variant.
  */
 enum class ImporterVariant(private val importer: Importer) {
     /**

@@ -2,6 +2,7 @@ package data.io.exporter
 
 /**
  * This enum describes the different types of exporters.
+ * @param exporter The exporter of this variant.
  */
 enum class ExporterVariant(private val exporter: Exporter) {
     /**
