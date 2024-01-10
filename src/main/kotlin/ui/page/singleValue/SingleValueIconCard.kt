@@ -11,7 +11,7 @@ import ui.fields.IconField
  * @param icon the icon configuration that can be edited on this card
  * @ui IconField this card shows a [IconField] for every icon in the given [SingleValueIcon].
  * The order of the icons can be changed by drag and drop.
- * @ui IntField this card show a [IntField] for every lowerBound of every level in the given [SingleValueIcon]
+ * @ui IntField for every lowerBound of every level in the given [SingleValueIcon]
  */
 @Composable
 fun SingleValueIconCard(icon: SingleValueIcon) {
