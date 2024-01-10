@@ -6,17 +6,11 @@ package data.project.data
  * If a data scheme is fits to a nGene file, the project data will be applied to the new loaded nGene file.
  * Else the data scheme option will be ignored.
  *
- * @param name The name of the data scheme option.
- * @param fields The fields of the data scheme option.
+ * @property name The name of the data scheme option
+ * @property fields The fields of the data scheme option
  */
 class DataSchemeOption (
-    /**
-     * The name of the data scheme option.
-     */
     var name: String,
-    /**
-     * The fields of the data scheme option.
-     */
     var fields: List<String>
 )
 

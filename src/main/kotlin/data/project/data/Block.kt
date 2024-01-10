@@ -8,16 +8,10 @@ package data.project.data
  * From where every situation contains an amount of [SituationOption].
  * A bock has its unique id.
  *
- * @param id The id of the block.
- * @param situation The simulations contained by the block.
+ * @property id The id of the block.
+ * @property situation The simulations contained by the block.
  */
 class Block(
-    /**
-     * the id of the block
-     */
     var id: Int,
-    /**
-     * the simulations contained by the block
-     */
     var situation: List<Situation>
 )

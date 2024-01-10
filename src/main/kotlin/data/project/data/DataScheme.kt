@@ -5,14 +5,11 @@ package data.project.data
  * A data scheme of a project describes the structure of a nGene file.
  * It is used to safe current project data and apply it to new loaded nGene file.
  *
- * @param options The list of data scheme options.
+ * @property options The list of data scheme options.
  */
-class DataScheme {
-    /**
-     * The list of data scheme options.
-     */
-    lateinit var options: MutableList<DataSchemeOption>
-
+class DataScheme(
+    val options: MutableList<DataSchemeOption>
+) {
     /**
      * This method compares two data schemes for compatibility.
      * Method compares given data scheme with current project data scheme.

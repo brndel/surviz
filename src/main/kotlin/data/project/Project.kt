@@ -13,27 +13,15 @@ import java.io.File
  *
  *
  *
- * @param data the data of the project.
- * @param dataScheme the data scheme of the project.
- * @param configuration the configuration of the project.
- * @param iconStorage the icon storage of the project.
+ * @property data the data of the project.
+ * @property dataScheme the data scheme of the project.
+ * @property configuration the configuration of the project.
+ * @property iconStorage the icon storage of the project.
  */
 class Project(
-    /**
-     *  The data of the project.
-     */
     var data: ProjectData,
-    /**
-     * The data scheme of the project.
-     */
     var dataScheme: DataScheme,
-    /**
-     * The configuration data of the project.
-     */
     var configuration: ProjectConfiguration,
-    /**
-     * The icon storage of the project.
-     */
     var iconStorage: IconStorage
 ) {
     /**
@@ -42,7 +30,6 @@ class Project(
      * @param force If true, the project data will be loaded even if the current [DataScheme]
      * differs from the new one.
      * @return True if the project data was loaded successfully, false otherwise.
-     *
      */
     fun loadProjectData(data: ProjectData, force: Boolean): Boolean {
         return false

@@ -9,17 +9,11 @@ import data.project.data.Situation
  * It contains a data scheme and a list of blocks.
  *
  *
- * @param dataScheme The data scheme of the project.
- * @param blocks The blocks of the project.
+ * @property dataScheme The data scheme of the project
+ * @property blocks The blocks of the project
  */
 class ProjectData(
-    /**
-     * The data scheme of the project.
-     */
     var dataScheme: DataScheme,
-    /**
-     * The blocks of the project.
-     */
     var blocks: List<Block>
 ) {
     /**
@@ -29,6 +23,5 @@ class ProjectData(
      */
     fun getSituations(block: Int, situation: Situation): Situation? {
         return null
-
     }
 }
