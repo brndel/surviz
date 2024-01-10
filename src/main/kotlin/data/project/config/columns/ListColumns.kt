@@ -4,7 +4,7 @@ import data.project.config.SingleValueConfig
 import data.project.data.Situation
 
 /**
- * This class is a type of SingleValueColumn. It contains a list of columns of the Ngene file that were hosen by hand.
+ * This class is a type of SingleValueColumn. It contains a list of columns of the Ngene file that were chosen by hand.
  * @param columns the columns that were chosen.
  */
 class ListColumns constructor(
