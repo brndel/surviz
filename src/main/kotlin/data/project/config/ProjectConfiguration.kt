@@ -8,11 +8,9 @@ import java.util.UUID
  * This class represents the configuration of a project.
  * A project configuration consists of the specific configurations and sequence of single values,
  * as well as the configuration details related to the situations of the project.
- * @param singleValueConfig the configuration of a single value
- * Each SingleValueConfig is assigned a UUID. The Order of UUID's is stored in a list.
+ * @param singleValueConfig the configuration of a single value. Each SingleValueConfig is assigned a UUID. The Order of UUID's is stored in a list.
  * @param singleValueConfigOrder the list of UUID's that stores the order.
- * @param situationConfig the configuration of situations
- * Each situation is assigned a name.
+ * @param situationConfig the configuration of situations. Each situation is assigned a name.
  */
 class ProjectConfiguration constructor(
         private var singleValueConfigOrder: SnapshotStateList<UUID>,
