@@ -9,7 +9,7 @@ import data.project.Project
  *
  * @state project Project
  * @state isSettingsWindowOpen Boolean
- * @ui StartingScreen is visible when no project is loaded
+ * @ui WelcomeScreen is visible when no project is loaded
  * @ui ProjectScreen is visible when a valid project is loaded
  */
 @Composable
