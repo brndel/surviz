@@ -17,13 +17,23 @@ import java.io.File
  * @param dataScheme the data scheme of the project.
  * @param configuration the configuration of the project.
  * @param iconStorage the icon storage of the project.
- *
- * @constructor Creates a project with the given data, data scheme, configuration and icon storage.
  */
-class Project constructor(
+class Project(
+    /**
+     *  The data of the project.
+     */
     var data: ProjectData,
+    /**
+     * The data scheme of the project.
+     */
     var dataScheme: DataScheme,
+    /**
+     * The configuration data of the project.
+     */
     var configuration: ProjectConfiguration,
+    /**
+     * The icon storage of the project.
+     */
     var iconStorage: IconStorage
 ) {
     /**

@@ -17,9 +17,9 @@ import ui.page.situation.SituationPage
  *
  * @param project the [Project] that can be edited on this screen
  * @state currentPage Page the currently visible page
- * @ui SingleValuePage
- * @ui SituationPage
- * @ui ExportPage
+ * @ui SingleValuePage when SingleValue is selected
+ * @ui SituationPage when Situation is selected
+ * @ui ExportPage when Export is selected
  */
 @Composable
 fun ProjectScreen(project: Project) {
