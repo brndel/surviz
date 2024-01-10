@@ -8,13 +8,15 @@ package data.project.data
  *
  * @param name The name of the data scheme option.
  * @param fields The fields of the data scheme option.
- *
- * @constructor Creates a data scheme option.
- *
  */
-class DataSchemeOption constructor(
-
+class DataSchemeOption (
+    /**
+     * The name of the data scheme option.
+     */
     var name: String,
+    /**
+     * The fields of the data scheme option.
+     */
     var fields: List<String>
 )
 

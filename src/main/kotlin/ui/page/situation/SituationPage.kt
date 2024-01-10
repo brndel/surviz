@@ -9,7 +9,7 @@ import data.project.config.ProjectConfiguration
  *
  * @param projectConfiguration the [ProjectConfiguration] this page should edit
  * @state currentSituation String holds the name of the currently selected situation
- * @ui SituationTab shows a [SituationTab] for the currently selected situation
+ * @ui SituationTab for the currently selected situation
  */
 @Composable
 fun SituationPage(projectConfiguration: ProjectConfiguration) {

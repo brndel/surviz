@@ -11,11 +11,15 @@ import data.project.data.Situation
  *
  * @param dataScheme The data scheme of the project.
  * @param blocks The blocks of the project.
- *
- * @constructor Creates a project data.
  */
-class ProjectData constructor(
+class ProjectData(
+    /**
+     * The data scheme of the project.
+     */
     var dataScheme: DataScheme,
+    /**
+     * The blocks of the project.
+     */
     var blocks: List<Block>
 ) {
     /**
