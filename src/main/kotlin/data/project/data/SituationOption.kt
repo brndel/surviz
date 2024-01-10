@@ -7,10 +7,15 @@ package data.project.data
  * @param name The name of the situation option.
  * @param values The values of the situation option.
  *
- * @constructor Creates a situation option.
  */
-class SituationOption constructor(
+class SituationOption (
+    /**
+     * The name of the situation option.
+     */
     var name: String,
+    /**
+     * The values of the situation option.
+     */
     var values: Map<String, Double>
 ) {
 }

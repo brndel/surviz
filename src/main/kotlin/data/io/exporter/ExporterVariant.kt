@@ -3,12 +3,23 @@ package data.io.exporter
 /**
  * This enum describes the different types of exporters.
  */
-enum class ExporterVariant {
-    Png, Html;
+enum class ExporterVariant(private val exporter: Exporter) {
+    /**
+     * The exporter variant for [PngExporter]
+     */
+    Png(PngExporter()),
+
+    /**
+     * The exporter variant for [HtmlExporter]
+     *
+     */
+    Html(HtmlExporter());
 
     /**
      * This method returns the exporter for the given type.
+     * @return the exporter of this exporter variant
      */
-    val exporter: ExporterVariant?
-        get() = null
+    fun getExporter(): Exporter {
+        return exporter
+    }
 }
