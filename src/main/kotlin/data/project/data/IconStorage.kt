@@ -9,7 +9,12 @@ package data.project.data
  * @param icons The icons of the project.
  *
  */
-class IconStorage(var  icons: Map<String, String>) {
+class IconStorage(
+    /**
+     * The icons of the project.
+     */
+    var icons: Map<String, String>
+) {
     /**
      * This method stores an icon.
      * @param filePath the file path
@@ -19,9 +24,9 @@ class IconStorage(var  icons: Map<String, String>) {
     }
 
     /**
-     * This method returns an icons path by a given icon identifier.
-     * @param filePath the icon name
-     * @return the path of the icon
+     * This method returns an icons string by a given icon path.
+     * @param filePath the icon path
+     * @return the icon as a string
      */
     fun getIcon(filePath: String): String {
         return ""
