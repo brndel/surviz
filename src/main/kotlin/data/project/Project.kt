@@ -57,16 +57,16 @@ class Project(
          * This method creates a project.
          * @param data The project data to load.
          */
-        fun newProjectWithData(data: ProjectData) {
+        fun newProjectWithData(data: ProjectData): Project {
+            TODO()
         }
 
         /**
          * This method loads an existing project from a file.
          * @param projectFile The project file to load.
          */
-        fun loadProjectFromFile(projectFile: File) {
-
-
+        fun loadProjectFromFile(projectFile: File): Project {
+            TODO()
         }
     }
 
