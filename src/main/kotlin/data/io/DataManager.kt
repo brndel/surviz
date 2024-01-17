@@ -8,14 +8,14 @@ import java.io.File
 /**
  * This class represents the data manager.
  */
-class DataManager {
+object DataManager {
     /**
      * This method loads the data from the given file.
      * @param file The file to load the data from.
      * @return The loaded data as [ProjectData].
      */
     fun loadData(file: File): ProjectData {
-        return null!!
+        TODO()
     }
 
     /**
