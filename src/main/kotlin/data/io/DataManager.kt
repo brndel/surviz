@@ -5,6 +5,7 @@ import data.io.importer.Importer
 import data.io.importer.ImporterVariant
 import data.project.Project
 import data.project.ProjectData
+import data.resources.exceptions.FileTypeException
 import java.io.File
 
 /**
@@ -17,7 +18,7 @@ object DataManager {
      * @param path Path to to the file that should be loaded.
      * @return The loaded data as [ProjectData].
      *
-     * @throws NullPointerException if no right importer was found
+     * @throws FileTypeException if no matching importer was found for file type
      */
     fun loadData(path: String): ProjectData {
         val file = File(path)
@@ -25,8 +26,8 @@ object DataManager {
         // Choose right Importer
         val importer = getImporterByExtension(file.extension)
 
-        // import file and return data if importer found, else return null
-        return importer?.importFile(file) ?: null!!
+        // import file and return data if importer found, else throw exception
+        return importer?.importFile(file) ?: throw FileTypeException()
     }
 
     /**
