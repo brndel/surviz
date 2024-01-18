@@ -26,7 +26,7 @@ enum class Language(private val code: String, private val strings: Map<String, S
         Labels.SETTINGS to "Einstellungen",
     ));
 
-    fun getString(label: String): String? = strings[label]
+    fun getString(label: String): String = strings[label] ?: "<MISSING LABEL '$label'>"
 
     companion object {
         fun fromCode(code: String): Language {

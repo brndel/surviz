@@ -8,5 +8,5 @@ import androidx.compose.ui.text.TextStyle
 
 @Composable
 fun Label(label: String, modifier: Modifier = Modifier, style: TextStyle = LocalTextStyle.current) {
-    Text(LocalLanguage.current.getString(label) ?: "<MISSING LABEL '$label'>", modifier = modifier, style = style)
+    Text(LocalLanguage.current.getString(label), modifier = modifier, style = style)
 }
