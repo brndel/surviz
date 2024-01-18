@@ -1,0 +1,1 @@
+- loadData throws NPE iff no importer is found for the file type
