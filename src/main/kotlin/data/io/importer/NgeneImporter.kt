@@ -6,9 +6,9 @@ import java.io.File
 /**
  * This class implements the [Importer] interface and imports the project from an NGene file.
  */
-class NgeneImporter : Importer {
+object NgeneImporter : Importer {
 
-    private val extension = "ngd"
+    private const val EXTENSION = "ngd"
 
     /**
      * This method imports a file and returns the project data.
@@ -24,6 +24,6 @@ class NgeneImporter : Importer {
      * @return The type of the importer.
      */
     override fun getType(): String {
-        return extension
+        return EXTENSION
     }
 }
