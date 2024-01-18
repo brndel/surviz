@@ -10,7 +10,7 @@ import java.io.File
 /**
  * This class represents the data manager.
  */
-class DataManager constructor() {
+object DataManager {
 
     /**
      * This method loads the data from the given file.
