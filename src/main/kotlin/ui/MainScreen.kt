@@ -1,6 +1,8 @@
 package ui
 
 import androidx.compose.runtime.*
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.rememberWindowState
 import data.project.Project
 
 /**
@@ -15,10 +17,25 @@ import data.project.Project
 @Composable
 fun MainScreen() {
     var project: Project? by remember { mutableStateOf(null) }
+    var settingsWindowOpen by remember { mutableStateOf(false) }
 
-    if (project == null) {
-        WelcomeScreen { project = it }
-    } else {
-        ProjectScreen(project!!)
+    CompositionLocalProvider(
+        LocalSettingsCallback provides { settingsWindowOpen = true }
+    ) {
+        if (project == null) {
+            WelcomeScreen { project = it }
+        } else {
+            ProjectScreen(project!!)
+        }
+
+        if (settingsWindowOpen) {
+            Window(title = LocalLanguage.current.getString(Labels.SETTINGS), onCloseRequest = {
+                settingsWindowOpen = false
+            }) {
+                Label(Labels.SETTINGS)
+            }
+        }
     }
 }
+
+val LocalSettingsCallback = compositionLocalOf { {} }
