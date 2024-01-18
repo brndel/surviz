@@ -1,2 +1,4 @@
 - loadData throws NPE iff no importer is found for the file type
 - changed from class to object
+- loadData takes path to file as an argument
+  - take workload off of UI
