@@ -2,7 +2,6 @@ package ui
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.rememberWindowState
 import data.project.Project
 
 /**
