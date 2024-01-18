@@ -17,7 +17,7 @@ class ProjectData(
     var blocks: List<Block>
 ) {
     /**
-     * This method returns a Situation
+     * This function returns a situation from a block.
      * @param block the block id
      * @param situation the situation id
      */
