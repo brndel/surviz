@@ -2,10 +2,14 @@ package data.io.importer
 
 import data.project.ProjectData
 import java.io.File
+
 /**
  * This class implements the [Importer] interface and imports the project from an NGene file.
  */
 class NgeneImporter : Importer {
+
+    private val extension = "ngd"
+
     /**
      * This method imports a file and returns the project data.
      * @param file The file to import.
@@ -20,6 +24,6 @@ class NgeneImporter : Importer {
      * @return The type of the importer.
      */
     override fun getType(): String {
-        TODO("Not yet implemented")
+        return extension
     }
 }
