@@ -59,16 +59,14 @@ object NgeneImporter : Importer {
 
         // Create blocks
         val blocks = ArrayList<Block>()
-        for (i in 1 .. blockCount) {
+        for (i in 1..blockCount) {
             blocks.add(Block(i))
         }
 
         // Get Block index
         val blockIndex = columnKeys.indexOf(BLOCK_KEY)
 
-        /*
-        Create Situations
-         */
+        //create situations
         for (i in 1..rowCount) {
             // split entries and remove last entry (empty string)
             val entries = lines[i].split(SEPARATOR).dropLast(1)
@@ -80,19 +78,8 @@ object NgeneImporter : Importer {
             if (entries.size != columnKeys.size) throw CorruptFileException()
 
             for (alternative in alternatives) {
-                val values = LinkedHashMap<String, Double>()
-
-                //TODO(Clean Up Code)
-                val indices = alternativeIndices[alternative]
-                if (indices != null) {
-                    for (index in indices.iterator()) {
-                        for (entry in index.entries.iterator()) {
-                            val key = entry.key.split(".")[1]
-                            val value = entries[entry.value].toDouble()
-                            values[key] = value
-                        }
-                    }
-                }
+                // get all values and create SituationOption
+                val values = getValuesForAlternative(alternativeIndices[alternative], entries)
                 options.add(SituationOption(alternative, values))
             }
 
@@ -114,7 +101,6 @@ object NgeneImporter : Importer {
     ///////////////////////////////////////////////////////////////////////////////
     // private functions
     ///////////////////////////////////////////////////////////////////////////////
-    //TODO(complete comments)
 
     /**
      * Search for all alternatives present in the NGENE file
@@ -189,9 +175,20 @@ object NgeneImporter : Importer {
         return DataScheme(dataSchemeOptions)
     }
 
-    private fun getAlternativeIndices(alternatives: List<String>, keys: List<String>) : Map<String, List<Map<String, Int>>> {
+    /**
+     * Get all the the indices of all the columns corresponding to each alternative
+     *
+     * @param alternatives list of all alternatives
+     * @param keys list of all column keys
+     * @return map with following structure alternative --> listOf(columnName --> index)
+     */
+    private fun getAlternativeIndices(
+        alternatives: List<String>,
+        keys: List<String>
+    ): Map<String, List<Map<String, Int>>> {
         val map = LinkedHashMap<String, ArrayList<LinkedHashMap<String, Int>>>()
         for (alternative in alternatives) {
+            // get all indices for the alternative
             val indices = ArrayList<LinkedHashMap<String, Int>>()
             for (key in keys) {
                 if (key.startsWith(alternative)) {
@@ -203,5 +200,29 @@ object NgeneImporter : Importer {
             map[alternative] = indices
         }
         return map
+    }
+
+    /**
+     * Get all values for the given indices
+     *
+     * @param indices list of all indices and corresponding column names
+     * @param entries all entries that should be searched in
+     * @return map of value with corresponding name
+     */
+    private fun getValuesForAlternative(
+        indices: List<Map<String, Int>>?,
+        entries: List<String>
+    ): LinkedHashMap<String, Double> {
+        val values = LinkedHashMap<String, Double>()
+        if (indices != null) {
+            for (index in indices.iterator()) {
+                for (entry in index.entries.iterator()) {
+                    val key = entry.key.split(".")[1]
+                    val value = entries[entry.value].toDouble()
+                    values[key] = value
+                }
+            }
+        }
+        return values
     }
 }
