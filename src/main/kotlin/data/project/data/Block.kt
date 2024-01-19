@@ -28,6 +28,6 @@ class Block(
      * @param options list of all options of the situation
      */
     fun addSituation(options: List<SituationOption>) {
-        situations.add(Situation(situations.size, options))
+        situations.add(Situation(situations.size + 1, options))
     }
 }
