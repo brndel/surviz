@@ -13,6 +13,10 @@ import java.io.File
  */
 object DataManager {
 
+    ///////////////////////////////////////////////////////////////////////////////
+    // public functions
+    ///////////////////////////////////////////////////////////////////////////////
+
     /**
      * This method loads the data from the given file.
      * @param path Path to to the file that should be loaded.
@@ -39,6 +43,10 @@ object DataManager {
     fun saveData(project: Project, exporter: ExporterVariant, exportConfig: Map<String, Any>) {
         exporter.getExporter().export(project, exportConfig)
     }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // private functions
+    ///////////////////////////////////////////////////////////////////////////////
 
     /**
      * Get importer by extension
