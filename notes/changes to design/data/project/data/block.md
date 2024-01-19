@@ -1,0 +1,3 @@
+- changed constructor and added secondary constructor
+- added addSituation method
+  --> this helps the simplicity of importing 
