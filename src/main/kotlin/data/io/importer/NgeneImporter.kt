@@ -176,7 +176,7 @@ object NgeneImporter : Importer {
     }
 
     /**
-     * Get all the the indices of all the columns corresponding to each alternative
+     * Get all the indices of all the columns corresponding to each alternative
      *
      * @param alternatives list of all alternatives
      * @param keys list of all column keys
