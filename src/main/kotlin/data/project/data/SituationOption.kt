@@ -7,8 +7,7 @@ package data.project.data
  * @property name The name of the situation option
  * @property values The values of the situation option
  */
-class SituationOption (
+data class SituationOption (
     var name: String,
     var values: Map<String, Double>
-) {
-}
+)

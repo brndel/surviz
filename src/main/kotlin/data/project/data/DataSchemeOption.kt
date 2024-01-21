@@ -9,7 +9,7 @@ package data.project.data
  * @property name The name of the data scheme option
  * @property fields The fields of the data scheme option
  */
-class DataSchemeOption (
+data class DataSchemeOption (
     var name: String,
     var fields: List<String>
 )
