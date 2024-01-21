@@ -15,6 +15,9 @@ interface Importer {
 
     /**
      * This method returns the type of the importer.
+     *
+     * Please return extension without "."
+     * @see NgeneImporter
      */
     fun getType(): String
 }

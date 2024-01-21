@@ -9,9 +9,25 @@ package data.project.data
  * A bock has its unique id.
  *
  * @property id The id of the block.
- * @property situation The simulations contained by the block.
+ * @property situations The situations of the block.
  */
 class Block(
     var id: Int,
-    var situation: List<Situation>
-)
+) {
+    var situations = ArrayList<Situation>()
+
+    constructor(id: Int, situations: List<Situation>) : this(id) {
+        this.situations = ArrayList(situations)
+    }
+
+    /**
+     * Add situation
+     *
+     * creates a new situation with the given options and matching id based on length of [situations]
+     *
+     * @param options list of all options of the situation
+     */
+    fun addSituation(options: List<SituationOption>) {
+        situations.add(Situation(situations.size + 1, options))
+    }
+}

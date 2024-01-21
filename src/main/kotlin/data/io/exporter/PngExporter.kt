@@ -1,5 +1,6 @@
 package data.io.exporter
 
+import data.project.Project
 import data.project.config.ProjectConfiguration
 import data.resources.fields.NamedField
 
@@ -8,11 +9,11 @@ import data.resources.fields.NamedField
  */
 class PngExporter : Exporter {
     /**
-     * Export the given [configuration] to a PNG file.
-     * @param configuration The configuration to export.
+     * Export the given configuration to a PNG file.
+     * @param project The project to export.
      * @param exportConfig The configuration for the export.
      */
-    override fun export(configuration: ProjectConfiguration, exportConfig: Map<String, Any>) {
+    override fun export(project: Project, exportConfig: Map<String, Any>) {
         TODO("Not yet implemented")
     }
     /**

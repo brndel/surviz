@@ -1,5 +1,6 @@
 package data.io.exporter
 
+import data.project.Project
 import data.project.config.ProjectConfiguration
 import data.resources.fields.NamedField
 
@@ -10,10 +11,10 @@ class HtmlExporter : Exporter {
     /**
      * This method exports the project to an HTML file.
      *
-     * @param configuration The project configuration.
+     * @param project The project to export.
      * @param exportConfig The export configuration.
      */
-    override fun export(configuration: ProjectConfiguration, exportConfig: Map<String, Any>) {
+    override fun export(project: Project, exportConfig: Map<String, Any>) {
         TODO("Not yet implemented")
     }
 
