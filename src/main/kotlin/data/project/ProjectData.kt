@@ -22,6 +22,6 @@ class ProjectData(
      * @param situation the situation id
      */
     fun getSituations(block: Int, situation: Int): Situation? {
-        return blocks[block].situation[situation]
+        return blocks.getOrNull(block)?.situation?.getOrNull(situation)
     }
 }
