@@ -6,6 +6,7 @@ import data.project.data.DataScheme
 import data.project.data.DataSchemeOption
 import data.project.data.Situation
 import data.project.data.SituationOption
+import data.resources.exceptions.CorruptFileException
 import data.resources.exceptions.FileTypeException
 import org.junit.jupiter.api.Assertions.*
 
@@ -17,7 +18,7 @@ import kotlin.test.assertFailsWith
 
 class DataManagerTest {
 
-    lateinit var testProjectData: ProjectData
+    private lateinit var testProjectData: ProjectData
 
     @BeforeTest
     fun setup() {
@@ -856,6 +857,15 @@ class DataManagerTest {
         val file = File(path)
 
         assertFailsWith<FileTypeException> {
+            DataManager.loadData(file)
+        }
+    }
+
+    @Test
+    fun loadCorruptFile() {
+        val path = "src/test/resources/Sample_Corrupt.ngd"
+        val file = File(path)
+        assertFailsWith<CorruptFileException> {
             DataManager.loadData(file)
         }
     }
