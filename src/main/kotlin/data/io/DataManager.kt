@@ -55,26 +55,12 @@ object DataManager {
      * @return right importer if found, null if no right importer is present
      */
     private fun getImporterByExtension(extension: String): Importer? {
-        for (importer in getImporterList()) {
+        for (importerVariant in ImporterVariant.entries) {
+            val importer = importerVariant.getImporter()
             if (importer.getType() == extension) {
                 return importer
             }
         }
         return null
-    }
-
-    /**
-     * Get a List of all Importers
-     *
-     * @return list of all importers
-     */
-    private fun getImporterList(): ArrayList<Importer> {
-        val importers = ArrayList<Importer>()
-        val importerArray = ImporterVariant.values()
-
-        for (importer in importerArray) {
-            importers.add(importer.getImporter())
-        }
-        return importers
     }
 }
