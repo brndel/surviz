@@ -1,0 +1,59 @@
+Design	Choice situation	fuss.fz_fuss	rad.fz_rad	car.fz_miv	car.zugang	car.abgang	car.cost_car	oev_fuss.fz_oev	oev_fuss.cost_oev	oev_fuss.freq_oev	oev_fuss.zugang_oevfuss	shuttle_tb.fz_oev	shuttle_tb.cost_oev	shuttle_tb.freq_oev	shuttle_tb.zugang_oevfuss	shuttle_od.fz_oev	shuttle_od.cost_oev	shuttle_od.warten	Block	
+1	1	15	5	10	3	0	3	13	1.5	30	10	9	1.5	10	6	13	2	7	3	
+1	2	45	20	20	3	5	5	20	2.5	60	2	32	2.5	10	10	13	1	3	2	
+1	3	135	40	30	3	0	2	26	2.5	5	2	26	1	60	2	50	1.5	7	1	
+1	4	15	5	4	3	0	5	5	2	10	6	13	1.5	30	10	5	2	7	1	
+1	5	135	40	30	3	0	5	32	1	5	2	50	2.5	60	2	50	2.5	3	3	
+1	6	45	20	20	3	5	5	26	2	10	10	13	1	60	2	20	2.5	17	4	
+1	7	15	5	10	1	2	4	9	1	10	6	13	1.5	30	10	9	2.5	7	4	
+1	8	15	5	15	1	2	4	9	1	10	6	13	1.5	10	10	13	2.5	7	2	
+1	9	15	5	7	3	5	3	9	1.5	30	10	5	2	10	6	5	2	13	2	
+1	10	45	20	25	1	5	2	20	1	5	10	32	2	60	6	20	2.5	17	1	
+1	11	45	20	25	1	0	5	26	2.5	5	6	20	2	60	6	26	1.5	13	3	
+1	12	15	5	7	1	0	3	5	1.5	10	6	13	2	30	10	5	2	7	4	
+1	13	45	20	25	1	2	4	13	1	60	2	13	2.5	5	2	32	2	13	2	
+1	14	135	40	25	3	5	5	50	1	60	6	50	2.5	10	2	50	1.5	17	3	
+1	15	135	40	20	1	5	2	32	2.5	60	2	50	1	5	2	50	2	3	4	
+1	16	135	40	25	1	5	5	50	1.5	60	6	50	1	5	2	32	2.5	3	1	
+||||||||||
+design
+;alts = fuss, rad, car, oev_fuss, shuttle_tb, shuttle_od
+
+;eff = (mnl,d)
+
+;con
+;rows = 16
+;block = 4
+
+;cond:
+if (fuss.fz_fuss =15, oev_fuss.fz_oev <=13),
+if (fuss.fz_fuss =15, rad.fz_rad =5),
+if (fuss.fz_fuss =15, car.fz_miv <=15),
+if (fuss.fz_fuss =15, shuttle_tb.fz_oev <=13),
+if (fuss.fz_fuss =15, shuttle_od.fz_oev <=13),
+
+if (fuss.fz_fuss =45, oev_fuss.fz_oev <=32),
+if (fuss.fz_fuss =45, oev_fuss.fz_oev >=13),
+if (fuss.fz_fuss =45, rad.fz_rad =20),
+if (fuss.fz_fuss =45, car.fz_miv <=25),
+if (fuss.fz_fuss =45, car.fz_miv >=7),
+if (fuss.fz_fuss =45, shuttle_tb.fz_oev <=32),
+if (fuss.fz_fuss =45, shuttle_tb.fz_oev >=13),
+if (fuss.fz_fuss =45, shuttle_od.fz_oev <=32),
+if (fuss.fz_fuss =45, shuttle_od.fz_oev >=13),
+
+if (fuss.fz_fuss =135, oev_fuss.fz_oev >=26),
+if (fuss.fz_fuss =135, rad.fz_rad =40),
+if (fuss.fz_fuss =135, car.fz_miv >=15),
+if (fuss.fz_fuss =135, shuttle_tb.fz_oev >=26),
+if (fuss.fz_fuss =135, shuttle_od.fz_oev >=26)
+
+
+;model:
+U(fuss)             =                                 bfz_fuss[-0.1056]         *fz_fuss[15,45,135](2-14,2-14,2-14) /
+U(rad)              = const_rad[-1.51]              + bfz_rad[-0.0861]          *fz_rad[5,20,40]    /
+U(car)              = const_car[-0.83]              + bfz_car[-0.0505]          *fz_miv[4,7,10,15,20,25,30](0-14,0-14,0-14,0-14,0-14,0-14,0-14)+bacc_car[-0.114]    *zugang[1,3](0-14,0-14)     + bacc_car*abgang[0,2,5](0-14,0-14,0-14)  + bcost_car[-0.068]*cost_car[2,3,4,5](0-14,0-14,0-14,0-14)            /
+U(oev_fuss)         = const_oev_fuss[-1.94]         + bfz_oev[-0.0286]*fz_oev[5,9,13,20,26,32,50](0-16,0-16,0-16,0-16,0-16,0-16,0-16)+ bcost_oev[-0.114]*cost_oev[1,1.5,2,2.5](0-14,0-14,0-14,0-14)       + bfreq_oev[-0.01]*freq_oev[5,10,30,60](0-10,0-10,0-10,0-10) + bfz_fuss* zugang_oevfuss[2,6,10](0-14,0-14,0-14)              /
+U(shuttle_tb)       = const_shuttle_tb[-1.94]       + bfz_oev         *fz_oev                    + bcost_oev        *cost_oev                  + bfreq_oev       *freq_oev             + bfz_fuss* zugang_oevfuss /
+U(shuttle_od)       = const_shuttle_od[-1.94]       + bfz_oev         *fz_oev                    + bcost_oev        *cost_oev                  + bwt_acc_shuttle_od[-0.01]*warten[3,7,13,17](0-14,0-14,0-14,0-14)
+$
