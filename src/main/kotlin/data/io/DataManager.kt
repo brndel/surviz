@@ -19,14 +19,12 @@ object DataManager {
 
     /**
      * This method loads the data from the given file.
-     * @param path Path to to the file that should be loaded.
+     * @param file The file to load the data from.
      * @return The loaded data as [ProjectData].
      *
-     * @throws FileTypeException if no matching importer was found for file type
+     * @throws NullPointerException if no right importer was found
      */
-    fun loadData(path: String): ProjectData {
-        val file = File(path)
-
+    fun loadData(file: File): ProjectData {
         // Choose right Importer
         val importer = getImporterByExtension(file.extension)
 
