@@ -1,9 +1,14 @@
 package data.project
 
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import data.project.config.ProjectConfiguration
+import data.project.config.SingleValueConfig
+import data.project.config.SituationConfig
 import data.project.data.DataScheme
 import data.project.data.IconStorage
 import java.io.File
+import java.util.*
 
 /**
  * This class represents a project,which is the root of every SurViz project.
@@ -32,8 +37,19 @@ class Project(
      * @return True if the project data was loaded successfully, false otherwise.
      */
     fun loadProjectData(data: ProjectData, force: Boolean): Boolean {
+        if (!dataScheme.compareTo(data.dataScheme)) {
+            if (force) {
+                this.data = data
+                return true
+            }
+        }
+        if (dataScheme.compareTo(data.dataScheme)) {
+            this.data = data
+            return true
+        }
         return false
     }
+
 
     /**
      * This method saves the project data.
@@ -58,7 +74,8 @@ class Project(
          * @param data The project data to load.
          */
         fun newProjectWithData(data: ProjectData): Project {
-            TODO()
+            return Project(data, data.dataScheme, ProjectConfiguration(), IconStorage())
+
         }
 
         /**
