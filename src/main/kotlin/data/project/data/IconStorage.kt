@@ -9,8 +9,14 @@ package data.project.data
  * @property icons The icons of the project
  */
 class IconStorage(
-    var icons: Map<String, String>
+
 ) {
+    val icons: Map<String, String>
+
+    init {
+        icons = LinkedHashMap<String, String>()
+    }
+
     /**
      * This method stores an icon.
      * @param filePath the file path
