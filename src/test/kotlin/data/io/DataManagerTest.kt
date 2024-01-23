@@ -46,7 +46,7 @@ class DataManagerTest {
                         arrayListOf("fz_oev", "cost_oev", "freq_oev", "zugang_oevfuss")
                     ),
                     DataSchemeOption(
-                        "sguttle_od",
+                        "shuttle_od",
                         arrayListOf("fz_oev", "cost_oev", "warten")
                     )
                 )
@@ -293,7 +293,7 @@ class DataManagerTest {
                                 SituationOption(
                                     "shuttle_od",
                                     linkedMapOf(
-                                        "fz_oev" to 15.0,
+                                        "fz_oev" to 13.0,
                                         "cost_oev" to 1.0,
                                         "warten" to 3.0
                                     )
@@ -462,7 +462,7 @@ class DataManagerTest {
                                 SituationOption(
                                     "car",
                                     linkedMapOf(
-                                        "fz_miv" to 40.0,
+                                        "fz_miv" to 10.0,
                                         "zugang" to 3.0,
                                         "abgang" to 0.0,
                                         "cost_car" to 3.0
@@ -471,7 +471,7 @@ class DataManagerTest {
                                 SituationOption(
                                     "oev_fuss",
                                     linkedMapOf(
-                                        "fz_oev" to 15.0,
+                                        "fz_oev" to 13.0,
                                         "cost_oev" to 1.5,
                                         "freq_oev" to 30.0,
                                         "zugang_oevfuss" to 10.0
@@ -755,7 +755,7 @@ class DataManagerTest {
                                     "car",
                                     linkedMapOf(
                                         "fz_miv" to 7.0,
-                                        "zugang" to 0.0,
+                                        "zugang" to 1.0,
                                         "abgang" to 0.0,
                                         "cost_car" to 3.0
                                     )
