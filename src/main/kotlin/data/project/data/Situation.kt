@@ -11,4 +11,16 @@ package data.project.data
 data class Situation (
     var situationId: Int,
     var options: List<SituationOption>
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Situation) return false
+
+        if (this.situationId != other.situationId) return false
+        if (this.options.size != other.options.size) return false
+        for (i in options.indices) {
+            if (this.options[i] != other.options[i]) return false
+        }
+        return true
+    }
+}
