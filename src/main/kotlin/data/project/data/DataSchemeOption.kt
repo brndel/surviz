@@ -9,16 +9,24 @@ package data.project.data
  * @property name The name of the data scheme option
  * @property fields The fields of the data scheme option
  */
-class DataSchemeOption(
+data class DataSchemeOption(
     var name: String,
     var fields: List<String>
 ) {
-    @Override
-    fun equals(other: DataSchemeOption): Boolean {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if(other !is DataSchemeOption) return false
+
+        //smart casting
         if (this.name != other.name) {
             return false
         }
-        return fields.size == other.fields.size
+        if (this.fields.size != other.fields.size) return false
+
+        for (field in other.fields) {
+            if (!this.fields.contains(field)) return false
+        }
+        return true
     }
 }
 
