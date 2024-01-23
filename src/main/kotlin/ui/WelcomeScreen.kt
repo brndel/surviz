@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Create
@@ -84,11 +85,14 @@ fun WelcomeScreen(onProjectLoad: (Project) -> Unit) {
     }
 
     FilePicker(fileExplorerTarget != null) {
+        val target = fileExplorerTarget
+        fileExplorerTarget = null
+
         if (it == null) return@FilePicker
 
         val file = File(it.path)
 
-        val project = when (fileExplorerTarget) {
+        val project = when (target) {
             FileExplorerTarget.NewProject -> {
                 val data = DataManager.loadData(file)
                 Project.newProjectWithData(data)
@@ -102,7 +106,6 @@ fun WelcomeScreen(onProjectLoad: (Project) -> Unit) {
         }
 
         onProjectLoad(project)
-
     }
 }
 
