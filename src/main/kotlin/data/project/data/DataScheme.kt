@@ -20,19 +20,12 @@ class DataScheme(
      *
      */
     fun compareTo(scheme: DataScheme): Boolean {
-        val copyOfOptions = mutableListOf<DataSchemeOption>()
-        copyOfOptions.addAll(options)
+        if (this.options.size != scheme.options.size) return false
 
-        if (copyOfOptions.size != scheme.options.size) {
-            return false
+        for (i in 0 ..< options.size) {
+            if (this.options[i] != scheme.options[i]) return false
         }
-        for (option in copyOfOptions) {
-            for (option2 in scheme.options) {
-                if (option.equals(option2)) {
-                    copyOfOptions.remove(option2)
-                }
-            }
-        }
-        return copyOfOptions.isEmpty()
+        return true
     }
+
 }
