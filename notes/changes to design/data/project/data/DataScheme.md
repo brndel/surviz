@@ -1,0 +1,1 @@
+- compareTo() könnte man gegen equals() austauschen um bessere kompabilität mit anderen funkionen und fürs testing zu haben
