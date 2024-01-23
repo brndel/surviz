@@ -24,4 +24,19 @@ class ProjectData(
     fun getSituations(block: Int, situation: Int): Situation? {
         return blocks.getOrNull(block)?.situations?.getOrNull(situation)
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ProjectData) return false
+
+        // smart casting
+        if(!other.dataScheme.compareTo(this.dataScheme)) return false
+
+        // check blocks
+        if (this.blocks.size != other.blocks.size) return false
+        for (i in 0..<this.blocks.size) {
+            if (this.blocks[i] != other.blocks[i]) return false
+        }
+        return true
+    }
 }
