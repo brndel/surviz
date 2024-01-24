@@ -1,0 +1,1 @@
+- added removeTimelineEntry(index: Int)
