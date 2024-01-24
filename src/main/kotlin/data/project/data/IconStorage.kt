@@ -15,11 +15,7 @@ import java.util.Base64
 class IconStorage(
 
 ) {
-    val icons: LinkedHashMap<String, String>
-
-    init {
-        icons = LinkedHashMap()
-    }
+    private val icons: LinkedHashMap<String, String> = LinkedHashMap()
 
     /**
      * This method stores an icon.
@@ -43,7 +39,7 @@ class IconStorage(
      * @return the icon as a string
      */
     fun getIcon(filePath: String): String {
-        return icons.get(filePath)!!
+        return icons[filePath]!!
     }
 
 }
