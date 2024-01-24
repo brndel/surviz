@@ -7,7 +7,7 @@ SurViz is a tool for better visualizing stated choice surveys.
 ## Supported file types
 
 ### Input
-- **.ngd**
+- **.ngd** ([Ngene](https://www.choice-metrics.com/))
 
 ### Output
 - **.png** (whole situation or individual options)
