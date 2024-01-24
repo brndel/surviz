@@ -1,6 +1,7 @@
 package data.project.config
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import data.project.config.columns.SingleValueColumn
@@ -24,7 +25,8 @@ class SituationConfig constructor(
          * this method adds a new timeline entry.
          */
         fun addTimelineEntry(){
-
+                val newTimelineEntry: TimelineEntry = TimelineEntry(mutableStateOf(null), mutableStateOf(""), mutableStateOf(LineType.Solid))
+                timeline.add(newTimelineEntry)
         }
 
         /**
@@ -32,7 +34,15 @@ class SituationConfig constructor(
          * @param timelineEntry the timeline entry to be removed
          */
         fun removeTimelineEntry(timelineEntry: TimelineEntry){
+                timeline.remove(timelineEntry)
+        }
 
+        /**
+         * This method removes the given timeline entry.
+         * @param index the index of the timeline entry to be removed
+         */
+        fun removeTimelineEntry(index: Int){
+                timeline.remove(timeline[index])
         }
 
         /**
@@ -41,7 +51,9 @@ class SituationConfig constructor(
          * @param indexB the index of the second timeline entry to be swapped
          */
         fun swapTimelineOrder(indexA: Int, indexB: Int){
-
+                val temp = timeline[indexA]
+                timeline[indexA] = timeline[indexB]
+                timeline[indexB] = temp
         }
 
         /**
