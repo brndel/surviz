@@ -1,5 +1,9 @@
 package data.project.data
 
+import java.nio.file.Files
+import java.nio.file.Path
+import java.util.Base64
+
 /**
  * This class represents  icon storage.
  * To ensure flexibility all icons stored in the icon storage.
@@ -11,10 +15,10 @@ package data.project.data
 class IconStorage(
 
 ) {
-    val icons: Map<String, String>
+    val icons: LinkedHashMap<String, String>
 
     init {
-        icons = LinkedHashMap<String, String>()
+        icons = LinkedHashMap()
     }
 
     /**
@@ -22,7 +26,15 @@ class IconStorage(
      * @param filePath the file path
      */
     fun storeIcon(filePath: String) {
+        val encodedImage = encodeIconBase64(filePath)
+        icons[filePath] = encodedImage
 
+
+    }
+
+    private fun encodeIconBase64(imagePath: String): String {
+        val imageBytes = Files.readAllBytes(Path.of(imagePath))
+        return Base64.getEncoder().encodeToString(imageBytes)
     }
 
     /**
@@ -31,7 +43,7 @@ class IconStorage(
      * @return the icon as a string
      */
     fun getIcon(filePath: String): String {
-        return ""
+        return icons.get(filePath)!!
     }
 
 }
