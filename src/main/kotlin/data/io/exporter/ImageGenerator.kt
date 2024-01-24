@@ -71,6 +71,7 @@ class ImageGenerator constructor(
     fun generateOption(option: SituationOption): ImageBitmap {
         val width = properties.getProperty("situation_width").toInt()
         val height = properties.getProperty("situation_height").toInt()
+        val padding = properties.getProperty("padding").toInt()
 
         val image = ImageBitmap(width, height)
         val canvas = Canvas(image)
@@ -85,7 +86,10 @@ class ImageGenerator constructor(
             canvas,
             option.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
             Color.Black,
-            Offset(properties.getProperty("option_title_x_offset").toFloat(), properties.getProperty("option_title_y_offset").toFloat()),
+            Offset(
+                properties.getProperty("option_title_x_offset").toFloat() + padding,
+                properties.getProperty("option_title_y_offset").toFloat() + padding
+            ),
             textType = TextType.Title
         )
         return image
