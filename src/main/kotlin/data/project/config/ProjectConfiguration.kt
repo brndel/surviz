@@ -1,5 +1,6 @@
 package data.project.config
 
+import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import java.util.UUID
@@ -27,7 +28,11 @@ class ProjectConfiguration {
      * This method adds a single value to the project.
      */
     fun addSingleValue() {
-
+        val newIcon: SingleValueIcon = SingleValueIcon(mutableStateOf(null), SnapshotStateList<SingleValueIconLevel>())
+        val newSingleValue: SingleValueConfig = SingleValueConfig(mutableStateOf(""), mutableStateOf(""), newIcon)
+        val newUUID: UUID = UUID.randomUUID()
+        singleValueConfig.put(newUUID, newSingleValue)
+        singleValueConfigOrder.add(newUUID)
     }
 
     /**
@@ -35,7 +40,8 @@ class ProjectConfiguration {
      * @param id the UUID of the single value to be removed
      */
     fun removeSingleValue(id: UUID) {
-
+        singleValueConfig.remove(id)
+        singleValueConfigOrder.remove(id)
     }
 
     /**
@@ -44,7 +50,9 @@ class ProjectConfiguration {
      * @param indexB the index of the second single value to be swapped
      */
     fun swapSingleValueOrder(indexA: Int, indexB: Int) {
-
+        val temp = singleValueConfigOrder[indexA]
+        singleValueConfigOrder[indexA] = singleValueConfigOrder[indexB]
+        singleValueConfigOrder[indexB] = temp
     }
 
     /**
