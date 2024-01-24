@@ -22,6 +22,7 @@ class IconStorage(
      * @param filePath the file path
      */
     fun storeIcon(filePath: String) {
+        //TODO: check if file exists. and if not throw exception
         val encodedImage = encodeIconBase64(filePath)
         icons[filePath] = encodedImage
 
@@ -29,6 +30,7 @@ class IconStorage(
     }
 
     private fun encodeIconBase64(imagePath: String): String {
+      //TODO: probably try catch
         val imageBytes = Files.readAllBytes(Path.of(imagePath))
         return Base64.getEncoder().encodeToString(imageBytes)
     }
