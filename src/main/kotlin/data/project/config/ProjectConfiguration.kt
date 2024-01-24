@@ -28,7 +28,7 @@ class ProjectConfiguration {
      * This method adds a single value to the project.
      */
     fun addSingleValue() {
-        val newIcon: SingleValueIcon = SingleValueIcon(mutableStateOf(null), SnapshotStateList<SingleValueIconLevel>())
+        val newIcon: SingleValueIcon = SingleValueIcon(SnapshotStateList<SingleValueIconLevel?>())
         val newSingleValue: SingleValueConfig = SingleValueConfig(mutableStateOf(""), mutableStateOf(""), newIcon)
         val newUUID: UUID = UUID.randomUUID()
         singleValueConfig.put(newUUID, newSingleValue)
