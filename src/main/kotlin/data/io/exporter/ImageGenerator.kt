@@ -19,6 +19,7 @@ import data.project.data.Situation
 import data.project.data.SituationOption
 import java.awt.Image
 import java.io.FileInputStream
+import java.lang.Exception
 import java.util.Locale
 import java.util.Properties
 
@@ -28,8 +29,8 @@ import java.util.Properties
  * @param iconStorage The icon storage.
  */
 class ImageGenerator constructor(
-    private var config: ProjectConfiguration?,
-    private var iconStorage: IconStorage?
+    private var config: ProjectConfiguration,
+    private var iconStorage: IconStorage
 ) {
 
     private val properties: Properties = Properties()
@@ -59,8 +60,26 @@ class ImageGenerator constructor(
      * @param situation The situation.
      * @return The generated image.
      */
-    fun generateSituation(situation: Situation): Image? {
-        return null
+    fun generateSituation(situation: Situation): ImageBitmap {
+        val optionsCount = situation.options.size
+
+        val width = properties.getProperty("situation_width").toInt()
+        val height = properties.getProperty("situation_height").toInt() * optionsCount
+
+        val image = ImageBitmap(width, height)
+        val canvas = Canvas(image)
+
+        for (i in 0..<optionsCount) {
+            val option = situation.options[i]
+            val optionImageBitmap = generateOption(option)
+            canvas.drawImage(
+                optionImageBitmap,
+                Offset(0F, i * properties.getProperty("situation_height").toFloat()),
+                // muss man hier nochmal color festlegen?
+                Paint()
+            )
+        }
+        return image
     }
 
     /**
@@ -69,6 +88,9 @@ class ImageGenerator constructor(
      * @return The generated image.
      */
     fun generateOption(option: SituationOption): ImageBitmap {
+        // da könnte man maybe ne custom exception throwen
+        val situationConfig = config.getSituationConfig()[option.name] ?: throw NoSuchFieldException()
+
         val width = properties.getProperty("situation_width").toInt()
         val height = properties.getProperty("situation_height").toInt()
         val padding = properties.getProperty("padding").toInt()
@@ -84,7 +106,7 @@ class ImageGenerator constructor(
         //draw option title
         drawText(
             canvas,
-            option.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
+            situationConfig.name.toString(),
             Color.Black,
             Offset(
                 properties.getProperty("option_title_x_offset").toFloat() + padding,
