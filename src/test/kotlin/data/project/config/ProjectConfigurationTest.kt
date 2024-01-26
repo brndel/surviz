@@ -51,28 +51,26 @@ class ProjectConfigurationTest {
         assertEquals(initialSize - 1, newSize)
     }
 
-    /**
-     * unfinished test.
-     * get initial SingleValueOrder with getter
-     */
     @Test
     fun testSwapSingleValueOrder() {
         projectConfig.addSingleValue()
         projectConfig.addSingleValue()
-        //val initialOrder
+        val initialOrder = projectConfig.getSingleValueConfigOrder()
 
         val indexA = 0
         val indexB = 1
 
-        // Get valid UUID keys from the current projectConfig
-        //val validKeyA = initialOrder[indexA]
-        //val validKeyB = initialOrder[indexB]
+        // Get UUID keys from the current projectConfig
+        val initialKeyA = initialOrder[indexA]
+        val initialKeyB = initialOrder[indexB]
 
+        // Swap Order of indexA and indexB
         projectConfig.swapSingleValueOrder(indexA, indexB)
-        //val newOrder
+
+        val newOrder = projectConfig.getSingleValueConfigOrder()
 
         // Ensure that the order has been swapped correctly
-        //assertEquals(validKeyA, newOrder[indexB])
-        //assertEquals(validKeyB, newOrder[indexA])
+        assertEquals(initialKeyA, newOrder[indexB])
+        assertEquals(initialKeyB, newOrder[indexA])
     }
 }
