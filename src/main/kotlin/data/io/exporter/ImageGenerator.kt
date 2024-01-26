@@ -3,6 +3,8 @@ package data.io.exporter
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
@@ -13,7 +15,9 @@ import androidx.compose.ui.text.font.createFontFamilyResolver
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import data.io.exporter.resources.TextType
+import data.project.config.LineType
 import data.project.config.ProjectConfiguration
+import data.project.config.SituationConfig
 import data.project.data.IconStorage
 import data.project.data.Situation
 import data.project.data.SituationOption
@@ -78,7 +82,7 @@ class ImageGenerator(
      */
     fun generateOption(option: SituationOption): ImageBitmap {
         // initialize values
-        val situationConfig =
+        val optionConfig =
             // da könnte man maybe ne custom exception throwen
             config.getSituationConfig()[option.name] ?: throw NoSuchFieldException()
 
@@ -86,7 +90,7 @@ class ImageGenerator(
         val height = properties.getProperty("situation_height").toInt()
         val padding = properties.getProperty("border_padding").toInt()
 
-        val optionColor = situationConfig.color.value
+        val color = optionConfig.color.value
 
         val image = ImageBitmap(width, height)
         val canvas = Canvas(image)
@@ -99,8 +103,8 @@ class ImageGenerator(
         //draw option title
         drawText(
             canvas,
-            situationConfig.name.toString(),
-            optionColor,
+            optionConfig.name.toString(),
+            color,
             Offset(
                 properties.getProperty("option_title_x_offset").toFloat() + padding,
                 properties.getProperty("option_title_y_offset").toFloat() + padding
@@ -121,7 +125,7 @@ class ImageGenerator(
         val linePaint = Paint().apply {
             style = PaintingStyle.Stroke
             strokeWidth = properties.getProperty("divider_weight").toFloat()
-            color = Color(properties.getProperty("divider_color").toLong(16))
+            this.color = Color(properties.getProperty("divider_color").toLong(16))
         }
 
         canvas.drawLine(
@@ -131,7 +135,8 @@ class ImageGenerator(
         )
 
         // draw timeline
-        drawTimeline(canvas)
+        val centerLine = height / 2F
+        drawTimeline(canvas, color, option,optionConfig, dividerX, centerLine)
         return image
     }
 
@@ -175,17 +180,91 @@ class ImageGenerator(
             )
         )
 
+        TODO("add ability to center text on x offset")
+
         canvas.save()
         canvas.translate(position.x, position.y)
         TextPainter.paint(canvas, hello)
         canvas.restore()
     }
 
+    private fun drawIcon(canvas: Canvas, icon: ImageBitmap, color: Color, position: Offset) {
+        val paint = Paint()
+        paint.colorFilter = ColorFilter.colorMatrix(
+            ColorMatrix(
+                floatArrayOf(
+                    0.0F, 0.0F, 0.0F, 0.0F, color.red,
+                    0.0F, 0.0F, 0.0F, 0.0F, color.green,
+                    0.0F, 0.0F, 0.0F, 0.0F, color.blue,
+                    0.0F, 0.0F, 0.0F, color.alpha, 0.0F
+                )
+            )
+        )
+
+        canvas.drawImage(icon, position, paint)
+    }
+
     private fun drawSingleValues(canvas: Canvas, optionKey: String) {
         TODO()
     }
 
-    private fun drawTimeline(canvas: Canvas) {
-        TODO()
+    private fun drawTimeline(
+        canvas: Canvas,
+        color: Color,
+        option: SituationOption,
+        optionConfig: SituationConfig,
+        dividerX: Float,
+        centerLine: Float,
+    ) {
+        var startX = dividerX + properties.getProperty("column_padding").toFloat()
+        // draw first timeline divider line
+        drawTimelineDivider(
+            canvas,
+            color,
+            startX,
+            centerLine
+        )
+
+        val timelineEntries = optionConfig.getTimeline()
+        for (entry in timelineEntries) {
+            val icon = iconStorage.getIcon(entry.icon.toString())
+            val timeValue = option.values[entry.column.toString()]!!.toFloat()
+
+            val endX : Float = startX + timeValue * properties.getProperty("timeline_scaling").toFloat()
+            drawTimelineSectionLine(
+                canvas,
+                Offset(startX, centerLine),
+                Offset(endX, centerLine),
+                entry.lineType.value,
+                color
+                )
+
+            drawTimelineDivider(canvas, color, endX, centerLine)
+
+            val midX = startX + ((endX - startX) /2)
+
+            TODO("draw icon and text")
+
+
+            startX = endX
+        }
+    }
+
+    private fun drawTimelineDivider(canvas: Canvas, color: Color, x: Float, centerLine: Float) {
+        val linePaint = Paint().apply {
+            style = PaintingStyle.Stroke
+            strokeWidth = properties.getProperty("timeline_weight").toFloat()
+            this.color = color
+        }
+        val dividerHeight = properties.getProperty("timeline_divider_height").toFloat()
+        canvas.drawLine(
+            Offset(x, centerLine - dividerHeight / 2),
+            Offset(x, centerLine + dividerHeight / 2),
+            linePaint
+        )
+    }
+
+    private fun drawTimelineSectionLine(canvas: Canvas, start: Offset, end: Offset, type: LineType, color: Color) {
+        TODO("draw line depending on line type")
     }
 }
