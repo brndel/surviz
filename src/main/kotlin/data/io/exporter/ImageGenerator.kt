@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextPainter
 import androidx.compose.ui.text.TextStyle
@@ -17,10 +17,7 @@ import data.project.config.ProjectConfiguration
 import data.project.data.IconStorage
 import data.project.data.Situation
 import data.project.data.SituationOption
-import java.awt.Image
 import java.io.FileInputStream
-import java.lang.Exception
-import java.util.Locale
 import java.util.Properties
 
 /**
@@ -28,7 +25,7 @@ import java.util.Properties
  * @param config The project configuration.
  * @param iconStorage The icon storage.
  */
-class ImageGenerator constructor(
+class ImageGenerator(
     private var config: ProjectConfiguration,
     private var iconStorage: IconStorage
 ) {
@@ -43,25 +40,12 @@ class ImageGenerator constructor(
     // public functions
     ///////////////////////////////////////////////////////////////////////////////
 
-
-    // ich glaube dass man diese methode entfernen sollte und das konvertieren zu png impng exporter machen sollte
-    // die ui kann ja die image bitmaps darstellen??
-    /**
-     * This method generates a PNG image for the given project configuration.
-     * @param config The project configuration.
-     * @param iconStorage The icon storage.
-     * @return The generated image.
-     */
-    fun generatePng(config: ProjectConfiguration, iconStorage: IconStorage?): Image? {
-
-        // warum übergeben wir hier config und icon storage nochmal?
-        return null
-    }
-
     /**
      * This method generates an Image for the given situation.
      * @param situation The situation.
      * @return The generated image.
+     *
+     * @throws NoSuchFieldException if no configuration was found for on of the options
      */
     fun generateSituation(situation: Situation): ImageBitmap {
         val optionsCount = situation.options.size
@@ -89,36 +73,65 @@ class ImageGenerator constructor(
      * This method generates an Image for the given situation option.
      * @param option The situation option.
      * @return The generated image.
+     *
+     * @throws NoSuchFieldException if no configuration was found for the option
      */
     fun generateOption(option: SituationOption): ImageBitmap {
-        // da könnte man maybe ne custom exception throwen
-        val situationConfig = config.getSituationConfig()[option.name] ?: throw NoSuchFieldException()
+        // initialize values
+        val situationConfig =
+            // da könnte man maybe ne custom exception throwen
+            config.getSituationConfig()[option.name] ?: throw NoSuchFieldException()
 
         val width = properties.getProperty("situation_width").toInt()
         val height = properties.getProperty("situation_height").toInt()
-        val padding = properties.getProperty("padding").toInt()
+        val padding = properties.getProperty("border_padding").toInt()
 
-        val color = situationConfig.color.value
+        val optionColor = situationConfig.color.value
 
         val image = ImageBitmap(width, height)
         val canvas = Canvas(image)
 
         //fill background
         val backgroundColor = Paint()
-        backgroundColor.color = Color(properties.getValue("background_color").toString().toLong(16))
+        backgroundColor.color = Color(properties.getProperty("background_color").toLong(16))
         canvas.drawRect(0F, 0F, width.toFloat(), height.toFloat(), backgroundColor)
 
         //draw option title
         drawText(
             canvas,
             situationConfig.name.toString(),
-            color,
+            optionColor,
             Offset(
                 properties.getProperty("option_title_x_offset").toFloat() + padding,
                 properties.getProperty("option_title_y_offset").toFloat() + padding
             ),
             textType = TextType.Title
         )
+
+        // draw single values
+        drawSingleValues(canvas, option.name)
+
+        // draw divider line
+        val dividerX = padding + properties.getProperty("max_single_values")
+            .toFloat() * properties.getProperty("single_value_size")
+            .toFloat() + properties.getProperty(
+            "column_padding"
+        ).toFloat()
+
+        val linePaint = Paint().apply {
+            style = PaintingStyle.Stroke
+            strokeWidth = properties.getProperty("divider_weight").toFloat()
+            color = Color(properties.getProperty("divider_color").toLong(16))
+        }
+
+        canvas.drawLine(
+            Offset(dividerX, padding.toFloat()),
+            Offset(dividerX, (height - padding).toFloat()),
+            linePaint
+        )
+
+        // draw timeline
+        drawTimeline(canvas)
         return image
     }
 
@@ -126,6 +139,16 @@ class ImageGenerator constructor(
     // private functions
     ///////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Draws text on a [canvas]
+     *
+     * @param canvas base canvas the text should be drawn on
+     * @param text the text to draw on canvas
+     * @param color color of the text
+     * @param position top-left corner of the text
+     * @param textType type of text, determines text size
+     * @param width
+     */
     private fun drawText(
         canvas: Canvas,
         text: String,
@@ -158,4 +181,11 @@ class ImageGenerator constructor(
         canvas.restore()
     }
 
+    private fun drawSingleValues(canvas: Canvas, optionKey: String) {
+        TODO()
+    }
+
+    private fun drawTimeline(canvas: Canvas) {
+        TODO()
+    }
 }
