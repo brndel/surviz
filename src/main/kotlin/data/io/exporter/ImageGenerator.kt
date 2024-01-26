@@ -43,6 +43,9 @@ class ImageGenerator constructor(
     // public functions
     ///////////////////////////////////////////////////////////////////////////////
 
+
+    // ich glaube dass man diese methode entfernen sollte und das konvertieren zu png impng exporter machen sollte
+    // die ui kann ja die image bitmaps darstellen??
     /**
      * This method generates a PNG image for the given project configuration.
      * @param config The project configuration.
@@ -95,6 +98,8 @@ class ImageGenerator constructor(
         val height = properties.getProperty("situation_height").toInt()
         val padding = properties.getProperty("padding").toInt()
 
+        val color = situationConfig.color.value
+
         val image = ImageBitmap(width, height)
         val canvas = Canvas(image)
 
@@ -107,7 +112,7 @@ class ImageGenerator constructor(
         drawText(
             canvas,
             situationConfig.name.toString(),
-            Color.Black,
+            color,
             Offset(
                 properties.getProperty("option_title_x_offset").toFloat() + padding,
                 properties.getProperty("option_title_y_offset").toFloat() + padding
@@ -121,7 +126,6 @@ class ImageGenerator constructor(
     // private functions
     ///////////////////////////////////////////////////////////////////////////////
 
-    @OptIn(ExperimentalTextApi::class)
     private fun drawText(
         canvas: Canvas,
         text: String,
