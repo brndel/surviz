@@ -12,9 +12,7 @@ import java.util.Base64
  *
  * @property icons The icons of the project
  */
-class IconStorage(
-
-) {
+class IconStorage {
     private val icons: LinkedHashMap<String, String> = LinkedHashMap()
 
     /**
@@ -22,16 +20,17 @@ class IconStorage(
      * @param filePath the file path
      */
     fun storeIcon(filePath: String) {
-        //TODO: check if file exists. and if not throw exception
-        val encodedImage = encodeIconBase64(filePath)
-        icons[filePath] = encodedImage
+        val path: Path = Path.of(filePath)
+        val imageBytes = Files.readAllBytes(path)
+        icons[filePath] = encodeIconBase64(imageBytes)
 
 
     }
 
-    private fun encodeIconBase64(imagePath: String): String {
-      //TODO: probably try catch
-        val imageBytes = Files.readAllBytes(Path.of(imagePath))
+    /**
+     * This method encodes an icon to a base64 string.
+     */
+    private fun encodeIconBase64(imageBytes: ByteArray): String {
         return Base64.getEncoder().encodeToString(imageBytes)
     }
 
