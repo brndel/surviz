@@ -7,7 +7,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 /**
  * This class represents a single value icon.
  * A single value icon may comprise a solitary icon or a list of icon levels.
- * @param levels the list of icons
+ * @param levels the list of icons.
  */
 class SingleValueIcon constructor(
     var levels: SnapshotStateList<SingleValueIconLevel?>
@@ -15,17 +15,16 @@ class SingleValueIcon constructor(
     /**
      * This method returns the icon that will be displayed with the given value.
      * @param value the value of the single value
-     * @return the icon that will be displayed
+     * @return the icon that will be displayed or null if theres no icon
      */
     fun getIcon(value: Double): String?{
+        levels.sortBy { level -> level?.lowerThreshold?.value }
         if(levels.isEmpty()){
             return null
         }
-        var i: Int = levels.lastIndex
-        while(i>0){
-            val valueAsVal: Double = value
-            val thresholdAsVal: Double = levels[i]?.lowerThreshold?.value ?: 0.0
-            if(valueAsVal >= thresholdAsVal){
+        var i = levels.lastIndex
+        while (i>0){
+            if(value >= (levels[i]?.lowerThreshold?.value ?: 0.0)){
                 return levels[i]?.icon?.value
             }
             i--
