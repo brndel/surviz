@@ -1,0 +1,2 @@
+- changed return type to ImageBitmap
+- mad methode signature non nullable
