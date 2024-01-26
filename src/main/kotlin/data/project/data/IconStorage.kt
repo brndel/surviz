@@ -20,6 +20,7 @@ class IconStorage {
      * @param filePath the file path
      */
     fun storeIcon(filePath: String) {
+
         val path: Path = Path.of(filePath)
         val imageBytes = Files.readAllBytes(path)
         icons[filePath] = encodeIconBase64(imageBytes)
