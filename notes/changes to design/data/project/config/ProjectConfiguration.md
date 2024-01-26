@@ -1,0 +1,1 @@
+- added getter for singleValueConfigOrder for testing
