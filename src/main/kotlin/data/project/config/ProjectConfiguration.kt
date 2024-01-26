@@ -70,4 +70,8 @@ class ProjectConfiguration {
     fun getSituationConfig(): SnapshotStateMap<String, SituationConfig> {
         return situationConfig
     }
+
+    fun getSingleValueConfigOrder(): SnapshotStateList<UUID> {
+        return singleValueConfigOrder
+    }
 }
