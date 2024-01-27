@@ -1,7 +1,22 @@
 package ui.page.singleValue
 
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import data.project.config.ProjectConfiguration
+import org.burnoutcrew.reorderable.ReorderableItem
+import org.burnoutcrew.reorderable.rememberReorderableLazyListState
+import org.burnoutcrew.reorderable.reorderable
+import ui.Label
+import ui.Labels
 
 
 /**
@@ -13,4 +28,37 @@ import data.project.config.ProjectConfiguration
  */
 @Composable
 fun SingleValuePage(projectConfig: ProjectConfiguration) {
+
+    val reorderState = rememberReorderableLazyListState(
+        onMove = { a, b -> projectConfig.swapSingleValueOrder(a.index, b.index) }
+    )
+
+    Column(
+        Modifier.fillMaxSize().padding(4.dp),
+    ) {
+        Label(Labels.PAGE_SINGLE_VALUE, style = MaterialTheme.typography.h4)
+
+        Button(onClick = {
+            projectConfig.addSingleValue()
+        }) {
+            Icon(Icons.Default.Add, null)
+            Label(Labels.NEW)
+        }
+
+        LazyColumn(
+            state = reorderState.listState,
+            modifier = Modifier.reorderable(reorderState).weight(1F),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            items(projectConfig.getSingleValueConfigOrder(), key = { it }) { id ->
+                ReorderableItem(reorderState, key = id) { dragging ->
+                    SingleValueCard(projectConfig.getSingleValues()[id]!!, onDelete = {
+                        projectConfig.removeSingleValue(id)
+                    }, reorderState, dragging = dragging)
+                }
+            }
+        }
+    }
+
+
 }
