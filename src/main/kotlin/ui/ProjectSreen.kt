@@ -35,7 +35,7 @@ fun ProjectScreen(project: Project) {
             Box(Modifier.weight(1F)) {
                 when (currentPage) {
                     Page.SingleValue -> SingleValuePage(project.configuration)
-                    Page.Situation -> Label(Labels.PAGE_SITUATION)
+                    Page.Situation -> SituationPage(project.configuration, project.dataScheme)
                     Page.Export -> Label(Labels.PAGE_EXPORT)
                 }
             }
