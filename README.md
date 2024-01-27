@@ -25,7 +25,7 @@ The layout of the generated images can further be configured by changing the val
 The layout is based per single option in a situation.
 The general layout of an option is as follows:
 
-![[assets/general layout.svg]]
+![General layout](/repository/assets/general_layout.png?raw=true "General output layout")
 
 | Nr. | Identifier/Calculation                                               | Description                   | Unit |
 |-----|----------------------------------------------------------------------|-------------------------------|------|
