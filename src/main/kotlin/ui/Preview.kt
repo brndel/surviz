@@ -1,7 +1,20 @@
 package ui
 
-import androidx.compose.runtime.Composable
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Colors
+import androidx.compose.material.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import data.io.exporter.ImageGenerator
 import data.project.Project
+import ui.fields.IntField
 
 /**
  * This view shows a preview of the current [Project]
@@ -12,4 +25,48 @@ import data.project.Project
  */
 @Composable
 fun Preview(project: Project) {
+    Box(Modifier.fillMaxSize()) {
+        val imageGenerator = remember { ImageGenerator(project.configuration, project.iconStorage) }
+        var blockId by remember { mutableIntStateOf(0) }
+        var situationId by remember { mutableIntStateOf(0) }
+
+        val situation by derivedStateOf {
+            project.data.getSituations(blockId, situationId)
+        }
+
+        Column {
+            Row {
+                IntField(blockId, onValueChange = { blockId = it }) {
+                    Text("Block")
+                }
+                IntField(situationId, onValueChange = { situationId = it }) {
+                    Text("Situation")
+                }
+            }
+
+            if (situation != null) {
+                for (option in situation!!.options) {
+                    var errorText: String? = null
+                    val image = try {
+                        imageGenerator.generateOption(option)
+                    } catch (e: Throwable) {
+                        errorText = e.toString()
+                        null
+                    }
+
+                    AnimatedContent(image) {
+                        if (it != null) {
+                            Image(it, null)
+                        } else {
+                            Text("Error while creating image '$errorText'")
+                        }
+                    }
+
+                }
+            } else {
+                Text("Situation not found")
+            }
+        }
+
+    }
 }
