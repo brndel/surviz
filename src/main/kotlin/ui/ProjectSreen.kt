@@ -1,9 +1,11 @@
 package ui
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import data.project.Project
 import data.project.config.ProjectConfiguration
 import ui.page.export.ExportPage
@@ -23,31 +25,99 @@ import ui.page.situation.SituationPage
  */
 @Composable
 fun ProjectScreen(project: Project) {
-    var currentPage: Page by mutableStateOf(Page.SingleValue)
+    var currentPage: Page by remember { mutableStateOf(Page.SingleValue) }
 
-    when (currentPage) {
-        Page.SingleValue -> TODO()
-        Page.Situation -> TODO()
-        Page.Export -> TODO()
+    Column(Modifier.fillMaxSize()) {
+        AppBarMenu()
+        Row(Modifier.weight(1F)) {
+            ProjectPageNavigator(currentPage, { currentPage = it })
+
+            Box(Modifier.weight(1F)) {
+                when (currentPage) {
+                    Page.SingleValue -> SingleValuePage(project.configuration)
+                    Page.Situation -> Label(Labels.PAGE_SITUATION)
+                    Page.Export -> Label(Labels.PAGE_EXPORT)
+                }
+            }
+
+            Box(Modifier.weight(1F).zIndex(-0.1F)) {
+                Preview(project)
+            }
+        }
+    }
+}
+
+@Composable
+private fun AppBarMenu() {
+    Surface(
+        color = MaterialTheme.colors.surface,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row {
+            TextButton({
+                println("hey")
+            }) {
+                Text("File")
+            }
+        }
+    }
+}
+
+@Composable
+private fun ProjectPageNavigator(
+    currentPage: Page,
+    onNavigate: (Page) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier, verticalArrangement = Arrangement.spacedBy(2.dp)) {
+        for (page in Page.entries) {
+            NavButton(
+                currentPage == page,
+                page,
+                onNavigate
+            )
+        }
+    }
+}
+
+@Composable
+private fun ColumnScope.NavButton(
+    selected: Boolean,
+    page: Page,
+    onNavigate: (Page) -> Unit
+) {
+    Button(
+        modifier = Modifier.weight(1F),
+        onClick = { onNavigate(page) },
+        colors = ButtonDefaults.buttonColors(
+            if (selected) {
+                MaterialTheme.colors.primarySurface
+            } else {
+                MaterialTheme.colors.surface
+            }
+        ),
+        elevation = null
+    ) {
+        Label(page.label)
     }
 }
 
 /**
  * The pages of the [ProjectScreen]
  */
-enum class Page {
+enum class Page(val label: String) {
     /**
      * Will show the [SingleValuePage]
      */
-    SingleValue,
+    SingleValue(Labels.PAGE_SINGLE_VALUE),
 
     /**
      * Will show the [SituationPage]
      */
-    Situation,
+    Situation(Labels.PAGE_SITUATION),
 
     /**
      * Will show the [ExportPage]
      */
-    Export
+    Export(Labels.PAGE_EXPORT)
 }
