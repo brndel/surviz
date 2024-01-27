@@ -13,6 +13,41 @@ SurViz is a tool for better visualizing stated choice surveys.
 - **.png** (whole situation or individual options)
 - **.html** for [Unipark](https://www.unipark.com/)
 
+## Internal Configuration
+
+### ImageGenerator
+
+The layout of the generated images can further be configured by changing the values in <code>image_generator.properties</code>.
+
+>[!Warning]
+>Changes to these values can lead to distorted images and improper functioning of the program.
+
+The layout is based per single option in a situation.
+The general layout of an option is as follows:
+
+![[assets/general layout.svg]]
+
+| Nr. | Identifier/Calculation                                               | Description                   | Unit |
+|-----|----------------------------------------------------------------------|-------------------------------|------|
+| 1   | <code>situation_width</code>                                         | width                         | px   |
+| 2   | <code>situation_height</code>                                        | height                        | px   |
+| 3   | <code>border_padding</code>                                          | border padding                | px   |
+| 4   | $2 \times$ <code>column_padding</code>                               | padding around divider line   | px   |
+| 5   | <code>max_single_values</code>$\times$<code>single_value_size</code> | width of single value section | px   |
+| 6   | Nr. 1$- (2 \times$Nr. 3$)-$Nr. 4$-$Nr. 5                             | width of timeline section     | px   |
+
+**Other general adjustments that can be made:**
+
+| Identifier                    | Description               | Unit              |
+|-------------------------------|---------------------------|-------------------|
+| <code>background_color</code> | background color          | ARGB value in hex |
+| <code>divider_weight</code>   | thickness of divider line | pt                |
+| <code>divider_color</code>    | color of divider line     | ARGB value in hex |
+
+#### Single value section
+
+#### Timeline section
+
 ## Adding features
 
 ### Importer
