@@ -22,6 +22,7 @@ dependencies {
     // With compose.desktop.common you will also lose @Preview functionality
     implementation(compose.desktop.currentOs)
     implementation("com.darkrockstudios:mpfilepicker:3.1.0")
+    implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
 }
