@@ -1,0 +1,3 @@
+- changed return type to ImageBitmap
+- mad methode signature non nullable
+- removed generatepng() --> logic better suited in png exporter
