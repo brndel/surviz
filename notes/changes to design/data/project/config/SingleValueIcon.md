@@ -1,3 +1,4 @@
 - removed var baseIcon: MutableState<String?>
 - baseIcon will now be stored in var levels: SnapshotStateList<SingleValueIconLevel> as a SingleValueLevel with lowerThreshold = 0
+- added baseIcon again for simplicity in ui
 - changed getIcon(value: Double) return type from String to String?

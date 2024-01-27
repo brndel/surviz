@@ -2,6 +2,8 @@ package data.project.config
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 
 /**
@@ -9,27 +11,31 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
  * A single value icon may comprise a solitary icon or a list of icon levels.
  * @param levels the list of icons
  */
-class SingleValueIcon constructor(
-    var levels: SnapshotStateList<SingleValueIconLevel?>
+data class SingleValueIcon (
+    val baseIcon: MutableState<String?> = mutableStateOf(null),
+    val levels: SnapshotStateList<SingleValueIconLevel> = mutableStateListOf()
 ) {
     /**
      * This method returns the icon that will be displayed with the given value.
      * @param value the value of the single value
      * @return the icon that will be displayed
      */
-    fun getIcon(value: Double): String?{
-        if(levels.isEmpty()){
-            return null
-        }
-        var i: Int = levels.lastIndex
-        while(i>0){
-            val valueAsVal: Double = value
-            val thresholdAsVal: Double = levels[i]?.lowerThreshold?.value ?: 0.0
-            if(valueAsVal >= thresholdAsVal){
-                return levels[i]?.icon?.value
+    fun getIcon(value: Double): String? {
+        var currentLevel: SingleValueIconLevel? = null
+        for (level in levels) {
+            if (currentLevel == null || (value > level.lowerThreshold.value && level.lowerThreshold.value < currentLevel.lowerThreshold.value)) {
+                currentLevel = level
             }
-            i--
         }
-        return levels[0]?.icon?.value
+
+        return (currentLevel?.icon ?: baseIcon).value
+    }
+
+    fun addLevel() {
+        levels.add(SingleValueIconLevel())
+    }
+
+    fun removeLevel(level: SingleValueIconLevel) {
+        levels.remove(level)
     }
 }
