@@ -23,7 +23,7 @@ data object TimelineColumns : SingleValueColumn {
         var sum = 0.0
 
         for (timelineEntry in situationConfig.getTimeline()) {
-            sum += situationOption.values.getValue(timelineEntry.column.toString())
+            sum += situationOption.values.getValue(timelineEntry.column.value)
         }
 
         return sum
