@@ -89,7 +89,12 @@ class ImageGenerator(
             // da könnte man maybe ne custom exception throwen
             config.getSituationConfig()[option.name] ?: throw NoSuchFieldException()
 
-        val width = properties.getProperty("situation_width").toInt()
+        val singleValueCount = optionConfig.singleValueColumns.size
+        val singleValueSectionSize =
+            singleValueCount * properties.getProperty("single_value_size").toInt()
+
+
+        val width = properties.getProperty("situation_width").toInt() + singleValueSectionSize
         val height = properties.getProperty("situation_height").toInt()
         val padding = properties.getProperty("border_padding").toInt()
 
@@ -106,7 +111,7 @@ class ImageGenerator(
         //draw option title
         drawText(
             canvas,
-            optionConfig.name.toString(),
+            optionConfig.name.value,
             color,
             Offset(
                 properties.getProperty("option_title_x_offset").toFloat() + padding,
@@ -119,11 +124,8 @@ class ImageGenerator(
         drawSingleValues(canvas, option.name)
 
         // draw divider line
-        val dividerX = padding + properties.getProperty("max_single_values")
-            .toFloat() * properties.getProperty("single_value_size")
-            .toFloat() + properties.getProperty(
-            "column_padding"
-        ).toFloat()
+        val dividerX =
+            padding + singleValueSectionSize + properties.getProperty("column_padding").toFloat()
 
         val linePaint = Paint().apply {
             style = PaintingStyle.Stroke
@@ -218,7 +220,7 @@ class ImageGenerator(
     }
 
     private fun drawSingleValues(canvas: Canvas, optionKey: String) {
-        TODO()
+        //TODO()
     }
 
     private fun drawTimeline(
