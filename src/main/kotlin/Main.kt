@@ -14,7 +14,7 @@ import ui.LocalLanguage
 import ui.MainScreen
 
 fun main() = application {
-    val windowState = rememberWindowState(width = 1920.dp, height = 1080.dp, placement = WindowPlacement.Maximized)
+    val windowState = rememberWindowState(width = 1700.dp, height = 900.dp, placement = WindowPlacement.Maximized)
     Window(onCloseRequest = ::exitApplication, state = windowState) {
         MaterialTheme(
             colors = lightColors(
