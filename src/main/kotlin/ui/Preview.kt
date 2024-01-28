@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Colors
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -34,23 +36,29 @@ fun Preview(project: Project) {
             project.data.getSituations(blockId, situationId)
         }
 
-        Column {
-            Row {
-                IntField(blockId, onValueChange = { blockId = it }) {
-                    Text("Block")
-                }
-                IntField(situationId, onValueChange = { situationId = it }) {
-                    Text("Situation")
+        LazyColumn(Modifier.fillMaxSize()) {
+            item {
+                Row {
+                    IntField(blockId, onValueChange = { blockId = it }) {
+                        Text("Block")
+                    }
+                    IntField(situationId, onValueChange = { situationId = it }) {
+                        Text("Situation")
+                    }
                 }
             }
 
             if (situation != null) {
-                for (option in situation!!.options) {
+                items(situation!!.options) { option ->
+
                     var errorText: String? = null
                     val image = try {
                         imageGenerator.generateOption(option)
                     } catch (e: Throwable) {
-                        errorText = e.toString()
+
+
+                        errorText = e.toString() + " at " + e.stackTrace[0].toString()
+
                         null
                     }
 
@@ -64,7 +72,10 @@ fun Preview(project: Project) {
 
                 }
             } else {
-                Text("Situation not found")
+                item {
+                    Text("Situation not found")
+                }
+
             }
         }
 
