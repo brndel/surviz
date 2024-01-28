@@ -2,7 +2,6 @@ package data.project.config.columns
 
 import data.project.config.SingleValueConfig
 import data.project.config.SituationConfig
-import data.project.data.Situation
 import data.project.data.SituationOption
 
 /**
