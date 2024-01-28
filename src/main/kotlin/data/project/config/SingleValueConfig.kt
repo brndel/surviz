@@ -9,9 +9,8 @@ import androidx.compose.runtime.MutableState
  * @param columnScheme the defined column scheme that is used for finding the right Ngene columns of the single value in the class SchemeColumns.
  * @param icon The icon that is displayed for this single value
  */
-class SingleValueConfig constructor(
+data class SingleValueConfig(
         var unit: MutableState<String>,
         var columnScheme: MutableState<String>,
         var icon: SingleValueIcon
-) {
-}
+)
