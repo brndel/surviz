@@ -89,6 +89,7 @@ class ImageGenerator(
             // da könnte man maybe ne custom exception throwen
             config.getSituationConfig()[option.name] ?: throw NoSuchFieldException()
 
+        // scale image dynamically based on count of single values
         val singleValueCount = optionConfig.singleValueColumns.size
         val singleValueSectionSize =
             singleValueCount * properties.getProperty("single_value_size").toInt()
@@ -244,7 +245,7 @@ class ImageGenerator(
         val timelineEntries = optionConfig.getTimeline()
         for (entry in timelineEntries) {
             // draw line
-            val timeValue = option.values[entry.column.toString()]!!.toFloat()
+            val timeValue = option.values[entry.column.value]?.toFloat() ?: 0.0F
 
             val endX: Float =
                 startX + timeValue * properties.getProperty("timeline_scaling").toFloat()
@@ -262,15 +263,16 @@ class ImageGenerator(
             val midX = startX + ((endX - startX) / 2)
 
             val icon = iconStorage.getIcon(entry.icon.toString())
-            val iconHeight = icon.height
 
-            drawIcon(
-                canvas,
-                icon,
-                color,
-                Offset(midX, centerLine - timelinePadding - (iconHeight / 2))
-            )
-
+            if (icon != null) {
+                val iconHeight = icon.height
+                drawIcon(
+                    canvas,
+                    icon,
+                    color,
+                    Offset(midX, centerLine - timelinePadding - (iconHeight / 2))
+                )
+            }
             //TODO("draw text")
 
 
