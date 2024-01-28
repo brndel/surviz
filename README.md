@@ -27,7 +27,7 @@ The general layout of an option is as follows:
 
 ![General layout](assets/general_layout.png)
 
-Green and blue area are representing the [[README#Single value section|single value]]/[[README#Timeline section|timeline]] section. 
+Green and blue area are representing the [single value](https://github.com/brndel/surviz?tab=readme-ov-file#single-value-section)/[timeline](https://github.com/brndel/surviz?tab=readme-ov-file#timeline-section) section. 
 Further layout of those areas is explained in corresponding sections.
 
 
