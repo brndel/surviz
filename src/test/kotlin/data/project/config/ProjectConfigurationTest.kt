@@ -67,9 +67,29 @@ class ProjectConfigurationTest {
         // Swap Order of indexA and indexB
         projectConfig.swapSingleValueOrder(indexA, indexB)
 
-        val newOrder = projectConfig.getSingleValueConfigOrder()
+        var newOrder = projectConfig.getSingleValueConfigOrder()
 
         // Ensure that the order has been swapped correctly
+        assertEquals(initialKeyA, newOrder[indexB])
+        assertEquals(initialKeyB, newOrder[indexA])
+
+        projectConfig.swapSingleValueOrder(indexA, -1)
+        newOrder = projectConfig.getSingleValueConfigOrder()
+        assertEquals(initialKeyA, newOrder[indexB])
+        assertEquals(initialKeyB, newOrder[indexA])
+
+        projectConfig.swapSingleValueOrder(-1, indexB)
+        newOrder = projectConfig.getSingleValueConfigOrder()
+        assertEquals(initialKeyA, newOrder[indexB])
+        assertEquals(initialKeyB, newOrder[indexA])
+
+        projectConfig.swapSingleValueOrder(Int.MAX_VALUE, indexB)
+        newOrder = projectConfig.getSingleValueConfigOrder()
+        assertEquals(initialKeyA, newOrder[indexB])
+        assertEquals(initialKeyB, newOrder[indexA])
+
+        projectConfig.swapSingleValueOrder(indexA, Int.MAX_VALUE)
+        newOrder = projectConfig.getSingleValueConfigOrder()
         assertEquals(initialKeyA, newOrder[indexB])
         assertEquals(initialKeyB, newOrder[indexA])
     }

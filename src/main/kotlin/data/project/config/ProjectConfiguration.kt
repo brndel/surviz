@@ -28,7 +28,7 @@ class ProjectConfiguration {
      * This method adds a single value to the project.
      */
     fun addSingleValue() {
-        val newIcon: SingleValueIcon = SingleValueIcon()
+        val newIcon: SingleValueIcon = SingleValueIcon(SnapshotStateList<SingleValueIconLevel?>())
         val newSingleValue: SingleValueConfig = SingleValueConfig(mutableStateOf(""), mutableStateOf(""), newIcon)
         val newUUID: UUID = UUID.randomUUID()
         singleValueConfig.put(newUUID, newSingleValue)
@@ -45,14 +45,16 @@ class ProjectConfiguration {
     }
 
     /**
-     * This method swaps the order of two given single values.
+     * This method swaps the order of two given single values, if the two index exist in singleValueConfigOrder.
      * @param indexA the index of the first single value to be swapped
      * @param indexB the index of the second single value to be swapped
      */
     fun swapSingleValueOrder(indexA: Int, indexB: Int) {
-        val temp = singleValueConfigOrder[indexA]
-        singleValueConfigOrder[indexA] = singleValueConfigOrder[indexB]
-        singleValueConfigOrder[indexB] = temp
+        if(indexA >= 0 && indexB >= 0 && indexA < singleValueConfigOrder.size && indexB < singleValueConfigOrder.size) {
+            val temp = singleValueConfigOrder[indexA]
+            singleValueConfigOrder[indexA] = singleValueConfigOrder[indexB]
+            singleValueConfigOrder[indexB] = temp
+        }
     }
 
     /**
