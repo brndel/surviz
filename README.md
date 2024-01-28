@@ -27,6 +27,10 @@ The general layout of an option is as follows:
 
 ![General layout](assets/general_layout.png)
 
+Green and blue area are representing the [[README#Single value section|single value]]/[[README#Timeline section|timeline]] section. 
+Further layout of those areas is explained in corresponding sections.
+
+
 | Nr. | Identifier/Calculation                                               | Description                   | Unit |
 |-----|----------------------------------------------------------------------|-------------------------------|------|
 | 1   | <code>situation_width</code>                                         | width                         | px   |
