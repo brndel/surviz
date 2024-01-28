@@ -3,10 +3,7 @@ package ui.page.situation
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -14,17 +11,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import data.project.config.SingleValueConfig
-import data.project.config.SingleValueIcon
 import data.project.config.SituationConfig
 import data.project.config.columns.*
 import data.project.data.DataSchemeOption
-import data.project.data.SituationOption
 import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 import ui.fields.ColorField
-import ui.fields.IconField
 import java.util.*
 
 /**
@@ -66,7 +59,7 @@ fun SituationTab(
 
 //        items(singleValueIds) { id ->
         for(id in singleValueIds) {
-            val column = config.singleValueColumns.getOrPut(id) { SchemeColumns() } // TODO Move to SituationConfig
+            val column = config.singleValueColumns.getOrPut(id) { SchemeColumns } // TODO Move to SituationConfig
 
             Row {
                 singleValueIcons[id]?.let {
@@ -135,21 +128,21 @@ private fun SingleValueColumnField(value: SingleValueColumn, onValueChange: (Sin
 
         DropdownMenu(dropdownExpanded, { dropdownExpanded = false }) {
             DropdownMenuItem(onClick = {
-                onValueChange(SchemeColumns())
+                onValueChange(SchemeColumns)
                 dropdownExpanded = false
             }) {
                 Text("Scheme")
             }
 
             DropdownMenuItem(onClick = {
-                onValueChange(ZeroColumn())
+                onValueChange(ZeroColumn)
                 dropdownExpanded = false
             }) {
                 Text("Zero")
             }
 
             DropdownMenuItem(onClick = {
-                onValueChange(TimelineColumns())
+                onValueChange(TimelineColumns)
                 dropdownExpanded = false
             }) {
                 Text("Timeline")
