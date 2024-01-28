@@ -1,5 +1,7 @@
 package data.project.data
 
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.nativeCanvas
@@ -20,7 +22,7 @@ import javax.imageio.ImageIO
  * @property icons The icons of the project
  */
 class IconStorage {
-    private val icons: LinkedHashMap<String, ImageBitmap> = LinkedHashMap()
+   private val icons: SnapshotStateMap<String, ImageBitmap> = mutableStateMapOf()
 
     init {
         loadInitIcons()
@@ -62,6 +64,9 @@ class IconStorage {
         return icons[filePath]!!
     }
 
+    fun getLoadedIconPaths(): List<String> {
+        return icons.keys.sorted()
+    }
 
     private fun loadPngIcon(bytes: ByteArray): ImageBitmap {
         val png = Image.makeFromEncoded(bytes)
