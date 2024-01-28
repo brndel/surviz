@@ -2,9 +2,7 @@ package data.project.config.columns
 
 import data.project.config.SingleValueConfig
 import data.project.config.SituationConfig
-import data.project.data.Situation
 import data.project.data.SituationOption
-import kotlin.math.absoluteValue
 
 /**
  * This class is a type of SingleValueColumn. It contains a list of columns of the Ngene file that were chosen by hand.
