@@ -24,11 +24,9 @@ class ListColumns(
     ): Double {
         var sum = 0.0
 
-        for (key in situationOption.values.keys) {
-            for (columnIdentifier in columns){
-                if (key == columnIdentifier) {
-                    sum += situationOption.values.getValue(key)
-                }
+        situationOption.values.keys.forEach { key ->
+            if (columns.contains(key)) {
+                sum += situationOption.values.getValue(key)
             }
         }
 

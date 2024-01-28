@@ -19,24 +19,18 @@ data object SchemeColumns : SingleValueColumn {
         situationConfig: SituationConfig,
         situationOption: SituationOption
     ): Double {
-        var sum = 0.0
+        val sum: Double
         val scheme = singleValueConfig.columnScheme.value
 
-        if (scheme.endsWith('*')) {
-            scheme.dropLast(1)
-
-            for (key in situationOption.values.keys) {
-                if (key.startsWith(scheme)) {
-                    sum += situationOption.values.getValue(key)
-                }
-            }
-        } else {
-            for (key in situationOption.values.keys) {
-                if (key.equals(scheme)) {
-                    sum += situationOption.values.getValue(key)
-                }
+        val filteredKeys = situationOption.values.keys.filter {
+            if (scheme.endsWith('*')) {
+                it.startsWith(scheme.removeSuffix("*"))
+            } else {
+                it == scheme
             }
         }
+
+        sum = filteredKeys.sumOf { situationOption.values.getValue(it) }
 
         return sum
     }

@@ -19,25 +19,11 @@ data object TimelineColumns : SingleValueColumn {
         situationConfig: SituationConfig,
         situationOption: SituationOption
     ): Double {
-        val columnScheme = singleValueConfig.columnScheme.value
-        val timelines = situationConfig.getTimeline()
+
         var sum = 0.0
 
-        if (columnScheme.endsWith('*')) {
-            columnScheme.dropLast(1)
-
-            for (timelineEntry in timelines) {
-                if (timelineEntry.column.value.startsWith(columnScheme)) {
-                    sum += situationOption.values.getValue(timelineEntry.column.value)
-                }
-            }
-
-        } else {
-            for (timelineEntry in timelines) {
-                if (timelineEntry.column.value.equals(columnScheme)) {
-                    sum += situationOption.values.getValue(timelineEntry.column.value)
-                }
-            }
+        for (timelineEntry in situationConfig.getTimeline()) {
+            sum += situationOption.values.getValue(timelineEntry.column.toString())
         }
 
         return sum
