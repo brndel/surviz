@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
+import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextPainter
 import androidx.compose.ui.text.TextStyle
@@ -21,6 +22,8 @@ import data.project.config.SituationConfig
 import data.project.data.IconStorage
 import data.project.data.Situation
 import data.project.data.SituationOption
+import java.awt.Image
+import java.awt.image.BufferedImage
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -136,7 +139,7 @@ class ImageGenerator(
 
         // draw timeline
         val centerLine = height / 2F
-        drawTimeline(canvas, color, option,optionConfig, dividerX, centerLine)
+        drawTimeline(canvas, color, option, optionConfig, dividerX, centerLine)
         return image
     }
 
@@ -188,7 +191,15 @@ class ImageGenerator(
         canvas.restore()
     }
 
-    private fun drawIcon(canvas: Canvas, icon: ImageBitmap, color: Color, position: Offset) {
+    /**
+     * Draw icon around given center point
+     *
+     * @param canvas
+     * @param icon
+     * @param color
+     * @param center
+     */
+    private fun drawIcon(canvas: Canvas, icon: ImageBitmap, color: Color, center: Offset) {
         val paint = Paint()
         paint.colorFilter = ColorFilter.colorMatrix(
             ColorMatrix(
@@ -200,7 +211,9 @@ class ImageGenerator(
                 )
             )
         )
-
+        val width = icon.width
+        val height = icon.height
+        val position = Offset(center.x - (width / 2), center.y - (height / 2))
         canvas.drawImage(icon, position, paint)
     }
 
@@ -217,6 +230,7 @@ class ImageGenerator(
         centerLine: Float,
     ) {
         var startX = dividerX + properties.getProperty("column_padding").toFloat()
+        val timelinePadding = properties.getProperty("timeline_padding").toFloat()
         // draw first timeline divider line
         drawTimelineDivider(
             canvas,
@@ -227,23 +241,35 @@ class ImageGenerator(
 
         val timelineEntries = optionConfig.getTimeline()
         for (entry in timelineEntries) {
-            val icon = iconStorage.getIcon(entry.icon.toString())
+            // draw line
             val timeValue = option.values[entry.column.toString()]!!.toFloat()
 
-            val endX : Float = startX + timeValue * properties.getProperty("timeline_scaling").toFloat()
+            val endX: Float =
+                startX + timeValue * properties.getProperty("timeline_scaling").toFloat()
             drawTimelineSectionLine(
                 canvas,
                 Offset(startX, centerLine),
                 Offset(endX, centerLine),
                 entry.lineType.value,
                 color
-                )
-
+            )
+            // draw divider
             drawTimelineDivider(canvas, color, endX, centerLine)
 
-            val midX = startX + ((endX - startX) /2)
+            // draw icon
+            val midX = startX + ((endX - startX) / 2)
 
-            TODO("draw icon and text")
+            val icon = iconStorage.getIcon(entry.icon.toString())
+            val iconHeight = icon.height
+
+            drawIcon(
+                canvas,
+                icon,
+                color,
+                Offset(midX, centerLine - timelinePadding - (iconHeight / 2))
+            )
+
+            TODO("draw text")
 
 
             startX = endX
@@ -264,7 +290,13 @@ class ImageGenerator(
         )
     }
 
-    private fun drawTimelineSectionLine(canvas: Canvas, start: Offset, end: Offset, type: LineType, color: Color) {
+    private fun drawTimelineSectionLine(
+        canvas: Canvas,
+        start: Offset,
+        end: Offset,
+        type: LineType,
+        color: Color
+    ) {
         TODO("draw line depending on line type")
     }
 }
