@@ -22,7 +22,7 @@ import javax.imageio.ImageIO
  * @property icons The icons of the project
  */
 class IconStorage {
-   private val icons: SnapshotStateMap<String, ImageBitmap> = mutableStateMapOf()
+    private val icons: SnapshotStateMap<String, ImageBitmap> = mutableStateMapOf()
 
     init {
         loadInitIcons()
@@ -33,7 +33,6 @@ class IconStorage {
      * @param filePath the file path
      */
     fun storeIcon(imagePath: String) {
-
 
         when (imagePath.substringAfterLast(".", "")) {
             "svg" -> {
@@ -60,8 +59,8 @@ class IconStorage {
      * @param filePath the icon path
      * @return the icon as a string
      */
-    fun getIcon(filePath: String): ImageBitmap {
-        return icons[filePath]!!
+    fun getIcon(filePath: String): ImageBitmap? {
+        return icons[filePath]
     }
 
     fun getLoadedIconPaths(): List<String> {
@@ -95,12 +94,19 @@ class IconStorage {
     }
 
     private fun loadInitIcons() {
-        this.javaClass.classLoader.getResourceAsStream("icons")?.bufferedReader()
-            ?.useLines { lines ->
-                lines.forEach {
-                    storeIcon("src/main/resources/icons/$it")
-
-                }
+        val walker = File("src/main/resources/icons").walk(FileWalkDirection.TOP_DOWN)
+        for (entry in walker) {
+            if (entry.isFile) {
+                println("storing $entry")
+                storeIcon(entry.path)
             }
+        }
+//        this.javaClass.classLoader.getResourceAsStream("icons")?.bufferedReader()
+//            ?.useLines { lines ->
+//                lines.forEach {
+//                    storeIcon("src/main/resources/icons/$it")
+//
+//                }
+//            }
     }
 }
