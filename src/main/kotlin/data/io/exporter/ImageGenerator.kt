@@ -183,7 +183,7 @@ class ImageGenerator(
             )
         )
 
-        TODO("add ability to center text on x offset")
+        //TODO("add ability to center text on x offset")
 
         canvas.save()
         canvas.translate(position.x, position.y)
@@ -269,7 +269,7 @@ class ImageGenerator(
                 Offset(midX, centerLine - timelinePadding - (iconHeight / 2))
             )
 
-            TODO("draw text")
+            //TODO("draw text")
 
 
             startX = endX
@@ -297,6 +297,6 @@ class ImageGenerator(
         type: LineType,
         color: Color
     ) {
-        TODO("draw line depending on line type")
+        //TODO("draw line depending on line type")
     }
 }
