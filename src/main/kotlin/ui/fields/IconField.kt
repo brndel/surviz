@@ -1,6 +1,7 @@
 package ui.fields
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
@@ -9,13 +10,16 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogWindow
+import data.project.data.IconStorage
 import ui.Label
 import ui.Labels
+import ui.LocalIconStorage
 
 /**
  * An input field where the user can select an icon
@@ -28,9 +32,7 @@ fun IconField(icon: String?, onIconChange: (String?) -> Unit) {
     var dialogOpen by remember { mutableStateOf(false) }
 
     Button({ dialogOpen = true }, modifier = Modifier.size(64.dp)) {
-        if (icon != null) {
-            Icon(painterResource(icon), null)
-        }
+        IconStorageImage(icon)
     }
 
     if (dialogOpen) {
@@ -42,6 +44,8 @@ fun IconField(icon: String?, onIconChange: (String?) -> Unit) {
 private fun IconFieldDialog(currentIcon: String?, onIconChange: (String?) -> Unit, onDismissRequest: () -> Unit) {
     var selectedIcon by remember { mutableStateOf(currentIcon) }
 
+    val iconStorage = LocalIconStorage.current!!
+
     DialogWindow(onCloseRequest = onDismissRequest) {
         Column(Modifier.fillMaxSize()) {
             LazyVerticalGrid(
@@ -51,14 +55,9 @@ private fun IconFieldDialog(currentIcon: String?, onIconChange: (String?) -> Uni
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 items(
-                    listOf(
-                        "icons/Icon_Bike.svg",
-                        "icons/Icon_BS.svg",
-                        "icons/Icon_CS.svg",
-                        "icons/Icon_EScooter.svg"
-                    )
+                    iconStorage.getLoadedIconPaths()
                 ) { icon ->
-                    IconFieldDialogButton(icon, selectedIcon) {
+                    IconFieldDialogButton(icon, selectedIcon, iconStorage) {
                         selectedIcon = icon
                     }
                 }
@@ -81,7 +80,7 @@ private fun IconFieldDialog(currentIcon: String?, onIconChange: (String?) -> Uni
 }
 
 @Composable
-private fun IconFieldDialogButton(icon: String, selectedIcon: String?, onClick: () -> Unit) {
+private fun IconFieldDialogButton(icon: String, selectedIcon: String?, iconStorage: IconStorage, onClick: () -> Unit) {
     val selected = icon == selectedIcon
     OutlinedButton(
         onClick = onClick,
@@ -89,6 +88,28 @@ private fun IconFieldDialogButton(icon: String, selectedIcon: String?, onClick: 
         border = if (selected) BorderStroke(2.dp, MaterialTheme.colors.primary) else null,
         modifier = Modifier.size(64.dp)
     ) {
-        Icon(painterResource(icon), null)
+        IconStorageImage(icon, iconStorage)
     }
+}
+
+@Composable
+fun IconStorageImage(iconPath: String?, iconStorage: IconStorage? = LocalIconStorage.current) {
+    if (iconPath == null) {
+        Box(Modifier.size(64.dp)) {
+            Text("-", modifier = Modifier.align(Alignment.Center))
+        }
+        return
+    }
+
+    val image = iconStorage?.getIcon(iconPath)
+
+
+    if (image == null) {
+        Box(Modifier.size(64.dp)) {
+            Text("-", modifier = Modifier.align(Alignment.Center))
+        }
+        return
+    }
+
+    Image(image, null, modifier = Modifier.size(64.dp))
 }

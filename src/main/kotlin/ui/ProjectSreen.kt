@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import data.project.Project
 import data.project.config.ProjectConfiguration
+import data.project.data.IconStorage
 import ui.page.export.ExportPage
 import ui.page.singleValue.SingleValuePage
 import ui.page.situation.SituationPage
@@ -27,25 +28,31 @@ import ui.page.situation.SituationPage
 fun ProjectScreen(project: Project) {
     var currentPage: Page by remember { mutableStateOf(Page.SingleValue) }
 
-    Column(Modifier.fillMaxSize()) {
-        AppBarMenu()
-        Row(Modifier.weight(1F)) {
-            ProjectPageNavigator(currentPage, { currentPage = it })
+    CompositionLocalProvider(
+        LocalIconStorage provides project.iconStorage
+    ) {
+        Column(Modifier.fillMaxSize()) {
+            AppBarMenu()
+            Row(Modifier.weight(1F)) {
+                ProjectPageNavigator(currentPage, { currentPage = it })
 
-            Box(Modifier.weight(1F)) {
-                when (currentPage) {
-                    Page.SingleValue -> SingleValuePage(project.configuration)
-                    Page.Situation -> SituationPage(project.configuration, project.dataScheme)
-                    Page.Export -> Label(Labels.PAGE_EXPORT)
+                Box(Modifier.weight(1F)) {
+                    when (currentPage) {
+                        Page.SingleValue -> SingleValuePage(project.configuration)
+                        Page.Situation -> SituationPage(project.configuration, project.dataScheme)
+                        Page.Export -> Label(Labels.PAGE_EXPORT)
+                    }
                 }
-            }
 
-            Box(Modifier.weight(1F).zIndex(-0.1F)) {
-                Preview(project)
+                Box(Modifier.weight(1F).zIndex(-0.1F)) {
+                    Preview(project)
+                }
             }
         }
     }
 }
+
+val LocalIconStorage = compositionLocalOf<IconStorage?> { null }
 
 @Composable
 private fun AppBarMenu() {

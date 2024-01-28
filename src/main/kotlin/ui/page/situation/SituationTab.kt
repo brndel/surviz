@@ -18,6 +18,7 @@ import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 import ui.fields.ColorField
+import ui.fields.IconStorageImage
 import java.util.*
 
 /**
@@ -62,9 +63,7 @@ fun SituationTab(
             val column = config.singleValueColumns.getOrPut(id) { SchemeColumns } // TODO Move to SituationConfig
 
             Row {
-                singleValueIcons[id]?.let {
-                    Icon(painterResource(it), null)
-                }
+                IconStorageImage(singleValueIcons[id])
                 SingleValueColumnField(column) { config.singleValueColumns[id] = it }
             }
         }
