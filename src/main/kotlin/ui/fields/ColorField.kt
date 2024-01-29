@@ -25,7 +25,7 @@ fun ColorField(color: Color, onColorChange: (Color) -> Unit) {
     var hexColor by remember { mutableStateOf(color.toHex()) }
     var isError by remember { mutableStateOf(false) }
 
-    OutlinedTextField(value = hexColor, onValueChange = {
+    OutlinedTextField(value = hexColor, singleLine = true, onValueChange = {
         hexColor = it
         val col = Color.fromHex(it)
         isError = col != null
@@ -49,23 +49,36 @@ fun ColorField(color: Color, onColorChange: (Color) -> Unit) {
                     Popup(onDismissRequest = {
                         popupOpen = false
                     }) {
-                        val updateColor = { newColor: Color ->
+                        fun updateColor(newColor: Color) {
                             onColorChange(newColor)
                             hexColor = newColor.toHex()
+                            isError = false
                         }
                         Surface(Modifier.width(128.dp), shape = RoundedCornerShape(4.dp), elevation = 8.dp) {
+
+                            @Composable
+                            fun ColorSlider(
+                                value: (Color) -> Float,
+                                newColor: Color.(Float) -> Color,
+                                sliderColor: Color
+                            ) {
+                                Slider(
+                                    value = value(color),
+                                    valueRange = 0F..1F,
+                                    onValueChange = {
+                                        updateColor(newColor(color, it))
+                                    },
+                                    colors = SliderDefaults.colors(
+                                        thumbColor = sliderColor,
+                                        activeTrackColor = sliderColor
+                                    )
+                                )
+                            }
+
                             Column(Modifier.padding(4.dp)) {
-                                Slider(value = color.red, valueRange = 0F..1F, onValueChange = {
-                                    updateColor(color.copy(red = it))
-                                }, colors = SliderDefaults.colors(Color.Red))
-
-                                Slider(value = color.green, valueRange = 0F..1F, onValueChange = {
-                                    updateColor(color.copy(green = it))
-                                }, colors = SliderDefaults.colors(Color.Green))
-
-                                Slider(value = color.blue, valueRange = 0F..1F, onValueChange = {
-                                    updateColor(color.copy(blue = it))
-                                }, colors = SliderDefaults.colors(Color.Blue))
+                                ColorSlider({ it.red }, { copy(red = it) }, Color.Red)
+                                ColorSlider({ it.green }, { copy(green = it) }, Color.Green)
+                                ColorSlider({ it.blue }, { copy(blue = it) }, Color.Blue)
                             }
                         }
                     }
@@ -77,9 +90,14 @@ fun ColorField(color: Color, onColorChange: (Color) -> Unit) {
 }
 
 @OptIn(ExperimentalStdlibApi::class)
+private val hexFormat = HexFormat {
+    upperCase = true
+}
+
+@OptIn(ExperimentalStdlibApi::class)
 private fun Color.Companion.fromHex(hex: String): Color? {
     return try {
-        val value = hex.hexToInt(HexFormat.Default)
+        val value = hex.uppercase().hexToInt(hexFormat)
         Color(value)
     } catch (e: IllegalArgumentException) {
         null
@@ -89,5 +107,5 @@ private fun Color.Companion.fromHex(hex: String): Color? {
 
 @OptIn(ExperimentalStdlibApi::class)
 private fun Color.toHex(): String {
-    return toArgb().toHexString(HexFormat.UpperCase)
+    return toArgb().toHexString(hexFormat)
 }
