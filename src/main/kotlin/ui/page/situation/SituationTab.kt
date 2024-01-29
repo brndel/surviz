@@ -37,38 +37,45 @@ fun SituationTab(
     singleValueIcons: Map<UUID, String?>,
     modifier: Modifier = Modifier
 ) {
-    // TODO Fix nested LazyColumn not working
-//    LazyColumn(
-    Column(
-        modifier.padding(4.dp),
+    LazyColumn(
+        modifier,
         verticalArrangement = Arrangement.spacedBy(4.dp),
-//        contentPadding = PaddingValues(4.dp)
+        contentPadding = PaddingValues(4.dp)
     ) {
         var name by config.name
         var color by config.color
 
-//        item {
+        item {
             OutlinedTextField(
                 name,
                 { name = it },
                 label = { Text("Name") })
-//        }
+        }
 
-//        item {
+        item {
             ColorField(color) { color = it }
-//        }
+        }
 
-//        items(singleValueIds) { id ->
-        for(id in singleValueIds) {
+        item {
+            Text("Single value columns")
+        }
+
+        items(singleValueIds, key = { it }) { id ->
             val column = config.singleValueColumns.getOrPut(id) { SchemeColumns } // TODO Move to SituationConfig
 
-            Row {
-                IconStorageImage(singleValueIcons[id])
-                SingleValueColumnField(column) { config.singleValueColumns[id] = it }
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colors.background,
+                shape = RoundedCornerShape(4.dp)
+            ) {
+                Row(Modifier.padding(4.dp)) {
+                    IconStorageImage(singleValueIcons[id])
+                    SingleValueColumnField(column) { config.singleValueColumns[id] = it }
+                }
             }
         }
 
-//        item {
+        item {
             Row {
                 Text("Timeline")
                 IconButton({
@@ -77,11 +84,11 @@ fun SituationTab(
                     Icon(Icons.Default.Add, null)
                 }
             }
-//        }
+        }
 
-//        item {
+        item {
             Surface(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().heightIn(min = 32.dp, max = 4069.dp),
                 color = MaterialTheme.colors.background,
                 shape = RoundedCornerShape(4.dp)
             ) {
@@ -95,7 +102,7 @@ fun SituationTab(
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     contentPadding = PaddingValues(4.dp)
                 ) {
-                    items(config.getTimeline(), { it }) { entry ->
+                    items(config.getTimeline(), key = { it }) { entry ->
                         ReorderableItem(reorderState, key = entry) { _ ->
                             TimelineCard(
                                 entry,
@@ -107,7 +114,7 @@ fun SituationTab(
                     }
                 }
             }
-//        }
+        }
     }
 }
 
