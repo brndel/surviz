@@ -4,11 +4,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.material.Button
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 
 @Composable
-fun <T> GenericSelectField(value: T, onValueChange: (T) -> Unit, options: List<T>, item: @Composable (T) -> Unit) {
+fun <T> OptionsField(value: T, onValueChange: (T) -> Unit, options: List<T>, item: @Composable (T) -> Unit) {
     var dropdownExpanded by remember { mutableStateOf(false) }
 
     Box {

@@ -10,7 +10,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import data.project.config.SituationConfig
 import data.project.config.columns.*
@@ -19,7 +18,7 @@ import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 import ui.fields.ColorField
-import ui.fields.GenericSelectField
+import ui.fields.OptionsField
 import ui.fields.IconStorageImage
 import java.util.*
 
@@ -175,7 +174,7 @@ private fun SingleValueColumnField(
                 }
                 for (column in value.columns.withIndex()) {
                     Row {
-                        GenericSelectField(column.value, {
+                        OptionsField(column.value, {
                             value.columns[column.index
                             ] = it
                         }, options = columns) {
