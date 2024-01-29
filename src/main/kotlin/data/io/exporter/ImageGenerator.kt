@@ -98,7 +98,7 @@ class ImageGenerator(
             config.getSituationConfig()[option.name] ?: throw NoSuchFieldException()
 
         // scale image dynamically based on count of single values
-        val singleValueCount = optionConfig.singleValueColumns.size
+        val singleValueCount = config.getSingleValues().size
         val singleValueSectionSize = kotlin.math.max(
             singleValueCount * properties.getProperty("single_value_size").toInt(),
             properties.getProperty("single_value_min_width").toInt()
@@ -199,7 +199,7 @@ class ImageGenerator(
 
         // center  text if necessary
         var x = position.x
-        if(centerX) {
+        if (centerX) {
             x -= textLayoutResult.size.width / 2
         }
 
@@ -265,7 +265,7 @@ class ImageGenerator(
 
             // change alpha if value == 0 and not ZeroColumn
             var newColor = color.copy()
-            if (value == 0.0 && column.javaClass != ZeroColumn.javaClass) {
+            if (value == 0.0 && column !is ZeroColumn) {
                 val alpha = properties.getProperty("single_value_alpha").toFloat()
                 newColor = color.copy(alpha = alpha)
             }
@@ -327,13 +327,6 @@ class ImageGenerator(
         var startX = dividerX + properties.getProperty("column_padding").toFloat()
         val timelinePadding = properties.getProperty("timeline_padding").toFloat()
         val yOffset = properties.getProperty("timeline_y_offset").toFloat()
-        // draw first timeline divider line
-        drawTimelineDivider(
-            canvas,
-            color,
-            startX,
-            centerLine + yOffset
-        )
 
         // go over every section
         val timelineEntries = optionConfig.getTimeline()
@@ -355,6 +348,7 @@ class ImageGenerator(
                 color
             )
             // draw divider
+            drawTimelineDivider(canvas, color, startX, centerLine + yOffset)
             drawTimelineDivider(canvas, color, endX, centerLine + yOffset)
 
             // draw icon
@@ -378,7 +372,7 @@ class ImageGenerator(
 
             drawText(
                 canvas,
-                "$timeValue $unit",
+                "${timeValue.toInt()} $unit",
                 color,
                 Offset(midX, centerLine + timelinePadding + yOffset),
                 textType = TextType.Label,

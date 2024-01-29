@@ -39,14 +39,14 @@ Green and blue area are representing the [single value](https://github.com/brnde
 Further layout of those areas is explained in corresponding sections.
 
 
-| Nr. | Identifier/Calculation                                               | Description                   | Unit |
-|-----|----------------------------------------------------------------------|-------------------------------|------|
-| 1   | <code>situation_width</code>                                         | width                         | px   |
-| 2   | <code>situation_height</code>                                        | height                        | px   |
-| 3   | <code>border_padding</code>                                          | border padding                | px   |
-| 4   | $2 \times$ <code>column_padding</code>                               | padding around divider line   | px   |
-| 5   | <code>max_single_values</code>$\times$<code>single_value_size</code> | width of single value section | px   |
-| 6   | Nr. 1$-$($2 \times$Nr. 3)$-$Nr. 4$-$Nr. 5                            | width of timeline section     | px   |
+| Nr. | Identifier/Calculation                                                                                    | Description                   | Unit |
+|-----|-----------------------------------------------------------------------------------------------------------|-------------------------------|------|
+| 1   | <code>situation_width</code>                                                                              | width                         | px   |
+| 2   | <code>situation_height</code>                                                                             | height                        | px   |
+| 3   | <code>border_padding</code>                                                                               | border padding                | px   |
+| 4   | $2 \times$ <code>column_padding</code>                                                                    | padding around divider line   | px   |
+| 5   | $max($<code>single_value_min_width</code> $,count(single values) \times$<code>single_value_size</code>$)$ | width of single value section | px   |
+| 6   |                                                                                                           | width of timeline section     | px   |
 
 **Other general adjustments that can be made:**
 
