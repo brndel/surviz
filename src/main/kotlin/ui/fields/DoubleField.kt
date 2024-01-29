@@ -2,6 +2,7 @@ package ui.fields
 
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 
 /**
  * An input field where the user can select a Double
@@ -12,23 +13,23 @@ import androidx.compose.runtime.*
  * @param minValue the minimum value that is allowed in this field. If minValue is null, there is no maximum value
  */
 @Composable
-fun DoubleField(value: Double, onValueChange: (Double) -> Unit, maxValue: Double? = null, minValue: Double? = null) {
+fun DoubleField(
+    value: Double,
+    onValueChange: (Double) -> Unit,
+    maxValue: Double? = null,
+    minValue: Double? = null,
+    modifier: Modifier = Modifier,
+    label: @Composable (() -> Unit)? = null
+) {
 
-    var text by remember { mutableStateOf(value.toString()) }
+    ParserField(value, onValueChange, parse = {
+        val newValue = it.toDoubleOrNull()
 
-    var hasError by remember { mutableStateOf(false) }
-
-    OutlinedTextField(text, {
-        text = it
-        val newValue = text.toDoubleOrNull()
-
-        val isValid =
-            newValue != null && (maxValue == null || newValue <= maxValue) && (minValue == null || newValue >= minValue)
-
-        if (isValid) {
-            onValueChange(newValue!!)
+        if (newValue != null && (maxValue == null || newValue <= maxValue) && (minValue == null || newValue >= minValue)) {
+            newValue
+        } else {
+            null
         }
 
-        hasError = !isValid
-    }, isError = hasError)
+    }, toString = { it.toString() }, modifier, label)
 }
