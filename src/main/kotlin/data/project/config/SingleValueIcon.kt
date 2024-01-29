@@ -23,7 +23,7 @@ data class SingleValueIcon (
     fun getIcon(value: Double): String? {
         var currentLevel: SingleValueIconLevel? = null
         for (level in levels) {
-            if (currentLevel == null || (level.lowerThreshold.value <= value && level.lowerThreshold.value > currentLevel.lowerThreshold.value)) {
+            if (level.lowerThreshold.value <= value && (currentLevel == null || level.lowerThreshold.value > currentLevel.lowerThreshold.value)) {
                 currentLevel = level
             }
         }
