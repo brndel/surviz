@@ -16,7 +16,7 @@ import data.project.config.LineType
 import data.project.config.TimelineEntry
 import org.burnoutcrew.reorderable.ReorderableState
 import ui.fields.IconField
-import ui.fields.GenericSelectField
+import ui.fields.OptionsField
 import ui.util.ReorderHandle
 
 /**
@@ -43,11 +43,11 @@ fun TimelineCard(entry: TimelineEntry, onDelete: () -> Unit, columns: List<Strin
 
             IconField(icon) { icon = it }
 
-            GenericSelectField(column, { column = it }, options = columns) {
+            OptionsField(column, { column = it }, options = columns) {
                 Text(it)
             }
 
-            GenericSelectField(lineType, { lineType = it }, LineType.entries.toList()) {
+            OptionsField(lineType, { lineType = it }, LineType.entries.toList()) {
                 Text(it.toString())
             }
 

@@ -7,9 +7,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import data.project.config.SituationConfig
 import data.project.config.columns.*
@@ -18,6 +18,7 @@ import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 import ui.fields.ColorField
+import ui.fields.OptionsField
 import ui.fields.IconStorageImage
 import java.util.*
 
@@ -37,38 +38,45 @@ fun SituationTab(
     singleValueIcons: Map<UUID, String?>,
     modifier: Modifier = Modifier
 ) {
-    // TODO Fix nested LazyColumn not working
-//    LazyColumn(
-    Column(
-        modifier.padding(4.dp),
+    LazyColumn(
+        modifier,
         verticalArrangement = Arrangement.spacedBy(4.dp),
-//        contentPadding = PaddingValues(4.dp)
+        contentPadding = PaddingValues(4.dp)
     ) {
         var name by config.name
         var color by config.color
 
-//        item {
+        item {
             OutlinedTextField(
                 name,
                 { name = it },
                 label = { Text("Name") })
-//        }
+        }
 
-//        item {
+        item {
             ColorField(color) { color = it }
-//        }
+        }
 
-//        items(singleValueIds) { id ->
-        for(id in singleValueIds) {
+        item {
+            Text("Single value columns")
+        }
+
+        items(singleValueIds, key = { it }) { id ->
             val column = config.singleValueColumns.getOrPut(id) { SchemeColumns } // TODO Move to SituationConfig
 
-            Row {
-                IconStorageImage(singleValueIcons[id])
-                SingleValueColumnField(column) { config.singleValueColumns[id] = it }
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colors.background,
+                shape = RoundedCornerShape(4.dp)
+            ) {
+                Row(Modifier.padding(4.dp)) {
+                    IconStorageImage(singleValueIcons[id])
+                    SingleValueColumnField(column, { config.singleValueColumns[id] = it }, option.fields)
+                }
             }
         }
 
-//        item {
+        item {
             Row {
                 Text("Timeline")
                 IconButton({
@@ -77,11 +85,11 @@ fun SituationTab(
                     Icon(Icons.Default.Add, null)
                 }
             }
-//        }
+        }
 
-//        item {
+        item {
             Surface(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().heightIn(min = 32.dp, max = 4069.dp),
                 color = MaterialTheme.colors.background,
                 shape = RoundedCornerShape(4.dp)
             ) {
@@ -95,7 +103,7 @@ fun SituationTab(
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     contentPadding = PaddingValues(4.dp)
                 ) {
-                    items(config.getTimeline(), { it }) { entry ->
+                    items(config.getTimeline(), key = { it }) { entry ->
                         ReorderableItem(reorderState, key = entry) { _ ->
                             TimelineCard(
                                 entry,
@@ -107,51 +115,78 @@ fun SituationTab(
                     }
                 }
             }
-//        }
+        }
     }
 }
 
 @Composable
-private fun SituationTimeline() {
-
-}
-
-
-@Composable
-private fun SingleValueColumnField(value: SingleValueColumn, onValueChange: (SingleValueColumn) -> Unit) {
+private fun SingleValueColumnField(
+    value: SingleValueColumn,
+    onValueChange: (SingleValueColumn) -> Unit,
+    columns: List<String>
+) {
     var dropdownExpanded by remember { mutableStateOf(false) }
-    Box {
-        Button({ dropdownExpanded = true }) {
-            Text(value.toString())
+    Row {
+        Box {
+            Button({ dropdownExpanded = true }) {
+                Text(value.toString())
+            }
+
+            DropdownMenu(dropdownExpanded, { dropdownExpanded = false }) {
+                DropdownMenuItem(onClick = {
+                    onValueChange(SchemeColumns)
+                    dropdownExpanded = false
+                }) {
+                    Text("Scheme")
+                }
+
+                DropdownMenuItem(onClick = {
+                    onValueChange(ZeroColumn)
+                    dropdownExpanded = false
+                }) {
+                    Text("Zero")
+                }
+
+                DropdownMenuItem(onClick = {
+                    onValueChange(TimelineColumns)
+                    dropdownExpanded = false
+                }) {
+                    Text("Timeline")
+                }
+
+                DropdownMenuItem(onClick = {
+                    onValueChange(ListColumns())
+                    dropdownExpanded = false
+                }) {
+                    Text("Select")
+                }
+            }
         }
-
-        DropdownMenu(dropdownExpanded, { dropdownExpanded = false }) {
-            DropdownMenuItem(onClick = {
-                onValueChange(SchemeColumns)
-                dropdownExpanded = false
-            }) {
-                Text("Scheme")
-            }
-
-            DropdownMenuItem(onClick = {
-                onValueChange(ZeroColumn)
-                dropdownExpanded = false
-            }) {
-                Text("Zero")
-            }
-
-            DropdownMenuItem(onClick = {
-                onValueChange(TimelineColumns)
-                dropdownExpanded = false
-            }) {
-                Text("Timeline")
-            }
-
-            DropdownMenuItem(onClick = {
-                onValueChange(ListColumns(columns = listOf()))
-                dropdownExpanded = false
-            }) {
-                Text("Select")
+        if (value is ListColumns) {
+            Column {
+                Row {
+                    Text("Columns")
+                    Button(onClick = {
+                        value.columns.add("")
+                    }) {
+                        Icon(Icons.Default.Add, null)
+                    }
+                }
+                for (column in value.columns.withIndex()) {
+                    Row {
+                        OptionsField(column.value, {
+                            value.columns[column.index
+                            ] = it
+                        }, options = columns) {
+                            Text(it)
+                        }
+                        IconButton(onClick = {
+                            value.columns.removeAt(column.index)
+                        }) {
+                            Icon(Icons.Default.Delete, null)
+                        }
+                    }
+                }
             }
         }
     }

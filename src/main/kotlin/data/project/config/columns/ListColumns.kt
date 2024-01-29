@@ -1,5 +1,7 @@
 package data.project.config.columns
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import data.project.config.SingleValueConfig
 import data.project.config.SituationConfig
 import data.project.data.SituationOption
@@ -9,7 +11,7 @@ import data.project.data.SituationOption
  * @param columns the columns that were chosen.
  */
 class ListColumns(
-        var columns: List<String>
+        var columns: SnapshotStateList<String> = mutableStateListOf()
 ): SingleValueColumn {
     /**
      * This method returns the value of the column(s).
