@@ -1,9 +1,14 @@
 package data.project
 
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import data.project.config.ProjectConfiguration
+import data.project.config.SingleValueConfig
+import data.project.config.SituationConfig
 import data.project.data.DataScheme
 import data.project.data.IconStorage
 import java.io.File
+import java.util.*
 
 /**
  * This class represents a project,which is the root of every SurViz project.
@@ -32,14 +37,63 @@ class Project(
      * @return True if the project data was loaded successfully, false otherwise.
      */
     fun loadProjectData(data: ProjectData, force: Boolean): Boolean {
+        if (!dataScheme.compareTo(data.dataScheme)) {
+            if (force) {
+                this.data = data
+                return true
+            }
+        }
+        if (dataScheme.compareTo(data.dataScheme)) {
+            this.data = data
+            return true
+        }
         return false
     }
+
 
     /**
      * This method saves the project data.
      * @param path The path to save the project data.
      */
     fun saveProjectData(path: String) {
+        val gsonData = Gson()
+        val jsonData = gsonData.toJson(data)
+
+        val gsonScheme = Gson()
+        val jsonScheme = gsonScheme.toJson(dataScheme)
+
+        val gsonConfig = Gson()
+        val jsonConfig = gsonConfig.toJson(configuration)
+
+
+        val icons = iconStorage.getIcons()
+
+
+
+
+        val filename = "test.svd"
+
+        try {
+            // Create a File object for the specified file name
+            val file = File(path + filename)
+
+            // Create a FileWriter to write to the file
+            val writer = FileWriter(file)
+
+            // Write content to the file
+            writer.write(jsonData + "\n")
+            writer.write(jsonScheme + "\n")
+            writer.write(jsonConfig + "\n")
+
+
+            // Close the FileWriter
+            writer.close()
+
+            println("File '$ fileName' has been created with given content.")
+        } catch (e: Exception) {
+            println("An error occurred: ${e.message}")
+        }
+
 
     }
 
@@ -58,7 +112,8 @@ class Project(
          * @param data The project data to load.
          */
         fun newProjectWithData(data: ProjectData): Project {
-            TODO()
+            return Project(data, data.dataScheme, ProjectConfiguration(), IconStorage())
+
         }
 
         /**
