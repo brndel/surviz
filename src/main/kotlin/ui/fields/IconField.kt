@@ -88,14 +88,14 @@ private fun IconFieldDialogButton(icon: String, selectedIcon: String?, iconStora
         border = if (selected) BorderStroke(2.dp, MaterialTheme.colors.primary) else null,
         modifier = Modifier.size(64.dp)
     ) {
-        IconStorageImage(icon, iconStorage)
+        IconStorageImage(icon, iconStorage = iconStorage)
     }
 }
 
 @Composable
-fun IconStorageImage(iconPath: String?, iconStorage: IconStorage? = LocalIconStorage.current) {
+fun IconStorageImage(iconPath: String?, modifier: Modifier = Modifier, iconStorage: IconStorage? = LocalIconStorage.current) {
     if (iconPath == null) {
-        Box(Modifier.size(64.dp)) {
+        Box(modifier.size(64.dp)) {
             Text("-", modifier = Modifier.align(Alignment.Center))
         }
         return
@@ -105,11 +105,11 @@ fun IconStorageImage(iconPath: String?, iconStorage: IconStorage? = LocalIconSto
 
 
     if (image == null) {
-        Box(Modifier.size(64.dp)) {
+        Box(modifier.size(64.dp)) {
             Text("-", modifier = Modifier.align(Alignment.Center))
         }
         return
     }
 
-    Image(image, null, modifier = Modifier.size(64.dp))
+    Image(image, null, modifier = modifier.size(64.dp))
 }

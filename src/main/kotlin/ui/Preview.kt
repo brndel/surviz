@@ -40,10 +40,10 @@ fun Preview(project: Project) {
             item {
                 Row {
                     IntField(blockId, onValueChange = { blockId = it }) {
-                        Text("Block")
+                        Label(Labels.BLOCK)
                     }
                     IntField(situationId, onValueChange = { situationId = it }) {
-                        Text("Situation")
+                        Label(Labels.SITUATION)
                     }
                 }
             }

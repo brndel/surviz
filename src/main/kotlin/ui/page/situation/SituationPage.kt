@@ -60,8 +60,7 @@ fun SituationPage(projectConfiguration: ProjectConfiguration, dataScheme: DataSc
                         selectedSituation,
                         selectedOption,
                         projectConfiguration.getSingleValueConfigOrder(),
-                        projectConfiguration.getSingleValues()
-                            .mapValues { it.value.icon.baseIcon.value }, modifier = Modifier.weight(1F)
+                        projectConfiguration.getSingleValues(), modifier = Modifier.weight(1F)
                     )
                 }
             }

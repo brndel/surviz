@@ -9,14 +9,19 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
+import data.project.config.SingleValueConfig
 import data.project.config.SituationConfig
 import data.project.config.columns.*
 import data.project.data.DataSchemeOption
 import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
+import ui.Label
+import ui.Labels
 import ui.fields.ColorField
 import ui.fields.OptionsField
 import ui.fields.IconStorageImage
@@ -35,7 +40,7 @@ fun SituationTab(
     config: SituationConfig,
     option: DataSchemeOption,
     singleValueIds: List<UUID>,
-    singleValueIcons: Map<UUID, String?>,
+    singleValues: Map<UUID, SingleValueConfig>,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -69,16 +74,25 @@ fun SituationTab(
                 color = MaterialTheme.colors.background,
                 shape = RoundedCornerShape(4.dp)
             ) {
-                Row(Modifier.padding(4.dp)) {
-                    IconStorageImage(singleValueIcons[id])
-                    SingleValueColumnField(column, { config.singleValueColumns[id] = it }, option.fields)
+                Row(Modifier.padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    val singleValueConfig = singleValues[id] ?: return@Row
+                    IconStorageImage(singleValueConfig.icon.baseIcon.value)
+                    SingleValueColumnField(
+                        column,
+                        { config.singleValueColumns[id] = it },
+                        option.fields,
+                        singleValueConfig.columnScheme.value
+                    )
                 }
             }
         }
 
         item {
-            Row {
-                Text("Timeline")
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Label(Labels.TIMELINE)
                 IconButton({
                     config.addTimelineEntry()
                 }) {
@@ -123,72 +137,115 @@ fun SituationTab(
 private fun SingleValueColumnField(
     value: SingleValueColumn,
     onValueChange: (SingleValueColumn) -> Unit,
-    columns: List<String>
+    columns: List<String>,
+    scheme: String,
 ) {
     var dropdownExpanded by remember { mutableStateOf(false) }
-    Row {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
         Box {
             Button({ dropdownExpanded = true }) {
-                Text(value.toString())
+                Label(value.nameLabel)
             }
 
             DropdownMenu(dropdownExpanded, { dropdownExpanded = false }) {
-                DropdownMenuItem(onClick = {
-                    onValueChange(SchemeColumns)
-                    dropdownExpanded = false
-                }) {
-                    Text("Scheme")
+
+                @Composable
+                fun ColumnsMenuItem(
+                    nameLabel: String,
+                    descriptionLabel: String,
+                    createColumn: () -> SingleValueColumn
+                ) {
+                    DropdownMenuItem(onClick = {
+                        onValueChange(createColumn())
+                        dropdownExpanded = false
+                    }) {
+                        Column {
+                            Label(nameLabel)
+                            Label(descriptionLabel, style = MaterialTheme.typography.subtitle1)
+                        }
+                    }
                 }
 
-                DropdownMenuItem(onClick = {
-                    onValueChange(ZeroColumn)
-                    dropdownExpanded = false
-                }) {
-                    Text("Zero")
+                @Composable
+                fun ColumnsMenuItem(
+                    column: SingleValueColumn
+                ) {
+                    ColumnsMenuItem(
+                        column.nameLabel,
+                        column.descriptionLabel
+                    ) { column }
                 }
 
-                DropdownMenuItem(onClick = {
-                    onValueChange(TimelineColumns)
-                    dropdownExpanded = false
-                }) {
-                    Text("Timeline")
-                }
 
-                DropdownMenuItem(onClick = {
-                    onValueChange(ListColumns())
-                    dropdownExpanded = false
-                }) {
-                    Text("Select")
+                ColumnsMenuItem(SchemeColumns)
+                ColumnsMenuItem(ZeroColumn)
+                ColumnsMenuItem(TimelineColumns)
+                ColumnsMenuItem(ListColumns.nameLabel, ListColumns.descLabel) {
+                    ListColumns()
                 }
             }
         }
-        if (value is ListColumns) {
-            Column {
-                Row {
-                    Text("Columns")
-                    Button(onClick = {
-                        value.columns.add("")
-                    }) {
-                        Icon(Icons.Default.Add, null)
-                    }
+        when (value) {
+            is SchemeColumns -> {
+                SchemeColumnsExtra(scheme, columns)
+            }
+
+            is ListColumns -> {
+                ListColumnsExtra(value, columns)
+            }
+
+            else -> {
+
+            }
+        }
+    }
+}
+
+@Composable
+private fun ListColumnsExtra(value: ListColumns, columns: List<String>) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Label(Labels.COLUMNS)
+            IconButton(onClick = {
+                value.columns.add("")
+            }) {
+                Icon(Icons.Default.Add, null)
+            }
+        }
+        for (column in value.columns.withIndex()) {
+            Row {
+                OptionsField(column.value, {
+                    value.columns[column.index
+                    ] = it
+                }, options = columns) {
+                    Text(it)
                 }
-                for (column in value.columns.withIndex()) {
-                    Row {
-                        OptionsField(column.value, {
-                            value.columns[column.index
-                            ] = it
-                        }, options = columns) {
-                            Text(it)
-                        }
-                        IconButton(onClick = {
-                            value.columns.removeAt(column.index)
-                        }) {
-                            Icon(Icons.Default.Delete, null)
-                        }
-                    }
+                IconButton(onClick = {
+                    value.columns.removeAt(column.index)
+                }) {
+                    Icon(Icons.Default.Delete, null)
                 }
             }
         }
     }
 }
 
+@Composable
+private fun SchemeColumnsExtra(scheme: String, columns: List<String>) {
+    Column {
+        Row {
+            Label(Labels.FIELD_COLUMN_SCHEME)
+            Text("'$scheme'")
+        }
+        Row {
+            // TODO add filtered columns
+        }
+    }
+}

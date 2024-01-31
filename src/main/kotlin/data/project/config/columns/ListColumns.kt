@@ -5,6 +5,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import data.project.config.SingleValueConfig
 import data.project.config.SituationConfig
 import data.project.data.SituationOption
+import ui.Labels
 
 /**
  * This class is a type of SingleValueColumn. It contains a list of columns of the Ngene file that were chosen by hand.
@@ -12,7 +13,10 @@ import data.project.data.SituationOption
  */
 class ListColumns(
         var columns: SnapshotStateList<String> = mutableStateListOf()
-): SingleValueColumn {
+): SingleValueColumn(
+    nameLabel,
+    descLabel,
+) {
     /**
      * This method returns the value of the column(s).
      * @param singleValueConfig the config file of the single value that the column(s) refer to
@@ -33,5 +37,10 @@ class ListColumns(
         }
 
         return sum
+    }
+
+    companion object {
+        const val nameLabel = Labels.SELECT_COLUMN_NAME
+        const val descLabel = Labels.SELECT_COLUMN_DESC
     }
 }
