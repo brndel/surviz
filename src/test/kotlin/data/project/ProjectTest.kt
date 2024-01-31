@@ -10,10 +10,10 @@ class ProjectTest {
 
     @Test
     fun saveProjectData() {
-        fun saveProjectData() {
+
             val ngenePath = "C:\\Users\\Alex\\Desktop\\ngene.ngd"
             val project = Project.newProjectWithData(NgeneImporter.importFile(File(ngenePath)))
             project.saveProjectData("")
-        }
+
     }
 }
