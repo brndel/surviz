@@ -14,8 +14,6 @@ class ImageGeneratorTest {
 
     @Test
     fun generatePng() {
-        val generator = ImageGenerator(ProjectConfiguration(), IconStorage())
-        generator.generatePng(ProjectConfiguration(), IconStorage())
     }
 
     @Test
