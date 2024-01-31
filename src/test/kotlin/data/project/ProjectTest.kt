@@ -11,10 +11,9 @@ class ProjectTest {
 
     @Test
     fun saveProjectData() {
-        // TODO(add ngene to test resources)
-        val ngenePath = "C:\\Users\\Alex\\Desktop\\ngene.ngd"
+
+        val ngenePath = "src/test/resources/Sample.ngd"
         val project = Project.newProjectWithData(NgeneImporter.importFile(File(ngenePath)))
-        // TODO(change output path to resources or smth like that?!)
-        project.saveProjectData("C:\\Users\\Alex\\Desktop\\")
+        project.saveProjectData("src/test/resources/")
     }
 }
