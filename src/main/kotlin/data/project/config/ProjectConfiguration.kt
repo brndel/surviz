@@ -3,6 +3,7 @@ package data.project.config
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.snapshots.SnapshotStateMap
+import data.generator.resources.ImageConfig
 import data.project.config.columns.SchemeColumns
 import java.util.UUID
 
@@ -18,6 +19,7 @@ class ProjectConfiguration {
     private val singleValueConfigOrder: SnapshotStateList<UUID> = SnapshotStateList<UUID>()
     private val singleValueConfig: SnapshotStateMap<UUID, SingleValueConfig> = SnapshotStateMap<UUID, SingleValueConfig>()
     private val situationConfig: SnapshotStateMap<String, SituationConfig> = SnapshotStateMap<String, SituationConfig>()
+    val imageConfig = ImageConfig()
 
     /**
      * This method adds a single value to the project.

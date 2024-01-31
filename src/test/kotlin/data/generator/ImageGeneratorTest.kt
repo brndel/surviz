@@ -19,7 +19,7 @@ class ImageGeneratorTest {
         )
         val generator = ImageGenerator(ProjectConfiguration(), IconStorage())
         val image = generator.generateOption(option)
-        val bufferedImage = image.toAwtImage()
+        val bufferedImage = image.image.toAwtImage()
         val outputFile = File("src/test/resources/image/test_image.png")
         ImageIO.write(bufferedImage, "png", outputFile)
         println(outputFile.absolutePath)

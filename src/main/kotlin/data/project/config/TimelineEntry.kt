@@ -9,9 +9,8 @@ import data.generator.resources.LineType
  * @param column the column of the Ngene file that contains the value of this timeline entry
  * @param lineType the type of line that will be used to display the timeline entry
  */
-class TimelineEntry constructor(
+class TimelineEntry(
         var icon : MutableState<String?>,
         var column : MutableState<String>,
         var lineType : MutableState<LineType>
-) {
-}
+)

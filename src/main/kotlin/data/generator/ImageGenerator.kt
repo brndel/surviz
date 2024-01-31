@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import data.generator.resources.ImageConfig
 import data.generator.resources.ImageResult
-import data.generator.resources.TextType
 import data.generator.resources.LineType
+import data.generator.resources.TextType
 import data.project.config.ProjectConfiguration
 import data.project.config.SituationConfig
 import data.project.config.columns.ZeroColumn
