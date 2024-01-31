@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
+import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextPainter
 import androidx.compose.ui.text.TextStyle
@@ -15,6 +16,7 @@ import androidx.compose.ui.text.font.createFontFamilyResolver
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import data.generator.resources.ImageConfig
 import data.generator.resources.TextType
@@ -25,6 +27,8 @@ import data.project.config.columns.ZeroColumn
 import data.project.data.IconStorage
 import data.project.data.Situation
 import data.project.data.SituationOption
+import org.jetbrains.skia.Bitmap
+import org.jetbrains.skia.Image
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -68,7 +72,7 @@ class ImageGenerator(
         // check if situation contains options
         if (situation.options.isEmpty()) return null
 
-        val width = generateOption(situation.options[0]).width
+        val width = imageConfig.width.value
         val height = height * optionsCount
 
         val image = ImageBitmap(width, height)
@@ -97,7 +101,6 @@ class ImageGenerator(
     fun generateOption(option: SituationOption): ImageBitmap {
         // initialize values
         val optionConfig =
-            // da könnte man maybe ne custom exception throwen
             config.getSituationConfig()[option.name] ?: throw NoSuchFieldException()
 
         // scale image dynamically based on count of single values
@@ -108,7 +111,6 @@ class ImageGenerator(
         )
 
         val width = imageConfig.width.value
-
         val color = optionConfig.color.value
 
         val image = ImageBitmap(width, height)
@@ -222,6 +224,7 @@ class ImageGenerator(
     private fun drawIcon(canvas: Canvas, icon: ImageBitmap?, color: Color, center: Offset) {
         if (icon == null) return
 
+        // color black icons
         val paint = Paint()
         paint.colorFilter = ColorFilter.colorMatrix(
             ColorMatrix(
@@ -432,5 +435,12 @@ class ImageGenerator(
 
         // draw line
         canvas.drawLine(start, end, paint)
+    }
+
+    private fun resizeBitmap(bitmap: ImageBitmap, width: Int, height: Int): ImageBitmap {
+       val image = ImageBitmap(width, height)
+        val canvas = Canvas(image)
+        canvas.drawImageRect(bitmap, srcSize = IntSize(width, height), paint = Paint())
+        return image
     }
 }
