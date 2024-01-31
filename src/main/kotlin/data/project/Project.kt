@@ -7,7 +7,6 @@ import data.project.data.DataScheme
 import data.project.data.IconStorage
 import java.io.File
 import java.io.FileWriter
-import java.util.*
 
 /**
  * This class represents a project,which is the root of every SurViz project.
