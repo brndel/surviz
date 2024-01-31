@@ -62,7 +62,7 @@ fun SituationTab(
         }
 
         items(singleValueIds, key = { it }) { id ->
-            val column = config.singleValueColumns.getOrPut(id) { SchemeColumns } // TODO Move to SituationConfig
+            val column = config.getColumns(id)
 
             Surface(
                 modifier = Modifier.fillMaxWidth(),
