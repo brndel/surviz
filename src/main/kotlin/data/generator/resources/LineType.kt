@@ -15,5 +15,5 @@ enum class LineType(val pathEffect: PathEffect?) {
     /**
      * This is a dotted line.
      */
-    Dotted(PathEffect.dashPathEffect(floatArrayOf(5.0F, 5.0F)))
+    Dotted(PathEffect.dashPathEffect(floatArrayOf(3.0F, 3.0F)))
 }
