@@ -60,7 +60,7 @@ fun Preview(project: Project) {
 
                     AnimatedContent(image) {
                         if (it != null) {
-                            Image(it, null)
+                            Image(it.image, null)
                         } else {
                             Text("Error while creating image '$errorText'")
                         }

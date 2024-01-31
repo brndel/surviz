@@ -1,0 +1,1 @@
+- for returning image and needed size of image to fix timeline scaling problem

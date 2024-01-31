@@ -8,7 +8,6 @@ import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
-import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextPainter
 import androidx.compose.ui.text.TextStyle
@@ -19,6 +18,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import data.generator.resources.ImageConfig
+import data.generator.resources.ImageResult
 import data.generator.resources.TextType
 import data.project.config.LineType
 import data.project.config.ProjectConfiguration
@@ -27,8 +27,6 @@ import data.project.config.columns.ZeroColumn
 import data.project.data.IconStorage
 import data.project.data.Situation
 import data.project.data.SituationOption
-import org.jetbrains.skia.Bitmap
-import org.jetbrains.skia.Image
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -48,6 +46,8 @@ class ImageGenerator(
     private val height: Int
     private val padding: Int
 
+    private var neededWidth = 0
+
     init {
         properties.load(FileInputStream("src/main/resources/config/image_generator.properties"))
         height = properties.getProperty("situation_height").toInt()
@@ -66,29 +66,36 @@ class ImageGenerator(
      *
      * @throws NoSuchFieldException if no configuration was found for on of the options
      */
-    fun generateSituation(situation: Situation): ImageBitmap? {
-        val optionsCount = situation.options.size
+    fun generateSituation(situation: Situation): ImageResult {
+        var maxWidth = 0
+        var maxNeededWidth = 0
+        val imageList = ArrayList<ImageBitmap>()
+        val optionCount = situation.options.size
 
-        // check if situation contains options
-        if (situation.options.isEmpty()) return null
+        for (option in situation.options) {
+            val imageResult = generateOption(option)
 
-        val width = imageConfig.width.value
-        val height = height * optionsCount
+            imageList.add(imageResult.image)
 
-        val image = ImageBitmap(width, height)
-        val canvas = Canvas(image)
+            if (imageResult.image.width > maxWidth) {
+                maxWidth = imageResult.image.width
+            }
 
-        for (i in 0..<optionsCount) {
-            val option = situation.options[i]
-            val optionImageBitmap = generateOption(option)
-            canvas.drawImage(
-                optionImageBitmap,
-                Offset(0F, i * height.toFloat()),
-                // muss man hier nochmal color festlegen?
-                Paint()
-            )
+            if (imageResult.neededWidth > maxNeededWidth) {
+                maxNeededWidth = imageResult.neededWidth
+            }
         }
-        return image
+
+        val situationHeight = height * optionCount
+
+        val bitmap = ImageBitmap(maxWidth, situationHeight)
+        val canvas = Canvas(bitmap)
+
+        for (i in 0..<optionCount) {
+            val image = imageList[i]
+            canvas.drawImage(image, Offset(0F, i * height.toFloat()), Paint())
+        }
+        return ImageResult(bitmap, maxNeededWidth)
     }
 
     /**
@@ -98,8 +105,9 @@ class ImageGenerator(
      *
      * @throws NoSuchFieldException if no configuration was found for the option
      */
-    fun generateOption(option: SituationOption): ImageBitmap {
+    fun generateOption(option: SituationOption): ImageResult {
         // initialize values
+        neededWidth = 0
         val optionConfig =
             config.getSituationConfig()[option.name] ?: throw NoSuchFieldException()
 
@@ -109,6 +117,7 @@ class ImageGenerator(
             singleValueCount * properties.getProperty("single_value_size").toInt(),
             properties.getProperty("single_value_min_width").toInt()
         )
+
 
         val width = imageConfig.width.value
         val color = optionConfig.color.value
@@ -156,7 +165,13 @@ class ImageGenerator(
 
         // draw timeline
         drawTimeline(canvas, color, option, optionConfig, dividerX, centerLine)
-        return image
+
+        // calculate needed width
+        neededWidth += singleValueSectionSize
+        neededWidth += 2 * padding
+        neededWidth += 2 * properties.getProperty("column_padding").toInt()
+
+        return ImageResult(image, neededWidth)
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -342,8 +357,11 @@ class ImageGenerator(
             // don't draw section if value is 0
             if (timeValue == 0F) continue
 
-            val endX: Float =
-                startX + timeValue * imageConfig.timelineScaling.value.toFloat()
+            // calculate length of section
+            val timelineLength = timeValue * imageConfig.timelineScaling.value.toFloat()
+            neededWidth += timelineLength.toInt()
+
+            val endX: Float = startX + timelineLength
 
             drawTimelineSectionLine(
                 canvas,
