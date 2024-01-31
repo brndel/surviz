@@ -3,11 +3,15 @@ package data.project.config.columns
 import data.project.config.SingleValueConfig
 import data.project.config.SituationConfig
 import data.project.data.SituationOption
+import ui.Labels
 
 /**
  * This class is a type of SingleValueColumn. It it is used for Ngene columns that were automatically chosen by using the defined column scheme of the corresponding SingleValueConfig.
  */
-data object SchemeColumns : SingleValueColumn {
+data object SchemeColumns : SingleValueColumn(
+    Labels.SCHEME_COLUMN_NAME,
+    Labels.SCHEME_COLUMN_DESC,
+) {
     /**
      * This method returns the value of the column(s).
      * @param singleValueConfig the config file of the single value that the column(s) refer to

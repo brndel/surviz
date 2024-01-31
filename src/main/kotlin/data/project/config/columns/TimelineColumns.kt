@@ -3,11 +3,15 @@ package data.project.config.columns
 import data.project.config.SingleValueConfig
 import data.project.config.SituationConfig
 import data.project.data.SituationOption
+import ui.Labels
 
 /**
  * This class is a type of SingleValueColumn. It is used for columns of the Ngene file that were used in the timeline.
  */
-data object TimelineColumns : SingleValueColumn {
+data object TimelineColumns : SingleValueColumn(
+    Labels.TIMELINE_COLUMN_NAME,
+    Labels.TIMELINE_COLUMN_DESC,
+) {
     /**
      * This method returns the summed value of the column(s) that were used in the given situation.
      * @param singleValueConfig the config file of the single value that the column(s) refer to
