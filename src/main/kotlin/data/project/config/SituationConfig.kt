@@ -1,6 +1,8 @@
 package data.project.config
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.snapshots.SnapshotStateMap
@@ -16,12 +18,13 @@ import java.util.UUID
  * @param singleValueColumns the columns of the Ngene file that contain the information for this situation. The single value UUID's will be assigned to a type of SingleValueColumn, that stores the columns in the Ngene file that contain the information of this single value.
  * @param timeline the timeline entrys
  */
-class SituationConfig constructor(
-        var name: MutableState<String>,
-        var color: MutableState<Color>,
-        var singleValueColumns: SnapshotStateMap<UUID, SingleValueColumn>,
-        private var timeline: SnapshotStateList<TimelineEntry>
-) {
+class SituationConfig {
+
+        var name: MutableState<String> = mutableStateOf("")
+        var color: MutableState<Color> = mutableStateOf(Color.Black)
+        var singleValueColumns: SnapshotStateMap<UUID, SingleValueColumn> = mutableStateMapOf()
+        private var timeline: SnapshotStateList<TimelineEntry> = mutableStateListOf()
+
         /**
          * this method adds a new timeline entry.
          */

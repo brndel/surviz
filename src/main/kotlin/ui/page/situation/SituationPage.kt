@@ -51,13 +51,8 @@ fun SituationPage(projectConfiguration: ProjectConfiguration, dataScheme: DataSc
                         .getOrPut(
                             selectedOption.name
                         ) {
-                            SituationConfig(
-                                name = mutableStateOf(""),
-                                color = mutableStateOf(Color.Black),
-                                singleValueColumns = mutableStateMapOf(),
-                                timeline = mutableStateListOf()
-                            )
-                        } // TODO move this to ProjectConfiguration
+                            SituationConfig()
+                        }
                 }
 
                 key(selectedTab) {
