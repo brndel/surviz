@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import data.project.config.SingleValueIcon
@@ -44,7 +45,10 @@ fun SingleValueIconCard(icon: SingleValueIcon) {
             ) { baseIcon = it }
 
             for (level in icon.levels) {
-                Row {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
                     IconField(level.icon.value) { level.icon.value = it }
                     DoubleField(level.lowerThreshold.value, { level.lowerThreshold.value = it })
                     IconButton({ icon.removeLevel(level) }) {
