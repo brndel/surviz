@@ -357,16 +357,18 @@ class ImageGenerator(
             drawTimelineDivider(canvas, color, endX, centerLine + yOffset)
 
             // draw icon
-            // TODO(draw icon smaller)
             val midX = startX + ((endX - startX) / 2)
 
             val icon = entry.icon.value?.let { iconStorage.getIcon(it) }
+
+            val iconSize = properties.getProperty("timeline_icon_size").toInt()
+            val resizedIcon = resizeBitmap(icon, iconSize, iconSize)
 
 
             val iconHeight = icon?.height ?: 0
             drawIcon(
                 canvas,
-                icon,
+                resizedIcon,
                 color,
                 Offset(midX, centerLine - timelinePadding - (iconHeight / 2) + yOffset)
             )
@@ -437,8 +439,9 @@ class ImageGenerator(
         canvas.drawLine(start, end, paint)
     }
 
-    private fun resizeBitmap(bitmap: ImageBitmap, width: Int, height: Int): ImageBitmap {
-       val image = ImageBitmap(width, height)
+    private fun resizeBitmap(bitmap: ImageBitmap?, width: Int, height: Int): ImageBitmap? {
+        if (bitmap == null) return null
+        val image = ImageBitmap(width, height)
         val canvas = Canvas(image)
         canvas.drawImageRect(bitmap, srcSize = IntSize(width, height), paint = Paint())
         return image
