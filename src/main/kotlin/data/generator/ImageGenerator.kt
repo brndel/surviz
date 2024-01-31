@@ -1,4 +1,4 @@
-package data.io.exporter
+package data.generator
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Canvas
@@ -16,7 +16,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
-import data.io.exporter.resources.TextType
+import data.generator.resources.ImageConfig
+import data.generator.resources.TextType
 import data.project.config.LineType
 import data.project.config.ProjectConfiguration
 import data.project.config.SituationConfig
@@ -38,6 +39,7 @@ class ImageGenerator(
 ) {
 
     private val properties: Properties = Properties()
+    private val imageConfig: ImageConfig
 
     private val height: Int
     private val padding: Int
@@ -46,6 +48,7 @@ class ImageGenerator(
         properties.load(FileInputStream("src/main/resources/config/image_generator.properties"))
         height = properties.getProperty("situation_height").toInt()
         padding = properties.getProperty("border_padding").toInt()
+        imageConfig = config.imageConfig
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -104,8 +107,7 @@ class ImageGenerator(
             properties.getProperty("single_value_min_width").toInt()
         )
 
-
-        val width = properties.getProperty("situation_width").toInt() + singleValueSectionSize
+        val width = imageConfig.width.value
 
         val color = optionConfig.color.value
 
@@ -338,7 +340,7 @@ class ImageGenerator(
             if (timeValue == 0F) continue
 
             val endX: Float =
-                startX + timeValue * properties.getProperty("timeline_scaling").toFloat()
+                startX + timeValue * imageConfig.timelineScaling.value
 
             drawTimelineSectionLine(
                 canvas,

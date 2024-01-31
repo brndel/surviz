@@ -3,6 +3,7 @@ package data.project.config
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.snapshots.SnapshotStateMap
+import data.generator.resources.ImageConfig
 import java.util.UUID
 
 /**
@@ -17,11 +18,13 @@ class ProjectConfiguration {
     private val singleValueConfigOrder: SnapshotStateList<UUID>
     private val singleValueConfig: SnapshotStateMap<UUID, SingleValueConfig>
     private val situationConfig: SnapshotStateMap<String, SituationConfig>
+    val imageConfig: ImageConfig
 
     init {
         singleValueConfigOrder = SnapshotStateList<UUID>()
         singleValueConfig = SnapshotStateMap<UUID, SingleValueConfig>()
         situationConfig = SnapshotStateMap<String, SituationConfig>()
+        imageConfig = TODO()
     }
 
     /**

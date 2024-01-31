@@ -1,4 +1,4 @@
-package data.io.exporter.resources
+package data.generator.resources
 
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
