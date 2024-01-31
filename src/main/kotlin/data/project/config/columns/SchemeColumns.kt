@@ -38,4 +38,18 @@ data object SchemeColumns : SingleValueColumn(
 
         return sum
     }
+    fun getSchemes(
+        scheme: String,
+        schemesList: List<String>
+    ): List<String> {
+        val filteredList = schemesList.filter {
+            if (scheme.endsWith('*')) {
+                it.startsWith(scheme.removeSuffix("*"))
+            } else {
+                it == scheme
+            }
+        }
+
+        return filteredList
+    }
 }

@@ -11,7 +11,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import data.project.config.SingleValueConfig
 import data.project.config.SituationConfig
@@ -245,7 +244,10 @@ private fun SchemeColumnsExtra(scheme: String, columns: List<String>) {
             Text("'$scheme'")
         }
         Row {
-            // TODO add filtered columns
+            val result = SchemeColumns.getSchemes(scheme = scheme, schemesList = columns)
+            for (string in result) {
+                Text(string)
+            }
         }
     }
 }
