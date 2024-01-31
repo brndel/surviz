@@ -1,4 +1,4 @@
-package data.io.exporter
+package data.generator
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Canvas
@@ -15,9 +15,12 @@ import androidx.compose.ui.text.font.createFontFamilyResolver
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
-import data.io.exporter.resources.TextType
-import data.project.config.LineType
+import data.generator.resources.ImageConfig
+import data.generator.resources.ImageResult
+import data.generator.resources.TextType
+import data.generator.resources.LineType
 import data.project.config.ProjectConfiguration
 import data.project.config.SituationConfig
 import data.project.config.columns.ZeroColumn
@@ -38,14 +41,18 @@ class ImageGenerator(
 ) {
 
     private val properties: Properties = Properties()
+    private val imageConfig: ImageConfig
 
     private val height: Int
     private val padding: Int
+
+    private var neededWidth = 0
 
     init {
         properties.load(FileInputStream("src/main/resources/config/image_generator.properties"))
         height = properties.getProperty("situation_height").toInt()
         padding = properties.getProperty("border_padding").toInt()
+        imageConfig = config.imageConfig
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -59,29 +66,36 @@ class ImageGenerator(
      *
      * @throws NoSuchFieldException if no configuration was found for on of the options
      */
-    fun generateSituation(situation: Situation): ImageBitmap? {
-        val optionsCount = situation.options.size
+    fun generateSituation(situation: Situation): ImageResult {
+        var maxWidth = 0
+        var maxNeededWidth = 0
+        val imageList = ArrayList<ImageBitmap>()
+        val optionCount = situation.options.size
 
-        // check if situation contains options
-        if (situation.options.isEmpty()) return null
+        for (option in situation.options) {
+            val imageResult = generateOption(option)
 
-        val width = generateOption(situation.options[0]).width
-        val height = height * optionsCount
+            imageList.add(imageResult.image)
 
-        val image = ImageBitmap(width, height)
-        val canvas = Canvas(image)
+            if (imageResult.image.width > maxWidth) {
+                maxWidth = imageResult.image.width
+            }
 
-        for (i in 0..<optionsCount) {
-            val option = situation.options[i]
-            val optionImageBitmap = generateOption(option)
-            canvas.drawImage(
-                optionImageBitmap,
-                Offset(0F, i * height.toFloat()),
-                // muss man hier nochmal color festlegen?
-                Paint()
-            )
+            if (imageResult.neededWidth > maxNeededWidth) {
+                maxNeededWidth = imageResult.neededWidth
+            }
         }
-        return image
+
+        val situationHeight = height * optionCount
+
+        val bitmap = ImageBitmap(maxWidth, situationHeight)
+        val canvas = Canvas(bitmap)
+
+        for (i in 0..<optionCount) {
+            val image = imageList[i]
+            canvas.drawImage(image, Offset(0F, i * height.toFloat()), Paint())
+        }
+        return ImageResult(bitmap, maxNeededWidth)
     }
 
     /**
@@ -91,22 +105,21 @@ class ImageGenerator(
      *
      * @throws NoSuchFieldException if no configuration was found for the option
      */
-    fun generateOption(option: SituationOption): ImageBitmap {
+    fun generateOption(option: SituationOption): ImageResult {
         // initialize values
+        neededWidth = 0
         val optionConfig =
-            // da könnte man maybe ne custom exception throwen
             config.getSituationConfig()[option.name] ?: throw NoSuchFieldException()
 
         // scale image dynamically based on count of single values
-        val singleValueCount = optionConfig.singleValueColumns.size
+        val singleValueCount = config.getSingleValues().size
         val singleValueSectionSize = kotlin.math.max(
             singleValueCount * properties.getProperty("single_value_size").toInt(),
             properties.getProperty("single_value_min_width").toInt()
         )
 
 
-        val width = properties.getProperty("situation_width").toInt() + singleValueSectionSize
-
+        val width = imageConfig.width.value
         val color = optionConfig.color.value
 
         val image = ImageBitmap(width, height)
@@ -152,7 +165,13 @@ class ImageGenerator(
 
         // draw timeline
         drawTimeline(canvas, color, option, optionConfig, dividerX, centerLine)
-        return image
+
+        // calculate needed width
+        neededWidth += singleValueSectionSize
+        neededWidth += 2 * padding
+        neededWidth += 2 * properties.getProperty("column_padding").toInt()
+
+        return ImageResult(image, neededWidth)
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -199,7 +218,7 @@ class ImageGenerator(
 
         // center  text if necessary
         var x = position.x
-        if(centerX) {
+        if (centerX) {
             x -= textLayoutResult.size.width / 2
         }
 
@@ -220,6 +239,7 @@ class ImageGenerator(
     private fun drawIcon(canvas: Canvas, icon: ImageBitmap?, color: Color, center: Offset) {
         if (icon == null) return
 
+        // color black icons
         val paint = Paint()
         paint.colorFilter = ColorFilter.colorMatrix(
             ColorMatrix(
@@ -265,7 +285,7 @@ class ImageGenerator(
 
             // change alpha if value == 0 and not ZeroColumn
             var newColor = color.copy()
-            if (value == 0.0 && column.javaClass != ZeroColumn.javaClass) {
+            if (value == 0.0 && column !is ZeroColumn) {
                 val alpha = properties.getProperty("single_value_alpha").toFloat()
                 newColor = color.copy(alpha = alpha)
             }
@@ -327,13 +347,6 @@ class ImageGenerator(
         var startX = dividerX + properties.getProperty("column_padding").toFloat()
         val timelinePadding = properties.getProperty("timeline_padding").toFloat()
         val yOffset = properties.getProperty("timeline_y_offset").toFloat()
-        // draw first timeline divider line
-        drawTimelineDivider(
-            canvas,
-            color,
-            startX,
-            centerLine + yOffset
-        )
 
         // go over every section
         val timelineEntries = optionConfig.getTimeline()
@@ -344,8 +357,11 @@ class ImageGenerator(
             // don't draw section if value is 0
             if (timeValue == 0F) continue
 
-            val endX: Float =
-                startX + timeValue * properties.getProperty("timeline_scaling").toFloat()
+            // calculate length of section
+            val timelineLength = timeValue * imageConfig.timelineScaling.value.toFloat()
+            neededWidth += timelineLength.toInt()
+
+            val endX: Float = startX + timelineLength
 
             drawTimelineSectionLine(
                 canvas,
@@ -355,19 +371,22 @@ class ImageGenerator(
                 color
             )
             // draw divider
+            drawTimelineDivider(canvas, color, startX, centerLine + yOffset)
             drawTimelineDivider(canvas, color, endX, centerLine + yOffset)
 
             // draw icon
-            // TODO(draw icon smaller)
             val midX = startX + ((endX - startX) / 2)
 
             val icon = entry.icon.value?.let { iconStorage.getIcon(it) }
+
+            val iconSize = properties.getProperty("timeline_icon_size").toInt()
+            val resizedIcon = resizeBitmap(icon, iconSize, iconSize)
 
 
             val iconHeight = icon?.height ?: 0
             drawIcon(
                 canvas,
-                icon,
+                resizedIcon,
                 color,
                 Offset(midX, centerLine - timelinePadding - (iconHeight / 2) + yOffset)
             )
@@ -378,7 +397,7 @@ class ImageGenerator(
 
             drawText(
                 canvas,
-                "$timeValue $unit",
+                "${timeValue.toInt()} $unit",
                 color,
                 Offset(midX, centerLine + timelinePadding + yOffset),
                 textType = TextType.Label,
@@ -436,5 +455,18 @@ class ImageGenerator(
 
         // draw line
         canvas.drawLine(start, end, paint)
+    }
+
+    private fun resizeBitmap(bitmap: ImageBitmap?, width: Int, height: Int): ImageBitmap? {
+        if (bitmap == null) return null
+        val image = ImageBitmap(width, height)
+        val canvas = Canvas(image)
+        canvas.drawImageRect(
+            bitmap,
+            srcSize = IntSize(bitmap.width, bitmap.height),
+            dstSize = IntSize(width, height),
+            paint = Paint()
+        )
+        return image
     }
 }

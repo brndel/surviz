@@ -1,20 +1,15 @@
-package data.io.exporter
+package data.generator
 
 import androidx.compose.ui.graphics.toAwtImage
 import data.project.config.ProjectConfiguration
 import data.project.data.IconStorage
 import data.project.data.SituationOption
-import org.junit.jupiter.api.Assertions.*
 
 import org.junit.jupiter.api.Test
 import java.io.File
 import javax.imageio.ImageIO
 
 class ImageGeneratorTest {
-
-    @Test
-    fun generatePng() {
-    }
 
     @Test
     fun generateOptionTest() {

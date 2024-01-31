@@ -2,19 +2,15 @@ package ui
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Colors
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import data.io.exporter.ImageGenerator
+import data.generator.ImageGenerator
 import data.project.Project
 import ui.fields.IntField
 
@@ -64,7 +60,7 @@ fun Preview(project: Project) {
 
                     AnimatedContent(image) {
                         if (it != null) {
-                            Image(it, null)
+                            Image(it.image, null)
                         } else {
                             Text("Error while creating image '$errorText'")
                         }

@@ -1,4 +1,4 @@
-package data.project.config
+package data.generator.resources
 
 import androidx.compose.ui.graphics.PathEffect
 
@@ -15,5 +15,5 @@ enum class LineType(val pathEffect: PathEffect?) {
     /**
      * This is a dotted line.
      */
-    Dotted(PathEffect.dashPathEffect(floatArrayOf(10.0F, 10.0F)))
+    Dotted(PathEffect.dashPathEffect(floatArrayOf(3.0F, 3.0F)))
 }

@@ -1,6 +1,7 @@
 package data.project.config
 
 import androidx.compose.runtime.MutableState
+import data.generator.resources.LineType
 
 /**
  * This class represents a single timeline entry of the timeline of a situation.

@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.graphics.Color
+import data.generator.resources.LineType
 import data.project.config.columns.SchemeColumns
 
 import data.project.config.columns.SingleValueColumn
@@ -30,7 +31,8 @@ class SituationConfig {
          * this method adds a new timeline entry.
          */
         fun addTimelineEntry(){
-                val newTimelineEntry: TimelineEntry = TimelineEntry(mutableStateOf(null), mutableStateOf(""), mutableStateOf(LineType.Solid))
+                val newTimelineEntry: TimelineEntry = TimelineEntry(mutableStateOf(null), mutableStateOf(""), mutableStateOf(
+                    LineType.Solid))
                 timeline.add(newTimelineEntry)
         }
 
