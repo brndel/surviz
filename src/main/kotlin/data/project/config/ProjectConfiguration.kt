@@ -14,15 +14,9 @@ import java.util.UUID
  * @param situationConfig the configuration of situations. Each situation is assigned a name.
  */
 class ProjectConfiguration {
-    private val singleValueConfigOrder: SnapshotStateList<UUID>
-    private val singleValueConfig: SnapshotStateMap<UUID, SingleValueConfig>
-    private val situationConfig: SnapshotStateMap<String, SituationConfig>
-
-    init {
-        singleValueConfigOrder = SnapshotStateList<UUID>()
-        singleValueConfig = SnapshotStateMap<UUID, SingleValueConfig>()
-        situationConfig = SnapshotStateMap<String, SituationConfig>()
-    }
+    private val singleValueConfigOrder: SnapshotStateList<UUID> = SnapshotStateList<UUID>()
+    private val singleValueConfig: SnapshotStateMap<UUID, SingleValueConfig> = SnapshotStateMap<UUID, SingleValueConfig>()
+    private val situationConfig: SnapshotStateMap<String, SituationConfig> = SnapshotStateMap<String, SituationConfig>()
 
     /**
      * This method adds a single value to the project.
@@ -71,6 +65,10 @@ class ProjectConfiguration {
      */
     fun getSituationConfig(): SnapshotStateMap<String, SituationConfig> {
         return situationConfig
+    }
+
+    fun getSituationConfig(name: String): SituationConfig? {
+        return situationConfig[name]
     }
 
     fun getSingleValueConfigOrder(): SnapshotStateList<UUID> {
