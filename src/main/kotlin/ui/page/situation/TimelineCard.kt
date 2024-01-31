@@ -12,7 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import data.project.config.LineType
+import data.generator.resources.LineType
 import data.project.config.TimelineEntry
 import org.burnoutcrew.reorderable.ReorderableState
 import ui.fields.IconField
