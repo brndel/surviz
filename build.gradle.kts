@@ -1,4 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
@@ -20,6 +21,15 @@ dependencies {
     // (in a separate module for demo project and in testMain).
     // With compose.desktop.common you will also lose @Preview functionality
     implementation(compose.desktop.currentOs)
+    implementation("com.darkrockstudios:mpfilepicker:3.1.0")
+    implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
+    testImplementation(kotlin("test"))
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    implementation("com.google.code.gson:gson:2.8.8")
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 compose.desktop {
@@ -32,4 +42,8 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    languageVersion = "1.9"
 }
