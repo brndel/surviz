@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.graphics.Color
+import data.project.config.columns.SchemeColumns
 
 import data.project.config.columns.SingleValueColumn
 import java.util.UUID
@@ -66,5 +67,9 @@ class SituationConfig {
          */
         fun getTimeline(): List<TimelineEntry>{
                 return timeline
+        }
+
+        fun getColumns(id: UUID): SingleValueColumn{
+               return singleValueColumns.getOrPut(id) { SchemeColumns }
         }
 }
