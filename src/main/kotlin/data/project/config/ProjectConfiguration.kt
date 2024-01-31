@@ -3,6 +3,7 @@ package data.project.config
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.snapshots.SnapshotStateMap
+import data.project.config.columns.SchemeColumns
 import java.util.UUID
 
 /**
@@ -67,8 +68,8 @@ class ProjectConfiguration {
         return situationConfig
     }
 
-    fun getSituationConfig(name: String): SituationConfig? {
-        return situationConfig[name]
+    fun getSituationConfig(name: String): SituationConfig {
+        return situationConfig.getOrPut(name) { SituationConfig() }
     }
 
     fun getSingleValueConfigOrder(): SnapshotStateList<UUID> {
