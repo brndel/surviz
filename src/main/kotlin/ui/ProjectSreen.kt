@@ -40,7 +40,7 @@ fun ProjectScreen(project: Project) {
                     when (currentPage) {
                         Page.SingleValue -> SingleValuePage(project.configuration)
                         Page.Situation -> SituationPage(project.configuration, project.dataScheme)
-                        Page.Export -> Label(Labels.PAGE_EXPORT)
+                        Page.Export -> ExportPage(project)
                     }
                 }
 
