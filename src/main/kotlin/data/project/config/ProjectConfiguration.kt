@@ -15,17 +15,10 @@ import java.util.UUID
  * @param situationConfig the configuration of situations. Each situation is assigned a name.
  */
 class ProjectConfiguration {
-    private val singleValueConfigOrder: SnapshotStateList<UUID>
-    private val singleValueConfig: SnapshotStateMap<UUID, SingleValueConfig>
-    private val situationConfig: SnapshotStateMap<String, SituationConfig>
-    val imageConfig: ImageConfig
-
-    init {
-        singleValueConfigOrder = SnapshotStateList<UUID>()
-        singleValueConfig = SnapshotStateMap<UUID, SingleValueConfig>()
-        situationConfig = SnapshotStateMap<String, SituationConfig>()
-        imageConfig = TODO()
-    }
+    private val singleValueConfigOrder: SnapshotStateList<UUID> = mutableStateListOf()
+    private val singleValueConfig: SnapshotStateMap<UUID, SingleValueConfig> = mutableStateMapOf()
+    private val situationConfig: SnapshotStateMap<String, SituationConfig> = mutableStateMapOf()
+    val imageConfig: ImageConfig = ImageConfig()
 
     /**
      * This method adds a single value to the project.

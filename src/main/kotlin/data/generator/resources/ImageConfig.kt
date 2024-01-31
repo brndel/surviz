@@ -1,6 +1,8 @@
 package data.generator.resources
 
-import androidx.compose.runtime.FloatState
-import androidx.compose.runtime.IntState
+import androidx.compose.runtime.*
 
-data class ImageConfig(val width: IntState, val timelineScaling: FloatState)
+data class ImageConfig(
+    val width: MutableIntState = mutableIntStateOf(650),
+    val timelineScaling: MutableDoubleState = mutableDoubleStateOf(1.0)
+) // TODO read width value from configuration file

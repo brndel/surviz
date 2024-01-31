@@ -343,7 +343,7 @@ class ImageGenerator(
             if (timeValue == 0F) continue
 
             val endX: Float =
-                startX + timeValue * imageConfig.timelineScaling.value
+                startX + timeValue * imageConfig.timelineScaling.value.toFloat()
 
             drawTimelineSectionLine(
                 canvas,
