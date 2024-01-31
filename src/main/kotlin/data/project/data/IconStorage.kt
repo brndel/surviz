@@ -97,7 +97,6 @@ class IconStorage {
         val walker = File("src/main/resources/icons").walk(FileWalkDirection.TOP_DOWN)
         for (entry in walker) {
             if (entry.isFile) {
-                println("storing $entry")
                 storeIcon(entry.path)
             }
         }
