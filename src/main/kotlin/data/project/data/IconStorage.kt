@@ -5,12 +5,11 @@ import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.res.useResource
 import org.jetbrains.skia.Data
 import org.jetbrains.skia.Image
 import org.jetbrains.skia.svg.*
 import java.io.File
-import javax.imageio.ImageIO
+import java.io.Serializable
 
 
 /**
@@ -21,7 +20,7 @@ import javax.imageio.ImageIO
  *
  * @property icons The icons of the project
  */
-class IconStorage {
+class IconStorage : Serializable {
     private val icons: SnapshotStateMap<String, ImageBitmap> = mutableStateMapOf()
 
     init {
