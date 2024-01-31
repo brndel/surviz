@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import data.generator.resources.ImageConfig
 import data.generator.resources.ImageResult
 import data.generator.resources.TextType
-import data.project.config.LineType
+import data.generator.resources.LineType
 import data.project.config.ProjectConfiguration
 import data.project.config.SituationConfig
 import data.project.config.columns.ZeroColumn
@@ -461,7 +461,12 @@ class ImageGenerator(
         if (bitmap == null) return null
         val image = ImageBitmap(width, height)
         val canvas = Canvas(image)
-        canvas.drawImageRect(bitmap, srcSize = IntSize(width, height), paint = Paint())
+        canvas.drawImageRect(
+            bitmap,
+            srcSize = IntSize(bitmap.width, bitmap.height),
+            dstSize = IntSize(width, height),
+            paint = Paint()
+        )
         return image
     }
 }
