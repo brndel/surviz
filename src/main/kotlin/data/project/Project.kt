@@ -91,7 +91,6 @@ class Project(
         }
 
 
-
     }
 
     companion object {
@@ -118,7 +117,8 @@ class Project(
          * @param projectFile The project file to load.
          */
         fun loadProjectFromFile(projectFile: File): Project {
-            TODO()
+            val file = projectFile.readText()
+            return Gson().fromJson(file, Project::class.java)
         }
     }
 
