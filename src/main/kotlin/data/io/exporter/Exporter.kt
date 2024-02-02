@@ -1,7 +1,6 @@
 package data.io.exporter
 
 import data.project.Project
-import data.project.config.ProjectConfiguration
 import data.resources.fields.NamedField
 
 /**
@@ -17,7 +16,8 @@ interface Exporter {
 
     /**
      * This method returns the fields that the UI uses to configure the export.
-     * @return The fields that can be exported.
+     * @param project project to get the fields for
+     * * @return The fields that can be exported.
      */
-    fun getFields(): List<NamedField>
+    fun getFields(project: Project): List<NamedField>
 }
