@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextPainter
 import androidx.compose.ui.text.TextStyle
@@ -17,6 +18,8 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 import data.generator.resources.ImageConfig
 import data.generator.resources.ImageResult
 import data.generator.resources.LineType
@@ -181,12 +184,12 @@ class ImageGenerator(
     /**
      * Draws text on a [canvas]
      *
-     * @param canvas base canvas the text should be drawn on
+     * @param canvas base [Canvas] the text should be drawn on
      * @param text the text to draw on canvas
-     * @param color color of the text
+     * @param color [Color] of the text
      * @param position top-left corner of the text
      * @param textType type of text, determines text size
-     * @param centerX if true center text around x coordinate of offset
+     * @param centerX if true center text around x coordinate of [position]
      * @param width
      */
     private fun drawText(
@@ -198,9 +201,12 @@ class ImageGenerator(
         centerX: Boolean,
         width: Int? = null
     ) {
+        // configure text style
+        val fontSize: TextUnit = properties.getProperty(textType.fontSizeKey).toFloat().sp
+
         val style = TextStyle(
             color = color,
-            fontSize = textType.fontSize,
+            fontSize = fontSize,
             fontWeight = textType.fontWeight,
             textAlign = if (width != null) TextAlign.Center else null
         )
@@ -231,10 +237,10 @@ class ImageGenerator(
     /**
      * Draw icon around given center point
      *
-     * @param canvas
-     * @param icon
-     * @param color
-     * @param center
+     * @param canvas [Canvas] to draw on
+     * @param icon icon that should be drawn on the [canvas]
+     * @param color [Color] of the [icon]
+     * @param center center point the [icon] should be drawn on
      */
     private fun drawIcon(canvas: Canvas, icon: ImageBitmap?, color: Color, center: Offset) {
         if (icon == null) return
@@ -260,11 +266,11 @@ class ImageGenerator(
     /**
      * Draw all single values
      *
-     * @param canvas
-     * @param color
-     * @param optionConfig
-     * @param option
-     * @param centerLine
+     * @param canvas [Canvas] to draw on
+     * @param color [Color] of the single values
+     * @param optionConfig config of the [SituationOption]
+     * @param option [SituationOption] the single values should be drawn for
+     * @param centerLine y-position of the center line
      */
     private fun drawSingleValues(
         canvas: Canvas,
@@ -329,12 +335,12 @@ class ImageGenerator(
     /**
      * Draw timeline
      *
-     * @param canvas
-     * @param color
-     * @param option
-     * @param optionConfig
-     * @param dividerX
-     * @param centerLine
+     * @param canvas [Canvas] to draw on
+     * @param color [Color] of the timeline
+     * @param option [SituationOption] the timeline should be drawn for
+     * @param optionConfig config of the [SituationOption]
+     * @param dividerX x-position of the line dividing single value section and timeline section
+     * @param centerLine y-position of the center line
      */
     private fun drawTimeline(
         canvas: Canvas,
@@ -411,10 +417,10 @@ class ImageGenerator(
     /**
      * Draw timeline divider
      *
-     * @param canvas
-     * @param color
-     * @param x
-     * @param centerLine
+     * @param canvas [Canvas] to draw on
+     * @param color [Color] of the divider
+     * @param x x-position of the divider
+     * @param centerLine y-position of the center line
      */
     private fun drawTimelineDivider(canvas: Canvas, color: Color, x: Float, centerLine: Float) {
         val linePaint = Paint().apply {
@@ -433,11 +439,11 @@ class ImageGenerator(
     /**
      * Draw timeline section line
      *
-     * @param canvas
-     * @param start
-     * @param end
-     * @param type
-     * @param color
+     * @param canvas [Canvas] to draw on
+     * @param start start point of the line
+     * @param end end point of the line
+     * @param type [LineType] of the line
+     * @param color [Color] of the line
      */
     private fun drawTimelineSectionLine(
         canvas: Canvas,
@@ -446,17 +452,38 @@ class ImageGenerator(
         type: LineType,
         color: Color
     ) {
+        // create path effect
+        val lineKey = type.lineKey
+        val spaceKey = type.spaceKey
+
+        var pathEffect: PathEffect? = null
+
+        if (lineKey != null && spaceKey != null) {
+            val lineLength = properties.getProperty(lineKey).toFloat()
+            val spaceLength = properties.getProperty(spaceKey).toFloat()
+
+            pathEffect = PathEffect.dashPathEffect(floatArrayOf(lineLength, spaceLength))
+        }
+
         // setup paint
         val paint = Paint()
         paint.style = PaintingStyle.Stroke
         paint.color = color
         paint.strokeWidth = properties.getProperty("timeline_weight").toFloat()
-        paint.pathEffect = type.pathEffect
+        paint.pathEffect = pathEffect
 
         // draw line
         canvas.drawLine(start, end, paint)
     }
 
+    /**
+     * Resizes the given bitmap to given size
+     *
+     * @param bitmap [ImageBitmap] to resize
+     * @param width width of resized bitmap
+     * @param height height of resized bitmap
+     * @return resized [ImageBitmap]
+     */
     private fun resizeBitmap(bitmap: ImageBitmap?, width: Int, height: Int): ImageBitmap? {
         if (bitmap == null) return null
         val image = ImageBitmap(width, height)
