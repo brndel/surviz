@@ -59,7 +59,7 @@ fun SituationTab(
         }
 
         item {
-            ColorField(color) { color = it }
+            ColorField(color, { color = it })
         }
 
         item {
