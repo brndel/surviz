@@ -7,7 +7,7 @@ import data.resources.fields.NamedField
 /**
  * This class implements the [Exporter] interface and exports the project to an HTML file.
  */
-class HtmlExporter : Exporter {
+object HtmlExporter : Exporter {
     /**
      * This method exports the project to an HTML file.
      *
@@ -22,7 +22,7 @@ class HtmlExporter : Exporter {
      * This method returns the fields that the UI uses to configure the export.
      * @return The fields of the exporter.
      */
-    override fun getFields(): List<NamedField> {
+    override fun getFields(project: Project): List<NamedField> {
         TODO("Not yet implemented")
     }
 }

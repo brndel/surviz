@@ -8,13 +8,13 @@ enum class ExporterVariant(private val exporter: Exporter) {
     /**
      * The exporter variant for [PngExporter]
      */
-    Png(PngExporter()),
+    Png(PngExporter),
 
     /**
      * The exporter variant for [HtmlExporter]
      *
      */
-    Html(HtmlExporter());
+    Html(HtmlExporter);
 
     /**
      * This method returns the exporter for the given type.
