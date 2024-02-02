@@ -34,6 +34,12 @@ object Labels {
 
     const val SELECT_COLUMN_NAME = "SELECT_COLUMN_NAME"
     const val SELECT_COLUMN_DESC = "SELECT_COLUMN_DESC"
+
+    const val EXPORT_SELECT_ALL_BLOCKS = "SELECT_ALL_BLOCKS"
+    const val EXPORT_SELECT_ALL_SITUATIONS = "SELECT_ALL_SITUATIONS"
+    const val EXPORT_SEPARATE_OPTIONS="EXPORT_SEPARATE_OPTIONS"
+    const val EXPORT_OUTPUT_PATH="EXPORT_OUTPUT_PATH"
+    const val EXPORT_FILE_NAME_SCHEME="EXPORT_FILE_NAME_SCHEME"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -71,6 +77,12 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.SELECT_COLUMN_NAME to "Select",
             Labels.SELECT_COLUMN_DESC to "Select columns by hand",
+
+            Labels.EXPORT_SELECT_ALL_BLOCKS to "Select all blocks",
+            Labels.EXPORT_SELECT_ALL_SITUATIONS to "Select all situations",
+            Labels.EXPORT_SEPARATE_OPTIONS to "Export all options separately",
+            Labels.EXPORT_OUTPUT_PATH to "Output path",
+            Labels.EXPORT_FILE_NAME_SCHEME to "File name scheme",
         )
     ),
     German(
@@ -107,6 +119,12 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.SELECT_COLUMN_NAME to "Auswählen",
             Labels.SELECT_COLUMN_DESC to "Wähle die Spalten von Hand aus",
+
+            Labels.EXPORT_SELECT_ALL_BLOCKS to "Alle Blöcke auswählen",
+            Labels.EXPORT_SELECT_ALL_SITUATIONS to "Alle Situationen auswählen",
+            Labels.EXPORT_SEPARATE_OPTIONS to "Alle Optionen seperat exportieren",
+            Labels.EXPORT_OUTPUT_PATH to "Speicherpfad",
+            Labels.EXPORT_FILE_NAME_SCHEME to "Schema für Dateinamen",
         )
     );
 
