@@ -243,17 +243,14 @@ object PngExporter : Exporter {
 
     private fun saveBitmap(bitmap: ImageBitmap, path: String, name: String) {
         var outputPath = path
-        if (!path.endsWith("\\")) {
-            outputPath += "\\"
-        }
+        // append path with \ if not present
+        path.takeIf { !it.endsWith("\\") }?.run { outputPath += "\\" }
 
-        outputPath += name
-        outputPath += ".png"
+        outputPath += "$name.png"
 
         val bufferedImage = bitmap.toAwtImage()
         val outputFile = File(outputPath)
 
         ImageIO.write(bufferedImage, "png", outputFile)
     }
-
 }
