@@ -41,7 +41,7 @@ object PngExporter : Exporter {
 
     private const val DEFAULT_SCHEME = "block_\$block\$_situation_\$situation\$_option_\$option\$"
 
-    private val defaultPath = "C:\\Users\\${System.getProperty("user.name")}\\Desktop"
+    private val defaultPath = "C:\\Users\\${System.getProperty("user.name")}\\Desktop\\SurViz"
 
     private lateinit var imageGenerator: ImageGenerator
 
@@ -257,6 +257,10 @@ object PngExporter : Exporter {
 
         val bufferedImage = bitmap.toAwtImage()
         val outputFile = File(outputPath)
+
+        if (!outputFile.exists()) {
+            outputFile.mkdirs()
+        }
 
         ImageIO.write(bufferedImage, "png", outputFile)
     }
