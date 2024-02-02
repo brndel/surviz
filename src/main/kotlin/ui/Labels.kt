@@ -14,6 +14,7 @@ object Labels {
     const val PAGE_EXPORT = "PAGE_EXPORT"
     const val NEW = "NEW"
     const val SELECT = "SELECT"
+    const val OK = "OK"
 
     const val FIELD_UNIT = "FIELD_UNIT"
     const val FIELD_COLUMN_SCHEME = "FIELD_COLUMN_SCHEME"
@@ -40,6 +41,9 @@ object Labels {
     const val EXPORT_SEPARATE_OPTIONS="EXPORT_SEPARATE_OPTIONS"
     const val EXPORT_OUTPUT_PATH="EXPORT_OUTPUT_PATH"
     const val EXPORT_FILE_NAME_SCHEME="EXPORT_FILE_NAME_SCHEME"
+
+    const val IMPORT_ERROR_INVALID_FILE_TYPE = "IMPORT_ERROR_INVALID_FILE_TYPE"
+    const val IMPORT_ERROR_CORRUPT_FILE = "IMPORT_ERROR_CORRUPT_FILE"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -57,6 +61,7 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.NEW to "New",
             Labels.SELECT to "Select",
+            Labels.OK to "Ok",
 
             Labels.FIELD_UNIT to "Unit",
             Labels.FIELD_COLUMN_SCHEME to "Column scheme",
@@ -99,6 +104,7 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.NEW to "Neu",
             Labels.SELECT to "Auswählen",
+            Labels.OK to "Ok",
 
             Labels.FIELD_UNIT to "Einheit",
             Labels.FIELD_COLUMN_SCHEME to "Spaltenschema",
