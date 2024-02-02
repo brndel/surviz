@@ -15,6 +15,7 @@ import data.project.data.DataScheme
 import ui.Label
 import ui.Labels
 import ui.fields.ColorField
+import ui.util.NestedSurface
 
 /**
  * On this page the user can edit the situations of a [ProjectConfiguration].
@@ -31,10 +32,8 @@ fun SituationPage(projectConfiguration: ProjectConfiguration, dataScheme: DataSc
     Column(Modifier.fillMaxSize().padding(4.dp)) {
         Label(Labels.PAGE_SITUATION, style = MaterialTheme.typography.h4)
 
-        Surface(
+        NestedSurface(
             Modifier.padding(16.dp).weight(1F),
-            color = MaterialTheme.colors.surface,
-            shape = RoundedCornerShape(4.dp)
         ) {
             Column {
                 TabRow(selectedTabIndex = selectedTab, modifier = Modifier.height(42.dp)) {

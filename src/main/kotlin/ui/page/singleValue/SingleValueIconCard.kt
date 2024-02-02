@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import data.project.config.SingleValueIcon
 import ui.fields.DoubleField
 import ui.fields.IconField
+import ui.util.NestedSurface
 
 /**
  * In this card the user can edit a [SingleValueIcon].
@@ -32,10 +33,7 @@ import ui.fields.IconField
 fun SingleValueIconCard(icon: SingleValueIcon) {
     var baseIcon by icon.baseIcon
 
-    Surface(
-        color = MaterialTheme.colors.background,
-        shape = RoundedCornerShape(4.dp),
-    ) {
+    NestedSurface {
         Column(
             Modifier.padding(4.dp).fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(4.dp)

@@ -24,6 +24,7 @@ import ui.Labels
 import ui.fields.ColorField
 import ui.fields.OptionsField
 import ui.fields.IconStorageImage
+import ui.util.NestedSurface
 import java.util.*
 
 /**
@@ -68,10 +69,8 @@ fun SituationTab(
         items(singleValueIds, key = { it }) { id ->
             val column = config.getColumns(id)
 
-            Surface(
+            NestedSurface (
                 modifier = Modifier.fillMaxWidth(),
-                color = MaterialTheme.colors.background,
-                shape = RoundedCornerShape(4.dp)
             ) {
                 Row(Modifier.padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                     val singleValueConfig = singleValues[id] ?: return@Row
@@ -101,10 +100,8 @@ fun SituationTab(
         }
 
         item {
-            Surface(
+            NestedSurface(
                 modifier = Modifier.fillMaxWidth().heightIn(min = 32.dp, max = 4069.dp),
-                color = MaterialTheme.colors.background,
-                shape = RoundedCornerShape(4.dp)
             ) {
                 val reorderState = rememberReorderableLazyListState({ a, b ->
                     config.swapTimelineOrder(a.index, b.index)

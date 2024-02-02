@@ -15,6 +15,7 @@ import data.project.config.SingleValueConfig
 import org.burnoutcrew.reorderable.ReorderableState
 import ui.Label
 import ui.Labels
+import ui.util.NestedSurface
 import ui.util.ReorderHandle
 
 /**
@@ -41,9 +42,7 @@ fun SingleValueCard(
         }
     )
 
-    Surface(
-        color = MaterialTheme.colors.surface,
-        shape = RoundedCornerShape(4.dp),
+    NestedSurface(
         elevation = elevation
     ) {
         Row(

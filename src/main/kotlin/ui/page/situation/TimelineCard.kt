@@ -17,6 +17,7 @@ import data.project.config.TimelineEntry
 import org.burnoutcrew.reorderable.ReorderableState
 import ui.fields.IconField
 import ui.fields.OptionsField
+import ui.util.NestedSurface
 import ui.util.ReorderHandle
 
 /**
@@ -33,11 +34,7 @@ fun TimelineCard(entry: TimelineEntry, onDelete: () -> Unit, columns: List<Strin
     var column by entry.column
     var lineType by entry.lineType
 
-    Surface(
-        color = MaterialTheme.colors.surface,
-        shape = RoundedCornerShape(4.dp)
-    ) {
-
+    NestedSurface {
         Row(Modifier.padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             ReorderHandle(reorderState)
 
