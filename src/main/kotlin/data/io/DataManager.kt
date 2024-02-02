@@ -22,7 +22,7 @@ object DataManager {
      * @param file The file to load the data from.
      * @return The loaded data as [ProjectData].
      *
-     * @throws NullPointerException if no right importer was found
+     * @throws FileTypeException if no right importer was found
      */
     fun loadData(file: File): ProjectData {
         // Choose right Importer
