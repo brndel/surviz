@@ -19,13 +19,13 @@ import androidx.compose.ui.window.Popup
  * @param onColorChange gets called when the color gets changed by the user
  */
 @Composable
-fun ColorField(color: Color, onColorChange: (Color) -> Unit) {
+fun ColorField(color: Color, onColorChange: (Color) -> Unit, modifier: Modifier = Modifier, label: @Composable (() -> Unit)? = null) {
     var popupOpen by remember { mutableStateOf(false) }
 
     var hexColor by remember { mutableStateOf(color.toHex()) }
     var isError by remember { mutableStateOf(false) }
 
-    OutlinedTextField(value = hexColor, singleLine = true, onValueChange = {
+    OutlinedTextField(value = hexColor, singleLine = true, modifier = modifier, label = label, onValueChange = {
         hexColor = it
         val col = Color.fromHex(it)
         isError = col != null
