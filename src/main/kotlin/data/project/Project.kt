@@ -56,18 +56,19 @@ class Project(
      * @param path The path to save the project data.
      */
     fun saveProjectData(path: String) {
-        val gsonData = Gson()
-        val jsonData = gsonData.toJson(data)
+        val gson = GsonBuilder()
+            .setExclusionStrategies(object : com.google.gson.ExclusionStrategy {
+                override fun shouldSkipField(f: com.google.gson.FieldAttributes): Boolean {
+                    return false
+                }
 
-        val gsonScheme = Gson()
-        val jsonScheme = gsonScheme.toJson(dataScheme)
-
-        val gsonConfig = Gson()
-        val jsonConfig = gsonConfig.toJson(configuration)
-
-
-
-
+                override fun shouldSkipClass(clazz: Class<*>): Boolean {
+                    return clazz == SnapshotStateMap::class.java
+                }
+            })
+            .setPrettyPrinting()
+            .create()
+        val json = gson.toJson(this)
 
         val filename = "test.svd"
 
