@@ -17,9 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogWindow
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import data.io.DataManager
 import data.project.Project
+import data.resources.exceptions.CorruptFileException
+import data.resources.exceptions.FileTypeException
 import java.io.File
 
 /**
@@ -32,6 +35,7 @@ import java.io.File
 @Composable
 fun WelcomeScreen(onProjectLoad: (Project) -> Unit) {
     var fileExplorerTarget: FileExplorerTarget? by remember { mutableStateOf(null) }
+    var errorDialogLabel: String? by remember { mutableStateOf(null) }
 
     Box(Modifier.fillMaxSize()) {
         Column(
@@ -94,7 +98,15 @@ fun WelcomeScreen(onProjectLoad: (Project) -> Unit) {
 
         val project = when (target) {
             FileExplorerTarget.NewProject -> {
-                val data = DataManager.loadData(file)
+                val data = try {
+                    DataManager.loadData(file)
+                } catch (e: FileTypeException) {
+                    errorDialogLabel = Labels.IMPORT_ERROR_INVALID_FILE_TYPE
+                    return@FilePicker
+                } catch (e: CorruptFileException) {
+                    errorDialogLabel = Labels.IMPORT_ERROR_CORRUPT_FILE
+                    return@FilePicker
+                }
                 Project.newProjectWithData(data)
             }
 
@@ -106,6 +118,20 @@ fun WelcomeScreen(onProjectLoad: (Project) -> Unit) {
         }
 
         onProjectLoad(project)
+    }
+
+    errorDialogLabel?.let {
+        DialogWindow(onCloseRequest = {errorDialogLabel = null}) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Label(it)
+                Button({errorDialogLabel = null}) {
+                    Label(Labels.OK)
+                }
+            }
+        }
     }
 }
 
