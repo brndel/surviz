@@ -112,7 +112,7 @@ class ImageGenerator(
         // initialize values
         neededWidth = 0
         val optionConfig =
-            config.getSituationConfig()[option.name] ?: throw NoSuchFieldException()
+            config.getSituationConfig(option.name)
 
         // scale image dynamically based on count of single values
         val singleValueCount = config.getSingleValues().size
@@ -279,12 +279,10 @@ class ImageGenerator(
         option: SituationOption,
         centerLine: Float
     ) {
-        val columns = optionConfig.singleValueColumns.toMap()
-
-        for (id in config.getSingleValueConfigOrder().toList()) {
+        for ((index, id) in config.getSingleValueConfigOrder().withIndex()) {
             // don't draw if wrong config
             val singleValueConfig = config.getSingleValues()[id] ?: continue
-            val column = columns[id] ?: continue
+            val column = optionConfig.getColumns(id)
 
             val value = column.getValue(singleValueConfig, optionConfig, option)
             val unit = singleValueConfig.unit.value
@@ -297,7 +295,7 @@ class ImageGenerator(
             }
 
             // draw text
-            val count = config.getSingleValueConfigOrder().toList().indexOf(id) + 1
+            val count = index + 1
             val size = properties.getProperty("single_value_size").toFloat()
 
             val x = padding.toFloat() + (size * count) - (size / 2)

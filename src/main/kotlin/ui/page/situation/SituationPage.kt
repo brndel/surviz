@@ -45,14 +45,7 @@ fun SituationPage(projectConfiguration: ProjectConfiguration, dataScheme: DataSc
                 }
                 val selectedOption = dataScheme.options[selectedTab]
 
-                val selectedSituation = run {
-                    projectConfiguration.getSituationConfig()
-                        .getOrPut(
-                            selectedOption.name
-                        ) {
-                            SituationConfig()
-                        }
-                }
+                val selectedSituation = projectConfiguration.getSituationConfig(selectedOption.name)
 
                 key(selectedTab) {
                     SituationTab(
