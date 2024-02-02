@@ -1,7 +1,9 @@
 package data.project
 
 
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import data.project.config.ProjectConfiguration
 import data.project.data.DataScheme
 import data.project.data.IconStorage
@@ -77,10 +79,7 @@ class Project(
             val writer = FileWriter(file)
 
             // Write content to the file
-            writer.write(jsonData + "\n")
-            writer.write(jsonScheme + "\n")
-            writer.write(jsonConfig + "\n")
-
+            writer.write(json)
 
             // Close the FileWriter
             writer.close()
