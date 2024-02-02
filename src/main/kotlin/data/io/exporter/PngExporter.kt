@@ -3,6 +3,9 @@ package data.io.exporter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toAwtImage
 import data.generator.ImageGenerator
+import data.io.exporter.resources.ExportResult
+import data.io.exporter.resources.errors.ExportError
+import data.io.exporter.resources.errors.ImageSizeExportError
 import data.project.Project
 import data.project.data.Block
 import data.project.data.Situation
@@ -102,7 +105,7 @@ object PngExporter : Exporter {
         return fields
     }
 
-    override fun export(project: Project, exportConfig: Map<String, Any>) {
+    override fun export(project: Project, exportConfig: Map<String, Any>): ExportResult {
         imageGenerator = ImageGenerator(project.configuration, project.iconStorage)
 
         val scheme = exportConfig[SCHEME_KEY].toString()
@@ -123,7 +126,7 @@ object PngExporter : Exporter {
 
         val separateOptions = exportConfig[SEPARATE_OPTION_KEY].toString().toBoolean()
 
-        var wrongSize = false
+        val errorList = ArrayList<ExportError?>()
 
         CoroutineScope(Dispatchers.IO).launch {
             val widthList = coroutineScope {
@@ -142,11 +145,9 @@ object PngExporter : Exporter {
                     }
                 }.awaitAll()
             }
-            wrongSize = widthList.contains(true)
+            errorList.addAll(widthList.flatten())
         }
-        if (wrongSize) {
-            //TODO("handle too small images")
-        }
+        return ExportResult(errorList.filterNotNull())
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -161,7 +162,7 @@ object PngExporter : Exporter {
         allSituations: Boolean,
         situationId: Int,
         separateOptions: Boolean
-    ): Boolean {
+    ): List<ExportError?> {
         val situations = ArrayList<Situation>()
 
         if (allSituations) {
@@ -170,7 +171,7 @@ object PngExporter : Exporter {
             situations.add(block.situations[situationId - 1])
         }
 
-        val widthList = coroutineScope {
+        val resultList = coroutineScope {
             situations.map { situation ->
                 async {
                     val id = block.situations.indexOf(situation) + 1
@@ -178,7 +179,7 @@ object PngExporter : Exporter {
                 }
             }.awaitAll()
         }
-        return widthList.contains(true)
+        return resultList.flatten()
     }
 
     private suspend fun saveSituation(
@@ -188,7 +189,7 @@ object PngExporter : Exporter {
         scheme: String,
         path: String,
         separateOptions: Boolean
-    ): Boolean {
+    ): List<ExportError?> {
         // check if options need to be separated
         if (!separateOptions) {
             // save whole option
@@ -200,10 +201,13 @@ object PngExporter : Exporter {
                 "situation" to situationId.toString()
             )
             saveBitmap(imageResult.image, path, fileName)
-            return imageResult.neededWidth > imageResult.image.width
+            if(imageResult.neededWidth > imageResult.image.width) {
+                return arrayListOf( ImageSizeExportError(imageResult.neededWidth, blockId, situationId))
+            }
+            return arrayListOf()
         }
 
-        val widthList = coroutineScope {
+        val errorList = coroutineScope {
             situation.options.map { option ->
                 async {
                     val id = situation.options.indexOf(option) + 1
@@ -211,7 +215,7 @@ object PngExporter : Exporter {
                 }
             }.awaitAll()
         }
-        return widthList.contains(true)
+        return errorList
     }
 
     private fun saveOption(
@@ -221,7 +225,7 @@ object PngExporter : Exporter {
         blockId: Int,
         scheme: String,
         path: String
-    ): Boolean {
+    ): ExportError? {
         val imageResult = imageGenerator.generateOption(option)
         val fileName = getNameFromScheme(
             scheme,
@@ -230,7 +234,10 @@ object PngExporter : Exporter {
             "option" to optionId.toString()
         )
         saveBitmap(imageResult.image, path, fileName)
-        return imageResult.neededWidth > imageResult.image.width
+       if(imageResult.neededWidth > imageResult.image.width) {
+           return ImageSizeExportError(imageResult.neededWidth, blockId, situationId, optionId)
+       }
+        return null
     }
 
     private fun getNameFromScheme(template: String, vararg values: Pair<String, String>): String {
