@@ -1,5 +1,6 @@
 package data.io.exporter
 
+import data.io.exporter.resources.ExportResult
 import data.project.Project
 import data.resources.fields.NamedField
 
@@ -12,7 +13,7 @@ interface Exporter {
      * @param project The project.
      * @param exportConfig The export configuration.
      */
-    fun export(project: Project, exportConfig: Map<String, Any>)
+    fun export(project: Project, exportConfig: Map<String, Any>): ExportResult
 
     /**
      * This method returns the fields that the UI uses to configure the export.
