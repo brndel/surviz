@@ -25,7 +25,8 @@ dependencies {
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
-    implementation("com.google.code.gson:gson:2.8.8")
+    implementation("com.google.code.gson:gson:2.8.9")
+
 
 }
 
