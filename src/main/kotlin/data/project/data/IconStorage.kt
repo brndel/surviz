@@ -99,12 +99,5 @@ class IconStorage : Serializable {
                 storeIcon(entry.path)
             }
         }
-//        this.javaClass.classLoader.getResourceAsStream("icons")?.bufferedReader()
-//            ?.useLines { lines ->
-//                lines.forEach {
-//                    storeIcon("src/main/resources/icons/$it")
-//
-//                }
-//            }
     }
 }
