@@ -1,18 +1,47 @@
 package data.io.exporter
 
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.toAwtImage
+import data.generator.ImageGenerator
 import data.project.Project
+import data.project.data.Block
+import data.project.data.Situation
+import data.project.data.SituationOption
 import data.resources.fields.BooleanFieldData
 import data.resources.fields.FileSchemeFieldData
 import data.resources.fields.IntFieldData
 import data.resources.fields.NamedField
 import data.resources.fields.OptionsFieldData
 import data.resources.fields.StringFieldData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import ui.Labels
+import java.io.File
+import javax.imageio.ImageIO
 
 /**
  * This class implements the [Exporter] interface and exports the project to a PNG file.
  */
 object PngExporter : Exporter {
+
+    private const val BLOCK_KEY = "block"
+    private const val ALL_BLOCK_KEY = "all_blocks"
+    private const val SITUATION_KEY = "situation"
+    private const val ALL_SITUATION_KEY = "all_situations"
+    private const val SEPARATE_OPTION_KEY = "separate_options"
+    private const val PATH_KEY = "path"
+    private const val SCHEME_KEY = "scheme"
+
+    private const val DEFAULT_SCHEME = "block_\$block\$_situation_\$situation\$_option_\$option\$"
+
+    private val defaultPath = "C:\\Users\\${System.getProperty("user.name")}\\Desktop"
+
+    private lateinit var imageGenerator: ImageGenerator
+
     ///////////////////////////////////////////////////////////////////////////////
     // public functions
     ///////////////////////////////////////////////////////////////////////////////
@@ -30,21 +59,41 @@ object PngExporter : Exporter {
                 addAll((1..blockCount).map(Int::toString))
             }
         }
-        fields.add(NamedField("block", OptionsFieldData("1", Labels.BLOCK, blockOptionList)))
-        fields.add(NamedField("all blocks", BooleanFieldData(true, Labels.EXPORT_SELECT_ALL_BLOCKS)))
-
-        fields.add(NamedField("situation", IntFieldData(1, Labels.SITUATION, 1, Int.MAX_VALUE)))
-        fields.add(NamedField("all situations", BooleanFieldData(true, Labels.EXPORT_SELECT_ALL_SITUATIONS)))
-
-        fields.add(NamedField("separate options", BooleanFieldData(true, Labels.EXPORT_SEPARATE_OPTIONS)))
-
-        // configure output files
-        fields.add(NamedField("path", StringFieldData("C:\\Users\\user\\Desktop", Labels.EXPORT_OUTPUT_PATH)))
+        fields.add(NamedField(BLOCK_KEY, OptionsFieldData("1", Labels.BLOCK, blockOptionList)))
         fields.add(
             NamedField(
-                "scheme",
+                ALL_BLOCK_KEY,
+                BooleanFieldData(true, Labels.EXPORT_SELECT_ALL_BLOCKS)
+            )
+        )
+
+        fields.add(NamedField(SITUATION_KEY, IntFieldData(1, Labels.SITUATION, 1, Int.MAX_VALUE)))
+        fields.add(
+            NamedField(
+                ALL_SITUATION_KEY,
+                BooleanFieldData(true, Labels.EXPORT_SELECT_ALL_SITUATIONS)
+            )
+        )
+
+        fields.add(
+            NamedField(
+                SEPARATE_OPTION_KEY,
+                BooleanFieldData(true, Labels.EXPORT_SEPARATE_OPTIONS)
+            )
+        )
+
+        // configure output files
+        fields.add(
+            NamedField(
+                PATH_KEY,
+                StringFieldData(defaultPath, Labels.EXPORT_OUTPUT_PATH)
+            )
+        )
+        fields.add(
+            NamedField(
+                SCHEME_KEY,
                 FileSchemeFieldData(
-                    "block_\$block\$_situation_\$situation\$_option_\$option\$",
+                    DEFAULT_SCHEME,
                     Labels.EXPORT_FILE_NAME_SCHEME,
                     arrayListOf("block", "situation", "option")
                 )
@@ -54,10 +103,157 @@ object PngExporter : Exporter {
     }
 
     override fun export(project: Project, exportConfig: Map<String, Any>) {
+        imageGenerator = ImageGenerator(project.configuration, project.iconStorage)
 
+        val scheme = exportConfig[SCHEME_KEY].toString()
+        val path = exportConfig[PATH_KEY].toString()
+
+        val blocks = ArrayList<Block>()
+        val allBlocks = exportConfig[ALL_BLOCK_KEY].toString().toBoolean()
+
+        if (allBlocks) {
+            blocks.addAll(project.data.blocks)
+        } else {
+            val block = exportConfig[BLOCK_KEY].toString().toInt()
+            blocks.add(project.data.blocks[block - 1])
+        }
+
+        val allSituations = exportConfig[ALL_SITUATION_KEY].toString().toBoolean()
+        val situation = exportConfig[SITUATION_KEY].toString().toInt()
+
+        val separateOptions = exportConfig[SEPARATE_OPTION_KEY].toString().toBoolean()
+
+        var wrongSize = false
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val widthList = coroutineScope {
+                blocks.map { block ->
+                    async {
+                        val blockId = project.data.blocks.indexOf(block) + 1
+                        saveBlock(
+                            block,
+                            blockId,
+                            scheme,
+                            path,
+                            allSituations,
+                            situation,
+                            separateOptions
+                        )
+                    }
+                }.awaitAll()
+            }
+            wrongSize = widthList.contains(true)
+        }
+        if (wrongSize) {
+            //TODO("handle too small images")
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////
     // private functions
     ///////////////////////////////////////////////////////////////////////////////
+
+    private suspend fun saveBlock(
+        block: Block,
+        blockId: Int,
+        scheme: String,
+        path: String,
+        allSituations: Boolean,
+        situationId: Int,
+        separateOptions: Boolean
+    ): Boolean {
+        val situations = ArrayList<Situation>()
+
+        if (allSituations) {
+            situations.addAll(block.situations)
+        } else {
+            situations.add(block.situations[situationId - 1])
+        }
+
+        val widthList = coroutineScope {
+            situations.map { situation ->
+                async {
+                    val id = block.situations.indexOf(situation) + 1
+                    saveSituation(situation, id, blockId, scheme, path, separateOptions)
+                }
+            }.awaitAll()
+        }
+        return widthList.contains(true)
+    }
+
+    private suspend fun saveSituation(
+        situation: Situation,
+        situationId: Int,
+        blockId: Int,
+        scheme: String,
+        path: String,
+        separateOptions: Boolean
+    ): Boolean {
+        // check if options need to be separated
+        if (!separateOptions) {
+            // save whole option
+            val imageResult = imageGenerator.generateSituation(situation)
+            // TODO("maybe exclude the situation placeholder?")
+            val fileName = getNameFromScheme(
+                scheme,
+                "block" to blockId.toString(),
+                "situation" to situationId.toString()
+            )
+            saveBitmap(imageResult.image, path, fileName)
+            return imageResult.neededWidth > imageResult.image.width
+        }
+
+        val widthList = coroutineScope {
+            situation.options.map { option ->
+                async {
+                    val id = situation.options.indexOf(option) + 1
+                    saveOption(option, id, situationId, blockId, scheme, path)
+                }
+            }.awaitAll()
+        }
+        return widthList.contains(true)
+    }
+
+    private fun saveOption(
+        option: SituationOption,
+        optionId: Int,
+        situationId: Int,
+        blockId: Int,
+        scheme: String,
+        path: String
+    ): Boolean {
+        val imageResult = imageGenerator.generateOption(option)
+        val fileName = getNameFromScheme(
+            scheme,
+            "block" to blockId.toString(),
+            "situation" to situationId.toString(),
+            "option" to optionId.toString()
+        )
+        saveBitmap(imageResult.image, path, fileName)
+        return imageResult.neededWidth > imageResult.image.width
+    }
+
+    private fun getNameFromScheme(template: String, vararg values: Pair<String, String>): String {
+        var result = template
+        values.forEach { (placeholder, replacement) ->
+            result = result.replace("\$$placeholder\$", replacement)
+        }
+        return result
+    }
+
+    private fun saveBitmap(bitmap: ImageBitmap, path: String, name: String) {
+        var outputPath = path
+        if (!path.endsWith("\\")) {
+            outputPath += "\\"
+        }
+
+        outputPath += name
+        outputPath += ".png"
+
+        val bufferedImage = bitmap.toAwtImage()
+        val outputFile = File(outputPath)
+
+        ImageIO.write(bufferedImage, "png", outputFile)
+    }
+
 }
