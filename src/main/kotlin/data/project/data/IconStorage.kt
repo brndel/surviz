@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.nativeCanvas
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializer
+import data.resources.exceptions.FileTypeException
 import org.jetbrains.skia.Data
 import org.jetbrains.skia.Image
 import org.jetbrains.skia.Rect
@@ -73,7 +74,7 @@ class IconStorage {
                 loadPngIcon(bytes)
             }
 
-            else -> throw Exception("Icon type not supported")
+            else -> throw FileTypeException("Icon type not supported")
         }
     }
 
