@@ -25,6 +25,7 @@ import kotlinx.coroutines.launch
 import ui.Labels
 import java.io.File
 import javax.imageio.ImageIO
+import kotlin.io.path.Path
 
 /**
  * This class implements the [Exporter] interface and exports the project to a PNG file.
@@ -41,7 +42,15 @@ object PngExporter : Exporter {
 
     private const val DEFAULT_SCHEME = "block_\$block\$_situation_\$situation\$_option_\$option\$"
 
-    private val defaultPath = "C:\\Users\\${System.getProperty("user.name")}\\Desktop\\SurViz"
+    private val defaultPath: String
+        get() {
+            val osName = System.getProperty("os.name").lowercase()
+            return if (osName.startsWith("win")) {
+                "C:\\Users\\${System.getProperty("user.name")}\\Desktop\\SurViz"
+            } else {
+                "/home/${System.getProperty("user.name")}/surviz"
+            }
+        }
 
     private lateinit var imageGenerator: ImageGenerator
 
@@ -201,8 +210,8 @@ object PngExporter : Exporter {
                 "situation" to situationId.toString()
             )
             saveBitmap(imageResult.image, path, fileName)
-            if(imageResult.neededWidth > imageResult.image.width) {
-                return arrayListOf( ImageSizeExportError(imageResult.neededWidth, blockId, situationId))
+            if (imageResult.neededWidth > imageResult.image.width) {
+                return arrayListOf(ImageSizeExportError(imageResult.neededWidth, blockId, situationId))
             }
             return arrayListOf()
         }
@@ -234,9 +243,9 @@ object PngExporter : Exporter {
             "option" to optionId.toString()
         )
         saveBitmap(imageResult.image, path, fileName)
-       if(imageResult.neededWidth > imageResult.image.width) {
-           return ImageSizeExportError(imageResult.neededWidth, blockId, situationId, optionId)
-       }
+        if (imageResult.neededWidth > imageResult.image.width) {
+            return ImageSizeExportError(imageResult.neededWidth, blockId, situationId, optionId)
+        }
         return null
     }
 
@@ -249,14 +258,10 @@ object PngExporter : Exporter {
     }
 
     private fun saveBitmap(bitmap: ImageBitmap, path: String, name: String) {
-        var outputPath = path
-        // append path with \ if not present
-        path.takeIf { !it.endsWith("\\") }?.run { outputPath += "\\" }
-
-        outputPath += "$name.png"
+        val outputPath = Path(path, name)
 
         val bufferedImage = bitmap.toAwtImage()
-        val outputFile = File(outputPath)
+        val outputFile = outputPath.toFile()
 
         if (!outputFile.exists()) {
             outputFile.mkdirs()
