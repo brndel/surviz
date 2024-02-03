@@ -3,9 +3,9 @@ package data.io.exporter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toAwtImage
 import data.generator.ImageGenerator
-import data.io.exporter.resources.ExportResult
-import data.io.exporter.resources.errors.ExportError
-import data.io.exporter.resources.errors.ImageSizeExportError
+import data.io.exporter.result.ExportResult
+import data.io.exporter.result.errors.ExportError
+import data.io.exporter.result.errors.ImageSizeExportError
 import data.project.Project
 import data.project.data.Block
 import data.project.data.Situation
@@ -23,7 +23,6 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import ui.Labels
-import java.io.File
 import javax.imageio.ImageIO
 import kotlin.io.path.Path
 

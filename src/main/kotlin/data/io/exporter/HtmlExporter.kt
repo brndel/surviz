@@ -1,8 +1,7 @@
 package data.io.exporter
 
-import data.io.exporter.resources.ExportResult
+import data.io.exporter.result.ExportResult
 import data.project.Project
-import data.project.config.ProjectConfiguration
 import data.resources.fields.NamedField
 
 /**
