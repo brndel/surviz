@@ -48,6 +48,11 @@ object Labels {
     const val ICON_SELECT_WINDOW = "ICON_SELECT_WINDOW"
 
     const val UNNAMED_PROJECT = "UNNAMED_PROJECT"
+
+    const val APP_BAR_GROUP_FILE = "APP_BAR_GROUP_FILE"
+    const val ACTION_SAVE = "ACTION_SAVE"
+    const val ACTION_CLOSE = "ACTION_CLOSE"
+    const val ACTION_OPEN_SETTINGS = "ACTION_OPEN_SETTINGS"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -96,6 +101,11 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.ICON_SELECT_WINDOW to "Select icon",
 
             Labels.UNNAMED_PROJECT to "Untitled project",
+
+            Labels.APP_BAR_GROUP_FILE to "File",
+            Labels.ACTION_SAVE to "Save file",
+            Labels.ACTION_CLOSE to "Close file",
+            Labels.ACTION_OPEN_SETTINGS to "Open Settings",
         )
     ),
     German(
@@ -143,6 +153,11 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.ICON_SELECT_WINDOW to "Icon auswählen",
 
             Labels.UNNAMED_PROJECT to "Unbenanntes Projekt",
+
+            Labels.APP_BAR_GROUP_FILE to "Datei",
+            Labels.ACTION_SAVE to "Datei speichern",
+            Labels.ACTION_CLOSE to "Datei schließen",
+            Labels.ACTION_OPEN_SETTINGS to "Einstellungen öffnen",
         )
     );
 
