@@ -5,11 +5,17 @@ import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.nativeCanvas
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonObject
+import com.google.gson.JsonSerializer
 import org.jetbrains.skia.Data
 import org.jetbrains.skia.Image
+import org.jetbrains.skia.Rect
 import org.jetbrains.skia.svg.*
 import java.io.File
 import java.util.Base64
+import java.util.UUID
+import kotlin.math.max
 
 
 /**
@@ -18,15 +24,16 @@ import java.util.Base64
  * So when accessed on different devices the icons are available.
  * The icons are stored in the project data and can be accessed with getIcon.
  *
- * @property icons The icons of the project
+ * @property internalIcons The icons of the project
  */
 class IconStorage {
-    private val icons: SnapshotStateMap<String, ImageBitmap> = mutableStateMapOf()
+    private val internalIcons: SnapshotStateMap<String, ImageBitmap> = mutableStateMapOf()
+    private val userIcons: SnapshotStateMap<String, UserIcon> = mutableStateMapOf()
 
-    private val userIconsBits: LinkedHashMap<String, String> = linkedMapOf()
+    private data class UserIcon(val image: ImageBitmap, val filePath: String, val originalFileBase64: String)
 
     init {
-        loadInitIcons()
+        loadInternalIcons()
     }
 
 
@@ -34,34 +41,41 @@ class IconStorage {
      * This method stores an icon.
      * @param filePath the file path
      */
-    fun storeIcon(imagePath: String, userIcon: Boolean) {
+    fun storeIcon(imagePath: String) {
+        val file = File(imagePath)
+        val bytes = file.readBytes()
 
-        when (imagePath.substringAfterLast(".", "")) {
+        storeUserIcon(bytes, file.absolutePath)
+    }
 
+    private fun storeUserIcon(bytes: ByteArray, filePath: String, id: String = UUID.randomUUID().toString()) {
+        val icon = createIcon(bytes, File(filePath).extension)
+
+        val userIcon = UserIcon(icon, filePath, Base64.getEncoder().encodeToString(bytes))
+        userIcons[id] = userIcon
+    }
+
+    private fun storeInternalIcon(imagePath: String) {
+        val file = File(imagePath)
+        val icon = createIcon(file.readBytes(), file.extension)
+
+        internalIcons[imagePath] = icon
+    }
+
+
+    private fun createIcon(bytes: ByteArray, extension: String): ImageBitmap {
+        return when (extension) {
             "svg" -> {
-                val bytes: ByteArray = File(imagePath).readBytes()
-                val icon = loadSvgIcon(bytes)
-                if (userIcon) {
-                    userIconsBits[imagePath] = Base64.getEncoder().encodeToString(bytes)
-                }
-                icons[imagePath] = icon
-
+                loadSvgIcon(bytes)
             }
 
             "png" -> {
-                val bytes: ByteArray = File(imagePath).readBytes()
-                val icon = loadPngIcon(bytes)
-                if (userIcon) {
-                    userIconsBits[imagePath] = Base64.getEncoder().encodeToString(bytes)
-                }
-                icons[imagePath] = icon
-
+                loadPngIcon(bytes)
             }
 
             else -> throw Exception("Icon type not supported")
         }
     }
-
 
     /**
      * This method returns an icons string by a given icon path.
@@ -69,32 +83,38 @@ class IconStorage {
      * @return the icon as a string
      */
     fun getIcon(filePath: String): ImageBitmap? {
-        return icons[filePath]
+        return internalIcons[filePath]
     }
 
     fun getLoadedIconPaths(): List<String> {
-        return icons.keys.sorted()
+        return internalIcons.keys.sorted()
     }
 
     private fun loadPngIcon(bytes: ByteArray): ImageBitmap {
         val png = Image.makeFromEncoded(bytes)
-        val image = ImageBitmap(png.width, png.height, hasAlpha = true)
+        val image = ImageBitmap(ICON_SIZE, ICON_SIZE, hasAlpha = true)
         val canvas = Canvas(image)
-        canvas.nativeCanvas.drawImage(png, 0.0F, 0.0F)
+
+        val scaleFactor = ICON_SIZE.toFloat() / max(png.width, png.height)
+        val scaledWidth = png.width * scaleFactor
+        val scaledHeight = png.height * scaleFactor
+
+        val top = (ICON_SIZE.toFloat() - scaledHeight) / 2
+        val left = (ICON_SIZE.toFloat() - scaledWidth) / 2
+
+        canvas.nativeCanvas.drawImageRect(png, Rect.makeXYWH(left, top, scaledWidth, scaledHeight))
+
         return image
-
-
     }
 
     private fun loadSvgIcon(bytes: ByteArray): ImageBitmap {
         val svg = SVGDOM(Data.makeFromBytes(bytes))
 
-
-        val image = ImageBitmap(64, 64, hasAlpha = true)
+        val image = ImageBitmap(ICON_SIZE, ICON_SIZE, hasAlpha = true)
         val canvas = Canvas(image)
 
-        svg.root?.width = SVGLength(64.0F, SVGLengthUnit.PX)
-        svg.root?.height = SVGLength(64.0F, SVGLengthUnit.PX)
+        svg.root?.width = SVGLength(ICON_SIZE.toFloat(), SVGLengthUnit.PX)
+        svg.root?.height = SVGLength(ICON_SIZE.toFloat(), SVGLengthUnit.PX)
         svg.root?.preserveAspectRatio = SVGPreserveAspectRatio(SVGPreserveAspectRatioAlign.XMID_YMID)
         svg.render(canvas.nativeCanvas)
 
@@ -102,13 +122,49 @@ class IconStorage {
 
     }
 
-    private fun loadInitIcons() {
+    private fun loadInternalIcons() {
         val walker = File("src/main/resources/icons").walk(FileWalkDirection.TOP_DOWN)
         for (entry in walker) {
             if (entry.isFile) {
-                storeIcon(entry.path, false)
-
+                storeInternalIcon(entry.path)
             }
+        }
+    }
+
+    companion object {
+        const val ICON_SIZE = 64
+
+        val SERIALIZER = JsonSerializer<IconStorage> { iconStorage, _, _ ->
+            val json = JsonObject()
+
+            for ((id, icon) in iconStorage.userIcons.entries) {
+                val iconObj = JsonObject()
+
+                iconObj.addProperty("path", icon.filePath)
+                iconObj.addProperty("content", icon.originalFileBase64)
+
+                json.add(id, iconObj)
+            }
+
+            return@JsonSerializer json
+        }
+
+        val DESERIALIZER = JsonDeserializer { obj, _, _ ->
+            val iconStorage = IconStorage()
+
+            for (prop in obj.asJsonObject.entrySet()) {
+                val id = prop.key
+
+                val filePath = prop.value.asJsonObject.get("path").asString
+                val base64content = prop.value.asJsonObject.get("content").asString
+
+                val bytes = Base64.getDecoder().decode(base64content)
+
+                iconStorage.storeUserIcon(bytes, filePath, id)
+            }
+
+
+            return@JsonDeserializer iconStorage
         }
     }
 }
