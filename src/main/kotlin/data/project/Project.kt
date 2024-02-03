@@ -37,13 +37,7 @@ class Project(
      * @return True if the project data was loaded successfully, false otherwise.
      */
     fun loadProjectData(data: ProjectData, force: Boolean): Boolean {
-        if (!dataScheme.compareTo(data.dataScheme)) {
-            if (force) {
-                this.data = data
-                return true
-            }
-        }
-        if (dataScheme.compareTo(data.dataScheme)) {
+        if (force || dataScheme.compareTo(data.dataScheme)) {
             this.data = data
             return true
         }
