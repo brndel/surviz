@@ -258,7 +258,7 @@ object PngExporter : Exporter {
     }
 
     private fun saveBitmap(bitmap: ImageBitmap, path: String, name: String) {
-        val outputPath = Path(path, name)
+        val outputPath = Path(path, "$name.png")
 
         val bufferedImage = bitmap.toAwtImage()
         val outputFile = outputPath.toFile()
