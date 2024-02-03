@@ -1,4 +1,3 @@
-import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.CompositionLocalProvider
@@ -14,12 +13,14 @@ import ui.LocalLanguage
 import ui.MainScreen
 
 fun main() = application {
-    val windowState = rememberWindowState(width = 1700.dp, height = 900.dp, placement = WindowPlacement.Maximized)
+    val windowState =
+        rememberWindowState(width = 1700.dp, height = 900.dp, placement = WindowPlacement.Maximized)
     Window(onCloseRequest = ::exitApplication, state = windowState) {
         MaterialTheme(
             colors = lightColors(
                 background = Color(240, 240, 240),
-                surface = Color(230, 230, 230)
+                surface = Color(230, 230, 230),
+                primary = Color(64, 147, 138)
             )
         ) {
             val language = remember {
