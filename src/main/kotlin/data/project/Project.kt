@@ -55,7 +55,7 @@ class Project(
         val file = File(path)
         projectName.value = file.nameWithoutExtension
 
-        val json = gsonSerializer.toJson(this)
+        val json = GSON.toJson(this)
 
         file.writeText(json)
 
@@ -113,23 +113,37 @@ class Project(
         fun loadProjectFromFile(projectFile: File): Project {
             val file = projectFile.readText()
 
-            return gsonDeserializer.fromJson(file, Project::class.java)
+            return GSON.fromJson(file, Project::class.java)
         }
 
-        private val gsonSerializer: Gson by lazy {
+        private val GSON: Gson by lazy {
             GsonBuilder()
-                .registerTypeAdapter(IconStorage::class.java, IconStorage.SERIALIZER)
+                .registerTypeAdapter(IconStorage::class.java, IconStorage.serializer)
+                .registerTypeAdapter(IconStorage::class.java, IconStorage.deserializer)
+                // Project Config
+                .registerTypeAdapter(SingleValueConfig::class.java, SingleValueConfig.serializer)
+                .registerTypeAdapter(SingleValueConfig::class.java, SingleValueConfig.deserializer)
+                .registerTypeAdapter(SingleValueIcon::class.java, SingleValueIcon.serializer)
+                .registerTypeAdapter(SingleValueIcon::class.java, SingleValueIcon.deserializer)
+                .registerTypeAdapter(SingleValueIconLevel::class.java, SingleValueIconLevel.serializer)
+                .registerTypeAdapter(SingleValueIconLevel::class.java, SingleValueIconLevel.deserializer)
+                .registerTypeAdapter(ImageConfig::class.java, ImageConfig.serializer)
+                .registerTypeAdapter(ImageConfig::class.java, ImageConfig.deserializer)
+                .registerTypeAdapter(SituationConfig::class.java, SituationConfig.serializer)
+                .registerTypeAdapter(SituationConfig::class.java, SituationConfig.deserializer)
+                .registerTypeAdapter(TimelineEntry::class.java, TimelineEntry.serializer)
+                .registerTypeAdapter(TimelineEntry::class.java, TimelineEntry.deserializer)
+                // Columns
+                .registerTypeAdapter(ListColumns::class.java, SingleValueColumn.serializer)
+                .registerTypeAdapter(SchemeColumns::class.java, SingleValueColumn.serializer)
+                .registerTypeAdapter(TimelineColumns::class.java, SingleValueColumn.serializer)
+                .registerTypeAdapter(ZeroColumn::class.java, SingleValueColumn.serializer)
+
+                .registerTypeAdapter(SingleValueColumn::class.java, SingleValueColumn.deserializer)
+                //
                 .setPrettyPrinting()
                 .create()
-
         }
-        private val gsonDeserializer: Gson by lazy {
-            GsonBuilder()
-                .registerTypeAdapter(IconStorage::class.java, IconStorage.DESERIALIZER)
-                .create()
-        }
-
-
     }
 }
 
