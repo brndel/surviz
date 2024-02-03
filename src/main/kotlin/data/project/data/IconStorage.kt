@@ -2,14 +2,25 @@ package data.project.data
 
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.snapshots.SnapshotStateMap
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Canvas
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.res.loadImageBitmap
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import org.jetbrains.skia.Data
 import org.jetbrains.skia.Image
 import org.jetbrains.skia.svg.*
+import java.awt.image.BufferedImage
 import java.io.File
+import java.io.FileInputStream
 import java.util.Base64
+import javax.imageio.ImageIO
 
 
 /**
@@ -24,6 +35,9 @@ class IconStorage {
     private val icons: SnapshotStateMap<String, ImageBitmap> = mutableStateMapOf()
 
     private val userIconsBits: LinkedHashMap<String, String> = linkedMapOf()
+
+    private val iconWidth = 64
+    private val iconHeight = 64
 
     init {
         loadInitIcons()
@@ -49,10 +63,10 @@ class IconStorage {
             }
 
             "png" -> {
-                val bytes: ByteArray = File(imagePath).readBytes()
-                val icon = loadPngIcon(bytes)
+                val file = File(imagePath)
+                val icon = loadPngIcon(file)
                 if (userIcon) {
-                    userIconsBits[imagePath] = Base64.getEncoder().encodeToString(bytes)
+                    userIconsBits[imagePath] = Base64.getEncoder().encodeToString(file.readBytes())
                 }
                 icons[imagePath] = icon
 
@@ -76,14 +90,64 @@ class IconStorage {
         return icons.keys.sorted()
     }
 
-    private fun loadPngIcon(bytes: ByteArray): ImageBitmap {
-        val png = Image.makeFromEncoded(bytes)
-        val image = ImageBitmap(png.width, png.height, hasAlpha = true)
+    private fun loadPngIcon(file: File): ImageBitmap {
+        // this should also work for other formats according to
+        // https://docs.oracle.com/en/java/javase/17/docs/api/java.desktop/javax/imageio/package-summary.html
+        val originalImage = ImageIO.read(file)
+
+        val originalWidth = originalImage.width
+        val originalHeight = originalImage.height
+
+        // Calculate aspect ratios
+        val aspectRatio = originalWidth.toDouble() / originalHeight
+        val newAspectRatio = iconWidth.toDouble() / iconHeight
+
+        // Calculate new dimensions while preserving aspect ratio
+        val targetWidth: Int
+        val targetHeight: Int
+
+        if (aspectRatio > newAspectRatio) {
+            targetWidth = iconWidth
+            targetHeight = (iconWidth / aspectRatio).toInt()
+        } else {
+            targetWidth = (iconHeight * aspectRatio).toInt()
+            targetHeight = iconHeight
+        }
+
+        // resize image
+        val tmp = originalImage.getScaledInstance(targetWidth, targetHeight, java.awt.Image.SCALE_SMOOTH)
+        val dimg = BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB)
+
+        val g2d = dimg.createGraphics()
+        g2d.drawImage(tmp, 0, 0, null)
+        g2d.dispose()
+
+        val tempFile = File.createTempFile("image", ".png")
+        ImageIO.write(dimg, "png", tempFile)
+        val resizedBitmap = loadImageBitmap(FileInputStream(tempFile))
+
+        // center image
+        val image = ImageBitmap(iconWidth, iconHeight)
         val canvas = Canvas(image)
-        canvas.nativeCanvas.drawImage(png, 0.0F, 0.0F)
+
+        // make icon black
+        val paint = Paint()
+        paint.colorFilter = ColorFilter.colorMatrix(
+            ColorMatrix(
+                floatArrayOf(
+                    0f, 0f, 0f, 0f, 0f,
+                    0f, 0f, 0f, 0f, 0f,
+                    0f, 0f, 0f, 0f, 0f,
+                    0f, 0f, 0f, 1f, 0f
+                )
+            )
+        )
+        // Calculate the position to center the bitmap
+        val left = (iconWidth - resizedBitmap.width) / 2f
+        val top = (iconHeight - resizedBitmap.height) / 2f
+
+        canvas.drawImage(resizedBitmap, Offset(left, top), paint)
         return image
-
-
     }
 
     private fun loadSvgIcon(bytes: ByteArray): ImageBitmap {
@@ -95,7 +159,8 @@ class IconStorage {
 
         svg.root?.width = SVGLength(64.0F, SVGLengthUnit.PX)
         svg.root?.height = SVGLength(64.0F, SVGLengthUnit.PX)
-        svg.root?.preserveAspectRatio = SVGPreserveAspectRatio(SVGPreserveAspectRatioAlign.XMID_YMID)
+        svg.root?.preserveAspectRatio =
+            SVGPreserveAspectRatio(SVGPreserveAspectRatioAlign.XMID_YMID)
         svg.render(canvas.nativeCanvas)
 
         return image
