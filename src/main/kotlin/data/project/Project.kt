@@ -105,21 +105,37 @@ class Project(
 
     companion object {
 
-        private val savePath = "C:\\Users\\${System.getProperty("user.name")}\\AppData\\Local\\SurViz\\"
-        private const val SAVE_FILE_NAME = "save.txt"
+        private val lastProjectFilePath: String
+            get() {
+                val os = System.getProperty("os.name").lowercase()
+                return if (os.startsWith("win")) {
+                    "C:\\Users\\${System.getProperty("user.name")}\\AppData\\Local\\SurViz\\last_project.txt"
+                } else {
+                    "/home/${System.getProperty("user.name")}/.local/share/SurViz/last_project.txt"
+                }
+            }
 
         /**
          * Gets the file path from the last saved project. This can allows the user to immediately
          * continue working on their last project.
          * @return The path of the last saved project.
          */
-        fun getLastProjectFilePath(): String {
-            val file = File(savePath + SAVE_FILE_NAME)
+        fun getLastProjectFilePath(): String? {
+            val file = File(lastProjectFilePath)
 
             if (file.exists()) {
                 return file.readText()
             }
-            return ""
+            return null
+        }
+
+        private fun setLastProjectFilePath(filePath: String) {
+            val absolutePath = File(filePath).absolutePath
+
+            val lastProjectFile = File(lastProjectFilePath)
+            lastProjectFile.mkdirs()
+
+            lastProjectFile.writeText(absolutePath)
         }
 
         /**
