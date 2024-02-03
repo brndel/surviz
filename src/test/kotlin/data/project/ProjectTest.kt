@@ -11,17 +11,12 @@ class ProjectTest {
 
     @Test
     fun saveProjectData() {
-
-        val ngenePath = "C:\\Users\\Alex\\Desktop\\ngene.ngd"
+        val ngenePath = "src/test/resources/Sample.ngd"
         val project = Project.newProjectWithData(NgeneImporter.importFile(File(ngenePath)))
-        project.iconStorage.storeIcon("C:\\Users\\Alex\\Desktop\\test.png", true)
-        project.iconStorage.storeIcon("C:\\Users\\Alex\\Desktop\\test.png", true)
-        project.saveProjectData("C:\\Users\\Alex\\Desktop\\")
-        project.saveProjectData("")
-
-        Thread.sleep(200)
-
-
+        //project.iconStorage.storeIcon("C:\\Users\\Alex\\Desktop\\test.png", true)
+        //project.iconStorage.storeIcon("C:\\Users\\Alex\\Desktop\\test.png", true)
+        project.saveProjectData("src/test/resources/")
+        //project.saveProjectData("")
     }
 
     @Test
