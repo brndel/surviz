@@ -101,10 +101,16 @@ data class SituationConfig(
             val name = obj.get("name").asString
             val color = ctx.deserialize<Color>(obj.get("color"), Color::class.java)
 
-            val singleValueColumns = ctx.deserialize<SnapshotStateMap<UUID, SingleValueColumn>>(
-                obj.get("singleValueColumns"),
-                SnapshotStateMap::class.java
-            )
+            val jsonSingleValueColumns = obj.get("singleValueColumns").asJsonObject
+
+            val singleValueColumns = mutableStateMapOf<UUID, SingleValueColumn>()
+
+            for (entry in jsonSingleValueColumns.entrySet()) {
+                val uuid = UUID.fromString(entry.key)
+                val singleValueColumn = ctx.deserialize<SingleValueColumn>(entry.value, SingleValueColumn::class.java)
+
+                singleValueColumns[uuid] = singleValueColumn
+            }
 
             val timeline = mutableStateListOf<TimelineEntry>()
 
