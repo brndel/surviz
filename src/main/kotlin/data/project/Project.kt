@@ -86,6 +86,22 @@ class Project(
             writer.close()
 
             println("File '$ fileName' has been created with given content.")
+
+            // save path to AppData file
+            val savePathFile = File(savePath)
+            // mk directories if non existent
+            if (!savePathFile.exists()) {
+                savePathFile.mkdirs()
+            }
+
+            // make file if non existent
+            val propertiesFile = File(savePath + SAVE_FILE_NAME)
+            if (!propertiesFile.exists()) {
+                propertiesFile.createNewFile()
+            }
+
+            propertiesFile.writeText(file.absolutePath)
+
         } catch (e: Exception) {
             println("An error occurred: ${e.message}")
         }
@@ -94,12 +110,21 @@ class Project(
     }
 
     companion object {
+
+        private val savePath = "C:\\Users\\${System.getProperty("user.name")}\\AppData\\Local\\SurViz\\"
+        private const val SAVE_FILE_NAME = "save.txt"
+
         /**
          * Gets the file path from the last saved project. This can allows the user to immediately
          * continue working on their last project.
          * @return The path of the last saved project.
          */
         fun getLastProjectFilePath(): String {
+            val file = File(savePath + SAVE_FILE_NAME)
+
+            if (file.exists()) {
+                return file.readText()
+            }
             return ""
         }
 
