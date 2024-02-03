@@ -17,12 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogWindow
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import data.io.DataManager
 import data.project.Project
 import data.resources.exceptions.CorruptFileException
 import data.resources.exceptions.FileTypeException
+import ui.util.ErrorDialog
 import java.io.File
 
 /**
@@ -120,18 +120,8 @@ fun WelcomeScreen(onProjectLoad: (Project) -> Unit) {
         onProjectLoad(project)
     }
 
-    errorDialogLabel?.let {
-        DialogWindow(onCloseRequest = {errorDialogLabel = null}) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Label(it)
-                Button({errorDialogLabel = null}) {
-                    Label(Labels.OK)
-                }
-            }
-        }
+    ErrorDialog(errorDialogLabel) {
+        errorDialogLabel = null
     }
 }
 
