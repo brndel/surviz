@@ -15,8 +15,6 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonSerializer
 import data.resources.exceptions.FileTypeException
 import org.jetbrains.skia.Data
-import org.jetbrains.skia.Image
-import org.jetbrains.skia.Rect
 import org.jetbrains.skia.svg.*
 import java.awt.image.BufferedImage
 import java.io.File
@@ -24,7 +22,6 @@ import java.io.FileInputStream
 import java.util.Base64
 import java.util.UUID
 import javax.imageio.ImageIO
-import kotlin.math.max
 
 
 /**
@@ -39,7 +36,11 @@ class IconStorage {
     private val internalIcons: SnapshotStateMap<String, ImageBitmap> = mutableStateMapOf()
     private val userIcons: SnapshotStateMap<String, UserIcon> = mutableStateMapOf()
 
-    private data class UserIcon(val image: ImageBitmap, val filePath: String, val originalFileBase64: String)
+    private data class UserIcon(
+        val image: ImageBitmap,
+        val filePath: String,
+        val originalFileBase64: String
+    )
 
     init {
         loadInternalIcons()
@@ -58,7 +59,8 @@ class IconStorage {
     private fun storeUserIcon(file: File, id: String = UUID.randomUUID().toString()) {
         val icon = createIcon(file)
 
-        val userIcon = UserIcon(icon, file.absolutePath, Base64.getEncoder().encodeToString(file.readBytes()))
+        val userIcon =
+            UserIcon(icon, file.absolutePath, Base64.getEncoder().encodeToString(file.readBytes()))
         userIcons[id] = userIcon
     }
 
@@ -72,14 +74,8 @@ class IconStorage {
 
     private fun createIcon(file: File): ImageBitmap {
         return when (file.extension) {
-            "svg" -> {
-                loadSvgIcon(file)
-            }
-
-            "png" -> {
-                loadPngIcon(file)
-            }
-
+            "svg" -> { loadSvgIcon(file) }
+            "png" -> { loadPngIcon(file) }
             else -> throw FileTypeException("Icon type not supported")
         }
     }
@@ -122,7 +118,8 @@ class IconStorage {
         }
 
         // resize image
-        val tmp = originalImage.getScaledInstance(targetWidth, targetHeight, java.awt.Image.SCALE_SMOOTH)
+        val tmp =
+            originalImage.getScaledInstance(targetWidth, targetHeight, java.awt.Image.SCALE_SMOOTH)
         val dimg = BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB)
 
         val g2d = dimg.createGraphics()
@@ -165,11 +162,11 @@ class IconStorage {
 
         svg.root?.width = SVGLength(ICON_SIZE.toFloat(), SVGLengthUnit.PX)
         svg.root?.height = SVGLength(ICON_SIZE.toFloat(), SVGLengthUnit.PX)
-        svg.root?.preserveAspectRatio = SVGPreserveAspectRatio(SVGPreserveAspectRatioAlign.XMID_YMID)
+        svg.root?.preserveAspectRatio =
+            SVGPreserveAspectRatio(SVGPreserveAspectRatioAlign.XMID_YMID)
         svg.render(canvas.nativeCanvas)
 
         return image
-
     }
 
     private fun loadInternalIcons() {
@@ -215,8 +212,6 @@ class IconStorage {
 
                 iconStorage.storeUserIcon(file, id)
             }
-
-
             return@JsonDeserializer iconStorage
         }
     }
