@@ -49,7 +49,7 @@ class IconStorage {
 
     /**
      * This method stores an icon.
-     * @param filePath the file path
+     * @param imagePath the file path
      */
     fun storeIcon(imagePath: String) {
         val file = File(imagePath)
