@@ -17,12 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogWindow
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import data.io.DataManager
 import data.project.Project
 import data.resources.exceptions.CorruptFileException
 import data.resources.exceptions.FileTypeException
+import ui.util.ErrorDialog
 import java.io.File
 
 /**
@@ -52,13 +52,15 @@ fun WelcomeScreen(onProjectLoad: (Project) -> Unit) {
             }
 
             Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                val projectPath = remember { Project.getLastProjectFilePath() }
+
                 WelcomeScreenButton(
                     Labels.LOAD_LAST_PROJECT,
                     Icons.Default.Refresh,
-                    enabled = false
+                    enabled = projectPath != null,
+                    subLabel = projectPath?.let { { Text(it) } }
                 ) {
-                    val projectPath = Project.getLastProjectFilePath()
-                    val project = Project.loadProjectFromFile(File(projectPath))
+                    val project = Project.loadProjectFromFile(File(projectPath!!))
                     onProjectLoad(project)
                 }
 
@@ -120,18 +122,8 @@ fun WelcomeScreen(onProjectLoad: (Project) -> Unit) {
         onProjectLoad(project)
     }
 
-    errorDialogLabel?.let {
-        DialogWindow(onCloseRequest = {errorDialogLabel = null}) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Label(it)
-                Button({errorDialogLabel = null}) {
-                    Label(Labels.OK)
-                }
-            }
-        }
+    ErrorDialog(errorDialogLabel) {
+        errorDialogLabel = null
     }
 }
 
@@ -145,6 +137,7 @@ private fun WelcomeScreenButton(
     label: String,
     icon: ImageVector,
     enabled: Boolean = true,
+    subLabel: @Composable (() -> Unit)? = null,
     onClick: () -> Unit,
 ) {
     Column(
@@ -154,5 +147,6 @@ private fun WelcomeScreenButton(
             Icon(icon, null, modifier = Modifier.size(32.dp))
         }
         Label(label, style = MaterialTheme.typography.caption)
+        subLabel?.invoke()
     }
 }

@@ -4,7 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,14 +11,15 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogWindow
+import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import data.project.data.IconStorage
+import data.resources.exceptions.FileTypeException
 import ui.Label
 import ui.Labels
 import ui.LocalIconStorage
+import ui.util.ErrorDialog
 
 /**
  * An input field where the user can select an icon
@@ -64,9 +64,7 @@ private fun IconFieldDialog(currentIcon: String?, onIconChange: (String?) -> Uni
             }
 
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Button({}, enabled = false) {
-                    Text("Import Icon - TODO")
-                }
+                ImportIconButton()
 
                 Button({
                     onIconChange(selectedIcon)
@@ -77,6 +75,35 @@ private fun IconFieldDialog(currentIcon: String?, onIconChange: (String?) -> Uni
             }
         }
     }
+}
+
+@Composable
+private fun ImportIconButton(modifier: Modifier = Modifier) {
+    var filePickerOpen by remember { mutableStateOf(false) }
+    val iconStorage = LocalIconStorage.current
+    var errorLabel: String? by remember { mutableStateOf(null) }
+
+    Button(onClick = {
+        filePickerOpen = true
+    }, modifier) {
+        Text("Import Icon")
+    }
+
+    FilePicker(filePickerOpen) {
+        filePickerOpen = false
+
+        if (it == null || iconStorage == null) return@FilePicker
+
+        val path = it.path
+
+        try {
+            iconStorage.storeIcon(path)
+        } catch (e: FileTypeException) {
+            errorLabel = Labels.IMPORT_ERROR_INVALID_FILE_TYPE
+        }
+    }
+
+    ErrorDialog(errorLabel) { errorLabel = null }
 }
 
 @Composable
@@ -93,7 +120,11 @@ private fun IconFieldDialogButton(icon: String, selectedIcon: String?, iconStora
 }
 
 @Composable
-fun IconStorageImage(iconPath: String?, modifier: Modifier = Modifier, iconStorage: IconStorage? = LocalIconStorage.current) {
+fun IconStorageImage(
+    iconPath: String?,
+    modifier: Modifier = Modifier,
+    iconStorage: IconStorage? = LocalIconStorage.current
+) {
     if (iconPath == null) {
         Box(modifier.size(64.dp)) {
             Text("-", modifier = Modifier.align(Alignment.Center))

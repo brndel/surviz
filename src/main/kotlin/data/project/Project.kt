@@ -1,14 +1,13 @@
 package data.project
 
 
-import androidx.compose.runtime.snapshots.SnapshotStateMap
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.google.gson.*
 import data.project.config.ProjectConfiguration
 import data.project.data.DataScheme
 import data.project.data.IconStorage
 import java.io.File
-import java.io.FileWriter
+import kotlin.io.path.Path
+import kotlin.io.path.createParentDirectories
 
 /**
  * This class represents a project,which is the root of every SurViz project.
@@ -37,13 +36,7 @@ class Project(
      * @return True if the project data was loaded successfully, false otherwise.
      */
     fun loadProjectData(data: ProjectData, force: Boolean): Boolean {
-        if (!dataScheme.compareTo(data.dataScheme)) {
-            if (force) {
-                this.data = data
-                return true
-            }
-        }
-        if (dataScheme.compareTo(data.dataScheme)) {
+        if (force || dataScheme.compareTo(data.dataScheme)) {
             this.data = data
             return true
         }
@@ -56,76 +49,49 @@ class Project(
      * @param path The path to save the project data.
      */
     fun saveProjectData(path: String) {
-        val gson = GsonBuilder()
-            .setExclusionStrategies(object : com.google.gson.ExclusionStrategy {
-                override fun shouldSkipField(f: com.google.gson.FieldAttributes): Boolean {
-                    return false
-                }
+        val json = gsonSerializer.toJson(this)
 
-                override fun shouldSkipClass(clazz: Class<*>): Boolean {
-                    return clazz == SnapshotStateMap::class.java
-                }
-            })
-            .setPrettyPrinting()
-            .create()
-        val json = gson.toJson(this)
+        val file = File(path)
 
-        val filename = "test.svd"
+        file.writeText(json)
 
-        try {
-            // Create a File object for the specified file name
-            val file = File(path + filename)
-
-            // Create a FileWriter to write to the file
-            val writer = FileWriter(file)
-
-            // Write content to the file
-            writer.write(json)
-
-            // Close the FileWriter
-            writer.close()
-
-            println("File '$ fileName' has been created with given content.")
-
-            // save path to AppData file
-            val savePathFile = File(savePath)
-            // mk directories if non existent
-            if (!savePathFile.exists()) {
-                savePathFile.mkdirs()
-            }
-
-            // make file if non existent
-            val propertiesFile = File(savePath + SAVE_FILE_NAME)
-            if (!propertiesFile.exists()) {
-                propertiesFile.createNewFile()
-            }
-
-            propertiesFile.writeText(file.absolutePath)
-
-        } catch (e: Exception) {
-            println("An error occurred: ${e.message}")
-        }
-
-
+        setLastProjectFilePath(path)
     }
 
     companion object {
 
-        private val savePath = "C:\\Users\\${System.getProperty("user.name")}\\AppData\\Local\\SurViz\\"
-        private const val SAVE_FILE_NAME = "save.txt"
+        private val lastProjectFile: String
+            get() {
+                val os = System.getProperty("os.name").lowercase()
+                return if (os.startsWith("win")) {
+                    "C:\\Users\\${System.getProperty("user.name")}\\AppData\\Local\\SurViz\\last_project.txt"
+                } else {
+                    "/home/${System.getProperty("user.name")}/.local/share/SurViz/last_project.txt"
+                }
+            }
 
         /**
          * Gets the file path from the last saved project. This can allows the user to immediately
          * continue working on their last project.
          * @return The path of the last saved project.
          */
-        fun getLastProjectFilePath(): String {
-            val file = File(savePath + SAVE_FILE_NAME)
+        fun getLastProjectFilePath(): String? {
+            val file = File(lastProjectFile)
 
             if (file.exists()) {
                 return file.readText()
             }
-            return ""
+            return null
+        }
+
+        private fun setLastProjectFilePath(filePath: String) {
+            val absolutePath = File(filePath).absolutePath
+
+            val lastProjectFilePath = Path(lastProjectFile)
+
+            lastProjectFilePath.createParentDirectories()
+
+            lastProjectFilePath.toFile().writeText(absolutePath)
         }
 
         /**
@@ -134,7 +100,6 @@ class Project(
          */
         fun newProjectWithData(data: ProjectData): Project {
             return Project(data, data.dataScheme, ProjectConfiguration(), IconStorage())
-
         }
 
         /**
@@ -143,10 +108,25 @@ class Project(
          */
         fun loadProjectFromFile(projectFile: File): Project {
             val file = projectFile.readText()
-            return Gson().fromJson(file, Project::class.java)
-        }
-    }
 
+            return gsonDeserializer.fromJson(file, Project::class.java)
+        }
+
+        private val gsonSerializer: Gson by lazy {
+            GsonBuilder()
+                .registerTypeAdapter(IconStorage::class.java, IconStorage.SERIALIZER)
+                .setPrettyPrinting()
+                .create()
+
+        }
+        private val gsonDeserializer: Gson by lazy {
+            GsonBuilder()
+                .registerTypeAdapter(IconStorage::class.java, IconStorage.DESERIALIZER)
+                .create()
+        }
+
+
+    }
 }
 
 
