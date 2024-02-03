@@ -52,13 +52,13 @@ class Project(
      * @param path The path to save the project data.
      */
     fun saveProjectData(path: String) {
+        val file = File(path)
+        projectName.value = file.nameWithoutExtension
+
         val json = gsonSerializer.toJson(this)
 
-        val file = File(path)
-
         file.writeText(json)
-        projectName.value = file.nameWithoutExtension
-        println(projectName)
+
         setLastProjectFilePath(path)
     }
 
