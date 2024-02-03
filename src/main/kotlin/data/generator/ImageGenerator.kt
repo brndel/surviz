@@ -155,6 +155,7 @@ class ImageGenerator(
         drawSingleValues(canvas, color, optionConfig, option, centerLine)
 
         // draw divider line
+        val dividerLength = properties.getProperty("divider_length").toFloat()
         val dividerX =
             padding + singleValueSectionSize + properties.getProperty("column_padding").toFloat()
 
@@ -165,8 +166,8 @@ class ImageGenerator(
         }
 
         canvas.drawLine(
-            Offset(dividerX, padding.toFloat()),
-            Offset(dividerX, (height - padding).toFloat()),
+            Offset(dividerX, centerLine - dividerLength / 2),
+            Offset(dividerX, centerLine + dividerLength / 2),
             linePaint
         )
 
@@ -294,6 +295,8 @@ class ImageGenerator(
         centerLine: Float
     ) {
         for ((index, id) in config.getSingleValueConfigOrder().withIndex()) {
+            val yOffset = properties.getProperty("single_value_y_offset").toFloat()
+
             // don't draw if wrong config
             val singleValueConfig = config.getSingleValues()[id] ?: continue
             val column = optionConfig.getColumns(id)
@@ -318,7 +321,7 @@ class ImageGenerator(
                 newColor,
                 Offset(
                     x,
-                    centerLine + properties.getProperty("single_value_text_padding").toFloat()
+                    centerLine + properties.getProperty("single_value_text_padding").toFloat() + yOffset
                 ),
                 TextType.Label,
                 true
@@ -336,7 +339,7 @@ class ImageGenerator(
                     Offset(
                         x,
                         centerLine - properties.getProperty("single_value_icon_padding")
-                            .toFloat() - iconHeight / 2
+                            .toFloat() - (iconHeight / 2) + yOffset
                     )
                 )
             }
