@@ -1,0 +1,1 @@
+export results are used for storing errors and problems that come up during the export process
