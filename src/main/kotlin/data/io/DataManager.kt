@@ -29,7 +29,7 @@ object DataManager {
         val importer = getImporterByExtension(file.extension)
 
         // import file and return data if importer found, else throw exception
-        return importer?.importFile(file) ?: throw FileTypeException("No Importer found for file type: ${file.extension}")
+        return importer?.importFile(file) ?: throw FileTypeException(file.extension)
     }
 
     /**
@@ -55,12 +55,6 @@ object DataManager {
      * @return right importer if found, null if no right importer is present
      */
     private fun getImporterByExtension(extension: String): Importer? {
-        for (importerVariant in ImporterVariant.entries) {
-            val importer = importerVariant.getImporter()
-            if (importer.getType() == extension) {
-                return importer
-            }
-        }
-        return null
+        return ImporterVariant.entries.find { it.getImporter().getType() == extension }?.getImporter()
     }
 }
