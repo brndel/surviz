@@ -44,6 +44,8 @@ object Labels {
 
     const val IMPORT_ERROR_INVALID_FILE_TYPE = "IMPORT_ERROR_INVALID_FILE_TYPE"
     const val IMPORT_ERROR_CORRUPT_FILE = "IMPORT_ERROR_CORRUPT_FILE"
+
+    const val ICON_SELECT_WINDOW = "ICON_SELECT_WINDOW"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -88,6 +90,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.EXPORT_SEPARATE_OPTIONS to "Export all options separately",
             Labels.EXPORT_OUTPUT_PATH to "Output path",
             Labels.EXPORT_FILE_NAME_SCHEME to "File name scheme",
+
+            Labels.ICON_SELECT_WINDOW to "Select icon",
         )
     ),
     German(
@@ -131,6 +135,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.EXPORT_SEPARATE_OPTIONS to "Alle Optionen seperat exportieren",
             Labels.EXPORT_OUTPUT_PATH to "Speicherpfad",
             Labels.EXPORT_FILE_NAME_SCHEME to "Schema für Dateinamen",
+
+            Labels.ICON_SELECT_WINDOW to "Icon auswählen",
         )
     );
 

@@ -19,6 +19,7 @@ import data.resources.exceptions.FileTypeException
 import ui.Label
 import ui.Labels
 import ui.LocalIconStorage
+import ui.LocalLanguage
 import ui.util.ErrorDialog
 
 /**
@@ -46,7 +47,9 @@ private fun IconFieldDialog(currentIcon: String?, onIconChange: (String?) -> Uni
 
     val iconStorage = LocalIconStorage.current!!
 
-    DialogWindow(onCloseRequest = onDismissRequest) {
+    val windowName = LocalLanguage.current.getString(Labels.ICON_SELECT_WINDOW)
+
+    DialogWindow(onCloseRequest = onDismissRequest, title = windowName) {
         Column(Modifier.fillMaxSize()) {
             LazyVerticalGrid(
                 columns = GridCells.FixedSize(64.dp),
