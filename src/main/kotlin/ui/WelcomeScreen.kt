@@ -52,13 +52,15 @@ fun WelcomeScreen(onProjectLoad: (Project) -> Unit) {
             }
 
             Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                val projectPath = remember { Project.getLastProjectFilePath() }
+
                 WelcomeScreenButton(
                     Labels.LOAD_LAST_PROJECT,
                     Icons.Default.Refresh,
-                    enabled = false
+                    enabled = projectPath != null,
+                    subLabel = projectPath?.let { { Text(it) } }
                 ) {
-                    val projectPath = Project.getLastProjectFilePath()
-                    val project = Project.loadProjectFromFile(File(projectPath))
+                    val project = Project.loadProjectFromFile(File(projectPath!!))
                     onProjectLoad(project)
                 }
 
@@ -135,6 +137,7 @@ private fun WelcomeScreenButton(
     label: String,
     icon: ImageVector,
     enabled: Boolean = true,
+    subLabel: @Composable (() -> Unit)? = null,
     onClick: () -> Unit,
 ) {
     Column(
@@ -144,5 +147,6 @@ private fun WelcomeScreenButton(
             Icon(icon, null, modifier = Modifier.size(32.dp))
         }
         Label(label, style = MaterialTheme.typography.caption)
+        subLabel?.invoke()
     }
 }
