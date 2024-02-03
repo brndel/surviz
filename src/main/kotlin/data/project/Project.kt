@@ -1,11 +1,13 @@
 package data.project
 
 
-import com.google.gson.GsonBuilder
+import com.google.gson.*
 import data.project.config.ProjectConfiguration
 import data.project.data.DataScheme
 import data.project.data.IconStorage
 import java.io.File
+import kotlin.io.path.Path
+import kotlin.io.path.createParentDirectories
 
 /**
  * This class represents a project,which is the root of every SurViz project.
@@ -47,12 +49,7 @@ class Project(
      * @param path The path to save the project data.
      */
     fun saveProjectData(path: String) {
-        val gson = GsonBuilder()
-            .registerTypeAdapter(IconStorage::class.java, IconStorage.SERIALIZER)
-            .setPrettyPrinting()
-            .create()
-
-        val json = gson.toJson(this)
+        val json = gsonSerializer.toJson(this)
 
         val file = File(path)
 
@@ -63,7 +60,7 @@ class Project(
 
     companion object {
 
-        private val lastProjectFilePath: String
+        private val lastProjectFile: String
             get() {
                 val os = System.getProperty("os.name").lowercase()
                 return if (os.startsWith("win")) {
@@ -79,7 +76,7 @@ class Project(
          * @return The path of the last saved project.
          */
         fun getLastProjectFilePath(): String? {
-            val file = File(lastProjectFilePath)
+            val file = File(lastProjectFile)
 
             if (file.exists()) {
                 return file.readText()
@@ -90,10 +87,11 @@ class Project(
         private fun setLastProjectFilePath(filePath: String) {
             val absolutePath = File(filePath).absolutePath
 
-            val lastProjectFile = File(lastProjectFilePath)
-            lastProjectFile.mkdirs()
+            val lastProjectFilePath = Path(lastProjectFile)
 
-            lastProjectFile.writeText(absolutePath)
+            lastProjectFilePath.createParentDirectories()
+
+            lastProjectFilePath.toFile().writeText(absolutePath)
         }
 
         /**
@@ -110,12 +108,25 @@ class Project(
          */
         fun loadProjectFromFile(projectFile: File): Project {
             val file = projectFile.readText()
-            val gson = GsonBuilder().registerTypeAdapter(IconStorage::class.java, IconStorage.DESERIALIZER).create()
 
-            return gson.fromJson(file, Project::class.java)
+            return gsonDeserializer.fromJson(file, Project::class.java)
         }
-    }
 
+        private val gsonSerializer: Gson by lazy {
+            GsonBuilder()
+                .registerTypeAdapter(IconStorage::class.java, IconStorage.SERIALIZER)
+                .setPrettyPrinting()
+                .create()
+
+        }
+        private val gsonDeserializer: Gson by lazy {
+            GsonBuilder()
+                .registerTypeAdapter(IconStorage::class.java, IconStorage.DESERIALIZER)
+                .create()
+        }
+
+
+    }
 }
 
 
