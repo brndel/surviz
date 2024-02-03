@@ -1,6 +1,8 @@
 package data.project
 
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import com.google.gson.*
 import data.project.config.ProjectConfiguration
 import data.project.data.DataScheme
@@ -26,7 +28,8 @@ class Project(
     var data: ProjectData,
     var dataScheme: DataScheme,
     var configuration: ProjectConfiguration,
-    var iconStorage: IconStorage
+    var iconStorage: IconStorage,
+    var projectName: MutableState<String?> = mutableStateOf(null)
 ) {
     /**
      * This method loads the project data.
@@ -54,7 +57,8 @@ class Project(
         val file = File(path)
 
         file.writeText(json)
-
+        projectName.value = file.nameWithoutExtension
+        println(projectName)
         setLastProjectFilePath(path)
     }
 

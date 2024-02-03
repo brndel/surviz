@@ -25,7 +25,13 @@ import ui.page.situation.SituationPage
  * @ui ExportPage when Export is selected
  */
 @Composable
-fun ProjectScreen(project: Project) {
+fun ProjectScreen(project: Project, windowTitle: MutableState<String>) {
+    // set window title
+    var projectName = project.projectName.value
+    if (projectName == null) {
+        projectName = LocalLanguage.current.getString(Labels.UNNAMED_PROJECT)
+    }
+    windowTitle.value = "SurViz - $projectName"
     var currentPage: Page by remember { mutableStateOf(Page.SingleValue) }
 
     CompositionLocalProvider(

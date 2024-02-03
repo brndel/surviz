@@ -1,7 +1,10 @@
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -14,9 +17,10 @@ import ui.LocalLanguage
 import ui.MainScreen
 
 fun main() = application {
+    val windowTitle = remember { mutableStateOf("SurViz") }
     val windowState =
         rememberWindowState(width = 1700.dp, height = 900.dp, placement = WindowPlacement.Maximized)
-    Window(onCloseRequest = ::exitApplication, state = windowState, title = "SurViz", icon = painterResource("logo.png")) {
+    Window(onCloseRequest = ::exitApplication, state = windowState, title = windowTitle.value, icon = painterResource("logo.png")) {
         MaterialTheme(
             colors = lightColors(
                 background = Color(240, 240, 240),
@@ -33,7 +37,7 @@ fun main() = application {
             CompositionLocalProvider(
                 LocalLanguage provides language
             ) {
-                MainScreen()
+                MainScreen(windowTitle)
             }
         }
     }

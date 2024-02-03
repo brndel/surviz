@@ -46,6 +46,8 @@ object Labels {
     const val IMPORT_ERROR_CORRUPT_FILE = "IMPORT_ERROR_CORRUPT_FILE"
 
     const val ICON_SELECT_WINDOW = "ICON_SELECT_WINDOW"
+
+    const val UNNAMED_PROJECT = "UNNAMED_PROJECT"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -92,6 +94,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.EXPORT_FILE_NAME_SCHEME to "File name scheme",
 
             Labels.ICON_SELECT_WINDOW to "Select icon",
+
+            Labels.UNNAMED_PROJECT to "Untitled project",
         )
     ),
     German(
@@ -137,6 +141,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.EXPORT_FILE_NAME_SCHEME to "Schema für Dateinamen",
 
             Labels.ICON_SELECT_WINDOW to "Icon auswählen",
+
+            Labels.UNNAMED_PROJECT to "Unbenanntes Projekt",
         )
     );
 

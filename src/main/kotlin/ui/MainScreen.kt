@@ -14,7 +14,7 @@ import data.project.Project
  * @ui ProjectScreen is visible when a valid project is loaded
  */
 @Composable
-fun MainScreen() {
+fun MainScreen(windowTitle: MutableState<String>) {
     var project: Project? by remember { mutableStateOf(null) }
     var settingsWindowOpen by remember { mutableStateOf(false) }
 
@@ -24,7 +24,7 @@ fun MainScreen() {
         if (project == null) {
             WelcomeScreen { project = it }
         } else {
-            ProjectScreen(project!!)
+            ProjectScreen(project!!, windowTitle)
         }
 
         if (settingsWindowOpen) {
