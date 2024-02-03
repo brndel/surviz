@@ -1,0 +1,1 @@
+- Moved project and isSettingsWindowOpen to Main.kt

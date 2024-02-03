@@ -1,5 +1,7 @@
 package ui
 
+import GlobalCallbacks
+import LocalGlobalCallbacks
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -29,13 +31,13 @@ import java.io.File
  * This screen is visible when no project is currently loaded.
  * From here the user can open the most recent project or load a project from a file.
  * It is also possible to open the settings window from here
- *
- * @param onProjectLoad gets called when a valid [Project] gets loaded by the user
  */
 @Composable
-fun WelcomeScreen(onProjectLoad: (Project) -> Unit) {
+fun WelcomeScreen() {
     var fileExplorerTarget: FileExplorerTarget? by remember { mutableStateOf(null) }
     var errorDialogLabel: String? by remember { mutableStateOf(null) }
+
+    val globalCallbacks = LocalGlobalCallbacks.current!!
 
     Box(Modifier.fillMaxSize()) {
         Column(
@@ -60,8 +62,7 @@ fun WelcomeScreen(onProjectLoad: (Project) -> Unit) {
                     enabled = projectPath != null,
                     subLabel = projectPath?.let { { Text(it) } }
                 ) {
-                    val project = Project.loadProjectFromFile(File(projectPath!!))
-                    onProjectLoad(project)
+                    globalCallbacks.loadProject(projectPath!!)
                 }
 
                 WelcomeScreenButton(
@@ -78,13 +79,11 @@ fun WelcomeScreen(onProjectLoad: (Project) -> Unit) {
                     fileExplorerTarget = FileExplorerTarget.LoadProject
                 }
 
-                val openSettingsCallback = LocalSettingsCallback.current
-
                 WelcomeScreenButton(
                     Labels.SETTINGS,
                     Icons.Default.Settings
                 ) {
-                    openSettingsCallback.invoke()
+                    globalCallbacks.openSettings()
                 }
             }
         }
@@ -96,12 +95,10 @@ fun WelcomeScreen(onProjectLoad: (Project) -> Unit) {
 
         if (it == null) return@FilePicker
 
-        val file = File(it.path)
-
-        val project = when (target) {
+        when (target) {
             FileExplorerTarget.NewProject -> {
                 val data = try {
-                    DataManager.loadData(file)
+                    DataManager.loadData(File(it.path))
                 } catch (e: FileTypeException) {
                     errorDialogLabel = Labels.IMPORT_ERROR_INVALID_FILE_TYPE
                     return@FilePicker
@@ -109,17 +106,15 @@ fun WelcomeScreen(onProjectLoad: (Project) -> Unit) {
                     errorDialogLabel = Labels.IMPORT_ERROR_CORRUPT_FILE
                     return@FilePicker
                 }
-                Project.newProjectWithData(data)
+                globalCallbacks.createProject(data)
             }
 
             FileExplorerTarget.LoadProject -> {
-                Project.loadProjectFromFile(file)
+                globalCallbacks.loadProject(it.path)
             }
 
             else -> return@FilePicker
         }
-
-        onProjectLoad(project)
     }
 
     ErrorDialog(errorDialogLabel) {

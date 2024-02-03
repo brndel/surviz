@@ -25,20 +25,15 @@ import ui.page.situation.SituationPage
  * @ui ExportPage when Export is selected
  */
 @Composable
-fun ProjectScreen(project: Project, windowTitle: MutableState<String>) {
-    // set window title
-    var projectName = project.projectName.value
-    if (projectName == null) {
-        projectName = LocalLanguage.current.getString(Labels.UNNAMED_PROJECT)
-    }
-    windowTitle.value = "SurViz - $projectName"
+fun ProjectScreen(project: Project) {
     var currentPage: Page by remember { mutableStateOf(Page.SingleValue) }
 
     CompositionLocalProvider(
         LocalIconStorage provides project.iconStorage
     ) {
         Column(Modifier.fillMaxSize()) {
-            AppBarMenu(project)
+            AppBar()
+
             Row(Modifier.weight(1F)) {
                 ProjectPageNavigator(currentPage, { currentPage = it })
 
@@ -59,22 +54,6 @@ fun ProjectScreen(project: Project, windowTitle: MutableState<String>) {
 }
 
 val LocalIconStorage = compositionLocalOf<IconStorage?> { null }
-
-@Composable
-private fun AppBarMenu(project: Project) {
-    Surface(
-        color = MaterialTheme.colors.surface,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Row {
-            TextButton({
-                project.saveProjectData("test.svz")
-            }) {
-                Text("Save")
-            }
-        }
-    }
-}
 
 @Composable
 private fun ProjectPageNavigator(
