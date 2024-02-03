@@ -1,7 +1,9 @@
 package data.project
 
 
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import data.project.config.ProjectConfiguration
 import data.project.data.DataScheme
 import data.project.data.IconStorage
@@ -54,18 +56,19 @@ class Project(
      * @param path The path to save the project data.
      */
     fun saveProjectData(path: String) {
-        val gsonData = Gson()
-        val jsonData = gsonData.toJson(data)
+        val gson = GsonBuilder()
+            .setExclusionStrategies(object : com.google.gson.ExclusionStrategy {
+                override fun shouldSkipField(f: com.google.gson.FieldAttributes): Boolean {
+                    return false
+                }
 
-        val gsonScheme = Gson()
-        val jsonScheme = gsonScheme.toJson(dataScheme)
-
-        val gsonConfig = Gson()
-        val jsonConfig = gsonConfig.toJson(configuration)
-
-
-
-
+                override fun shouldSkipClass(clazz: Class<*>): Boolean {
+                    return clazz == SnapshotStateMap::class.java
+                }
+            })
+            .setPrettyPrinting()
+            .create()
+        val json = gson.toJson(this)
 
         val filename = "test.svd"
 
@@ -77,10 +80,7 @@ class Project(
             val writer = FileWriter(file)
 
             // Write content to the file
-            writer.write(jsonData + "\n")
-            writer.write(jsonScheme + "\n")
-            writer.write(jsonConfig + "\n")
-
+            writer.write(json)
 
             // Close the FileWriter
             writer.close()
@@ -89,7 +89,6 @@ class Project(
         } catch (e: Exception) {
             println("An error occurred: ${e.message}")
         }
-
 
 
     }
@@ -118,7 +117,8 @@ class Project(
          * @param projectFile The project file to load.
          */
         fun loadProjectFromFile(projectFile: File): Project {
-            TODO()
+            val file = projectFile.readText()
+            return Gson().fromJson(file, Project::class.java)
         }
     }
 

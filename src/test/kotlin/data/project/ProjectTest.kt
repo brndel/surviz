@@ -1,7 +1,7 @@
 package data.project
 
 import data.io.importer.NgeneImporter
-import data.project.data.DataScheme
+import kotlinx.coroutines.awaitAll
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
@@ -12,8 +12,21 @@ class ProjectTest {
     @Test
     fun saveProjectData() {
 
-        val ngenePath = "src/test/resources/Sample.ngd"
+        val ngenePath = "C:\\Users\\Alex\\Desktop\\ngene.ngd"
         val project = Project.newProjectWithData(NgeneImporter.importFile(File(ngenePath)))
-        project.saveProjectData("src/test/resources/")
+        project.iconStorage.storeIcon("C:\\Users\\Alex\\Desktop\\test.png", true)
+        project.iconStorage.storeIcon("C:\\Users\\Alex\\Desktop\\test.png", true)
+        project.saveProjectData("C:\\Users\\Alex\\Desktop\\")
+        project.saveProjectData("")
+
+        Thread.sleep(200)
+
+
+    }
+
+    @Test
+    fun loadProjectData() {
+        val file = File("test.svd")
+        val project = Project.loadProjectFromFile(file)
     }
 }

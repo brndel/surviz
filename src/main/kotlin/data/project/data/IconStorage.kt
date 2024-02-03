@@ -9,7 +9,7 @@ import org.jetbrains.skia.Data
 import org.jetbrains.skia.Image
 import org.jetbrains.skia.svg.*
 import java.io.File
-import java.io.Serializable
+import java.util.Base64
 
 
 /**
@@ -20,23 +20,30 @@ import java.io.Serializable
  *
  * @property icons The icons of the project
  */
-class IconStorage : Serializable {
+class IconStorage {
     private val icons: SnapshotStateMap<String, ImageBitmap> = mutableStateMapOf()
+
+    private val userIconsBits: LinkedHashMap<String, String> = linkedMapOf()
 
     init {
         loadInitIcons()
     }
 
+
     /**
      * This method stores an icon.
      * @param filePath the file path
      */
-    fun storeIcon(imagePath: String) {
+    fun storeIcon(imagePath: String, userIcon: Boolean) {
 
         when (imagePath.substringAfterLast(".", "")) {
+
             "svg" -> {
                 val bytes: ByteArray = File(imagePath).readBytes()
                 val icon = loadSvgIcon(bytes)
+                if (userIcon) {
+                    userIconsBits[imagePath] = Base64.getEncoder().encodeToString(bytes)
+                }
                 icons[imagePath] = icon
 
             }
@@ -44,6 +51,9 @@ class IconStorage : Serializable {
             "png" -> {
                 val bytes: ByteArray = File(imagePath).readBytes()
                 val icon = loadPngIcon(bytes)
+                if (userIcon) {
+                    userIconsBits[imagePath] = Base64.getEncoder().encodeToString(bytes)
+                }
                 icons[imagePath] = icon
 
             }
@@ -96,15 +106,9 @@ class IconStorage : Serializable {
         val walker = File("src/main/resources/icons").walk(FileWalkDirection.TOP_DOWN)
         for (entry in walker) {
             if (entry.isFile) {
-                storeIcon(entry.path)
+                storeIcon(entry.path, false)
+
             }
         }
-//        this.javaClass.classLoader.getResourceAsStream("icons")?.bufferedReader()
-//            ?.useLines { lines ->
-//                lines.forEach {
-//                    storeIcon("src/main/resources/icons/$it")
-//
-//                }
-//            }
     }
 }
