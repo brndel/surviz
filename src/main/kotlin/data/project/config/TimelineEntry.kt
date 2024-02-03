@@ -30,7 +30,6 @@ data class TimelineEntry(
         }
 
         val deserializer = JsonDeserializer<TimelineEntry> { element, _, _ ->
-            println("deserializing TimelineEntry $element")
             val obj = element.asJsonObject
 
             val icon = obj.get("icon").asString

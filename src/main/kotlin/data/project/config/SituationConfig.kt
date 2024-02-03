@@ -95,7 +95,6 @@ data class SituationConfig(
         }
 
         val deserializer = JsonDeserializer<SituationConfig> { element, _, ctx ->
-            println("deserializing SituationConfig $element")
             val obj = element.asJsonObject
 
             val name = obj.get("name").asString
