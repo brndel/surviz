@@ -12,6 +12,10 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextPainter
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.platform.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.createFontFamilyResolver
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Constraints
@@ -203,11 +207,21 @@ class ImageGenerator(
     ) {
         // configure text style
         val fontSize: TextUnit = properties.getProperty(textType.fontSizeKey).toFloat().sp
+        val fontFamily = FontFamily(
+            fonts = listOf(
+                Font(
+                    resource = "fonts/Poppins-Regular.ttf",
+                    weight = FontWeight.W400,
+                    style = FontStyle.Normal
+                )
+            )
+        )
 
         val style = TextStyle(
             color = color,
             fontSize = fontSize,
             fontWeight = textType.fontWeight,
+            fontFamily = fontFamily,
             textAlign = if (width != null) TextAlign.Center else null
         )
 
