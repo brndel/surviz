@@ -32,7 +32,7 @@ fun ProjectScreen(project: Project) {
         LocalIconStorage provides project.iconStorage
     ) {
         Column(Modifier.fillMaxSize()) {
-            AppBarMenu()
+            AppBarMenu(project)
             Row(Modifier.weight(1F)) {
                 ProjectPageNavigator(currentPage, { currentPage = it })
 
@@ -55,16 +55,16 @@ fun ProjectScreen(project: Project) {
 val LocalIconStorage = compositionLocalOf<IconStorage?> { null }
 
 @Composable
-private fun AppBarMenu() {
+private fun AppBarMenu(project: Project) {
     Surface(
         color = MaterialTheme.colors.surface,
         modifier = Modifier.fillMaxWidth()
     ) {
         Row {
             TextButton({
-                println("hey")
+                project.saveProjectData("test.svz")
             }) {
-                Text("File")
+                Text("Save")
             }
         }
     }
