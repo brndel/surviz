@@ -1,2 +1,3 @@
 - Add return type to newProjectWithData and loadProjectFromFile
 - Make getLastProjectFile() return String?
+- project having a name
