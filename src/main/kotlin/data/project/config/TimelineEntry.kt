@@ -1,6 +1,10 @@
 package data.project.config
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonObject
+import com.google.gson.JsonSerializer
 import data.generator.resources.LineType
 
 /**
@@ -9,8 +13,31 @@ import data.generator.resources.LineType
  * @param column the column of the Ngene file that contains the value of this timeline entry
  * @param lineType the type of line that will be used to display the timeline entry
  */
-class TimelineEntry(
-        var icon : MutableState<String?>,
-        var column : MutableState<String>,
-        var lineType : MutableState<LineType>
-)
+data class TimelineEntry(
+    val icon: MutableState<String?>,
+    val column: MutableState<String>,
+    val lineType: MutableState<LineType>
+) {
+    companion object {
+        val serializer = JsonSerializer<TimelineEntry> { value, _, _ ->
+            val obj = JsonObject()
+
+            obj.addProperty("icon", value.icon.value)
+            obj.addProperty("column", value.column.value)
+            obj.addProperty("lineType", value.lineType.value.name)
+
+            obj
+        }
+
+        val deserializer = JsonDeserializer<TimelineEntry> { element, _, _ ->
+            println("deserializing TimelineEntry $element")
+            val obj = element.asJsonObject
+
+            val icon = obj.get("icon").asString
+            val column = obj.get("column").asString
+            val lineType = LineType.valueOf(obj.get("lineType").asString)
+
+            TimelineEntry(mutableStateOf(icon), mutableStateOf(column), mutableStateOf(lineType))
+        }
+    }
+}

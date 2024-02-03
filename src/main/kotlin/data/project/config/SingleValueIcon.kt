@@ -4,13 +4,16 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonObject
+import com.google.gson.JsonSerializer
 
 /**
  * This class represents a single value icon.
  * A single value icon may comprise a solitary icon or a list of icon levels.
  * @param levels the list of icons
  */
-data class SingleValueIcon (
+data class SingleValueIcon(
     val baseIcon: MutableState<String?> = mutableStateOf(null),
     val levels: SnapshotStateList<SingleValueIconLevel> = mutableStateListOf()
 ) {
@@ -36,5 +39,28 @@ data class SingleValueIcon (
 
     fun removeLevel(level: SingleValueIconLevel) {
         levels.remove(level)
+    }
+
+    companion object {
+        val serializer = JsonSerializer<SingleValueIcon> { value, _, ctx ->
+            val obj = JsonObject()
+
+            obj.addProperty("baseIcon", value.baseIcon.value)
+            obj.add("levels", ctx.serialize(value.levels))
+
+            obj
+        }
+
+        val deserializer = JsonDeserializer { element, _, ctx ->
+            val obj = element.asJsonObject
+
+            val baseIcon = obj.get("baseIcon").asString
+            val levels = ctx.deserialize<SnapshotStateList<SingleValueIconLevel>>(
+                obj.get("levels"),
+                SnapshotStateList::class.java
+            )
+
+            SingleValueIcon(mutableStateOf(baseIcon), levels)
+        }
     }
 }
