@@ -210,7 +210,7 @@ object PngExporter : Exporter {
                 "situation" to situationId.toString()
             )
             saveBitmap(imageResult.image, path, fileName)
-            if (imageResult.neededWidth > imageResult.image.width) {
+            if (!imageResult.checkWidth()) {
                 return arrayListOf(ImageSizeExportError(imageResult.neededWidth, blockId, situationId))
             }
             return arrayListOf()
@@ -243,7 +243,7 @@ object PngExporter : Exporter {
             "option" to optionId.toString()
         )
         saveBitmap(imageResult.image, path, fileName)
-        if (imageResult.neededWidth > imageResult.image.width) {
+        if (!imageResult.checkWidth()) {
             return ImageSizeExportError(imageResult.neededWidth, blockId, situationId, optionId)
         }
         return null
