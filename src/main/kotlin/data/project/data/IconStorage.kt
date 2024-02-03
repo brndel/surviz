@@ -32,15 +32,12 @@ import javax.imageio.ImageIO
  *
  * @property internalIcons The icons of the project
  */
-class IconStorage {
-    private val internalIcons: SnapshotStateMap<String, ImageBitmap> = mutableStateMapOf()
+data class IconStorage(
     private val userIcons: SnapshotStateMap<String, UserIcon> = mutableStateMapOf()
+) {
+    private val internalIcons: SnapshotStateMap<String, ImageBitmap> = mutableStateMapOf()
 
-    private data class UserIcon(
-        val image: ImageBitmap,
-        val filePath: String,
-        val originalFileBase64: String
-    )
+    data class UserIcon(val image: ImageBitmap, val filePath: String, val originalFileBase64: String)
 
     init {
         loadInternalIcons()
@@ -57,117 +54,37 @@ class IconStorage {
     }
 
     private fun storeUserIcon(file: File, id: String = UUID.randomUUID().toString()) {
-        val icon = createIcon(file)
+        val bytes = file.readBytes()
+        val icon = createIcon(bytes, file.extension)
 
-        val userIcon =
-            UserIcon(icon, file.absolutePath, Base64.getEncoder().encodeToString(file.readBytes()))
+        val userIcon = UserIcon(icon, file.absolutePath, Base64.getEncoder().encodeToString(bytes))
         userIcons[id] = userIcon
     }
 
     private fun storeInternalIcon(imagePath: String) {
         val file = File(imagePath)
-        val icon = createIcon(file)
+        val icon = createIcon(file.readBytes(), file.extension)
 
         internalIcons[imagePath] = icon
     }
 
-
-    private fun createIcon(file: File): ImageBitmap {
-        return when (file.extension) {
-            "svg" -> { loadSvgIcon(file) }
-            "png" -> { loadPngIcon(file) }
-            else -> throw FileTypeException("Icon type not supported")
-        }
-    }
-
     /**
      * This method returns an icons string by a given icon path.
-     * @param filePath the icon path
+     * @param name the icon name
      * @return the icon as a string
      */
-    fun getIcon(filePath: String): ImageBitmap? {
-        return internalIcons[filePath]
+    fun getIcon(name: String): ImageBitmap? {
+        return userIcons[name]?.image ?: internalIcons[name]
     }
 
-    fun getLoadedIconPaths(): List<String> {
+    fun getInternalIconNames(): List<String> {
         return internalIcons.keys.sorted()
     }
 
-    private fun loadPngIcon(file: File): ImageBitmap {
-        // this should also work for other formats according to
-        // https://docs.oracle.com/en/java/javase/17/docs/api/java.desktop/javax/imageio/package-summary.html
-        val originalImage = ImageIO.read(file)
-
-        val originalWidth = originalImage.width
-        val originalHeight = originalImage.height
-
-        // Calculate aspect ratios
-        val aspectRatio = originalWidth.toDouble() / originalHeight
-        val newAspectRatio = 1
-
-        // Calculate new dimensions while preserving aspect ratio
-        val targetWidth: Int
-        val targetHeight: Int
-
-        if (aspectRatio > newAspectRatio) {
-            targetWidth = ICON_SIZE
-            targetHeight = (ICON_SIZE / aspectRatio).toInt()
-        } else {
-            targetWidth = (ICON_SIZE * aspectRatio).toInt()
-            targetHeight = ICON_SIZE
-        }
-
-        // resize image
-        val tmp =
-            originalImage.getScaledInstance(targetWidth, targetHeight, java.awt.Image.SCALE_SMOOTH)
-        val dimg = BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB)
-
-        val g2d = dimg.createGraphics()
-        g2d.drawImage(tmp, 0, 0, null)
-        g2d.dispose()
-
-        val tempFile = File.createTempFile("image", ".png")
-        ImageIO.write(dimg, "png", tempFile)
-        val resizedBitmap = loadImageBitmap(FileInputStream(tempFile))
-
-        // center image
-        val image = ImageBitmap(ICON_SIZE, ICON_SIZE)
-        val canvas = Canvas(image)
-
-        // make icon black
-        val paint = Paint()
-        paint.colorFilter = ColorFilter.colorMatrix(
-            ColorMatrix(
-                floatArrayOf(
-                    0f, 0f, 0f, 0f, 0f,
-                    0f, 0f, 0f, 0f, 0f,
-                    0f, 0f, 0f, 0f, 0f,
-                    0f, 0f, 0f, 1f, 0f
-                )
-            )
-        )
-        // Calculate the position to center the bitmap
-        val left = (ICON_SIZE - resizedBitmap.width) / 2f
-        val top = (ICON_SIZE - resizedBitmap.height) / 2f
-
-        canvas.drawImage(resizedBitmap, Offset(left, top), paint)
-        return image
+    fun getUserIconNames(): List<String> {
+        return userIcons.keys.sorted()
     }
 
-    private fun loadSvgIcon(file: File): ImageBitmap {
-        val svg = SVGDOM(Data.makeFromBytes(file.readBytes()))
-
-        val image = ImageBitmap(ICON_SIZE, ICON_SIZE, hasAlpha = true)
-        val canvas = Canvas(image)
-
-        svg.root?.width = SVGLength(ICON_SIZE.toFloat(), SVGLengthUnit.PX)
-        svg.root?.height = SVGLength(ICON_SIZE.toFloat(), SVGLengthUnit.PX)
-        svg.root?.preserveAspectRatio =
-            SVGPreserveAspectRatio(SVGPreserveAspectRatioAlign.XMID_YMID)
-        svg.render(canvas.nativeCanvas)
-
-        return image
-    }
 
     private fun loadInternalIcons() {
         val walker = File("src/main/resources/icons").walk(FileWalkDirection.TOP_DOWN)
@@ -179,9 +96,9 @@ class IconStorage {
     }
 
     companion object {
-        const val ICON_SIZE = 64
+        private const val ICON_SIZE = 64
 
-        val SERIALIZER = JsonSerializer<IconStorage> { iconStorage, _, _ ->
+        val serializer = JsonSerializer<IconStorage> { iconStorage, _, _ ->
             val json = JsonObject()
 
             for ((id, icon) in iconStorage.userIcons.entries) {
@@ -196,7 +113,7 @@ class IconStorage {
             return@JsonSerializer json
         }
 
-        val DESERIALIZER = JsonDeserializer { obj, _, _ ->
+        val deserializer = JsonDeserializer { obj, _, _ ->
             val iconStorage = IconStorage()
 
             for (prop in obj.asJsonObject.entrySet()) {
@@ -212,7 +129,98 @@ class IconStorage {
 
                 iconStorage.storeUserIcon(file, id)
             }
+
+
             return@JsonDeserializer iconStorage
+        }
+
+        private fun createIcon(bytes: ByteArray, fileExtension: String): ImageBitmap {
+            return when (fileExtension) {
+                "svg" -> {
+                    loadSvgIcon(bytes)
+                }
+
+                "png" -> {
+                    loadPngIcon(bytes)
+                }
+
+                else -> throw FileTypeException("Icon type not supported")
+            }
+        }
+
+        private fun loadPngIcon(bytes: ByteArray): ImageBitmap {
+            // this should also work for other formats according to
+            // https://docs.oracle.com/en/java/javase/17/docs/api/java.desktop/javax/imageio/package-summary.html
+            val originalImage = ImageIO.read(bytes.inputStream())
+
+            val originalWidth = originalImage.width
+            val originalHeight = originalImage.height
+
+            // Calculate aspect ratios
+            val aspectRatio = originalWidth.toDouble() / originalHeight
+            val newAspectRatio = 1
+
+            // Calculate new dimensions while preserving aspect ratio
+            val targetWidth: Int
+            val targetHeight: Int
+
+            if (aspectRatio > newAspectRatio) {
+                targetWidth = ICON_SIZE
+                targetHeight = (ICON_SIZE / aspectRatio).toInt()
+            } else {
+                targetWidth = (ICON_SIZE * aspectRatio).toInt()
+                targetHeight = ICON_SIZE
+            }
+
+            // resize image
+            val tmp = originalImage.getScaledInstance(targetWidth, targetHeight, java.awt.Image.SCALE_SMOOTH)
+            val dimg = BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB)
+
+            val g2d = dimg.createGraphics()
+            g2d.drawImage(tmp, 0, 0, null)
+            g2d.dispose()
+
+            val tempFile = File.createTempFile("image", ".png")
+            ImageIO.write(dimg, "png", tempFile)
+            val resizedBitmap = loadImageBitmap(FileInputStream(tempFile))
+
+            // center image
+            val image = ImageBitmap(ICON_SIZE, ICON_SIZE)
+            val canvas = Canvas(image)
+
+            // make icon black
+            val paint = Paint()
+            paint.colorFilter = ColorFilter.colorMatrix(
+                ColorMatrix(
+                    floatArrayOf(
+                        0f, 0f, 0f, 0f, 0f,
+                        0f, 0f, 0f, 0f, 0f,
+                        0f, 0f, 0f, 0f, 0f,
+                        0f, 0f, 0f, 1f, 0f
+                    )
+                )
+            )
+            // Calculate the position to center the bitmap
+            val left = (ICON_SIZE - resizedBitmap.width) / 2f
+            val top = (ICON_SIZE - resizedBitmap.height) / 2f
+
+            canvas.drawImage(resizedBitmap, Offset(left, top), paint)
+            return image
+        }
+
+        private fun loadSvgIcon(bytes: ByteArray): ImageBitmap {
+            val svg = SVGDOM(Data.makeFromBytes(bytes))
+
+            val image = ImageBitmap(ICON_SIZE, ICON_SIZE, hasAlpha = true)
+            val canvas = Canvas(image)
+
+            svg.root?.width = SVGLength(ICON_SIZE.toFloat(), SVGLengthUnit.PX)
+            svg.root?.height = SVGLength(ICON_SIZE.toFloat(), SVGLengthUnit.PX)
+            svg.root?.preserveAspectRatio = SVGPreserveAspectRatio(SVGPreserveAspectRatioAlign.XMID_YMID)
+            svg.render(canvas.nativeCanvas)
+
+            return image
+
         }
     }
 }
