@@ -15,20 +15,20 @@ import java.util.UUID
  * @param singleValueConfigOrder the list of UUID's that stores the order.
  * @param situationConfig the configuration of situations. Each situation is assigned a name.
  */
-class ProjectConfiguration {
-    private val singleValueConfigOrder: SnapshotStateList<UUID> = SnapshotStateList<UUID>()
-    private val singleValueConfig: SnapshotStateMap<UUID, SingleValueConfig> = SnapshotStateMap<UUID, SingleValueConfig>()
-    private val situationConfig: SnapshotStateMap<String, SituationConfig> = SnapshotStateMap<String, SituationConfig>()
-    val imageConfig = ImageConfig()
+data class ProjectConfiguration(
+    private val singleValueConfigOrder: SnapshotStateList<UUID> = mutableStateListOf(),
+    private val singleValueConfig: SnapshotStateMap<UUID, SingleValueConfig> = mutableStateMapOf(),
+    private val situationConfig: SnapshotStateMap<String, SituationConfig> = mutableStateMapOf(),
+    val imageConfig: ImageConfig = ImageConfig.loadFromProperties()
+) {
 
     /**
      * This method adds a single value to the project.
      */
     fun addSingleValue() {
-        val newIcon: SingleValueIcon = SingleValueIcon()
-        val newSingleValue: SingleValueConfig = SingleValueConfig(mutableStateOf(""), mutableStateOf(""), newIcon)
-        val newUUID: UUID = UUID.randomUUID()
-        singleValueConfig.put(newUUID, newSingleValue)
+        val newSingleValue = SingleValueConfig()
+        val newUUID = UUID.randomUUID()
+        singleValueConfig[newUUID] = newSingleValue
         singleValueConfigOrder.add(newUUID)
     }
 
