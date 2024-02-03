@@ -1,14 +1,11 @@
 package data.project
 
 
-import androidx.compose.runtime.snapshots.SnapshotStateMap
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import data.project.config.ProjectConfiguration
 import data.project.data.DataScheme
 import data.project.data.IconStorage
 import java.io.File
-import java.io.FileWriter
 
 /**
  * This class represents a project,which is the root of every SurViz project.
@@ -51,56 +48,17 @@ class Project(
      */
     fun saveProjectData(path: String) {
         val gson = GsonBuilder()
-            .setExclusionStrategies(object : com.google.gson.ExclusionStrategy {
-                override fun shouldSkipField(f: com.google.gson.FieldAttributes): Boolean {
-                    return false
-                }
-
-                override fun shouldSkipClass(clazz: Class<*>): Boolean {
-                    return clazz == SnapshotStateMap::class.java
-                }
-            })
+            .registerTypeAdapter(IconStorage::class.java, IconStorage.SERIALIZER)
             .setPrettyPrinting()
             .create()
+
         val json = gson.toJson(this)
 
-        val filename = "test.svd"
+        val file = File(path)
 
-        try {
-            // Create a File object for the specified file name
-            val file = File(path + filename)
+        file.writeText(json)
 
-            // Create a FileWriter to write to the file
-            val writer = FileWriter(file)
-
-            // Write content to the file
-            writer.write(json)
-
-            // Close the FileWriter
-            writer.close()
-
-            println("File '$ fileName' has been created with given content.")
-
-            // save path to AppData file
-            val savePathFile = File(savePath)
-            // mk directories if non existent
-            if (!savePathFile.exists()) {
-                savePathFile.mkdirs()
-            }
-
-            // make file if non existent
-            val propertiesFile = File(savePath + SAVE_FILE_NAME)
-            if (!propertiesFile.exists()) {
-                propertiesFile.createNewFile()
-            }
-
-            propertiesFile.writeText(file.absolutePath)
-
-        } catch (e: Exception) {
-            println("An error occurred: ${e.message}")
-        }
-
-
+        setLastProjectFilePath(path)
     }
 
     companion object {
@@ -144,7 +102,6 @@ class Project(
          */
         fun newProjectWithData(data: ProjectData): Project {
             return Project(data, data.dataScheme, ProjectConfiguration(), IconStorage())
-
         }
 
         /**
@@ -153,7 +110,9 @@ class Project(
          */
         fun loadProjectFromFile(projectFile: File): Project {
             val file = projectFile.readText()
-            return Gson().fromJson(file, Project::class.java)
+            val gson = GsonBuilder().registerTypeAdapter(IconStorage::class.java, IconStorage.DESERIALIZER).create()
+
+            return gson.fromJson(file, Project::class.java)
         }
     }
 
