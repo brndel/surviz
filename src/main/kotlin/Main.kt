@@ -61,15 +61,7 @@ fun main() = application {
     fun onKeyEvent(event: KeyEvent): Boolean {
         if (event.type != KeyEventType.KeyDown) return false
 
-        val shortcut = KeyShortcut(
-            event.key,
-            ctrl = event.isCtrlPressed,
-            meta = event.isMetaPressed,
-            alt = event.isAltPressed,
-            shift = event.isAltPressed
-        )
-
-        val action = actionsManager.shortcutMap[shortcut] ?: return false
+        val action = actionsManager.shortcutMap[Shortcut(event)] ?: return false
 
         action.onClick(callbacks)
 

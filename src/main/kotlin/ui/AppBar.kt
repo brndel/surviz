@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import ui.util.NestedSurface
 
 
 @Composable
@@ -44,10 +45,17 @@ private fun AppBarButton(group: AppBarGroup) {
                     Label(action.label)
 
                     action.shortcut?.let {
-                        Text(it.toString())
+                        ShortcutTag(it)
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun ShortcutTag(shortcut: Shortcut) {
+    NestedSurface {
+        Text(shortcut.toStringLocalized())
     }
 }

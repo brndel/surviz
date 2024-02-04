@@ -53,6 +53,11 @@ object Labels {
     const val ACTION_SAVE = "ACTION_SAVE"
     const val ACTION_CLOSE = "ACTION_CLOSE"
     const val ACTION_OPEN_SETTINGS = "ACTION_OPEN_SETTINGS"
+
+    const val SHORTCUT_CTRL = "SHORTCUT_CTRL"
+    const val SHORTCUT_ALT = "SHORTCUT_ALT"
+    const val SHORTCUT_META = "SHORTCUT_META"
+    const val SHORTCUT_SHIFT = "SHORTCUT_SHIFT"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -106,6 +111,11 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.ACTION_SAVE to "Save file",
             Labels.ACTION_CLOSE to "Close file",
             Labels.ACTION_OPEN_SETTINGS to "Open Settings",
+
+            Labels.SHORTCUT_CTRL to "Ctrl",
+            Labels.SHORTCUT_ALT to "Alt",
+            Labels.SHORTCUT_META to "Meta",
+            Labels.SHORTCUT_SHIFT to "Shift",
         )
     ),
     German(
@@ -158,6 +168,11 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.ACTION_SAVE to "Datei speichern",
             Labels.ACTION_CLOSE to "Datei schließen",
             Labels.ACTION_OPEN_SETTINGS to "Einstellungen öffnen",
+
+            Labels.SHORTCUT_CTRL to "Strg",
+            Labels.SHORTCUT_ALT to "Alt",
+            Labels.SHORTCUT_META to "Meta",
+            Labels.SHORTCUT_SHIFT to "Umschalt",
         )
     );
 
