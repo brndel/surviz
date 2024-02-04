@@ -1,57 +1,61 @@
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.lightColors
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.WindowPlacement
-import androidx.compose.ui.window.application
-import androidx.compose.ui.window.rememberWindowState
+import androidx.compose.ui.window.*
+import com.darkrockstudios.libraries.mpfilepicker.DirectoryPicker
 import data.project.Project
 import data.project.ProjectData
 import ui.*
 import java.io.File
+import java.nio.file.Path
+import kotlin.io.path.Path
+import kotlin.io.path.extension
+import kotlin.io.path.pathString
 
 fun main() = application {
-    val windowState =
-        rememberWindowState(width = 1700.dp, height = 900.dp, placement = WindowPlacement.Maximized)
-
     var settingsWindowOpen by remember { mutableStateOf(false) }
 
     var currentProject by remember { mutableStateOf<Project?>(null) }
     var currentProjectPath by remember { mutableStateOf<String?>(null) }
 
-    val callbacks = object : GlobalCallbacks {
-        override fun loadProject(filePath: String) {
-            val project = Project.loadProjectFromFile(File(filePath))
-            currentProject = project
-            currentProjectPath = filePath
-        }
+    var filePickerOpen by remember { mutableStateOf(false) }
 
-        override fun createProject(projectData: ProjectData) {
-            currentProject = Project.newProjectWithData(projectData)
-            currentProjectPath = null
-        }
+    val callbacks = remember {
+        object : GlobalCallbacks {
+            override fun loadProject(filePath: String) {
+                val project = Project.loadProjectFromFile(File(filePath))
+                currentProject = project
+                currentProjectPath = filePath
+            }
 
-        override fun saveProject() {
-            if (currentProjectPath != null) {
-                currentProject?.saveProjectData(currentProjectPath!!)
-            } else {
-                throw Exception("no path and shit")
+            override fun createProject(projectData: ProjectData) {
+                currentProject = Project.newProjectWithData(projectData)
+                currentProjectPath = null
+            }
+
+            override fun saveProject() {
+                if (currentProjectPath != null) {
+                    currentProject?.saveProjectData(currentProjectPath!!)
+                } else {
+                    filePickerOpen = true
+                }
+            }
+
+            override fun closeProject() {
+                currentProject = null
+                currentProjectPath = null
+            }
+
+            override fun openSettings() {
+                settingsWindowOpen = true
             }
         }
-
-        override fun closeProject() {
-            currentProject = null
-            currentProjectPath = null
-        }
-
-        override fun openSettings() {
-            settingsWindowOpen = true
-        }
-
     }
 
     fun onKeyEvent(event: KeyEvent): Boolean {
@@ -89,33 +93,96 @@ fun main() = application {
                 primary = Color(64, 147, 138)
             )
         ) {
-            val lang = LocalLanguage.current
-            val windowTitle by derivedStateOf {
-                var title = lang.getString(Labels.SURVIZ)
-                if (currentProject != null) {
-                    val filePath = currentProjectPath ?: lang.getString(Labels.UNNAMED_PROJECT)
 
-                    title = "$title - $filePath"
-                }
-
-                title
+            MainWindow(currentProject, currentProjectPath) {
+                onKeyEvent(it)
             }
 
-            Window(
-                onCloseRequest = ::exitApplication,
-                state = windowState,
-                title = windowTitle,
-                icon = painterResource("logo.png"),
-                onKeyEvent = { onKeyEvent(it) }) {
-
-                MainScreen(currentProject)
-            }
 
             if (settingsWindowOpen) {
                 Window(title = LocalLanguage.current.getString(Labels.SETTINGS), onCloseRequest = {
                     settingsWindowOpen = false
                 }) {
                     Label(Labels.SETTINGS)
+                }
+            }
+
+            ProjectPathPicker(filePickerOpen, { filePickerOpen = false }) {
+                currentProjectPath = it.pathString
+                callbacks.saveProject()
+            }
+        }
+    }
+}
+
+@Composable
+fun ApplicationScope.MainWindow(
+    currentProject: Project?,
+    currentProjectPath: String?,
+    onKeyEvent: (KeyEvent) -> Boolean
+) {
+    val windowState =
+        rememberWindowState(width = 1700.dp, height = 900.dp, placement = WindowPlacement.Maximized)
+
+    val lang = LocalLanguage.current
+    val windowTitle by derivedStateOf {
+        var title = lang.getString(Labels.SURVIZ)
+        if (currentProject != null) {
+            val filePath = currentProjectPath ?: lang.getString(Labels.UNNAMED_PROJECT)
+
+            title = "$title - $filePath"
+        }
+
+        title
+    }
+
+    Window(
+        onCloseRequest = ::exitApplication,
+        state = windowState,
+        title = windowTitle,
+        icon = painterResource("logo.png"),
+        onKeyEvent = { onKeyEvent(it) }) {
+
+        MainScreen(currentProject)
+    }
+}
+
+@Composable
+fun ProjectPathPicker(windowOpen: Boolean, onCloseRequest: () -> Unit, onFilePicked: (Path) -> Unit) {
+    var directory: String? by remember(windowOpen) { mutableStateOf(null) }
+
+    var directoryOpen by remember(windowOpen) { mutableStateOf(windowOpen) }
+
+    DirectoryPicker(windowOpen) {
+        directoryOpen = false
+        if (it == null) {
+            onCloseRequest()
+        } else {
+            directory = it
+        }
+    }
+
+    if (directory != null) {
+        var filename by remember { mutableStateOf("") }
+        val path by derivedStateOf {
+            var p = Path(directory!!, filename)
+            if (p.extension == "") {
+                p = Path(p.pathString.removeSuffix(".") + ".svz")
+            }
+
+            p
+        }
+        DialogWindow(onCloseRequest = onCloseRequest) {
+            Column(
+                Modifier.padding(4.dp)
+            ) {
+                TextField(filename, { filename = it })
+                Text(path.pathString)
+                Button({
+                    onCloseRequest()
+                    onFilePicked(path)
+                }) {
+                    Label(Labels.ACTION_SAVE)
                 }
             }
         }
