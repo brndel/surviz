@@ -26,6 +26,8 @@ import data.resources.exceptions.CorruptFileException
 import data.resources.exceptions.FileTypeException
 import ui.util.ErrorDialog
 import java.io.File
+import kotlin.io.path.Path
+import kotlin.io.path.name
 
 /**
  * This screen is visible when no project is currently loaded.
@@ -60,7 +62,7 @@ fun WelcomeScreen() {
                     Labels.LOAD_LAST_PROJECT,
                     Icons.Default.Refresh,
                     enabled = projectPath != null,
-                    subLabel = projectPath?.let { { Text(it.substringAfterLast('\\')) } }
+                    subLabel = projectPath?.let { { Text(Path(it).name ) } }
                 ) {
                     globalCallbacks.loadProject(projectPath!!)
                 }
