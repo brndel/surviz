@@ -60,7 +60,7 @@ fun WelcomeScreen() {
                     Labels.LOAD_LAST_PROJECT,
                     Icons.Default.Refresh,
                     enabled = projectPath != null,
-                    subLabel = projectPath?.let { { Text(it) } }
+                    subLabel = projectPath?.let { { Text(it.substringAfterLast('\\')) } }
                 ) {
                     globalCallbacks.loadProject(projectPath!!)
                 }
