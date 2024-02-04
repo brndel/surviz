@@ -46,6 +46,7 @@ class ImageGenerator(
     private var config: ProjectConfiguration,
     private var iconStorage: IconStorage
 ) {
+    private val cachedIcons = LinkedHashMap<String, ImageBitmap>()
 
     private val properties: Properties = Properties()
     private val imageConfig: ImageConfig
@@ -330,7 +331,7 @@ class ImageGenerator(
             // draw icon
             val iconPath = singleValueConfig.icon.getIcon(value)
             if (iconPath != null) {
-                val icon = iconStorage.getIcon(iconPath)
+                val icon = getIcon(iconPath)
                 val iconHeight = icon?.height ?: 0
                 drawIcon(
                     canvas,
@@ -398,7 +399,7 @@ class ImageGenerator(
             // draw icon
             val midX = startX + ((endX - startX) / 2)
 
-            val icon = entry.icon.value?.let { iconStorage.getIcon(it) }
+            val icon = entry.icon.value?.let { getIcon(it) }
 
             val iconSize = properties.getProperty("timeline_icon_size").toInt()
             val resizedIcon = resizeBitmap(icon, iconSize, iconSize)
@@ -510,5 +511,14 @@ class ImageGenerator(
             paint = Paint()
         )
         return image
+    }
+
+    private fun getIcon(key: String): ImageBitmap? {
+        if (cachedIcons.containsKey(key)) {
+            return cachedIcons[key]
+        }
+        val icon = iconStorage.getIcon(key) ?: return null
+        cachedIcons[key] = icon
+        return icon
     }
 }
