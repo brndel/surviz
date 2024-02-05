@@ -78,6 +78,12 @@ data class SituationConfig(
         return timeline
     }
 
+    /**
+     * This method gets the SingleValueColumn that is mapped to the given UUID or maps SchemeColumns to the UUID if
+     * the given UUID is not yet a key.
+     * @param id the UUID key
+     * @return the SingleValueColumn that is mapped to the key id
+     */
     fun getColumns(id: UUID): SingleValueColumn {
         return singleValueColumns.getOrPut(id) { SchemeColumns }
     }
