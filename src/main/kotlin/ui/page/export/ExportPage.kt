@@ -136,15 +136,15 @@ private fun ExporterConfigCard(
                         val optionId = report.id.option.toString()
 
                         val label = language.getString(report.label)
-
                         val info = report.info
+                        val unit = report.unit
 
                         Text(
                             "${language.getString(Labels.BLOCK)} $blockId, ${
                                 language.getString(
                                     Labels.SITUATION
                                 )
-                            } $situationId, ${language.getString(Labels.OPTION)} $optionId: $label $info"
+                            } $situationId, ${language.getString(Labels.OPTION)} $optionId: $label $info $unit"
                         )
                     }
                 })
