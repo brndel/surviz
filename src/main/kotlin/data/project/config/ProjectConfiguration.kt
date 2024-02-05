@@ -71,7 +71,8 @@ data class ProjectConfiguration(
     }
 
     /**
-     * This method returns the situation config with the given key.
+     * This method returns the situation config with the given String key or maps a new SituationConfig to the given key
+     * if the key is not yet a key.
      * @param name the key to the situation config
      * @return the situation configuration with the given key
      */
