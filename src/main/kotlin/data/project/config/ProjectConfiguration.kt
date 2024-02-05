@@ -70,10 +70,19 @@ data class ProjectConfiguration(
         return situationConfig
     }
 
+    /**
+     * This method returns the situation config with the given key.
+     * @param name the key to the situation config
+     * @return the situation configuration with the given key
+     */
     fun getSituationConfig(name: String): SituationConfig {
         return situationConfig.getOrPut(name) { SituationConfig() }
     }
 
+    /**
+     * This method returns the order of single values of a project
+     * @return the order of single values
+     */
     fun getSingleValueConfigOrder(): SnapshotStateList<UUID> {
         return singleValueConfigOrder
     }
