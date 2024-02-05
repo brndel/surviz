@@ -55,7 +55,6 @@ private fun ExporterConfigCard(
     modifier: Modifier = Modifier
 ) {
     val fields = remember(exporter) { exporter.getExporter().getFields(project) }
-    var isLoading by remember { mutableStateOf(false) }
 
     fun getExporterConfig() =
         fields.associate {
@@ -80,7 +79,6 @@ private fun ExporterConfigCard(
             horizontalArrangement = Arrangement.Center
         ) {
             Button(onClick = {
-                isLoading = true
                 val config = getExporterConfig()
                 exportResult = DataManager.saveData(project, exporter, config)
                 isExportDialogVisible = true
