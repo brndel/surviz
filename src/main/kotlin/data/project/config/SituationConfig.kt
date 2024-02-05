@@ -57,9 +57,11 @@ data class SituationConfig(
      * @param indexB the index of the second timeline entry to be swapped
      */
     fun swapTimelineOrder(indexA: Int, indexB: Int) {
-        val temp = timeline[indexA]
-        timeline[indexA] = timeline[indexB]
-        timeline[indexB] = temp
+        if(indexA >= 0 && indexB >= 0 && indexA < timeline.size && indexB < timeline.size) {
+            val temp = timeline[indexA]
+            timeline[indexA] = timeline[indexB]
+            timeline[indexB] = temp
+        }
     }
 
     /**

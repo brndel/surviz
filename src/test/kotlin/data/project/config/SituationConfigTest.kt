@@ -52,4 +52,48 @@ class SituationConfigTest {
         // Test if timeline is empty after removing all entry's
         assertTrue(situationConfig.getTimeline().isEmpty())
     }
+    @Test
+    fun testSwapTimelineOrder(){
+        situationConfig.addTimelineEntry()
+        situationConfig.addTimelineEntry()
+        situationConfig.addTimelineEntry()
+
+        situationConfig.getTimeline()[0].column.value = "index0"
+        situationConfig.getTimeline()[2].column.value = "index2"
+
+        val originalIndex0 = situationConfig.getTimeline()[0]
+        val originalIndex2 = situationConfig.getTimeline()[2]
+
+        // Test if swapping works
+        situationConfig.swapTimelineOrder(0, 2)
+        assertEquals(situationConfig.getTimeline()[0], originalIndex2)
+        assertEquals(situationConfig.getTimeline()[2], originalIndex0)
+
+        // Test if swapping back works
+        situationConfig.swapTimelineOrder(2, 0)
+        assertEquals(situationConfig.getTimeline()[2], originalIndex2)
+        assertEquals(situationConfig.getTimeline()[0], originalIndex0)
+
+        // Test if swapping operation will be ignored if invalid indexes are used
+        val originalIndex1 = situationConfig.getTimeline()[1]
+        situationConfig.swapTimelineOrder(0, 3)
+        situationConfig.swapTimelineOrder(-1, Int.MAX_VALUE)
+        assertEquals(situationConfig.getTimeline()[2], originalIndex2)
+        assertEquals(situationConfig.getTimeline()[0], originalIndex0)
+        assertEquals(situationConfig.getTimeline()[1], originalIndex1)
+    }
+    @Test
+    fun testGetColumns(){
+        val id1 = UUID.randomUUID()
+        val id2 = UUID.randomUUID()
+
+        // Test if new key will be mapped to new SingleValueColumn
+        situationConfig.getColumns(id1)
+        assertTrue(situationConfig.singleValueColumns.size == 1)
+        situationConfig.getColumns(id2)
+        assertTrue(situationConfig.singleValueColumns.size == 2)
+        // Test if already used key won't create new map entry
+        situationConfig.getColumns(id1)
+        assertTrue(situationConfig.singleValueColumns.size == 2)
+    }
 }
