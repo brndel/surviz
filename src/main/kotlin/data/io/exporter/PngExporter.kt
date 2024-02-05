@@ -4,8 +4,8 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toAwtImage
 import data.generator.ImageGenerator
 import data.io.exporter.result.ExportResult
-import data.io.exporter.result.errors.ExportError
-import data.io.exporter.result.errors.ImageSizeExportError
+import data.io.exporter.result.errors.ExportWarning
+import data.io.exporter.result.errors.ImageSizeExportWarning
 import data.project.Project
 import data.project.data.Block
 import data.project.data.Situation
@@ -22,6 +22,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import ui.Labels
 import javax.imageio.ImageIO
 import kotlin.io.path.Path
@@ -134,9 +135,9 @@ object PngExporter : Exporter {
 
         val separateOptions = exportConfig[SEPARATE_OPTION_KEY].toString().toBoolean()
 
-        val errorList = ArrayList<ExportError?>()
+        val errorList = ArrayList<ExportWarning?>()
 
-        CoroutineScope(Dispatchers.IO).launch {
+        val coroutine = CoroutineScope(Dispatchers.IO).launch {
             val widthList = coroutineScope {
                 blocks.map { block ->
                     async {
@@ -155,6 +156,10 @@ object PngExporter : Exporter {
             }
             errorList.addAll(widthList.flatten())
         }
+
+        runBlocking {
+            coroutine.join()
+        }
         return ExportResult(errorList.filterNotNull())
     }
 
@@ -170,7 +175,7 @@ object PngExporter : Exporter {
         allSituations: Boolean,
         situationId: Int,
         separateOptions: Boolean
-    ): List<ExportError?> {
+    ): List<ExportWarning?> {
         val situations = ArrayList<Situation>()
 
         if (allSituations) {
@@ -197,7 +202,7 @@ object PngExporter : Exporter {
         scheme: String,
         path: String,
         separateOptions: Boolean
-    ): List<ExportError?> {
+    ): List<ExportWarning?> {
         // check if options need to be separated
         if (!separateOptions) {
             // save whole option
@@ -210,7 +215,7 @@ object PngExporter : Exporter {
             )
             saveBitmap(imageResult.image, path, fileName)
             if (!imageResult.checkWidth()) {
-                return arrayListOf(ImageSizeExportError(imageResult.neededWidth, blockId, situationId))
+                return arrayListOf(ImageSizeExportWarning(imageResult.neededWidth, blockId, situationId))
             }
             return arrayListOf()
         }
@@ -233,7 +238,7 @@ object PngExporter : Exporter {
         blockId: Int,
         scheme: String,
         path: String
-    ): ExportError? {
+    ): ExportWarning? {
         val imageResult = imageGenerator.generateOption(option)
         val fileName = getNameFromScheme(
             scheme,
@@ -243,7 +248,7 @@ object PngExporter : Exporter {
         )
         saveBitmap(imageResult.image, path, fileName)
         if (!imageResult.checkWidth()) {
-            return ImageSizeExportError(imageResult.neededWidth, blockId, situationId, optionId)
+            return ImageSizeExportWarning(imageResult.neededWidth, blockId, situationId, optionId)
         }
         return null
     }

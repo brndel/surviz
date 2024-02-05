@@ -21,6 +21,7 @@ object Labels {
 
     const val BLOCK = "BLOCK"
     const val SITUATION = "SITUATION"
+    const val OPTION = "OPTION"
     const val COLUMNS = "COLUMNS"
     const val TIMELINE = "TIMELINE"
 
@@ -58,6 +59,11 @@ object Labels {
     const val SHORTCUT_ALT = "SHORTCUT_ALT"
     const val SHORTCUT_META = "SHORTCUT_META"
     const val SHORTCUT_SHIFT = "SHORTCUT_SHIFT"
+
+    const val EXPORT_SUCCESS = "EXPORT_SUCCESS"
+    const val EXPORT_WARNING =  "EXPORT_WARNING"
+
+    const val NEEDED_WIDTH = "NEEDED_WIDTH"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -82,6 +88,7 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.BLOCK to "Block",
             Labels.SITUATION to "Situation",
+            Labels.OPTION to "Option",
             Labels.COLUMNS to "Columns",
             Labels.TIMELINE to "Timeline",
 
@@ -116,6 +123,11 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.SHORTCUT_ALT to "Alt",
             Labels.SHORTCUT_META to "Meta",
             Labels.SHORTCUT_SHIFT to "Shift",
+
+            Labels.EXPORT_SUCCESS to "Exported successfully",
+            Labels.EXPORT_WARNING to "Problems have occurred while exporting",
+
+            Labels.NEEDED_WIDTH to "needed width",
         )
     ),
     German(
@@ -139,6 +151,7 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.BLOCK to "Block",
             Labels.SITUATION to "Situation",
+            Labels.OPTION to "Option",
             Labels.COLUMNS to "Spalten",
             Labels.TIMELINE to "Zeitlinie",
 
@@ -173,6 +186,11 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.SHORTCUT_ALT to "Alt",
             Labels.SHORTCUT_META to "Meta",
             Labels.SHORTCUT_SHIFT to "Umschalt",
+
+            Labels.EXPORT_SUCCESS to "Exportieren erfolgreich",
+            Labels.EXPORT_WARNING to "Während des exportierens sind Fehler aufgetreten",
+
+            Labels.NEEDED_WIDTH to "benötigte Breite",
         )
     );
 

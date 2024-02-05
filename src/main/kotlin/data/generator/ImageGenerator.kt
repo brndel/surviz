@@ -75,6 +75,7 @@ class ImageGenerator(
      * @throws NoSuchFieldException if no configuration was found for on of the options
      */
     fun generateSituation(situation: Situation): ImageResult {
+        neededWidth = 0
         var maxWidth = 0
         var maxNeededWidth = 0
         val imageList = ArrayList<ImageBitmap>()

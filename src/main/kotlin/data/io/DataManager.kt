@@ -40,7 +40,8 @@ object DataManager {
      * @param exportConfig The export configuration.
      */
     fun saveData(project: Project, exporter: ExporterVariant, exportConfig: Map<String, Any>): ExportResult {
-        return  exporter.getExporter().export(project, exportConfig)
+        val result = exporter.getExporter().export(project, exportConfig)
+        return  result
     }
 
     ///////////////////////////////////////////////////////////////////////////////
