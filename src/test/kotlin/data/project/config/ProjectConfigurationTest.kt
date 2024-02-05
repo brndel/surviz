@@ -93,4 +93,15 @@ class ProjectConfigurationTest {
         assertEquals(initialKeyA, newOrder[indexB])
         assertEquals(initialKeyB, newOrder[indexA])
     }
+
+    @Test
+    fun testGetSituationConfig() {
+        projectConfig.getSituationConfig("Test1")
+        assertTrue(projectConfig.getSituationConfig().size == 1)
+        projectConfig.getSituationConfig("Test2")
+        assertTrue(projectConfig.getSituationConfig().size == 2)
+        projectConfig.getSituationConfig("Test2")
+        assertTrue(projectConfig.getSituationConfig().size == 2)
+        assertEquals(projectConfig.getSituationConfig()["Test2"], projectConfig.getSituationConfig("Test2"))
+    }
 }
