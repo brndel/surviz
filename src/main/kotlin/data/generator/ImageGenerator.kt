@@ -54,8 +54,6 @@ class ImageGenerator(
     private val height: Int
     private val padding: Int
 
-    private var neededWidth = 0
-
     init {
         properties.load(FileInputStream("src/main/resources/config/image_generator.properties"))
         height = properties.getProperty("situation_height").toInt()
@@ -75,7 +73,7 @@ class ImageGenerator(
      * @throws NoSuchFieldException if no configuration was found for on of the options
      */
     fun generateSituation(situation: Situation): ImageResult {
-        neededWidth = 0
+        var neededWidth = 0
         var maxWidth = 0
         var maxNeededWidth = 0
         val imageList = ArrayList<ImageBitmap>()
@@ -116,7 +114,7 @@ class ImageGenerator(
      */
     fun generateOption(option: SituationOption): ImageResult {
         // initialize values
-        neededWidth = 0
+        var neededWidth = 0
         val optionConfig =
             config.getSituationConfig(option.name)
 
@@ -174,10 +172,11 @@ class ImageGenerator(
         )
 
         // draw timeline
-        drawTimeline(canvas, color, option, optionConfig, dividerX, centerLine)
+        val timelineWidth = drawTimeline(canvas, color, option, optionConfig, dividerX, centerLine, neededWidth)
 
         // calculate needed width
         neededWidth += singleValueSectionSize
+        neededWidth += timelineWidth
         neededWidth += 2 * padding
         neededWidth += 2 * properties.getProperty("column_padding").toInt()
 
@@ -366,10 +365,12 @@ class ImageGenerator(
         optionConfig: SituationConfig,
         dividerX: Float,
         centerLine: Float,
-    ) {
+        neededWidth: Int
+    ): Int {
         var startX = dividerX + properties.getProperty("column_padding").toFloat()
         val timelinePadding = properties.getProperty("timeline_padding").toFloat()
         val yOffset = properties.getProperty("timeline_y_offset").toFloat()
+        var width = neededWidth
 
         // go over every section
         val timelineEntries = optionConfig.getTimeline()
@@ -382,7 +383,7 @@ class ImageGenerator(
 
             // calculate length of section
             val timelineLength = timeValue * imageConfig.timelineScaling.value.toFloat()
-            neededWidth += timelineLength.toInt()
+            width += timelineLength.toInt()
 
             val endX: Float = startX + timelineLength
 
@@ -429,6 +430,7 @@ class ImageGenerator(
 
             startX = endX
         }
+        return width
     }
 
     /**
