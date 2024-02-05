@@ -1,6 +1,7 @@
 package data.io
 
 import data.io.exporter.ExporterVariant
+import data.io.exporter.result.ExportResult
 import data.io.importer.Importer
 import data.io.importer.ImporterVariant
 import data.project.Project
@@ -38,8 +39,8 @@ object DataManager {
      * @param exporter The exporter to use.
      * @param exportConfig The export configuration.
      */
-    fun saveData(project: Project, exporter: ExporterVariant, exportConfig: Map<String, Any>) {
-        exporter.getExporter().export(project, exportConfig)
+    fun saveData(project: Project, exporter: ExporterVariant, exportConfig: Map<String, Any>): ExportResult {
+        return  exporter.getExporter().export(project, exportConfig)
     }
 
     ///////////////////////////////////////////////////////////////////////////////
