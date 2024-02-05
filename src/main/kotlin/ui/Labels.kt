@@ -62,6 +62,7 @@ object Labels {
 
     const val EXPORT_SUCCESS = "EXPORT_SUCCESS"
     const val EXPORT_WARNING =  "EXPORT_WARNING"
+    const val APPLY_FIX = "APPLY_FIX"
 
     const val NEEDED_WIDTH = "NEEDED_WIDTH"
 }
@@ -126,6 +127,7 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.EXPORT_SUCCESS to "Exported successfully",
             Labels.EXPORT_WARNING to "Problems have occurred while exporting",
+            Labels.APPLY_FIX to "Apply fix",
 
             Labels.NEEDED_WIDTH to "needed width",
         )
@@ -189,6 +191,7 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.EXPORT_SUCCESS to "Exportieren erfolgreich",
             Labels.EXPORT_WARNING to "Während des exportierens sind Fehler aufgetreten",
+            Labels.APPLY_FIX to "Problem beheben",
 
             Labels.NEEDED_WIDTH to "benötigte Breite",
         )

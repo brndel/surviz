@@ -3,6 +3,7 @@ package data.io.exporter.result
 import data.io.exporter.result.errors.ExportWarning
 import data.io.exporter.result.errors.ImageSizeExportWarning
 import data.io.exporter.result.report.ExportReport
+import data.io.exporter.result.report.ImageSizeExportReport
 import ui.Labels
 
 data class ExportResult(val errors: List<ExportWarning>) {
@@ -22,7 +23,7 @@ data class ExportResult(val errors: List<ExportWarning>) {
         }
 
         if(maxWidth > 0) {
-            resultList.add(ExportReport(widthId, Labels.NEEDED_WIDTH, maxWidth.toString()))
+            resultList.add(ImageSizeExportReport(widthId, Labels.NEEDED_WIDTH, maxWidth))
         }
         return resultList
     }

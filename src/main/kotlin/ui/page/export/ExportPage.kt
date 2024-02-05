@@ -104,18 +104,31 @@ private fun ExporterConfigCard(
                 }
             }
         } else {
+            val reportList = exportResult.getReportList()
             AlertDialog(
                 onDismissRequest = { isExportDialogVisible = false },
                 title = { "${Text(LocalLanguage.current.getString(Labels.EXPORT_WARNING))}:" },
                 confirmButton = {
-                    Button(onClick = {
-                        isExportDialogVisible = false
+                    Button(
+                        onClick = {
+                            for (report in reportList) {
+                                report.applyFix(project)
+                            }
+                            isExportDialogVisible = false
+                        }
+                    ) {
+                        Text(LocalLanguage.current.getString(Labels.APPLY_FIX))
+                    }
+                },
+                dismissButton = {
+                    Button(
+                        onClick = { isExportDialogVisible = false
                     }) {
                         Text(LocalLanguage.current.getString(Labels.OK))
                     }
                 },
                 text = {
-                    for (report in exportResult.getReportList()) {
+                    for (report in reportList) {
                         val language = LocalLanguage.current
 
                         val blockId = report.id.block.toString()
