@@ -1,26 +1,21 @@
 package ui.page.export
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import data.io.DataManager
 import data.io.exporter.ExporterVariant
 import data.io.exporter.result.ExportResult
 import data.project.Project
 import ui.Label
 import ui.Labels
-import ui.LocalLanguage
 import ui.fields.GenericField
 import ui.fields.OptionsField
 import ui.util.NestedSurface
@@ -60,6 +55,7 @@ private fun ExporterConfigCard(
     modifier: Modifier = Modifier
 ) {
     val fields = remember(exporter) { exporter.getExporter().getFields(project) }
+    var isLoading by remember { mutableStateOf(false) }
 
     fun getExporterConfig() =
         fields.associate {
@@ -84,6 +80,7 @@ private fun ExporterConfigCard(
             horizontalArrangement = Arrangement.Center
         ) {
             Button(onClick = {
+                isLoading = true
                 val config = getExporterConfig()
                 exportResult = DataManager.saveData(project, exporter, config)
                 isExportDialogVisible = true
@@ -94,60 +91,6 @@ private fun ExporterConfigCard(
     }
 
     if (isExportDialogVisible) {
-        if (exportResult.errors.isEmpty()) {
-            Dialog(onDismissRequest = { isExportDialogVisible = false }) {
-                Box(Modifier.background(Color.White).wrapContentSize()) {
-                    Text(
-                        text = LocalLanguage.current.getString(Labels.EXPORT_SUCCESS),
-                        modifier = Modifier.padding(6.dp)
-                    )
-                }
-            }
-        } else {
-            val reportList = exportResult.getReportList()
-            AlertDialog(
-                onDismissRequest = { isExportDialogVisible = false },
-                title = { "${Text(LocalLanguage.current.getString(Labels.EXPORT_WARNING))}:" },
-                confirmButton = {
-                    Button(
-                        onClick = {
-                            for (report in reportList) {
-                                report.applyFix(project)
-                            }
-                            isExportDialogVisible = false
-                        }
-                    ) {
-                        Text(LocalLanguage.current.getString(Labels.APPLY_FIX))
-                    }
-                },
-                dismissButton = {
-                    Button(
-                        onClick = { isExportDialogVisible = false
-                    }) {
-                        Text(LocalLanguage.current.getString(Labels.OK))
-                    }
-                },
-                text = {
-                    for (report in reportList) {
-                        val language = LocalLanguage.current
-
-                        val blockId = report.id.block.toString()
-                        val situationId = report.id.situation.toString()
-                        val optionId = report.id.option.toString()
-
-                        val label = language.getString(report.label)
-                        val info = report.info
-                        val unit = report.unit
-
-                        Text(
-                            "${language.getString(Labels.BLOCK)} $blockId, ${
-                                language.getString(
-                                    Labels.SITUATION
-                                )
-                            } $situationId, ${language.getString(Labels.OPTION)} $optionId: $label $info $unit"
-                        )
-                    }
-                })
-        }
+        ExportDialog(exportResult, project, onDismissRequest = { isExportDialogVisible = false })
     }
 }
