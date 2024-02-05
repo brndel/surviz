@@ -52,14 +52,6 @@ data class SituationConfig(
     }
 
     /**
-     * This method removes the given timeline entry.
-     * @param index the index of the timeline entry to be removed
-     */
-    fun removeTimelineEntry(index: Int) {
-        timeline.remove(timeline[index])
-    }
-
-    /**
      * This method swaps the order of two given timeline entrys.
      * @param indexA the index of the first timeline entry to be swapped
      * @param indexB the index of the second timeline entry to be swapped
