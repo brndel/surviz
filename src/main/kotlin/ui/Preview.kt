@@ -1,18 +1,22 @@
 package ui
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import data.generator.ImageGenerator
 import data.project.Project
-import ui.fields.IntField
+import ui.fields.OptionsField
 
 /**
  * This view shows a preview of the current [Project]
@@ -21,6 +25,7 @@ import ui.fields.IntField
  * @state selectedBlock Int the index of the block of the situation to show the preview for
  * @state selectedSituation Int the index of the situation to show the preview for
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Preview(project: Project) {
     Box(Modifier.fillMaxSize()) {
@@ -33,13 +38,23 @@ fun Preview(project: Project) {
         }
 
         LazyColumn(Modifier.fillMaxSize()) {
-            item {
-                Row {
-                    IntField(blockId, onValueChange = { blockId = it }) {
-                        Label(Labels.BLOCK)
-                    }
-                    IntField(situationId, onValueChange = { situationId = it }) {
-                        Label(Labels.SITUATION)
+            stickyHeader {
+                Surface(Modifier.fillMaxWidth(), color = Color.White) {
+                    Row() {
+                        OptionsField(
+                            blockId,
+                            { blockId = it },
+                            (0..<project.data.blocks.size).toList(),
+                            label = { LocalLanguage.current.getString(Labels.BLOCK) }) {
+                            Text((it + 1).toString())
+                        }
+                        OptionsField(
+                            situationId,
+                            { situationId = it },
+                            (0..<project.data.blocks[blockId].situations.size).toList(),
+                            label = { LocalLanguage.current.getString(Labels.SITUATION) }) {
+                            Text((it + 1).toString())
+                        }
                     }
                 }
             }
