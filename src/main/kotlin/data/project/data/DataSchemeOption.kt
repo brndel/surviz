@@ -15,7 +15,7 @@ data class DataSchemeOption(
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if(other !is DataSchemeOption) return false
+        if (other !is DataSchemeOption) return false
 
         //smart casting
         if (this.name != other.name) {

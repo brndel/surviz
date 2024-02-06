@@ -123,8 +123,14 @@ class Project(
                 .registerTypeAdapter(SingleValueConfig::class.java, SingleValueConfig.deserializer)
                 .registerTypeAdapter(SingleValueIcon::class.java, SingleValueIcon.serializer)
                 .registerTypeAdapter(SingleValueIcon::class.java, SingleValueIcon.deserializer)
-                .registerTypeAdapter(SingleValueIconLevel::class.java, SingleValueIconLevel.serializer)
-                .registerTypeAdapter(SingleValueIconLevel::class.java, SingleValueIconLevel.deserializer)
+                .registerTypeAdapter(
+                    SingleValueIconLevel::class.java,
+                    SingleValueIconLevel.serializer
+                )
+                .registerTypeAdapter(
+                    SingleValueIconLevel::class.java,
+                    SingleValueIconLevel.deserializer
+                )
                 .registerTypeAdapter(ImageConfig::class.java, ImageConfig.serializer)
                 .registerTypeAdapter(ImageConfig::class.java, ImageConfig.deserializer)
                 .registerTypeAdapter(SituationConfig::class.java, SituationConfig.serializer)

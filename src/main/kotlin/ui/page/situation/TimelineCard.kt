@@ -3,8 +3,9 @@ package ui.page.situation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
@@ -29,7 +30,12 @@ import ui.util.ReorderHandle
  * @ui IconField for the icon of the entry
  */
 @Composable
-fun TimelineCard(entry: TimelineEntry, onDelete: () -> Unit, columns: List<String>, reorderState: ReorderableState<*>) {
+fun TimelineCard(
+    entry: TimelineEntry,
+    onDelete: () -> Unit,
+    columns: List<String>,
+    reorderState: ReorderableState<*>
+) {
     var icon by entry.icon
     var column by entry.column
     var lineType by entry.lineType

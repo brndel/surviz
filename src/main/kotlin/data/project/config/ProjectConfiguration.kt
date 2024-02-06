@@ -47,7 +47,7 @@ data class ProjectConfiguration(
      * @param indexB the index of the second single value to be swapped
      */
     fun swapSingleValueOrder(indexA: Int, indexB: Int) {
-        if(indexA >= 0 && indexB >= 0 && indexA < singleValueConfigOrder.size && indexB < singleValueConfigOrder.size) {
+        if (indexA >= 0 && indexB >= 0 && indexA < singleValueConfigOrder.size && indexB < singleValueConfigOrder.size) {
             val temp = singleValueConfigOrder[indexA]
             singleValueConfigOrder[indexA] = singleValueConfigOrder[indexB]
             singleValueConfigOrder[indexB] = temp

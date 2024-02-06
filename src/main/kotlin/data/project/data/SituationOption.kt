@@ -7,13 +7,13 @@ package data.project.data
  * @property name The name of the situation option
  * @property values The values of the situation option
  */
-data class SituationOption (
+data class SituationOption(
     var name: String,
     var values: Map<String, Double>
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if(other !is SituationOption) return false
+        if (other !is SituationOption) return false
 
         if (this.name != other.name) return false
 

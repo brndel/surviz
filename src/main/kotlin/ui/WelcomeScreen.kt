@@ -1,9 +1,14 @@
 package ui
 
-import GlobalCallbacks
 import LocalGlobalCallbacks
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -13,7 +18,11 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -62,7 +71,7 @@ fun WelcomeScreen() {
                     Labels.LOAD_LAST_PROJECT,
                     Icons.Default.Refresh,
                     enabled = projectPath != null,
-                    subLabel = projectPath?.let { { Text(Path(it).name ) } }
+                    subLabel = projectPath?.let { { Text(Path(it).name) } }
                 ) {
                     globalCallbacks.loadProject(projectPath!!)
                 }
@@ -140,7 +149,12 @@ private fun WelcomeScreenButton(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Button(onClick, contentPadding = PaddingValues(4.dp), modifier = Modifier.size(64.dp), enabled = enabled) {
+        Button(
+            onClick,
+            contentPadding = PaddingValues(4.dp),
+            modifier = Modifier.size(64.dp),
+            enabled = enabled
+        ) {
             Icon(icon, null, modifier = Modifier.size(32.dp))
         }
         Label(label, style = MaterialTheme.typography.caption)

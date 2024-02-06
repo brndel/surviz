@@ -34,7 +34,8 @@ data class SingleValueConfig(
 
             val unit = obj.get("unit").asString
             val columnScheme = obj.get("columnScheme").asString
-            val icon = ctx.deserialize<SingleValueIcon>(obj.get("icon"), SingleValueIcon::class.java)
+            val icon =
+                ctx.deserialize<SingleValueIcon>(obj.get("icon"), SingleValueIcon::class.java)
 
             SingleValueConfig(
                 mutableStateOf(unit),

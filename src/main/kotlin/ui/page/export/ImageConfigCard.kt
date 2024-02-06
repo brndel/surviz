@@ -1,7 +1,6 @@
 package ui.page.export
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Slider
 import androidx.compose.material.Text
@@ -28,7 +27,12 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
             IntField(width, { width = it }) {
                 Text("Width")
             }
-            Slider(timelineScaling.toFloat(), {timelineScaling = it.roundToInt().toDouble()}, steps = 24, valueRange = 1f..25f)
+            Slider(
+                timelineScaling.toFloat(),
+                { timelineScaling = it.roundToInt().toDouble() },
+                steps = 24,
+                valueRange = 1f..25f
+            )
             Text(text = "Timeline scaling: ${timelineScaling.roundToInt()}")
             DoubleField(timelineScaling, { timelineScaling = it }) {
                 Text("Timeline scaling")

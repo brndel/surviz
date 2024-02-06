@@ -9,7 +9,7 @@ data class ImageResult(val image: ImageBitmap, val neededWidth: Int) {
      *
      * @return if image is wide enough
      */
-    fun checkWidth(): Boolean{
+    fun checkWidth(): Boolean {
         return neededWidth <= image.width
     }
 }

@@ -1,20 +1,41 @@
 package ui.page.situation
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import data.project.config.SingleValueConfig
 import data.project.config.SituationConfig
-import data.project.config.columns.*
+import data.project.config.columns.ListColumns
+import data.project.config.columns.SchemeColumns
+import data.project.config.columns.SingleValueColumn
+import data.project.config.columns.TimelineColumns
+import data.project.config.columns.ZeroColumn
 import data.project.data.DataSchemeOption
 import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
@@ -22,10 +43,10 @@ import org.burnoutcrew.reorderable.reorderable
 import ui.Label
 import ui.Labels
 import ui.fields.ColorField
-import ui.fields.OptionsField
 import ui.fields.IconStorageImage
+import ui.fields.OptionsField
 import ui.util.NestedSurface
-import java.util.*
+import java.util.UUID
 
 /**
  * This view lets the user edit a [SituationConfig]
@@ -69,7 +90,7 @@ fun SituationTab(
         items(singleValueIds, key = { it }) { id ->
             val column = config.getColumns(id)
 
-            NestedSurface (
+            NestedSurface(
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Row(Modifier.padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {

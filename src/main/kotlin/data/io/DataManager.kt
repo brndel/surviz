@@ -8,7 +8,6 @@ import data.project.Project
 import data.project.ProjectData
 import data.resources.exceptions.FileTypeException
 import java.io.File
-import kotlin.time.measureTime
 
 /**
  * This class represents the data manager.
@@ -40,7 +39,11 @@ object DataManager {
      * @param exporter The exporter to use.
      * @param exportConfig The export configuration.
      */
-    fun saveData(project: Project, exporter: ExporterVariant, exportConfig: Map<String, Any>): ExportResult {
+    fun saveData(
+        project: Project,
+        exporter: ExporterVariant,
+        exportConfig: Map<String, Any>
+    ): ExportResult {
         return exporter.getExporter().export(project, exportConfig)
     }
 
@@ -57,6 +60,7 @@ object DataManager {
      * @return right importer if found, null if no right importer is present
      */
     private fun getImporterByExtension(extension: String): Importer? {
-        return ImporterVariant.entries.find { it.getImporter().getType() == extension }?.getImporter()
+        return ImporterVariant.entries.find { it.getImporter().getType() == extension }
+            ?.getImporter()
     }
 }

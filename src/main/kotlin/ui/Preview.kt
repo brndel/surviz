@@ -11,7 +11,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import data.generator.ImageGenerator
@@ -40,7 +45,7 @@ fun Preview(project: Project) {
         LazyColumn(Modifier.fillMaxSize()) {
             stickyHeader {
                 Surface(Modifier.fillMaxWidth(), color = Color.White) {
-                    Row() {
+                    Row {
                         OptionsField(
                             blockId,
                             { blockId = it },

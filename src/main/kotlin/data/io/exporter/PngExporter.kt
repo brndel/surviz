@@ -215,7 +215,13 @@ object PngExporter : Exporter {
             )
             saveBitmap(imageResult.image, path, fileName)
             if (!imageResult.checkWidth()) {
-                return arrayListOf(ImageSizeExportWarning(imageResult.neededWidth, blockId, situationId))
+                return arrayListOf(
+                    ImageSizeExportWarning(
+                        imageResult.neededWidth,
+                        blockId,
+                        situationId
+                    )
+                )
             }
             return arrayListOf()
         }

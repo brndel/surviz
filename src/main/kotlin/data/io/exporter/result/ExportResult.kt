@@ -22,7 +22,7 @@ data class ExportResult(val errors: List<ExportWarning>) {
             }
         }
 
-        if(maxWidth > 0) {
+        if (maxWidth > 0) {
             resultList.add(ImageSizeExportReport(widthId, Labels.NEEDED_WIDTH, maxWidth))
         }
         return resultList

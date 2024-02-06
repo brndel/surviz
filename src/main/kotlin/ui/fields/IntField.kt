@@ -1,6 +1,6 @@
 package ui.fields
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 /**

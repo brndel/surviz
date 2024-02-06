@@ -106,7 +106,8 @@ data class SituationConfig(
 
             for (entry in jsonSingleValueColumns.entrySet()) {
                 val uuid = UUID.fromString(entry.key)
-                val singleValueColumn = ctx.deserialize<SingleValueColumn>(entry.value, SingleValueColumn::class.java)
+                val singleValueColumn =
+                    ctx.deserialize<SingleValueColumn>(entry.value, SingleValueColumn::class.java)
 
                 singleValueColumns[uuid] = singleValueColumn
             }

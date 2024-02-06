@@ -172,7 +172,8 @@ class ImageGenerator(
         )
 
         // draw timeline
-        val timelineWidth = drawTimeline(canvas, color, option, optionConfig, dividerX, centerLine, neededWidth)
+        val timelineWidth =
+            drawTimeline(canvas, color, option, optionConfig, dividerX, centerLine, neededWidth)
 
         // calculate needed width
         neededWidth += singleValueSectionSize
@@ -322,7 +323,8 @@ class ImageGenerator(
                 newColor,
                 Offset(
                     x,
-                    centerLine + properties.getProperty("single_value_text_padding").toFloat() + yOffset
+                    centerLine + properties.getProperty("single_value_text_padding")
+                        .toFloat() + yOffset
                 ),
                 TextType.Label,
                 true

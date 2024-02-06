@@ -140,7 +140,11 @@ fun ApplicationScope.MainWindow(
 }
 
 @Composable
-fun ProjectPathPicker(windowOpen: Boolean, onCloseRequest: () -> Unit, onFilePicked: (Path) -> Unit) {
+fun ProjectPathPicker(
+    windowOpen: Boolean,
+    onCloseRequest: () -> Unit,
+    onFilePicked: (Path) -> Unit
+) {
     var directory: String? by remember(windowOpen) { mutableStateOf(null) }
 
     var directoryOpen by remember(windowOpen) { mutableStateOf(windowOpen) }
@@ -193,7 +197,8 @@ interface GlobalCallbacks {
         fun loadProject(filePath: String) = LocalGlobalCallbacks.current?.loadProject(filePath)
 
         @Composable
-        fun createProject(projectData: ProjectData) = LocalGlobalCallbacks.current?.createProject(projectData)
+        fun createProject(projectData: ProjectData) =
+            LocalGlobalCallbacks.current?.createProject(projectData)
 
         @Composable
         fun saveProject() = LocalGlobalCallbacks.current?.saveProject()

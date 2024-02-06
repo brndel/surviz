@@ -22,7 +22,7 @@ class DataScheme(
     fun compareTo(scheme: DataScheme): Boolean {
         if (this.options.size != scheme.options.size) return false
 
-        for (i in 0 ..< options.size) {
+        for (i in 0..<options.size) {
             if (this.options[i] != scheme.options[i]) return false
         }
         return true
