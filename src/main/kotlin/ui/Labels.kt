@@ -18,11 +18,15 @@ object Labels {
 
     const val FIELD_UNIT = "FIELD_UNIT"
     const val FIELD_COLUMN_SCHEME = "FIELD_COLUMN_SCHEME"
+    const val SCHEME_NO_RESULT_FOUND = "SCHEME_NO_RESULT_FOUND"
+
+    const val FIELD_LINE_TYPE = "FIELD_LINE_TYPE"
 
     const val BLOCK = "BLOCK"
     const val SITUATION = "SITUATION"
     const val OPTION = "OPTION"
     const val COLUMNS = "COLUMNS"
+    const val COLUMN = "COLUMN"
     const val TIMELINE = "TIMELINE"
 
     const val SCHEME_COLUMN_NAME = "SCHEME_COLUMN_NAME"
@@ -87,11 +91,15 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.FIELD_UNIT to "Unit",
             Labels.FIELD_COLUMN_SCHEME to "Column scheme",
+            Labels.SCHEME_NO_RESULT_FOUND to "No columns found",
+
+            Labels.FIELD_LINE_TYPE to "Line type",
 
             Labels.BLOCK to "Block",
             Labels.SITUATION to "Situation",
             Labels.OPTION to "Option",
             Labels.COLUMNS to "Columns",
+            Labels.COLUMN to "Column",
             Labels.TIMELINE to "Timeline",
 
             Labels.SCHEME_COLUMN_NAME to "Scheme",
@@ -152,11 +160,15 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.FIELD_UNIT to "Einheit",
             Labels.FIELD_COLUMN_SCHEME to "Spaltenschema",
+            Labels.SCHEME_NO_RESULT_FOUND to "Keine Spalten gefunden",
+
+            Labels.FIELD_LINE_TYPE to "Linientyp",
 
             Labels.BLOCK to "Block",
             Labels.SITUATION to "Situation",
             Labels.OPTION to "Option",
             Labels.COLUMNS to "Spalten",
+            Labels.COLUMN to "Spalte",
             Labels.TIMELINE to "Zeitlinie",
 
             Labels.SCHEME_COLUMN_NAME to "Schema",
