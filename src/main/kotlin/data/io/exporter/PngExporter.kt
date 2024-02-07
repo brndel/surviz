@@ -117,23 +117,23 @@ object PngExporter : Exporter {
     override fun export(project: Project, exportConfig: Map<String, Any>): ExportResult {
         imageGenerator = ImageGenerator(project.configuration, project.iconStorage)
 
-        val scheme = exportConfig[SCHEME_KEY].toString()
-        val path = exportConfig[PATH_KEY].toString()
+        val scheme = exportConfig[SCHEME_KEY] as String
+        val path = exportConfig[PATH_KEY] as String
 
         val blocks = ArrayList<Block>()
-        val allBlocks = exportConfig[ALL_BLOCK_KEY].toString().toBoolean()
+        val allBlocks = exportConfig[ALL_BLOCK_KEY] as Boolean
 
         if (allBlocks) {
             blocks.addAll(project.data.blocks)
         } else {
-            val block = exportConfig[BLOCK_KEY].toString().toInt()
+            val block = exportConfig[BLOCK_KEY] as Int
             blocks.add(project.data.blocks[block - 1])
         }
 
-        val allSituations = exportConfig[ALL_SITUATION_KEY].toString().toBoolean()
-        val situation = exportConfig[SITUATION_KEY].toString().toInt()
+        val allSituations = exportConfig[ALL_SITUATION_KEY] as Boolean
+        val situation = exportConfig[SITUATION_KEY] as Int
 
-        val separateOptions = exportConfig[SEPARATE_OPTION_KEY].toString().toBoolean()
+        val separateOptions = exportConfig[SEPARATE_OPTION_KEY] as Boolean
 
         val errorList = ArrayList<ExportWarning?>()
 
