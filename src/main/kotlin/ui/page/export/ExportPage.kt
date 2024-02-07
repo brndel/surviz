@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -80,8 +81,8 @@ private fun ExporterConfigCard(
         }
     }
 
-    var isExportDialogVisible by remember { mutableStateOf(false) }
-    var exportResult by remember { mutableStateOf(ExportResult(arrayListOf())) }
+    var exportResult: ExportResult? by remember { mutableStateOf(null) }
+    var isExporting: Boolean by remember { mutableStateOf(false) }
 
     NestedSurface(Modifier.fillMaxWidth()) {
         Row(
@@ -90,15 +91,22 @@ private fun ExporterConfigCard(
         ) {
             Button(onClick = {
                 val config = getExporterConfig()
-                exportResult = DataManager.saveData(project, exporter, config)
-                isExportDialogVisible = true
-            }) {
-                Text("Export")
+                isExporting = true
+                DataManager.saveData(project, exporter, config) {
+                    exportResult = it
+                    isExporting = false
+                }
+            }, enabled = !isExporting) {
+                if (isExporting) {
+                    CircularProgressIndicator()
+                } else {
+                    Text("Export")
+                }
             }
         }
     }
 
-    if (isExportDialogVisible) {
-        ExportDialog(exportResult, project, onDismissRequest = { isExportDialogVisible = false })
+    exportResult?.let {
+        ExportDialog(it, project, onDismissRequest = { exportResult = null })
     }
 }
