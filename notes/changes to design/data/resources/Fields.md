@@ -1,0 +1,2 @@
+- Added StringFieldHint to StringField
+  - StringFieldHint.Directory shows a directory picker besides the field

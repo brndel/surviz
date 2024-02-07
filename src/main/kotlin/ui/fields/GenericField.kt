@@ -4,13 +4,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import data.resources.fields.BooleanFieldData
-import data.resources.fields.ColorFieldData
-import data.resources.fields.FieldData
-import data.resources.fields.FileSchemeFieldData
-import data.resources.fields.IntFieldData
-import data.resources.fields.OptionsFieldData
-import data.resources.fields.StringFieldData
+import data.resources.fields.*
 import ui.Label
 import ui.page.export.ExportPage
 
@@ -53,13 +47,27 @@ fun GenericField(field: FieldData, modifier: Modifier = Modifier) {
             field.value.value,
             { field.value.value = it },
             field.options,
-            modifier
+            modifier,
+            { Label(field.getLabel()) }
         ) { Text(it) }
 
-        is StringFieldData -> TextField(
-            field.value.value,
-            { field.value.value = it },
-            modifier
-        ) { Label(field.getLabel()) }
+        is StringFieldData ->
+            when (field.hint) {
+                null -> {
+                    TextField(
+                        field.value.value,
+                        { field.value.value = it },
+                        modifier
+                    ) { Label(field.getLabel()) }
+                }
+
+                StringFieldHint.Directory -> {
+                    DirectoryPickerField(
+                        field.value.value,
+                        { field.value.value = it },
+                        modifier
+                    ) { Label(field.getLabel()) }
+                }
+            }
     }
 }
