@@ -7,6 +7,9 @@ import data.io.importer.ImporterVariant
 import data.project.Project
 import data.project.ProjectData
 import data.resources.exceptions.FileTypeException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 
 /**
@@ -42,9 +45,14 @@ object DataManager {
     fun saveData(
         project: Project,
         exporter: ExporterVariant,
-        exportConfig: Map<String, Any>
-    ): ExportResult {
-        return exporter.getExporter().export(project, exportConfig)
+        exportConfig: Map<String, Any>,
+        onFinished: (ExportResult) -> Unit,
+    ) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val result =  exporter.getExporter().export(project, exportConfig)
+
+            onFinished(result)
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////
