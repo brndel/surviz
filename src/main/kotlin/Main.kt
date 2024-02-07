@@ -87,7 +87,11 @@ fun main() = application {
             colors = lightColors(
                 background = Color(240, 240, 240),
                 surface = Color(230, 230, 230),
-                primary = Color(64, 147, 138)
+                primary = Color(64, 147, 138),
+                primaryVariant = Color(71, 128, 117),
+                secondary = Color(20, 108, 201),
+                secondaryVariant = Color(43, 100, 161),
+                onSecondary = Color.White,
             )
         ) {
 
