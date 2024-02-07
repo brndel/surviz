@@ -21,4 +21,14 @@ interface Exporter {
      * * @return The fields that can be exported.
      */
     fun getFields(project: Project): List<NamedField>
+
+    companion object {
+        fun getNameFromScheme(template: String, vararg values: Pair<String, String>): String {
+            var result = template
+            values.forEach { (placeholder, replacement) ->
+                result = result.replace("\$$placeholder\$", replacement)
+            }
+            return result
+        }
+    }
 }

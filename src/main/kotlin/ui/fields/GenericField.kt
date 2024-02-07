@@ -29,11 +29,12 @@ fun GenericField(field: FieldData, modifier: Modifier = Modifier) {
             modifier
         ) { Label(field.getLabel()) }
 
-        is FileSchemeFieldData -> TextField(
+        is FileSchemeFieldData -> FileSchemeField(
             field.value.value,
             { field.value.value = it },
+            field.placeholders,
             modifier
-        ) { Row { Label(field.getLabel()); Text("THIS IS A NORMAL TEXT FIELD FOR NOW") } }
+        ) { Label(field.getLabel()) }
 
         is IntFieldData -> IntField(
             field.value.value,

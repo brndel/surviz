@@ -49,6 +49,8 @@ object Labels {
     const val EXPORT_OUTPUT_PATH = "EXPORT_OUTPUT_PATH"
     const val EXPORT_FILE_NAME_SCHEME = "EXPORT_FILE_NAME_SCHEME"
 
+    const val PLACEHOLDERS = "PLACEHOLDERS"
+
     const val EXPORT_BUTTON = "EXPORT_BUTTON"
 
     const val IMPORT_ERROR_INVALID_FILE_TYPE = "IMPORT_ERROR_INVALID_FILE_TYPE"
@@ -126,6 +128,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.EXPORT_OUTPUT_PATH to "Output path",
             Labels.EXPORT_FILE_NAME_SCHEME to "File name scheme",
 
+            Labels.PLACEHOLDERS to "Placeholders",
+
             Labels.EXPORT_BUTTON to "Export",
 
             Labels.ICON_SELECT_WINDOW to "Select icon",
@@ -198,6 +202,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.EXPORT_SEPARATE_OPTIONS to "Alle Optionen seperat exportieren",
             Labels.EXPORT_OUTPUT_PATH to "Speicherpfad",
             Labels.EXPORT_FILE_NAME_SCHEME to "Schema für Dateinamen",
+
+            Labels.PLACEHOLDERS to "Platzhalter",
 
             Labels.EXPORT_BUTTON to "Exportieren",
 

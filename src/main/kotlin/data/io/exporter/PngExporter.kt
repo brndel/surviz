@@ -3,6 +3,7 @@ package data.io.exporter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toAwtImage
 import data.generator.ImageGenerator
+import data.io.exporter.Exporter.Companion.getNameFromScheme
 import data.io.utils.result.ExportResult
 import data.io.utils.result.warnings.ExportWarning
 import data.io.utils.result.warnings.ImageSizeExportWarning
@@ -253,14 +254,6 @@ object PngExporter : Exporter {
             return ImageSizeExportWarning(imageResult.neededWidth, blockId, situationId, optionId)
         }
         return null
-    }
-
-    private fun getNameFromScheme(template: String, vararg values: Pair<String, String>): String {
-        var result = template
-        values.forEach { (placeholder, replacement) ->
-            result = result.replace("\$$placeholder\$", replacement)
-        }
-        return result
     }
 
     private fun saveBitmap(bitmap: ImageBitmap, path: String, name: String) {
