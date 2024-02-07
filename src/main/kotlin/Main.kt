@@ -55,6 +55,10 @@ fun main() = application {
             override fun openSettings() {
                 settingsWindowOpen = true
             }
+
+            override fun loadData() {
+                TODO()
+            }
         }
     }
 
@@ -191,6 +195,7 @@ interface GlobalCallbacks {
     fun saveProject()
     fun closeProject()
     fun openSettings()
+    fun loadData()
 
     companion object {
         @Composable

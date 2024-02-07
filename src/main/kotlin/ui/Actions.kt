@@ -36,6 +36,7 @@ class ShortcutActionsManager(vararg groups: AppBarGroup) {
 val fileGroup = AppBarGroup(
     Labels.APP_BAR_GROUP_FILE, listOf(
         SaveAction,
+        LoadDataAction,
         CloseAction,
         OpenSettingsAction
     )
@@ -46,6 +47,12 @@ val fileGroup = AppBarGroup(
 data object SaveAction : AppBarAction(Labels.ACTION_SAVE, Shortcut(Key.S, ctrl = true)) {
     override fun onClick(globalCallbacks: GlobalCallbacks) {
         globalCallbacks.saveProject()
+    }
+}
+
+data object LoadDataAction : AppBarAction(Labels.ACTION_LOAD_DATA) {
+    override fun onClick(globalCallbacks: GlobalCallbacks) {
+        globalCallbacks.loadData()
     }
 }
 

@@ -52,6 +52,7 @@ object Labels {
 
     const val APP_BAR_GROUP_FILE = "APP_BAR_GROUP_FILE"
     const val ACTION_SAVE = "ACTION_SAVE"
+    const val ACTION_LOAD_DATA = "ACTION_LOAD_DATA"
     const val ACTION_CLOSE = "ACTION_CLOSE"
     const val ACTION_OPEN_SETTINGS = "ACTION_OPEN_SETTINGS"
 
@@ -117,6 +118,7 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.APP_BAR_GROUP_FILE to "File",
             Labels.ACTION_SAVE to "Save file",
+            Labels.ACTION_LOAD_DATA to "Load new simulation data",
             Labels.ACTION_CLOSE to "Close file",
             Labels.ACTION_OPEN_SETTINGS to "Open Settings",
 
@@ -181,6 +183,7 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.APP_BAR_GROUP_FILE to "Datei",
             Labels.ACTION_SAVE to "Datei speichern",
+            Labels.ACTION_LOAD_DATA to "Neue Simulationsdatei laden",
             Labels.ACTION_CLOSE to "Datei schließen",
             Labels.ACTION_OPEN_SETTINGS to "Einstellungen öffnen",
 
