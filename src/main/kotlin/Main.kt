@@ -12,6 +12,7 @@ import com.darkrockstudios.libraries.mpfilepicker.DirectoryPicker
 import data.project.Project
 import data.project.ProjectData
 import ui.*
+import ui.window.SettingsWindow
 import java.io.File
 import java.nio.file.Path
 import kotlin.io.path.Path
@@ -94,18 +95,15 @@ fun main() = application {
                 onKeyEvent(it)
             }
 
-
-            if (settingsWindowOpen) {
-                Window(title = LocalLanguage.current.getString(Labels.SETTINGS), onCloseRequest = {
-                    settingsWindowOpen = false
-                }) {
-                    Label(Labels.SETTINGS)
-                }
-            }
-
             ProjectPathPicker(filePickerOpen, { filePickerOpen = false }) {
                 currentProjectPath = it.pathString
                 callbacks.saveProject()
+            }
+
+            if (settingsWindowOpen) {
+                SettingsWindow {
+                    settingsWindowOpen = false
+                }
             }
         }
     }
