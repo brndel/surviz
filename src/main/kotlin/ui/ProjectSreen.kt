@@ -1,11 +1,6 @@
 package ui
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
@@ -72,10 +67,9 @@ val LocalIconStorage = compositionLocalOf<IconStorage?> { null }
 @Composable
 private fun ProjectPageNavigator(
     currentPage: Page,
-    onNavigate: (Page) -> Unit,
-    modifier: Modifier = Modifier
+    onNavigate: (Page) -> Unit
 ) {
-    Column(modifier, verticalArrangement = Arrangement.spacedBy(2.dp)) {
+    Column(modifier = Modifier.width(128.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
         for (page in Page.entries) {
             NavButton(
                 currentPage == page,
@@ -93,7 +87,7 @@ private fun ColumnScope.NavButton(
     onNavigate: (Page) -> Unit
 ) {
     Button(
-        modifier = Modifier.weight(1F),
+        modifier = Modifier.weight(1F).fillMaxWidth(),
         onClick = { onNavigate(page) },
         colors = ButtonDefaults.buttonColors(
             if (selected) {
