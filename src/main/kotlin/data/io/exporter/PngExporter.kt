@@ -19,6 +19,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import ui.Labels
+import util.platformPath
 import javax.imageio.ImageIO
 import kotlin.io.path.Path
 
@@ -37,15 +38,15 @@ object PngExporter : Exporter {
 
     private const val DEFAULT_SCHEME = "block_\$block\$_situation_\$situation\$_option_\$option\$"
 
-    private val defaultPath: String
-        get() {
-            val osName = System.getProperty("os.name").lowercase()
-            return if (osName.startsWith("win")) {
-                "C:\\Users\\${System.getProperty("user.name")}\\Desktop\\SurViz"
-            } else {
-                "/home/${System.getProperty("user.name")}/surviz"
-            }
-        }
+    private val defaultPath: String by lazy {
+        platformPath(windows = {
+            "C:\\Users\\$it\\Desktop\\SurViz\\images"
+        }, linux = {
+            "/home/$it/surviz/images"
+        }, mac = {
+            "/Users/$it/surviz/images"
+        })
+    }
 
     private lateinit var imageGenerator: ImageGenerator
 
