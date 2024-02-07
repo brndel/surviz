@@ -10,17 +10,12 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import data.project.config.SingleValueConfig
 import data.project.config.SituationConfig
@@ -178,9 +174,15 @@ private fun SingleValueColumnField(
                         onValueChange(createColumn())
                         dropdownExpanded = false
                     }) {
-                        Column {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
                             Label(nameLabel)
-                            Label(descriptionLabel, style = MaterialTheme.typography.subtitle1)
+                            Label(
+                                descriptionLabel,
+                                style = MaterialTheme.typography.subtitle1,
+                                modifier = Modifier.alpha(0.75F)
+                            )
                         }
                     }
                 }
@@ -256,15 +258,41 @@ private fun ListColumnsExtra(value: ListColumns, columns: List<String>) {
 
 @Composable
 private fun SchemeColumnsExtra(scheme: String, columns: List<String>) {
-    Column {
-        Row {
-            Label(Labels.FIELD_COLUMN_SCHEME)
-            Text("'$scheme'")
-        }
-        Row {
-            val result = SchemeColumns.getSchemes(scheme = scheme, schemesList = columns)
-            for (string in result) {
-                Text(string)
+    Surface(
+        color = MaterialTheme.colors.secondary,
+        contentColor = MaterialTheme.colors.onSecondary,
+        shape = RoundedCornerShape(4.dp)
+    ) {
+        Row(
+            Modifier.padding(4.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(Icons.Default.Info, null)
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Label(Labels.FIELD_COLUMN_SCHEME)
+                    Text("'$scheme'")
+                }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    val result = SchemeColumns.getSchemes(scheme = scheme, schemesList = columns)
+                    for (string in result) {
+                        Surface(
+                            color = MaterialTheme.colors.secondaryVariant,
+                            shape = RoundedCornerShape(4.dp)
+                        ) {
+                            Text(string, modifier = Modifier.padding(4.dp))
+                        }
+                    }
+
+                    if (result.isEmpty()) {
+                        Label(Labels.SCHEME_NO_RESULT_FOUND)
+                    }
+                }
             }
         }
     }
