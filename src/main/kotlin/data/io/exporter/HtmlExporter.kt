@@ -11,7 +11,9 @@ import kotlinx.coroutines.*
 import ui.Labels
 import kotlinx.html.*
 import kotlinx.html.dom.create
+import kotlinx.html.stream.appendHTML
 import org.w3c.dom.Element
+import java.io.File
 import java.io.OutputStream
 import java.io.OutputStreamWriter
 import javax.xml.parsers.DocumentBuilderFactory
@@ -30,8 +32,9 @@ object HtmlExporter : Exporter {
     private const val ALL_SITUATION_KEY = "all_situations"
     private const val PATH_KEY = "path"
     private const val SCHEME_KEY = "scheme"
-    private const val DEFAULT_SCHEME = "block_\$block\$_situation_\$situation\$"
 
+
+    private const val DEFAULT_SCHEME = "block_\$block\$_situation_\$situation\$"
     private const val SEPARATE_OPTION_KEY = "separate_options"
 
 // TODO("UNIPARK VARIABLE")
@@ -59,12 +62,11 @@ object HtmlExporter : Exporter {
             blocks.add(project.data.blocks[block - 1])
         }
 
-        val situation = 1
-//      val situation = exportConfig[SITUATION_KEY].toString().toInt()
+        val situation = exportConfig[SITUATION_KEY].toString().toInt()
 
         // Generate Images with Selection
         val pngExportConfig = exportConfig.toMutableMap()
-        pngExportConfig[DEFAULT_SCHEME] = "block_\$block\$_situation_\$situation\$_option_\$option\$"
+        pngExportConfig[SCHEME_KEY] = "block_\$block\$_situation_\$situation\$_option_\$option\$"
         pngExportConfig[PATH_KEY] = "/Users/benicio/Desktop/Test1/images"
         pngExportConfig[SEPARATE_OPTION_KEY] = "true"
 
@@ -93,7 +95,6 @@ object HtmlExporter : Exporter {
         }
         return ExportResult(errorList.filterNotNull())
     }
-
 
     private suspend fun saveBlock(
         block: Block,
@@ -129,7 +130,6 @@ object HtmlExporter : Exporter {
         scheme: String,
         path: String
     ): List<ExportError?> {
-
         // Generate HTML Document
         val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument()
 
@@ -148,6 +148,9 @@ object HtmlExporter : Exporter {
             "situation" to situationId.toString()
         )
 
+        val outputFile = File("$path/main.html")
+        outputFile.writeText(html.toString())
+        println("HTML-Datei wurde unter ${outputFile.absolutePath} erstellt.")
         saveHtmlFile(html, path, fileName)
 
         return listOfNotNull()
@@ -221,15 +224,15 @@ object HtmlExporter : Exporter {
      */
     override fun getFields(project: Project): List<NamedField> {
         val fields: ArrayList<NamedField> = ArrayList()
-//
-//    //  Configure situations to export
-//        val blockOptionList = ArrayList<String>().apply {
-//            project.data.blocks.size.let { blockCount ->
-//                addAll((1..blockCount).map(Int::toString))
-//            }
-//        }
-//        fields.add(NamedField(BLOCK_KEY, OptionsFieldData("1", Labels.BLOCK, blockOptionList)))
-//
+
+    //  Configure situations to export
+        val blockOptionList = ArrayList<String>().apply {
+            project.data.blocks.size.let { blockCount ->
+                addAll((1..blockCount).map(Int::toString))
+            }
+        }
+        fields.add(NamedField(BLOCK_KEY, OptionsFieldData("1", Labels.BLOCK, blockOptionList)))
+
         fields.add(
             NamedField(
                 ALL_BLOCK_KEY,
@@ -237,21 +240,22 @@ object HtmlExporter : Exporter {
             )
         )
 
-//        fields.add(NamedField(SITUATION_KEY, IntFieldData(1, Labels.SITUATION, 1, Int.MAX_VALUE)))
+        fields.add(NamedField(SITUATION_KEY, IntFieldData(1, Labels.SITUATION, 1, Int.MAX_VALUE)))
+
         fields.add(
             NamedField(
                 ALL_SITUATION_KEY,
                 BooleanFieldData(true, Labels.EXPORT_SELECT_ALL_SITUATIONS)
             )
         )
-//
-////        fields.add(
-////            NamedField(
-////                SEPARATE_OPTION_KEY,
-////                BooleanFieldData(true, Labels.EXPORT_SEPARATE_OPTIONS)
-////            )
-////        )
-//
+
+        fields.add(
+            NamedField(
+                SEPARATE_OPTION_KEY,
+                BooleanFieldData(true, Labels.EXPORT_SEPARATE_OPTIONS)
+            )
+        )
+
 //// Field for unipark variable
 ////        fields.add(
 ////            NamedField(
