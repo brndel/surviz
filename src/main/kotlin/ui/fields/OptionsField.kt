@@ -20,7 +20,7 @@ fun <T> OptionsField(
     value: T,
     onValueChange: (T) -> Unit,
     options: List<T>,
-    modifier: Modifier = Modifier.width(128.dp),
+    modifier: Modifier = Modifier.width(164.dp),
     label: @Composable (() -> Unit)? = null,
     item: @Composable (T) -> Unit
 ) {
