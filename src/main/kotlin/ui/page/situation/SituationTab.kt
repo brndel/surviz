@@ -261,11 +261,9 @@ private fun SchemeColumnsExtra(scheme: String, columns: List<String>) {
             Label(Labels.FIELD_COLUMN_SCHEME)
             Text("'$scheme'")
         }
-        Row {
-            val result = SchemeColumns.getSchemes(scheme = scheme, schemesList = columns)
-            for (string in result) {
-                Text(string)
-            }
+        val result = SchemeColumns.getSchemes(scheme = scheme, schemesList = columns)
+        for (string in result) {
+            Text(string)
         }
     }
 }
