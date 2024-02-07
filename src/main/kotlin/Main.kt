@@ -1,3 +1,4 @@
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
@@ -8,10 +9,10 @@ import androidx.compose.ui.input.key.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
-import com.darkrockstudios.libraries.mpfilepicker.DirectoryPicker
 import data.project.Project
 import data.project.ProjectData
 import ui.*
+import ui.fields.DirectoryPickerField
 import ui.window.SettingsWindow
 import java.io.File
 import java.nio.file.Path
@@ -99,9 +100,11 @@ fun main() = application {
                 onKeyEvent(it)
             }
 
-            ProjectPathPicker(filePickerOpen, { filePickerOpen = false }) {
-                currentProjectPath = it.pathString
-                callbacks.saveProject()
+            if (filePickerOpen) {
+                ProjectPathPicker({ filePickerOpen = false }) {
+                    currentProjectPath = it.pathString
+                    callbacks.saveProject()
+                }
             }
 
             if (settingsWindowOpen) {
@@ -147,45 +150,35 @@ fun ApplicationScope.MainWindow(
 
 @Composable
 fun ProjectPathPicker(
-    windowOpen: Boolean,
     onCloseRequest: () -> Unit,
     onFilePicked: (Path) -> Unit
 ) {
-    var directory: String? by remember(windowOpen) { mutableStateOf(null) }
+    var directory: String by remember { mutableStateOf(Project.defaultSaveDirectory) }
 
-    var directoryOpen by remember(windowOpen) { mutableStateOf(windowOpen) }
+    var filename: String by remember { mutableStateOf(Project.DEFAULT_FILE_NAME) }
 
-    DirectoryPicker(windowOpen) {
-        directoryOpen = false
-        if (it == null) {
-            onCloseRequest()
-        } else {
-            directory = it
+    val path by derivedStateOf {
+        var p = Path(directory, filename)
+        if (p.extension == "") {
+            p = Path(p.pathString.removeSuffix(".") + ".svz")
         }
+
+        p
     }
 
-    if (directory != null) {
-        var filename by remember { mutableStateOf("") }
-        val path by derivedStateOf {
-            var p = Path(directory!!, filename)
-            if (p.extension == "") {
-                p = Path(p.pathString.removeSuffix(".") + ".svz")
-            }
-
-            p
-        }
-        DialogWindow(onCloseRequest = onCloseRequest) {
-            Column(
-                Modifier.padding(4.dp)
-            ) {
-                TextField(filename, { filename = it })
-                Text(path.pathString)
-                Button({
-                    onCloseRequest()
-                    onFilePicked(path)
-                }) {
-                    Label(Labels.ACTION_SAVE)
-                }
+    DialogWindow(onCloseRequest = onCloseRequest) {
+        Column(
+            Modifier.padding(4.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            DirectoryPickerField(directory, { directory = it })
+            TextField(filename, { filename = it })
+            Text(path.pathString)
+            Button({
+                onCloseRequest()
+                onFilePicked(path)
+            }) {
+                Label(Labels.ACTION_SAVE)
             }
         }
     }
