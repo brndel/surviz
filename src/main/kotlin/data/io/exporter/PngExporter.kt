@@ -3,9 +3,9 @@ package data.io.exporter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toAwtImage
 import data.generator.ImageGenerator
-import data.io.exporter.result.ExportResult
-import data.io.exporter.result.errors.ExportWarning
-import data.io.exporter.result.errors.ImageSizeExportWarning
+import data.io.utils.result.ExportResult
+import data.io.utils.result.warnings.ExportWarning
+import data.io.utils.result.warnings.ImageSizeExportWarning
 import data.project.Project
 import data.project.data.Block
 import data.project.data.Situation

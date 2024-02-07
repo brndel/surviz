@@ -23,10 +23,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import data.io.DataManager
 import data.io.exporter.ExporterVariant
-import data.io.exporter.result.ExportResult
+import data.io.utils.result.ExportResult
 import data.project.Project
 import ui.Label
 import ui.Labels
+import ui.LocalLanguage
 import ui.fields.GenericField
 import ui.fields.OptionsField
 import ui.util.NestedSurface
@@ -102,7 +103,7 @@ private fun ExporterConfigCard(
                 if (isExporting) {
                     CircularProgressIndicator()
                 } else {
-                    Text("Export")
+                    Text(LocalLanguage.current.getString(Labels.EXPORT_BUTTON))
                 }
             }
         }

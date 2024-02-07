@@ -1,7 +1,7 @@
 package data.io
 
 import data.io.exporter.ExporterVariant
-import data.io.exporter.result.ExportResult
+import data.io.utils.result.ExportResult
 import data.io.importer.Importer
 import data.io.importer.ImporterVariant
 import data.project.Project

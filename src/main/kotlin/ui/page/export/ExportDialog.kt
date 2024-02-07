@@ -16,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import data.io.exporter.result.ExportResult
-import data.io.exporter.result.report.ExportReport
+import data.io.utils.result.ExportResult
+import data.io.utils.result.report.ExportReport
 import data.project.Project
 import ui.Labels
 import ui.LocalLanguage
@@ -30,7 +30,7 @@ fun ExportDialog(exportResult: ExportResult, project: Project, onDismissRequest:
     var confirmClickable = false
     val icon: @Composable () -> Unit
 
-    if (exportResult.errors.isEmpty()) {
+    if (exportResult.warnings.isEmpty()) {
         title = LocalLanguage.current.getString(Labels.EXPORT_SUCCESS)
         icon = {
             Icon(
