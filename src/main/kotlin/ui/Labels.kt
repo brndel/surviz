@@ -41,6 +41,8 @@ object Labels {
     const val SELECT_COLUMN_NAME = "SELECT_COLUMN_NAME"
     const val SELECT_COLUMN_DESC = "SELECT_COLUMN_DESC"
 
+    const val EXPORTER = "EXPORTER"
+
     const val EXPORT_SELECT_ALL_BLOCKS = "SELECT_ALL_BLOCKS"
     const val EXPORT_SELECT_ALL_SITUATIONS = "SELECT_ALL_SITUATIONS"
     const val EXPORT_SEPARATE_OPTIONS = "EXPORT_SEPARATE_OPTIONS"
@@ -114,6 +116,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.SELECT_COLUMN_NAME to "Select",
             Labels.SELECT_COLUMN_DESC to "Select columns by hand",
 
+            Labels.EXPORTER to "Exporter",
+
             Labels.EXPORT_SELECT_ALL_BLOCKS to "Select all blocks",
             Labels.EXPORT_SELECT_ALL_SITUATIONS to "Select all situations",
             Labels.EXPORT_SEPARATE_OPTIONS to "Export all options separately",
@@ -182,6 +186,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.SELECT_COLUMN_NAME to "Auswählen",
             Labels.SELECT_COLUMN_DESC to "Wähle die Spalten von Hand aus",
+
+            Labels.EXPORTER to "Exporter",
 
             Labels.EXPORT_SELECT_ALL_BLOCKS to "Alle Blöcke auswählen",
             Labels.EXPORT_SELECT_ALL_SITUATIONS to "Alle Situationen auswählen",

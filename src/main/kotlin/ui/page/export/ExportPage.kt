@@ -51,7 +51,9 @@ fun ExportPage(project: Project) {
 
         ImageConfigCard(project.configuration.imageConfig, Modifier.fillMaxWidth())
 
-        OptionsField(selectedExporter, { selectedExporter = it }, ExporterVariant.entries) {
+        OptionsField(selectedExporter, { selectedExporter = it }, ExporterVariant.entries, label = {
+            Label(Labels.EXPORTER)
+        }) {
             Text(it.toString())
         }
 

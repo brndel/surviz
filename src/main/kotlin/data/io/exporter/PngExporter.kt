@@ -10,12 +10,7 @@ import data.project.Project
 import data.project.data.Block
 import data.project.data.Situation
 import data.project.data.SituationOption
-import data.resources.fields.BooleanFieldData
-import data.resources.fields.FileSchemeFieldData
-import data.resources.fields.IntFieldData
-import data.resources.fields.NamedField
-import data.resources.fields.OptionsFieldData
-import data.resources.fields.StringFieldData
+import data.resources.fields.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -98,7 +93,7 @@ object PngExporter : Exporter {
         fields.add(
             NamedField(
                 PATH_KEY,
-                StringFieldData(defaultPath, Labels.EXPORT_OUTPUT_PATH)
+                StringFieldData(defaultPath, Labels.EXPORT_OUTPUT_PATH, StringFieldHint.Directory)
             )
         )
         fields.add(
