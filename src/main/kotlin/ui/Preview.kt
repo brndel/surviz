@@ -3,13 +3,9 @@ package ui
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -17,11 +13,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import data.generator.ImageGenerator
 import data.project.Project
 import ui.fields.OptionsField
+import ui.util.NestedSurface
 
 /**
  * This view shows a preview of the current [Project]
@@ -44,20 +43,24 @@ fun Preview(project: Project) {
 
         LazyColumn(Modifier.fillMaxSize()) {
             stickyHeader {
-                Surface(Modifier.fillMaxWidth(), color = Color.White) {
-                    Row {
+                NestedSurface(Modifier.fillMaxWidth().padding(4.dp), elevation = 4.dp) {
+                    Row(
+                        Modifier.padding(4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
                         OptionsField(
                             blockId,
                             { blockId = it },
                             (0..<project.data.blocks.size).toList(),
-                            label = { LocalLanguage.current.getString(Labels.BLOCK) }) {
+                            label = { Label(Labels.BLOCK) }) {
                             Text((it + 1).toString())
                         }
                         OptionsField(
                             situationId,
                             { situationId = it },
                             (0..<project.data.blocks[blockId].situations.size).toList(),
-                            label = { LocalLanguage.current.getString(Labels.SITUATION) }) {
+                            label = { Label(Labels.SITUATION) }) {
                             Text((it + 1).toString())
                         }
                     }
