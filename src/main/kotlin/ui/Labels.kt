@@ -76,6 +76,9 @@ object Labels {
     const val APPLY_FIX = "APPLY_FIX"
 
     const val NEEDED_WIDTH = "NEEDED_WIDTH"
+
+    const val SETTINGS_GENERAL = "SETTINGS_GENERAL"
+    const val SETTINGS_HELP = "SETTINGS_HELP"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -152,6 +155,9 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.APPLY_FIX to "Apply fix",
 
             Labels.NEEDED_WIDTH to "needed width",
+
+            Labels.SETTINGS_GENERAL to "General settings",
+            Labels.SETTINGS_HELP to "Help",
         )
     ),
     German(
@@ -227,6 +233,9 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.APPLY_FIX to "Problem beheben",
 
             Labels.NEEDED_WIDTH to "benötigte Breite",
+
+            Labels.SETTINGS_GENERAL to "Generelle Einstellungen",
+            Labels.SETTINGS_HELP to "Hilfe",
         )
     );
 
