@@ -13,7 +13,7 @@ import data.project.Project
 import data.project.ProjectData
 import ui.*
 import ui.fields.DirectoryPickerField
-import ui.window.SettingsWindow
+import ui.window.settings.SettingsWindow
 import java.io.File
 import java.nio.file.Path
 import kotlin.io.path.Path
