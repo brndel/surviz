@@ -1,8 +1,7 @@
 package data.io.exporter
 
 import data.io.utils.result.ExportResult
-import data.io.exporter.result.ExportResult
-import data.io.exporter.result.errors.ExportError
+import data.io.utils.result.warnings.ExportWarning
 import data.project.Project
 import data.project.data.Block
 import data.project.data.Situation
@@ -11,6 +10,7 @@ import kotlinx.coroutines.*
 import ui.Labels
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
+import util.platformPath
 import java.io.File
 
 
@@ -27,6 +27,16 @@ object HtmlExporter : Exporter {
 
     private const val DEFAULT_SCHEME = "block_\$block\$_situation_\$situation\$"
     private const val SEPARATE_OPTION_KEY = "separate_options"
+
+    private val defaultPath: String by lazy {
+        platformPath(windows = {
+            "C:\\Users\\$it\\Desktop\\SurViz\\images"
+        }, linux = {
+            "/home/$it/surviz/images"
+        }, mac = {
+            "/Users/$it/surviz/images"
+        })
+    }
 
 // TODO("UNIPARK VARIABLE")
 //    private const val UNIPARK_VAR = "unipark_variable"
@@ -82,7 +92,7 @@ object HtmlExporter : Exporter {
         fields.add(
             NamedField(
                 PATH_KEY,
-                StringFieldData("/Users/benicio/Desktop/Test1", Labels.EXPORT_OUTPUT_PATH)
+                StringFieldData(defaultPath, Labels.EXPORT_OUTPUT_PATH, StringFieldHint.Directory)
             )
         )
 
@@ -132,7 +142,7 @@ object HtmlExporter : Exporter {
         PngExporter.export(project, pngExportConfig)
 
         // Generate HTML Files with Selection
-        val errorList = ArrayList<ExportError?>()
+        val errorList = ArrayList<ExportWarning?>()
 
         CoroutineScope(Dispatchers.IO).launch {
             val widthList = coroutineScope {
@@ -161,7 +171,7 @@ object HtmlExporter : Exporter {
         path: String,
         allSituations: Boolean,
         situationId: Int
-    ): List<ExportError?> {
+    ): List<ExportWarning?> {
         val situations = ArrayList<Situation>()
 
         if (allSituations) {
@@ -187,7 +197,7 @@ object HtmlExporter : Exporter {
         blockId: Int,
         scheme: String,
         path: String
-    ): List<ExportError?> {
+    ): List<ExportWarning?> {
         // Generate HTML Document
         val htmlContent = buildString {
             appendHTML().html {
