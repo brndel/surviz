@@ -12,8 +12,8 @@ import ui.Labels
  * @param columns the columns that were chosen.
  */
 class ListColumns(
-        var columns: SnapshotStateList<String> = mutableStateListOf()
-): SingleValueColumn(
+    var columns: SnapshotStateList<String> = mutableStateListOf()
+) : SingleValueColumn(
     nameLabel,
     descLabel,
 ) {

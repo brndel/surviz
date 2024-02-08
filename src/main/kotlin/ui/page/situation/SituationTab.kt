@@ -1,6 +1,13 @@
 package ui.page.situation
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -8,13 +15,23 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import data.project.config.SingleValueConfig
 import data.project.config.SituationConfig
-import data.project.config.columns.*
+import data.project.config.columns.ListColumns
+import data.project.config.columns.SchemeColumns
+import data.project.config.columns.SingleValueColumn
+import data.project.config.columns.TimelineColumns
+import data.project.config.columns.ZeroColumn
 import data.project.data.DataSchemeOption
 import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
@@ -22,10 +39,10 @@ import org.burnoutcrew.reorderable.reorderable
 import ui.Label
 import ui.Labels
 import ui.fields.ColorField
-import ui.fields.OptionsField
 import ui.fields.IconStorageImage
+import ui.fields.OptionsField
 import ui.util.NestedSurface
-import java.util.*
+import java.util.UUID
 
 /**
  * This view lets the user edit a [SituationConfig]
@@ -45,8 +62,8 @@ fun SituationTab(
 ) {
     LazyColumn(
         modifier,
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-        contentPadding = PaddingValues(4.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        contentPadding = PaddingValues(10.dp)
     ) {
         var name by config.name
         var color by config.color
@@ -55,7 +72,7 @@ fun SituationTab(
             OutlinedTextField(
                 name,
                 { name = it },
-                label = { Text("Name") })
+                label = { Label(Labels.SITUATION_NAME) })
         }
 
         item {
@@ -63,16 +80,16 @@ fun SituationTab(
         }
 
         item {
-            Text("Single value columns")
+           Label(Labels.SITUATION_SINGLE_VALUE_COLUMNS)
         }
 
         items(singleValueIds, key = { it }) { id ->
             val column = config.getColumns(id)
 
-            NestedSurface (
+            NestedSurface(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Row(Modifier.padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                Row(Modifier.padding(4.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     val singleValueConfig = singleValues[id] ?: return@Row
                     IconStorageImage(singleValueConfig.icon.baseIcon.value)
                     SingleValueColumnField(
@@ -110,8 +127,8 @@ fun SituationTab(
                 LazyColumn(
                     state = reorderState.listState,
                     modifier = Modifier.reorderable(reorderState).fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    contentPadding = PaddingValues(4.dp)
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    contentPadding = PaddingValues(10.dp)
                 ) {
                     items(config.getTimeline(), key = { it }) { entry ->
                         ReorderableItem(reorderState, key = entry) { _ ->
@@ -138,7 +155,7 @@ private fun SingleValueColumnField(
 ) {
     var dropdownExpanded by remember { mutableStateOf(false) }
     Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         Box {
             Button({ dropdownExpanded = true }) {
@@ -157,9 +174,16 @@ private fun SingleValueColumnField(
                         onValueChange(createColumn())
                         dropdownExpanded = false
                     }) {
-                        Column {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(4.dp),
+                            modifier = Modifier.padding(top = 10.dp, bottom = 10.dp, start = 4.dp, end = 4.dp)
+                        ) {
                             Label(nameLabel)
-                            Label(descriptionLabel, style = MaterialTheme.typography.subtitle1)
+                            Label(
+                                descriptionLabel,
+                                style = MaterialTheme.typography.subtitle1,
+                                modifier = Modifier.alpha(0.75F)
+                            )
                         }
                     }
                 }
@@ -235,15 +259,41 @@ private fun ListColumnsExtra(value: ListColumns, columns: List<String>) {
 
 @Composable
 private fun SchemeColumnsExtra(scheme: String, columns: List<String>) {
-    Column {
-        Row {
-            Label(Labels.FIELD_COLUMN_SCHEME)
-            Text("'$scheme'")
-        }
-        Row {
-            val result = SchemeColumns.getSchemes(scheme = scheme, schemesList = columns)
-            for (string in result) {
-                Text(string)
+    Surface(
+        color = MaterialTheme.colors.secondary,
+        contentColor = MaterialTheme.colors.onSecondary,
+        shape = RoundedCornerShape(4.dp),
+    ) {
+        Row(
+            Modifier.padding(10.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(Icons.Default.Info, null)
+            Column(
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Label(Labels.FIELD_COLUMN_SCHEME)
+                    Text("'$scheme'")
+                }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    val result = SchemeColumns.getSchemes(scheme = scheme, schemesList = columns)
+                    for (string in result) {
+                        Surface(
+                            color = MaterialTheme.colors.secondaryVariant,
+                            shape = RoundedCornerShape(4.dp)
+                        ) {
+                            Text(string, modifier = Modifier.padding(10.dp))
+                        }
+                    }
+
+                    if (result.isEmpty()) {
+                        Label(Labels.SCHEME_NO_RESULT_FOUND)
+                    }
+                }
             }
         }
     }

@@ -28,6 +28,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.9")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5")
+    implementation(compose.materialIconsExtended)
     implementation("org.jetbrains.kotlinx:kotlinx-html:0.11.0")
 }
 

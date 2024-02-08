@@ -1,11 +1,15 @@
 package data.io
 
 import data.io.exporter.ExporterVariant
+import data.io.utils.result.ExportResult
 import data.io.importer.Importer
 import data.io.importer.ImporterVariant
 import data.project.Project
 import data.project.ProjectData
 import data.resources.exceptions.FileTypeException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 
 /**
@@ -38,8 +42,17 @@ object DataManager {
      * @param exporter The exporter to use.
      * @param exportConfig The export configuration.
      */
-    fun saveData(project: Project, exporter: ExporterVariant, exportConfig: Map<String, Any>) {
-        exporter.getExporter().export(project, exportConfig)
+    fun saveData(
+        project: Project,
+        exporter: ExporterVariant,
+        exportConfig: Map<String, Any>,
+        onFinished: (ExportResult) -> Unit,
+    ) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val result =  exporter.getExporter().export(project, exportConfig)
+
+            onFinished(result)
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -55,6 +68,7 @@ object DataManager {
      * @return right importer if found, null if no right importer is present
      */
     private fun getImporterByExtension(extension: String): Importer? {
-        return ImporterVariant.entries.find { it.getImporter().getType() == extension }?.getImporter()
+        return ImporterVariant.entries.find { it.getImporter().getType() == extension }
+            ?.getImporter()
     }
 }

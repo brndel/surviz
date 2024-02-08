@@ -46,14 +46,13 @@ class ImageGenerator(
     private var config: ProjectConfiguration,
     private var iconStorage: IconStorage
 ) {
+    private val cachedIcons = LinkedHashMap<String, ImageBitmap>()
 
     private val properties: Properties = Properties()
     private val imageConfig: ImageConfig
 
     private val height: Int
     private val padding: Int
-
-    private var neededWidth = 0
 
     init {
         properties.load(FileInputStream("src/main/resources/config/image_generator.properties"))
@@ -74,6 +73,7 @@ class ImageGenerator(
      * @throws NoSuchFieldException if no configuration was found for on of the options
      */
     fun generateSituation(situation: Situation): ImageResult {
+        var neededWidth = 0
         var maxWidth = 0
         var maxNeededWidth = 0
         val imageList = ArrayList<ImageBitmap>()
@@ -114,7 +114,7 @@ class ImageGenerator(
      */
     fun generateOption(option: SituationOption): ImageResult {
         // initialize values
-        neededWidth = 0
+        var neededWidth = 0
         val optionConfig =
             config.getSituationConfig(option.name)
 
@@ -172,10 +172,12 @@ class ImageGenerator(
         )
 
         // draw timeline
-        drawTimeline(canvas, color, option, optionConfig, dividerX, centerLine)
+        val timelineWidth =
+            drawTimeline(canvas, color, option, optionConfig, dividerX, centerLine, neededWidth)
 
         // calculate needed width
         neededWidth += singleValueSectionSize
+        neededWidth += timelineWidth
         neededWidth += 2 * padding
         neededWidth += 2 * properties.getProperty("column_padding").toInt()
 
@@ -321,7 +323,8 @@ class ImageGenerator(
                 newColor,
                 Offset(
                     x,
-                    centerLine + properties.getProperty("single_value_text_padding").toFloat() + yOffset
+                    centerLine + properties.getProperty("single_value_text_padding")
+                        .toFloat() + yOffset
                 ),
                 TextType.Label,
                 true
@@ -330,7 +333,7 @@ class ImageGenerator(
             // draw icon
             val iconPath = singleValueConfig.icon.getIcon(value)
             if (iconPath != null) {
-                val icon = iconStorage.getIcon(iconPath)
+                val icon = getIcon(iconPath)
                 val iconHeight = icon?.height ?: 0
                 drawIcon(
                     canvas,
@@ -364,10 +367,12 @@ class ImageGenerator(
         optionConfig: SituationConfig,
         dividerX: Float,
         centerLine: Float,
-    ) {
+        neededWidth: Int
+    ): Int {
         var startX = dividerX + properties.getProperty("column_padding").toFloat()
         val timelinePadding = properties.getProperty("timeline_padding").toFloat()
         val yOffset = properties.getProperty("timeline_y_offset").toFloat()
+        var width = neededWidth
 
         // go over every section
         val timelineEntries = optionConfig.getTimeline()
@@ -380,7 +385,7 @@ class ImageGenerator(
 
             // calculate length of section
             val timelineLength = timeValue * imageConfig.timelineScaling.value.toFloat()
-            neededWidth += timelineLength.toInt()
+            width += timelineLength.toInt()
 
             val endX: Float = startX + timelineLength
 
@@ -398,7 +403,7 @@ class ImageGenerator(
             // draw icon
             val midX = startX + ((endX - startX) / 2)
 
-            val icon = entry.icon.value?.let { iconStorage.getIcon(it) }
+            val icon = entry.icon.value?.let { getIcon(it) }
 
             val iconSize = properties.getProperty("timeline_icon_size").toInt()
             val resizedIcon = resizeBitmap(icon, iconSize, iconSize)
@@ -427,6 +432,7 @@ class ImageGenerator(
 
             startX = endX
         }
+        return width
     }
 
     /**
@@ -510,5 +516,14 @@ class ImageGenerator(
             paint = Paint()
         )
         return image
+    }
+
+    private fun getIcon(key: String): ImageBitmap? {
+        if (cachedIcons.containsKey(key)) {
+            return cachedIcons[key]
+        }
+        val icon = iconStorage.getIcon(key) ?: return null
+        cachedIcons[key] = icon
+        return icon
     }
 }

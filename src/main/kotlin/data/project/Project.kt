@@ -7,6 +7,7 @@ import data.project.config.*
 import data.project.config.columns.*
 import data.project.data.DataScheme
 import data.project.data.IconStorage
+import util.platformPath
 import java.io.File
 import kotlin.io.path.Path
 import kotlin.io.path.createParentDirectories
@@ -62,15 +63,27 @@ class Project(
 
     companion object {
 
-        private val lastProjectFile: String
-            get() {
-                val os = System.getProperty("os.name").lowercase()
-                return if (os.startsWith("win")) {
-                    "C:\\Users\\${System.getProperty("user.name")}\\AppData\\Local\\SurViz\\last_project.txt"
-                } else {
-                    "/home/${System.getProperty("user.name")}/.local/share/SurViz/last_project.txt"
-                }
-            }
+        const val DEFAULT_FILE_NAME = "project.svz"
+
+        val defaultSaveDirectory by lazy {
+            platformPath(windows = {
+                "C:\\Users\\$it\\surviz"
+            }, linux = {
+                "/home/$it/surviz"
+            }, mac = {
+                "/Users/$it/surviz"
+            })
+        }
+
+        private val lastProjectFile: String by lazy {
+            platformPath(windows = {
+                "C:\\Users\\$it\\AppData\\Local\\SurViz\\last_project.txt"
+            }, linux = {
+                "/home/$it/.local/share/SurViz/last_project.txt"
+            }, mac = {
+                "/Users/$it/.local/share/SurViz/last_project.txt"
+            })
+        }
 
         /**
          * Gets the file path from the last saved project. This can allows the user to immediately
@@ -123,8 +136,14 @@ class Project(
                 .registerTypeAdapter(SingleValueConfig::class.java, SingleValueConfig.deserializer)
                 .registerTypeAdapter(SingleValueIcon::class.java, SingleValueIcon.serializer)
                 .registerTypeAdapter(SingleValueIcon::class.java, SingleValueIcon.deserializer)
-                .registerTypeAdapter(SingleValueIconLevel::class.java, SingleValueIconLevel.serializer)
-                .registerTypeAdapter(SingleValueIconLevel::class.java, SingleValueIconLevel.deserializer)
+                .registerTypeAdapter(
+                    SingleValueIconLevel::class.java,
+                    SingleValueIconLevel.serializer
+                )
+                .registerTypeAdapter(
+                    SingleValueIconLevel::class.java,
+                    SingleValueIconLevel.deserializer
+                )
                 .registerTypeAdapter(ImageConfig::class.java, ImageConfig.serializer)
                 .registerTypeAdapter(ImageConfig::class.java, ImageConfig.deserializer)
                 .registerTypeAdapter(SituationConfig::class.java, SituationConfig.serializer)

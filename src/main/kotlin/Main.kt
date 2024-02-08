@@ -1,3 +1,4 @@
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
@@ -8,10 +9,11 @@ import androidx.compose.ui.input.key.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
-import com.darkrockstudios.libraries.mpfilepicker.DirectoryPicker
 import data.project.Project
 import data.project.ProjectData
 import ui.*
+import ui.fields.DirectoryPickerField
+import ui.window.settings.SettingsWindow
 import java.io.File
 import java.nio.file.Path
 import kotlin.io.path.Path
@@ -55,6 +57,10 @@ fun main() = application {
             override fun openSettings() {
                 settingsWindowOpen = true
             }
+
+            override fun loadData() {
+                TODO()
+            }
         }
     }
 
@@ -80,9 +86,13 @@ fun main() = application {
     ) {
         MaterialTheme(
             colors = lightColors(
-                background = Color(240, 240, 240),
-                surface = Color(230, 230, 230),
-                primary = Color(64, 147, 138)
+                background = Color(245, 245, 245),
+                surface = Color(235, 235, 235),
+                primary = Color(64, 147, 138),
+                primaryVariant = Color(85, 180, 169),
+                secondary = Color(34, 47, 89),
+                secondaryVariant = Color(50, 70, 133),
+                onSecondary = Color.White,
             )
         ) {
 
@@ -90,18 +100,17 @@ fun main() = application {
                 onKeyEvent(it)
             }
 
-
-            if (settingsWindowOpen) {
-                Window(title = LocalLanguage.current.getString(Labels.SETTINGS), onCloseRequest = {
-                    settingsWindowOpen = false
-                }) {
-                    Label(Labels.SETTINGS)
+            if (filePickerOpen) {
+                ProjectPathPicker({ filePickerOpen = false }) {
+                    currentProjectPath = it.pathString
+                    callbacks.saveProject()
                 }
             }
 
-            ProjectPathPicker(filePickerOpen, { filePickerOpen = false }) {
-                currentProjectPath = it.pathString
-                callbacks.saveProject()
+            if (settingsWindowOpen) {
+                SettingsWindow({
+                    settingsWindowOpen = false
+                }, project = currentProject)
             }
         }
     }
@@ -140,42 +149,36 @@ fun ApplicationScope.MainWindow(
 }
 
 @Composable
-fun ProjectPathPicker(windowOpen: Boolean, onCloseRequest: () -> Unit, onFilePicked: (Path) -> Unit) {
-    var directory: String? by remember(windowOpen) { mutableStateOf(null) }
+fun ProjectPathPicker(
+    onCloseRequest: () -> Unit,
+    onFilePicked: (Path) -> Unit
+) {
+    var directory: String by remember { mutableStateOf(Project.defaultSaveDirectory) }
 
-    var directoryOpen by remember(windowOpen) { mutableStateOf(windowOpen) }
+    var filename: String by remember { mutableStateOf(Project.DEFAULT_FILE_NAME) }
 
-    DirectoryPicker(windowOpen) {
-        directoryOpen = false
-        if (it == null) {
-            onCloseRequest()
-        } else {
-            directory = it
+    val path by derivedStateOf {
+        var p = Path(directory, filename)
+        if (p.extension == "") {
+            p = Path(p.pathString.removeSuffix(".") + ".svz")
         }
+
+        p
     }
 
-    if (directory != null) {
-        var filename by remember { mutableStateOf("") }
-        val path by derivedStateOf {
-            var p = Path(directory!!, filename)
-            if (p.extension == "") {
-                p = Path(p.pathString.removeSuffix(".") + ".svz")
-            }
-
-            p
-        }
-        DialogWindow(onCloseRequest = onCloseRequest) {
-            Column(
-                Modifier.padding(4.dp)
-            ) {
-                TextField(filename, { filename = it })
-                Text(path.pathString)
-                Button({
-                    onCloseRequest()
-                    onFilePicked(path)
-                }) {
-                    Label(Labels.ACTION_SAVE)
-                }
+    DialogWindow(onCloseRequest = onCloseRequest) {
+        Column(
+            Modifier.padding(4.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            DirectoryPickerField(directory, { directory = it })
+            TextField(filename, { filename = it })
+            Text(path.pathString)
+            Button({
+                onCloseRequest()
+                onFilePicked(path)
+            }) {
+                Label(Labels.ACTION_SAVE)
             }
         }
     }
@@ -187,13 +190,15 @@ interface GlobalCallbacks {
     fun saveProject()
     fun closeProject()
     fun openSettings()
+    fun loadData()
 
     companion object {
         @Composable
         fun loadProject(filePath: String) = LocalGlobalCallbacks.current?.loadProject(filePath)
 
         @Composable
-        fun createProject(projectData: ProjectData) = LocalGlobalCallbacks.current?.createProject(projectData)
+        fun createProject(projectData: ProjectData) =
+            LocalGlobalCallbacks.current?.createProject(projectData)
 
         @Composable
         fun saveProject() = LocalGlobalCallbacks.current?.saveProject()

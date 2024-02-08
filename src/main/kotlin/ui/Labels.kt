@@ -18,10 +18,15 @@ object Labels {
 
     const val FIELD_UNIT = "FIELD_UNIT"
     const val FIELD_COLUMN_SCHEME = "FIELD_COLUMN_SCHEME"
+    const val SCHEME_NO_RESULT_FOUND = "SCHEME_NO_RESULT_FOUND"
+
+    const val FIELD_LINE_TYPE = "FIELD_LINE_TYPE"
 
     const val BLOCK = "BLOCK"
     const val SITUATION = "SITUATION"
+    const val OPTION = "OPTION"
     const val COLUMNS = "COLUMNS"
+    const val COLUMN = "COLUMN"
     const val TIMELINE = "TIMELINE"
 
     const val SCHEME_COLUMN_NAME = "SCHEME_COLUMN_NAME"
@@ -36,11 +41,23 @@ object Labels {
     const val SELECT_COLUMN_NAME = "SELECT_COLUMN_NAME"
     const val SELECT_COLUMN_DESC = "SELECT_COLUMN_DESC"
 
+    const val EXPORTER = "EXPORTER"
+
     const val EXPORT_SELECT_ALL_BLOCKS = "SELECT_ALL_BLOCKS"
     const val EXPORT_SELECT_ALL_SITUATIONS = "SELECT_ALL_SITUATIONS"
-    const val EXPORT_SEPARATE_OPTIONS="EXPORT_SEPARATE_OPTIONS"
-    const val EXPORT_OUTPUT_PATH="EXPORT_OUTPUT_PATH"
-    const val EXPORT_FILE_NAME_SCHEME="EXPORT_FILE_NAME_SCHEME"
+    const val EXPORT_SEPARATE_OPTIONS = "EXPORT_SEPARATE_OPTIONS"
+    const val EXPORT_OUTPUT_PATH = "EXPORT_OUTPUT_PATH"
+    const val EXPORT_FILE_NAME_SCHEME = "EXPORT_FILE_NAME_SCHEME"
+
+    const val EXPORT_SETTINGS = "EXPORT_GENERAL_SETTINGS"
+    const val EXPORT_IMAGE_SETTINGS = "EXPORT_IMAGE_SETTINGS"
+
+    const val EXPORT_IMAGE_CONFIG_WIDTH = "EXPORT_IMAGE_CONFIG_WIDTH"
+    const val EXPORT_IMAGE_CONFIG_TIMELINE_SCALING = "EXPORT_IMAGE_CONFIG_TIMELINE_SCALING"
+
+    const val PLACEHOLDERS = "PLACEHOLDERS"
+
+    const val EXPORT_BUTTON = "EXPORT_BUTTON"
 
     const val IMPORT_ERROR_INVALID_FILE_TYPE = "IMPORT_ERROR_INVALID_FILE_TYPE"
     const val IMPORT_ERROR_CORRUPT_FILE = "IMPORT_ERROR_CORRUPT_FILE"
@@ -51,6 +68,7 @@ object Labels {
 
     const val APP_BAR_GROUP_FILE = "APP_BAR_GROUP_FILE"
     const val ACTION_SAVE = "ACTION_SAVE"
+    const val ACTION_LOAD_DATA = "ACTION_LOAD_DATA"
     const val ACTION_CLOSE = "ACTION_CLOSE"
     const val ACTION_OPEN_SETTINGS = "ACTION_OPEN_SETTINGS"
 
@@ -58,6 +76,18 @@ object Labels {
     const val SHORTCUT_ALT = "SHORTCUT_ALT"
     const val SHORTCUT_META = "SHORTCUT_META"
     const val SHORTCUT_SHIFT = "SHORTCUT_SHIFT"
+
+    const val EXPORT_SUCCESS = "EXPORT_SUCCESS"
+    const val EXPORT_WARNING = "EXPORT_WARNING"
+    const val APPLY_FIX = "APPLY_FIX"
+
+    const val NEEDED_WIDTH = "NEEDED_WIDTH"
+
+    const val SETTINGS_GENERAL = "SETTINGS_GENERAL"
+    const val SETTINGS_HELP = "SETTINGS_HELP"
+
+    const val SITUATION_NAME = "SITUATION_NAME"
+    const val SITUATION_SINGLE_VALUE_COLUMNS = "SITUATION_SINGLE_VALUE_COLUMNS"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -79,10 +109,15 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.FIELD_UNIT to "Unit",
             Labels.FIELD_COLUMN_SCHEME to "Column scheme",
+            Labels.SCHEME_NO_RESULT_FOUND to "No columns found",
+
+            Labels.FIELD_LINE_TYPE to "Line type",
 
             Labels.BLOCK to "Block",
             Labels.SITUATION to "Situation",
+            Labels.OPTION to "Option",
             Labels.COLUMNS to "Columns",
+            Labels.COLUMN to "Column",
             Labels.TIMELINE to "Timeline",
 
             Labels.SCHEME_COLUMN_NAME to "Scheme",
@@ -97,11 +132,23 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.SELECT_COLUMN_NAME to "Select",
             Labels.SELECT_COLUMN_DESC to "Select columns by hand",
 
+            Labels.EXPORTER to "Exporter",
+
             Labels.EXPORT_SELECT_ALL_BLOCKS to "Select all blocks",
             Labels.EXPORT_SELECT_ALL_SITUATIONS to "Select all situations",
             Labels.EXPORT_SEPARATE_OPTIONS to "Export all options separately",
             Labels.EXPORT_OUTPUT_PATH to "Output path",
             Labels.EXPORT_FILE_NAME_SCHEME to "File name scheme",
+
+            Labels.EXPORT_SETTINGS to "Export settings",
+            Labels.EXPORT_IMAGE_SETTINGS to "General image settings",
+
+            Labels.EXPORT_IMAGE_CONFIG_WIDTH to "Width",
+            Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING to "Timeline scaling",
+
+            Labels.PLACEHOLDERS to "Placeholders",
+
+            Labels.EXPORT_BUTTON to "Export",
 
             Labels.ICON_SELECT_WINDOW to "Select icon",
 
@@ -109,6 +156,7 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.APP_BAR_GROUP_FILE to "File",
             Labels.ACTION_SAVE to "Save file",
+            Labels.ACTION_LOAD_DATA to "Load new simulation data",
             Labels.ACTION_CLOSE to "Close file",
             Labels.ACTION_OPEN_SETTINGS to "Open Settings",
 
@@ -116,6 +164,18 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.SHORTCUT_ALT to "Alt",
             Labels.SHORTCUT_META to "Meta",
             Labels.SHORTCUT_SHIFT to "Shift",
+
+            Labels.EXPORT_SUCCESS to "Exported successfully",
+            Labels.EXPORT_WARNING to "Problems have occurred while exporting",
+            Labels.APPLY_FIX to "Apply fix",
+
+            Labels.NEEDED_WIDTH to "needed width",
+
+            Labels.SETTINGS_GENERAL to "General settings",
+            Labels.SETTINGS_HELP to "Help",
+
+            Labels.SITUATION_NAME to "Name",
+            Labels.SITUATION_SINGLE_VALUE_COLUMNS to "Single value columns",
         )
     ),
     German(
@@ -136,11 +196,16 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.FIELD_UNIT to "Einheit",
             Labels.FIELD_COLUMN_SCHEME to "Spaltenschema",
+            Labels.SCHEME_NO_RESULT_FOUND to "Keine Spalten gefunden",
+
+            Labels.FIELD_LINE_TYPE to "Linientyp",
 
             Labels.BLOCK to "Block",
             Labels.SITUATION to "Situation",
+            Labels.OPTION to "Option",
             Labels.COLUMNS to "Spalten",
-            Labels.TIMELINE to "Zeitlinie",
+            Labels.COLUMN to "Spalte",
+            Labels.TIMELINE to "Zeitstrahl",
 
             Labels.SCHEME_COLUMN_NAME to "Schema",
             Labels.SCHEME_COLUMN_DESC to "Wählt die Spalten automatisch mit dem definierten Schema aus",
@@ -149,10 +214,12 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.ZERO_COLUMN_DESC to "Diese Spalte ist immer 0",
 
             Labels.TIMELINE_COLUMN_NAME to "Zeitlinie",
-            Labels.TIMELINE_COLUMN_DESC to "Nimmt die Spalten aus der Zeitlinie",
+            Labels.TIMELINE_COLUMN_DESC to "Nimmt die Spalten aus dem Zeitstrahl",
 
             Labels.SELECT_COLUMN_NAME to "Auswählen",
             Labels.SELECT_COLUMN_DESC to "Wähle die Spalten von Hand aus",
+
+            Labels.EXPORTER to "Exporter",
 
             Labels.EXPORT_SELECT_ALL_BLOCKS to "Alle Blöcke auswählen",
             Labels.EXPORT_SELECT_ALL_SITUATIONS to "Alle Situationen auswählen",
@@ -160,12 +227,23 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.EXPORT_OUTPUT_PATH to "Speicherpfad",
             Labels.EXPORT_FILE_NAME_SCHEME to "Schema für Dateinamen",
 
+            Labels.EXPORT_SETTINGS to "Export Einstellungen",
+            Labels.EXPORT_IMAGE_SETTINGS to "Generelle Bildeinstellungen",
+
+            Labels.EXPORT_IMAGE_CONFIG_WIDTH to "Breite",
+            Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING to "Skalierung des Zeitstrahls",
+
+            Labels.PLACEHOLDERS to "Platzhalter",
+
+            Labels.EXPORT_BUTTON to "Exportieren",
+
             Labels.ICON_SELECT_WINDOW to "Icon auswählen",
 
             Labels.UNNAMED_PROJECT to "Unbenanntes Projekt",
 
             Labels.APP_BAR_GROUP_FILE to "Datei",
             Labels.ACTION_SAVE to "Datei speichern",
+            Labels.ACTION_LOAD_DATA to "Neue Simulationsdatei laden",
             Labels.ACTION_CLOSE to "Datei schließen",
             Labels.ACTION_OPEN_SETTINGS to "Einstellungen öffnen",
 
@@ -173,6 +251,18 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.SHORTCUT_ALT to "Alt",
             Labels.SHORTCUT_META to "Meta",
             Labels.SHORTCUT_SHIFT to "Umschalt",
+
+            Labels.EXPORT_SUCCESS to "Exportieren erfolgreich",
+            Labels.EXPORT_WARNING to "Während des exportierens sind Fehler aufgetreten",
+            Labels.APPLY_FIX to "Problem beheben",
+
+            Labels.NEEDED_WIDTH to "benötigte Breite",
+
+            Labels.SETTINGS_GENERAL to "Generelle Einstellungen",
+            Labels.SETTINGS_HELP to "Hilfe",
+
+            Labels.SITUATION_NAME to "Name",
+            Labels.SITUATION_SINGLE_VALUE_COLUMNS to "Einzelwert-Spalten",
         )
     );
 

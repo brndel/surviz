@@ -4,9 +4,20 @@ import LocalGlobalCallbacks
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import ui.util.NestedSurface
 
 
@@ -55,7 +66,7 @@ private fun AppBarButton(group: AppBarGroup) {
 
 @Composable
 private fun ShortcutTag(shortcut: Shortcut) {
-    NestedSurface {
-        Text(shortcut.toStringLocalized())
+    NestedSurface(Modifier.padding(4.dp)) {
+        Text(shortcut.toStringLocalized(), modifier = Modifier.padding(4.dp))
     }
 }

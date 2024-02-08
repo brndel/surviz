@@ -8,7 +8,7 @@ package data.project.data
  * @property situationId The simulation id of the situation
  * @property options The options of the situation
  */
-data class Situation (
+data class Situation(
     var situationId: Int,
     var options: List<SituationOption>
 ) {

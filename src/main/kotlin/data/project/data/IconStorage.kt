@@ -37,7 +37,11 @@ data class IconStorage(
 ) {
     private val internalIcons: SnapshotStateMap<String, ImageBitmap> = mutableStateMapOf()
 
-    data class UserIcon(val image: ImageBitmap, val filePath: String, val originalFileBase64: String)
+    data class UserIcon(
+        val image: ImageBitmap,
+        val filePath: String,
+        val originalFileBase64: String
+    )
 
     init {
         loadInternalIcons()
@@ -173,7 +177,11 @@ data class IconStorage(
             }
 
             // resize image
-            val tmp = originalImage.getScaledInstance(targetWidth, targetHeight, java.awt.Image.SCALE_SMOOTH)
+            val tmp = originalImage.getScaledInstance(
+                targetWidth,
+                targetHeight,
+                java.awt.Image.SCALE_SMOOTH
+            )
             val dimg = BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB)
 
             val g2d = dimg.createGraphics()
@@ -216,7 +224,8 @@ data class IconStorage(
 
             svg.root?.width = SVGLength(ICON_SIZE.toFloat(), SVGLengthUnit.PX)
             svg.root?.height = SVGLength(ICON_SIZE.toFloat(), SVGLengthUnit.PX)
-            svg.root?.preserveAspectRatio = SVGPreserveAspectRatio(SVGPreserveAspectRatioAlign.XMID_YMID)
+            svg.root?.preserveAspectRatio =
+                SVGPreserveAspectRatio(SVGPreserveAspectRatioAlign.XMID_YMID)
             svg.render(canvas.nativeCanvas)
 
             return image
