@@ -108,9 +108,9 @@ fun main() = application {
             }
 
             if (settingsWindowOpen) {
-                SettingsWindow {
+                SettingsWindow({
                     settingsWindowOpen = false
-                }
+                }, project = currentProject)
             }
         }
     }
