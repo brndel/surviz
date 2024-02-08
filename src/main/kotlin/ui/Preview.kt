@@ -3,9 +3,11 @@ package ui
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -43,11 +45,11 @@ fun Preview(project: Project) {
 
         LazyColumn(Modifier.fillMaxSize()) {
             stickyHeader {
-                NestedSurface(Modifier.fillMaxWidth().padding(4.dp), elevation = 4.dp) {
+                NestedSurface(Modifier.fillMaxWidth().padding(10.dp), elevation = 4.dp) {
                     Row(
                         Modifier.padding(4.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         OptionsField(
                             blockId,

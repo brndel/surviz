@@ -62,8 +62,8 @@ fun SituationTab(
 ) {
     LazyColumn(
         modifier,
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-        contentPadding = PaddingValues(4.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        contentPadding = PaddingValues(10.dp)
     ) {
         var name by config.name
         var color by config.color
@@ -72,7 +72,7 @@ fun SituationTab(
             OutlinedTextField(
                 name,
                 { name = it },
-                label = { Text("Name") })
+                label = { Label(Labels.SITUATION_NAME) })
         }
 
         item {
@@ -80,7 +80,7 @@ fun SituationTab(
         }
 
         item {
-            Text("Single value columns")
+           Label(Labels.SITUATION_SINGLE_VALUE_COLUMNS)
         }
 
         items(singleValueIds, key = { it }) { id ->
@@ -89,7 +89,7 @@ fun SituationTab(
             NestedSurface(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Row(Modifier.padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                Row(Modifier.padding(4.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     val singleValueConfig = singleValues[id] ?: return@Row
                     IconStorageImage(singleValueConfig.icon.baseIcon.value)
                     SingleValueColumnField(
@@ -127,8 +127,8 @@ fun SituationTab(
                 LazyColumn(
                     state = reorderState.listState,
                     modifier = Modifier.reorderable(reorderState).fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    contentPadding = PaddingValues(4.dp)
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    contentPadding = PaddingValues(10.dp)
                 ) {
                     items(config.getTimeline(), key = { it }) { entry ->
                         ReorderableItem(reorderState, key = entry) { _ ->
@@ -155,7 +155,7 @@ private fun SingleValueColumnField(
 ) {
     var dropdownExpanded by remember { mutableStateOf(false) }
     Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         Box {
             Button({ dropdownExpanded = true }) {
@@ -175,7 +175,7 @@ private fun SingleValueColumnField(
                         dropdownExpanded = false
                     }) {
                         Column(
-                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             Label(nameLabel)
                             Label(
@@ -261,23 +261,23 @@ private fun SchemeColumnsExtra(scheme: String, columns: List<String>) {
     Surface(
         color = MaterialTheme.colors.secondary,
         contentColor = MaterialTheme.colors.onSecondary,
-        shape = RoundedCornerShape(4.dp)
+        shape = RoundedCornerShape(4.dp),
     ) {
         Row(
-            Modifier.padding(4.dp),
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            Modifier.padding(10.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(Icons.Default.Info, null)
             Column(
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     Label(Labels.FIELD_COLUMN_SCHEME)
                     Text("'$scheme'")
                 }
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     val result = SchemeColumns.getSchemes(scheme = scheme, schemesList = columns)
                     for (string in result) {
@@ -285,7 +285,7 @@ private fun SchemeColumnsExtra(scheme: String, columns: List<String>) {
                             color = MaterialTheme.colors.secondaryVariant,
                             shape = RoundedCornerShape(4.dp)
                         ) {
-                            Text(string, modifier = Modifier.padding(4.dp))
+                            Text(string, modifier = Modifier.padding(10.dp))
                         }
                     }
 

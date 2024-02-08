@@ -1,5 +1,6 @@
 package ui.page.situation
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -34,12 +35,11 @@ import ui.util.NestedSurface
 fun SituationPage(projectConfiguration: ProjectConfiguration, dataScheme: DataScheme) {
     var selectedTab by remember { mutableStateOf(0) }
 
-    Column(Modifier.fillMaxSize().padding(4.dp)) {
-        Label(Labels.PAGE_SITUATION, style = MaterialTheme.typography.h4)
-
-        NestedSurface(
-            Modifier.padding(16.dp).weight(1F),
-        ) {
+    Column(Modifier.fillMaxSize().padding(10.dp)) {
+        Box(Modifier.padding(10.dp)) {
+            Label(Labels.PAGE_SITUATION, style = MaterialTheme.typography.h4)
+        }
+        NestedSurface{
             Column {
                 TabRow(selectedTabIndex = selectedTab, modifier = Modifier.height(42.dp)) {
                     dataScheme.options.forEachIndexed { index, option ->

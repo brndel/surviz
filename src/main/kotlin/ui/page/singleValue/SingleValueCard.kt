@@ -52,8 +52,8 @@ fun SingleValueCard(
         elevation = elevation
     ) {
         Row(
-            Modifier.padding(4.dp).fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            Modifier.padding(10.dp).fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             ReorderHandle(reorderState)
 
@@ -71,7 +71,7 @@ private fun RowScope.SingleValueCardContent(config: SingleValueConfig) {
     var unit by config.unit
     var columnScheme by config.columnScheme
 
-    Column(Modifier.weight(1F), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+    Column(Modifier.weight(1F), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         OutlinedTextField(unit, { unit = it }, label = {
             Label(Labels.FIELD_UNIT)
         })

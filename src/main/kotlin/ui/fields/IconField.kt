@@ -24,6 +24,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindow
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
@@ -42,11 +44,11 @@ import ui.util.ErrorDialog
  * @param onIconChange gets called when the user selects a new item
  */
 @Composable
-fun IconField(icon: String?, onIconChange: (String?) -> Unit) {
+fun IconField(icon: String?,colorFilter: ColorFilter? = null, onIconChange: (String?) -> Unit) {
     var dialogOpen by remember { mutableStateOf(false) }
 
     Button({ dialogOpen = true }, modifier = Modifier.size(64.dp)) {
-        IconStorageImage(icon)
+        IconStorageImage(icon, colorFilter = colorFilter)
     }
 
     if (dialogOpen) {
@@ -153,7 +155,8 @@ private fun IconFieldDialogButton(
 fun IconStorageImage(
     iconPath: String?,
     modifier: Modifier = Modifier,
-    iconStorage: IconStorage? = LocalIconStorage.current
+    iconStorage: IconStorage? = LocalIconStorage.current,
+    colorFilter: ColorFilter? = null
 ) {
     if (iconPath == null) {
         Box(modifier.size(64.dp)) {
@@ -172,5 +175,5 @@ fun IconStorageImage(
         return
     }
 
-    Image(image, null, modifier = modifier.size(64.dp))
+    Image(image, null, modifier = modifier.size(64.dp), colorFilter = colorFilter)
 }

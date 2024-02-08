@@ -1,6 +1,7 @@
 package ui.page.export
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -45,22 +47,35 @@ fun ExportPage(project: Project) {
     var selectedExporter by remember { mutableStateOf(ExporterVariant.Png) }
 
     Column(
-        Modifier.fillMaxSize().padding(4.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        Modifier.fillMaxSize().padding(10.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Label(Labels.PAGE_EXPORT, style = MaterialTheme.typography.h4)
-
+        Box(Modifier.padding(10.dp)) {
+            Label(Labels.PAGE_EXPORT, style = MaterialTheme.typography.h4)
+        }
         ImageConfigCard(project.configuration.imageConfig, Modifier.fillMaxWidth())
 
-        OptionsField(selectedExporter, { selectedExporter = it }, ExporterVariant.entries, label = {
-            Label(Labels.EXPORTER)
-        }) {
-            Text(it.toString())
+
+        NestedSurface {
+            Column(Modifier.padding(10.dp)) {
+                Label(Labels.EXPORT_SETTINGS, style = MaterialTheme.typography.h6, modifier = Modifier.padding(bottom = 8.dp))
+                OptionsField(
+                    selectedExporter,
+                    { selectedExporter = it },
+                    ExporterVariant.entries,
+                    label = {
+                        Label(Labels.EXPORTER)
+                    }) {
+                    Text(it.toString())
+                }
+
+                ExporterConfigCard(selectedExporter, project, Modifier.weight(1F))
+            }
         }
 
-        ExporterConfigCard(selectedExporter, project, Modifier.weight(1F))
     }
 }
+
 
 @Composable
 private fun ExporterConfigCard(
@@ -76,8 +91,8 @@ private fun ExporterConfigCard(
         }
 
 
-    NestedSurface(modifier) {
-        LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(4.dp)) {
+    Box(modifier) {
+        LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(bottom = 10.dp, top = 10.dp)) {
             items(fields) {
                 GenericField(it.field, modifier = Modifier.fillMaxWidth())
             }
@@ -87,8 +102,9 @@ private fun ExporterConfigCard(
     var exportResult: ExportResult? by remember { mutableStateOf(null) }
     var isExporting: Boolean by remember { mutableStateOf(false) }
 
-    NestedSurface(Modifier.fillMaxWidth()) {
+    Box(Modifier.fillMaxWidth()) {
         Row(
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {

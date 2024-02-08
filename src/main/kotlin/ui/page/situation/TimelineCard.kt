@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -13,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import data.generator.resources.LineType
 import data.project.config.TimelineEntry
@@ -45,13 +47,13 @@ fun TimelineCard(
 
     NestedSurface {
         Row(
-            Modifier.padding(4.dp),
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            Modifier.padding(10.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             ReorderHandle(reorderState)
 
-            IconField(icon) { icon = it }
+            IconField(icon, ColorFilter.tint(MaterialTheme.colors.onPrimary)) { icon = it }
 
             OptionsField(column, { column = it }, options = columns, label = { Label(Labels.COLUMN) }) {
                 Text(it)

@@ -49,6 +49,9 @@ object Labels {
     const val EXPORT_OUTPUT_PATH = "EXPORT_OUTPUT_PATH"
     const val EXPORT_FILE_NAME_SCHEME = "EXPORT_FILE_NAME_SCHEME"
 
+    const val EXPORT_SETTINGS = "EXPORT_GENERAL_SETTINGS"
+    const val EXPORT_IMAGE_SETTINGS = "EXPORT_IMAGE_SETTINGS"
+
     const val EXPORT_IMAGE_CONFIG_WIDTH = "EXPORT_IMAGE_CONFIG_WIDTH"
     const val EXPORT_IMAGE_CONFIG_TIMELINE_SCALING = "EXPORT_IMAGE_CONFIG_TIMELINE_SCALING"
 
@@ -82,6 +85,9 @@ object Labels {
 
     const val SETTINGS_GENERAL = "SETTINGS_GENERAL"
     const val SETTINGS_HELP = "SETTINGS_HELP"
+
+    const val SITUATION_NAME = "SITUATION_NAME"
+    const val SITUATION_SINGLE_VALUE_COLUMNS = "SITUATION_SINGLE_VALUE_COLUMNS"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -134,6 +140,9 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.EXPORT_OUTPUT_PATH to "Output path",
             Labels.EXPORT_FILE_NAME_SCHEME to "File name scheme",
 
+            Labels.EXPORT_SETTINGS to "Export settings",
+            Labels.EXPORT_IMAGE_SETTINGS to "General image settings",
+
             Labels.EXPORT_IMAGE_CONFIG_WIDTH to "Width",
             Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING to "Timeline scaling",
 
@@ -164,6 +173,9 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.SETTINGS_GENERAL to "General settings",
             Labels.SETTINGS_HELP to "Help",
+
+            Labels.SITUATION_NAME to "Name",
+            Labels.SITUATION_SINGLE_VALUE_COLUMNS to "Single value columns",
         )
     ),
     German(
@@ -215,6 +227,9 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.EXPORT_OUTPUT_PATH to "Speicherpfad",
             Labels.EXPORT_FILE_NAME_SCHEME to "Schema für Dateinamen",
 
+            Labels.EXPORT_SETTINGS to "Export Einstellungen",
+            Labels.EXPORT_IMAGE_SETTINGS to "Generelle Bildeinstellungen",
+
             Labels.EXPORT_IMAGE_CONFIG_WIDTH to "Breite",
             Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING to "Skalierung des Zeitstrahls",
 
@@ -245,6 +260,9 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.SETTINGS_GENERAL to "Generelle Einstellungen",
             Labels.SETTINGS_HELP to "Hilfe",
+
+            Labels.SITUATION_NAME to "Name",
+            Labels.SITUATION_SINGLE_VALUE_COLUMNS to "Einzelwert-Spalten",
         )
     );
 
