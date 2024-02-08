@@ -10,15 +10,8 @@ import kotlinx.coroutines.*
 import ui.Labels
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
-import org.w3c.dom.Element
 import java.io.File
-import java.io.OutputStream
-import java.io.OutputStreamWriter
-import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.transform.OutputKeys
-import javax.xml.transform.TransformerFactory
-import javax.xml.transform.dom.DOMSource
-import javax.xml.transform.stream.StreamResult
+
 
 /**
  * This class implements the [Exporter] interface and exports the project to an HTML file.
@@ -31,13 +24,80 @@ object HtmlExporter : Exporter {
     private const val PATH_KEY = "path"
     private const val SCHEME_KEY = "scheme"
 
-
     private const val DEFAULT_SCHEME = "block_\$block\$_situation_\$situation\$"
     private const val SEPARATE_OPTION_KEY = "separate_options"
 
 // TODO("UNIPARK VARIABLE")
 //    private const val UNIPARK_VAR = "unipark_variable"
 
+
+    /**
+     * This method returns the fields that the UI uses to configure the export.
+     * @return The fields of the exporter.
+     */
+    override fun getFields(project: Project): List<NamedField> {
+        val fields: ArrayList<NamedField> = ArrayList()
+
+        //  Configure situations to export
+        val blockOptionList = ArrayList<String>().apply {
+            project.data.blocks.size.let { blockCount ->
+                addAll((1..blockCount).map(Int::toString))
+            }
+        }
+        fields.add(NamedField(BLOCK_KEY, OptionsFieldData("1", Labels.BLOCK, blockOptionList)))
+
+        fields.add(
+            NamedField(
+                ALL_BLOCK_KEY,
+                BooleanFieldData(true, Labels.EXPORT_SELECT_ALL_BLOCKS)
+            )
+        )
+
+        fields.add(NamedField(SITUATION_KEY, IntFieldData(1, Labels.SITUATION, 1, Int.MAX_VALUE)))
+
+        fields.add(
+            NamedField(
+                ALL_SITUATION_KEY,
+                BooleanFieldData(true, Labels.EXPORT_SELECT_ALL_SITUATIONS)
+            )
+        )
+
+        fields.add(
+            NamedField(
+                SEPARATE_OPTION_KEY,
+                BooleanFieldData(true, Labels.EXPORT_SEPARATE_OPTIONS)
+            )
+        )
+
+//// Field for unipark variable
+////        fields.add(
+////            NamedField(
+////                UNIPARK_VAR,
+////                StringFieldData("v10", "Choose a unipark variable")
+////            )
+////        )
+
+        // Configure output files
+        fields.add(
+            NamedField(
+                PATH_KEY,
+                StringFieldData("/Users/benicio/Desktop/Test1", Labels.EXPORT_OUTPUT_PATH)
+            )
+        )
+
+        fields.add(
+            NamedField(
+                SCHEME_KEY,
+                FileSchemeFieldData(
+                    DEFAULT_SCHEME,
+                    Labels.EXPORT_FILE_NAME_SCHEME,
+                    arrayListOf("block", "situation")
+                )
+            )
+        )
+
+        return fields
+    }
 
     /**
      * This method exports the project to an HTML file.
@@ -93,7 +153,6 @@ object HtmlExporter : Exporter {
         }
         return ExportResult(errorList.filterNotNull())
     }
-
     private suspend fun saveBlock(
         block: Block,
         blockId: Int,
@@ -188,96 +247,11 @@ object HtmlExporter : Exporter {
         return "images/block_$blockId" + "_situation_$situationId" + "_option_$optionId" + ".png"
     }
 
-
-
     private fun getNameFromScheme(template: String, vararg values: Pair<String, String>): String {
         var result = template
         values.forEach { (placeholder, replacement) ->
             result = result.replace("\$$placeholder\$", replacement)
         }
         return result
-    }
-
-    private fun intoStream(doc: Element, out: OutputStream) {
-        with(TransformerFactory.newInstance().newTransformer()){
-            setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no")
-            setOutputProperty(OutputKeys.METHOD, "xml")
-            setOutputProperty(OutputKeys.INDENT, "yes")
-            setOutputProperty(OutputKeys.ENCODING, "UTF-8")
-            setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4")
-            transform(
-                DOMSource(doc),
-                StreamResult(OutputStreamWriter(out, "UTF-8"))
-            )
-        }
-    }
-
-
-    /**
-     * This method returns the fields that the UI uses to configure the export.
-     * @return The fields of the exporter.
-     */
-    override fun getFields(project: Project): List<NamedField> {
-        val fields: ArrayList<NamedField> = ArrayList()
-
-    //  Configure situations to export
-        val blockOptionList = ArrayList<String>().apply {
-            project.data.blocks.size.let { blockCount ->
-                addAll((1..blockCount).map(Int::toString))
-            }
-        }
-        fields.add(NamedField(BLOCK_KEY, OptionsFieldData("1", Labels.BLOCK, blockOptionList)))
-
-        fields.add(
-            NamedField(
-                ALL_BLOCK_KEY,
-                BooleanFieldData(true, Labels.EXPORT_SELECT_ALL_BLOCKS)
-            )
-        )
-
-        fields.add(NamedField(SITUATION_KEY, IntFieldData(1, Labels.SITUATION, 1, Int.MAX_VALUE)))
-
-        fields.add(
-            NamedField(
-                ALL_SITUATION_KEY,
-                BooleanFieldData(true, Labels.EXPORT_SELECT_ALL_SITUATIONS)
-            )
-        )
-
-        fields.add(
-            NamedField(
-                SEPARATE_OPTION_KEY,
-                BooleanFieldData(true, Labels.EXPORT_SEPARATE_OPTIONS)
-            )
-        )
-
-//// Field for unipark variable
-////        fields.add(
-////            NamedField(
-////                UNIPARK_VAR,
-////                StringFieldData("v10", "Choose a unipark variable")
-////            )
-////        )
-
-    // Configure output files
-        fields.add(
-            NamedField(
-                PATH_KEY,
-                StringFieldData("/Users/benicio/Desktop/Test1", Labels.EXPORT_OUTPUT_PATH)
-            )
-        )
-
-        fields.add(
-            NamedField(
-                SCHEME_KEY,
-                FileSchemeFieldData(
-                    DEFAULT_SCHEME,
-                    Labels.EXPORT_FILE_NAME_SCHEME,
-                    arrayListOf("block", "situation")
-                )
-            )
-        )
-
-        return fields
     }
 }
