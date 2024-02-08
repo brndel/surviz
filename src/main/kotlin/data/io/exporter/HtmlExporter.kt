@@ -1,6 +1,5 @@
 package data.io.exporter
 
-import androidx.compose.ui.graphics.Path
 import data.io.exporter.result.ExportResult
 import data.io.exporter.result.errors.ExportError
 import data.project.Project
@@ -10,7 +9,6 @@ import data.resources.fields.*
 import kotlinx.coroutines.*
 import ui.Labels
 import kotlinx.html.*
-import kotlinx.html.dom.create
 import kotlinx.html.stream.appendHTML
 import org.w3c.dom.Element
 import java.io.File
@@ -131,14 +129,14 @@ object HtmlExporter : Exporter {
         path: String
     ): List<ExportError?> {
         // Generate HTML Document
-        val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument()
-
-        val html = document.create.html {
-            head {
-                getHeader(situationId, blockId)
-            }
-            body {
-                getOptions(situation, blockId, situationId)
+        val htmlContent = buildString {
+            appendHTML().html {
+                head {
+                    getHeader(situationId, blockId)
+                }
+                body {
+                    getOptions(situation, blockId, situationId)
+                }
             }
         }
 
@@ -148,10 +146,10 @@ object HtmlExporter : Exporter {
             "situation" to situationId.toString()
         )
 
-        val outputFile = File("$path/main.html")
-        outputFile.writeText(html.toString())
+        val outputFile = File("$path/$fileName.html")
+        outputFile.writeText(htmlContent)
         println("HTML-Datei wurde unter ${outputFile.absolutePath} erstellt.")
-        saveHtmlFile(html, path, fileName)
+//        saveHtmlFile(html, path, fileName)
 
         return listOfNotNull()
     }
@@ -190,9 +188,7 @@ object HtmlExporter : Exporter {
         return "images/block_$blockId" + "_situation_$situationId" + "_option_$optionId" + ".png"
     }
 
-    private fun saveHtmlFile(doc: Element, path: String, fileName: String) {
-//        intoStream(doc, System.out)
-    }
+
 
     private fun getNameFromScheme(template: String, vararg values: Pair<String, String>): String {
         var result = template
@@ -201,7 +197,6 @@ object HtmlExporter : Exporter {
         }
         return result
     }
-
 
     private fun intoStream(doc: Element, out: OutputStream) {
         with(TransformerFactory.newInstance().newTransformer()){
