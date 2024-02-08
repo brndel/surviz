@@ -3,6 +3,8 @@ package ui.fields
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Folder
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -19,7 +21,7 @@ fun DirectoryPickerField(
 
     OutlinedTextField(value, onValueChange, modifier, label = label, trailingIcon = {
         IconButton({ directoryPickerOpen = true }) {
-            Icon(painterResource("internal_icons/folder.svg"), null)
+            Icon(Icons.Default.Folder, null)
         }
     })
 
