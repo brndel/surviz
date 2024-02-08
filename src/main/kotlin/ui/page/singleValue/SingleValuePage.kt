@@ -39,13 +39,15 @@ fun SingleValuePage(projectConfig: ProjectConfiguration) {
 
     Column(
         Modifier.fillMaxSize().padding(10.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Box(Modifier.padding(10.dp)) {
+        Box(Modifier.padding(horizontal = 10.dp).padding(top = 10.dp)) {
             Label(Labels.PAGE_SINGLE_VALUE, style = MaterialTheme.typography.h4)
         }
         Button(onClick = {
             projectConfig.addSingleValue()
-        }) {
+        }
+            ) {
             Icon(Icons.Default.Add, null)
             Label(Labels.NEW)
         }
@@ -53,7 +55,7 @@ fun SingleValuePage(projectConfig: ProjectConfiguration) {
         LazyColumn(
             state = reorderState.listState,
             modifier = Modifier.reorderable(reorderState).weight(1F),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             items(projectConfig.getSingleValueConfigOrder(), key = { it }) { id ->
                 ReorderableItem(reorderState, key = id) { dragging ->
