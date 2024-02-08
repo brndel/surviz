@@ -10,6 +10,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import data.generator.resources.ImageConfig
+import ui.Labels
+import ui.LocalLanguage
 import ui.fields.DoubleField
 import ui.fields.IntField
 import ui.util.NestedSurface
@@ -25,7 +27,7 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
             Modifier.padding(4.dp)
         ) {
             IntField(width, { width = it }) {
-                Text("Width")
+                Text(LocalLanguage.current.getString(Labels.EXPORT_IMAGE_CONFIG_WIDTH))
             }
             Slider(
                 timelineScaling.toFloat(),
@@ -33,9 +35,9 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
                 steps = 24,
                 valueRange = 1f..25f
             )
-            Text(text = "Timeline scaling: ${timelineScaling.roundToInt()}")
+            Text(text = "${LocalLanguage.current.getString(Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING)}: ${timelineScaling.roundToInt()}")
             DoubleField(timelineScaling, { timelineScaling = it }) {
-                Text("Timeline scaling")
+                Text(LocalLanguage.current.getString(Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING))
             }
         }
     }

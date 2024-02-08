@@ -49,6 +49,9 @@ object Labels {
     const val EXPORT_OUTPUT_PATH = "EXPORT_OUTPUT_PATH"
     const val EXPORT_FILE_NAME_SCHEME = "EXPORT_FILE_NAME_SCHEME"
 
+    const val EXPORT_IMAGE_CONFIG_WIDTH = "EXPORT_IMAGE_CONFIG_WIDTH"
+    const val EXPORT_IMAGE_CONFIG_TIMELINE_SCALING = "EXPORT_IMAGE_CONFIG_TIMELINE_SCALING"
+
     const val PLACEHOLDERS = "PLACEHOLDERS"
 
     const val EXPORT_BUTTON = "EXPORT_BUTTON"
@@ -131,6 +134,9 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.EXPORT_OUTPUT_PATH to "Output path",
             Labels.EXPORT_FILE_NAME_SCHEME to "File name scheme",
 
+            Labels.EXPORT_IMAGE_CONFIG_WIDTH to "Width",
+            Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING to "Timeline scaling",
+
             Labels.PLACEHOLDERS to "Placeholders",
 
             Labels.EXPORT_BUTTON to "Export",
@@ -187,7 +193,7 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.OPTION to "Option",
             Labels.COLUMNS to "Spalten",
             Labels.COLUMN to "Spalte",
-            Labels.TIMELINE to "Zeitlinie",
+            Labels.TIMELINE to "Zeitstrahl",
 
             Labels.SCHEME_COLUMN_NAME to "Schema",
             Labels.SCHEME_COLUMN_DESC to "Wählt die Spalten automatisch mit dem definierten Schema aus",
@@ -196,7 +202,7 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.ZERO_COLUMN_DESC to "Diese Spalte ist immer 0",
 
             Labels.TIMELINE_COLUMN_NAME to "Zeitlinie",
-            Labels.TIMELINE_COLUMN_DESC to "Nimmt die Spalten aus der Zeitlinie",
+            Labels.TIMELINE_COLUMN_DESC to "Nimmt die Spalten aus dem Zeitstrahl",
 
             Labels.SELECT_COLUMN_NAME to "Auswählen",
             Labels.SELECT_COLUMN_DESC to "Wähle die Spalten von Hand aus",
@@ -208,6 +214,9 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.EXPORT_SEPARATE_OPTIONS to "Alle Optionen seperat exportieren",
             Labels.EXPORT_OUTPUT_PATH to "Speicherpfad",
             Labels.EXPORT_FILE_NAME_SCHEME to "Schema für Dateinamen",
+
+            Labels.EXPORT_IMAGE_CONFIG_WIDTH to "Breite",
+            Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING to "Skalierung des Zeitstrahls",
 
             Labels.PLACEHOLDERS to "Platzhalter",
 
