@@ -223,7 +223,7 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.EXPORT_SELECT_ALL_BLOCKS to "Alle Blöcke auswählen",
             Labels.EXPORT_SELECT_ALL_SITUATIONS to "Alle Situationen auswählen",
-            Labels.EXPORT_SEPARATE_OPTIONS to "Alle Optionen seperat exportieren",
+            Labels.EXPORT_SEPARATE_OPTIONS to "Alle Optionen separat exportieren",
             Labels.EXPORT_OUTPUT_PATH to "Speicherpfad",
             Labels.EXPORT_FILE_NAME_SCHEME to "Schema für Dateinamen",
 
