@@ -175,7 +175,8 @@ private fun SingleValueColumnField(
                         dropdownExpanded = false
                     }) {
                         Column(
-                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                            verticalArrangement = Arrangement.spacedBy(4.dp),
+                            modifier = Modifier.padding(top = 10.dp, bottom = 10.dp, start = 4.dp, end = 4.dp)
                         ) {
                             Label(nameLabel)
                             Label(
