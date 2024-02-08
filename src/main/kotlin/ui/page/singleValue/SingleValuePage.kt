@@ -1,6 +1,10 @@
 package ui.page.singleValue
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
@@ -34,10 +38,11 @@ fun SingleValuePage(projectConfig: ProjectConfiguration) {
     )
 
     Column(
-        Modifier.fillMaxSize().padding(4.dp),
+        Modifier.fillMaxSize().padding(10.dp),
     ) {
-        Label(Labels.PAGE_SINGLE_VALUE, style = MaterialTheme.typography.h4)
-
+        Box(Modifier.padding(10.dp)) {
+            Label(Labels.PAGE_SINGLE_VALUE, style = MaterialTheme.typography.h4)
+        }
         Button(onClick = {
             projectConfig.addSingleValue()
         }) {

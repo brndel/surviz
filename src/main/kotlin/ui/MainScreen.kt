@@ -1,7 +1,6 @@
 package ui
 
-import androidx.compose.runtime.*
-import androidx.compose.ui.window.Window
+import androidx.compose.runtime.Composable
 import data.project.Project
 
 /**

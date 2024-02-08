@@ -3,26 +3,24 @@ package data.io.exporter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toAwtImage
 import data.generator.ImageGenerator
-import data.io.exporter.result.ExportResult
-import data.io.exporter.result.errors.ExportError
-import data.io.exporter.result.errors.ImageSizeExportError
+import data.io.exporter.Exporter.Companion.getNameFromScheme
+import data.io.utils.result.ExportResult
+import data.io.utils.result.warnings.ExportWarning
+import data.io.utils.result.warnings.ImageSizeExportWarning
 import data.project.Project
 import data.project.data.Block
 import data.project.data.Situation
 import data.project.data.SituationOption
-import data.resources.fields.BooleanFieldData
-import data.resources.fields.FileSchemeFieldData
-import data.resources.fields.IntFieldData
-import data.resources.fields.NamedField
-import data.resources.fields.OptionsFieldData
-import data.resources.fields.StringFieldData
+import data.resources.fields.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import ui.Labels
+import util.platformPath
 import javax.imageio.ImageIO
 import kotlin.io.path.Path
 
@@ -41,15 +39,15 @@ object PngExporter : Exporter {
 
     private const val DEFAULT_SCHEME = "block_\$block\$_situation_\$situation\$_option_\$option\$"
 
-    private val defaultPath: String
-        get() {
-            val osName = System.getProperty("os.name").lowercase()
-            return if (osName.startsWith("win")) {
-                "C:\\Users\\${System.getProperty("user.name")}\\Desktop\\SurViz"
-            } else {
-                "/home/${System.getProperty("user.name")}/surviz"
-            }
-        }
+    private val defaultPath: String by lazy {
+        platformPath(windows = {
+            "C:\\Users\\$it\\Desktop\\SurViz\\images"
+        }, linux = {
+            "/home/$it/surviz/images"
+        }, mac = {
+            "/Users/$it/surviz/images"
+        })
+    }
 
     private lateinit var imageGenerator: ImageGenerator
 
@@ -97,7 +95,7 @@ object PngExporter : Exporter {
         fields.add(
             NamedField(
                 PATH_KEY,
-                StringFieldData(defaultPath, Labels.EXPORT_OUTPUT_PATH)
+                StringFieldData(defaultPath, Labels.EXPORT_OUTPUT_PATH, StringFieldHint.Directory)
             )
         )
         fields.add(
@@ -116,27 +114,27 @@ object PngExporter : Exporter {
     override fun export(project: Project, exportConfig: Map<String, Any>): ExportResult {
         imageGenerator = ImageGenerator(project.configuration, project.iconStorage)
 
-        val scheme = exportConfig[SCHEME_KEY].toString()
-        val path = exportConfig[PATH_KEY].toString()
+        val scheme = exportConfig[SCHEME_KEY] as String
+        val path = exportConfig[PATH_KEY] as String
 
         val blocks = ArrayList<Block>()
-        val allBlocks = exportConfig[ALL_BLOCK_KEY].toString().toBoolean()
+        val allBlocks = exportConfig[ALL_BLOCK_KEY] as Boolean
 
         if (allBlocks) {
             blocks.addAll(project.data.blocks)
         } else {
-            val block = exportConfig[BLOCK_KEY].toString().toInt()
+            val block = exportConfig[BLOCK_KEY] as Int
             blocks.add(project.data.blocks[block - 1])
         }
 
-        val allSituations = exportConfig[ALL_SITUATION_KEY].toString().toBoolean()
-        val situation = exportConfig[SITUATION_KEY].toString().toInt()
+        val allSituations = exportConfig[ALL_SITUATION_KEY] as Boolean
+        val situation = exportConfig[SITUATION_KEY] as Int
 
-        val separateOptions = exportConfig[SEPARATE_OPTION_KEY].toString().toBoolean()
+        val separateOptions = exportConfig[SEPARATE_OPTION_KEY] as Boolean
 
-        val errorList = ArrayList<ExportError?>()
+        val errorList = ArrayList<ExportWarning?>()
 
-        CoroutineScope(Dispatchers.IO).launch {
+        val coroutine = CoroutineScope(Dispatchers.IO).launch {
             val widthList = coroutineScope {
                 blocks.map { block ->
                     async {
@@ -155,6 +153,10 @@ object PngExporter : Exporter {
             }
             errorList.addAll(widthList.flatten())
         }
+
+        runBlocking {
+            coroutine.join()
+        }
         return ExportResult(errorList.filterNotNull())
     }
 
@@ -170,7 +172,7 @@ object PngExporter : Exporter {
         allSituations: Boolean,
         situationId: Int,
         separateOptions: Boolean
-    ): List<ExportError?> {
+    ): List<ExportWarning?> {
         val situations = ArrayList<Situation>()
 
         if (allSituations) {
@@ -197,7 +199,7 @@ object PngExporter : Exporter {
         scheme: String,
         path: String,
         separateOptions: Boolean
-    ): List<ExportError?> {
+    ): List<ExportWarning?> {
         // check if options need to be separated
         if (!separateOptions) {
             // save whole option
@@ -210,7 +212,13 @@ object PngExporter : Exporter {
             )
             saveBitmap(imageResult.image, path, fileName)
             if (!imageResult.checkWidth()) {
-                return arrayListOf(ImageSizeExportError(imageResult.neededWidth, blockId, situationId))
+                return arrayListOf(
+                    ImageSizeExportWarning(
+                        imageResult.neededWidth,
+                        blockId,
+                        situationId
+                    )
+                )
             }
             return arrayListOf()
         }
@@ -233,7 +241,7 @@ object PngExporter : Exporter {
         blockId: Int,
         scheme: String,
         path: String
-    ): ExportError? {
+    ): ExportWarning? {
         val imageResult = imageGenerator.generateOption(option)
         val fileName = getNameFromScheme(
             scheme,
@@ -243,17 +251,9 @@ object PngExporter : Exporter {
         )
         saveBitmap(imageResult.image, path, fileName)
         if (!imageResult.checkWidth()) {
-            return ImageSizeExportError(imageResult.neededWidth, blockId, situationId, optionId)
+            return ImageSizeExportWarning(imageResult.neededWidth, blockId, situationId, optionId)
         }
         return null
-    }
-
-    private fun getNameFromScheme(template: String, vararg values: Pair<String, String>): String {
-        var result = template
-        values.forEach { (placeholder, replacement) ->
-            result = result.replace("\$$placeholder\$", replacement)
-        }
-        return result
     }
 
     private fun saveBitmap(bitmap: ImageBitmap, path: String, name: String) {

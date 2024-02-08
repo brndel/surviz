@@ -11,7 +11,8 @@ import androidx.compose.runtime.mutableStateOf
  */
 class StringFieldData(
     initialValue: String,
-    label: String
+    label: String,
+    val hint: StringFieldHint? = null
 ) : FieldData(label) {
 
     /**
@@ -27,4 +28,8 @@ class StringFieldData(
     override fun getValue(): Any {
         return value.value
     }
+}
+
+enum class StringFieldHint {
+    Directory
 }

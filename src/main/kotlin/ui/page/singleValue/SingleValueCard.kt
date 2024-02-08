@@ -1,9 +1,15 @@
 package ui.page.singleValue
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
@@ -46,8 +52,8 @@ fun SingleValueCard(
         elevation = elevation
     ) {
         Row(
-            Modifier.padding(4.dp).fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            Modifier.padding(10.dp).fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             ReorderHandle(reorderState)
 
@@ -65,7 +71,7 @@ private fun RowScope.SingleValueCardContent(config: SingleValueConfig) {
     var unit by config.unit
     var columnScheme by config.columnScheme
 
-    Column(Modifier.weight(1F), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+    Column(Modifier.weight(1F), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         OutlinedTextField(unit, { unit = it }, label = {
             Label(Labels.FIELD_UNIT)
         })

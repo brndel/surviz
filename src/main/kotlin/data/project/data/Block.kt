@@ -39,7 +39,7 @@ class Block(
 
         if (this.situations.size != other.situations.size) return false
 
-        for (i in 0 ..< this.situations.size) {
+        for (i in 0..<this.situations.size) {
             if (this.situations[i] != other.situations[i]) return false
         }
         return true

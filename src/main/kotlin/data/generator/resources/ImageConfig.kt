@@ -16,7 +16,8 @@ data class ImageConfig(
             val properties = Properties()
             properties.load(FileInputStream("src/main/resources/config/image_generator.properties"))
             val width = mutableIntStateOf(properties.getProperty("situation_default_width").toInt())
-            val timelineScaling = mutableDoubleStateOf(properties.getProperty("timeline_default_scaling").toDouble())
+            val timelineScaling =
+                mutableDoubleStateOf(properties.getProperty("timeline_default_scaling").toDouble())
 
             return ImageConfig(width, timelineScaling)
         }

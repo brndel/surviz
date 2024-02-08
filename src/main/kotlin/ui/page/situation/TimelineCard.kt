@@ -3,18 +3,24 @@ package ui.page.situation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import data.generator.resources.LineType
 import data.project.config.TimelineEntry
 import org.burnoutcrew.reorderable.ReorderableState
+import ui.Label
+import ui.Labels
 import ui.fields.IconField
 import ui.fields.OptionsField
 import ui.util.NestedSurface
@@ -29,22 +35,35 @@ import ui.util.ReorderHandle
  * @ui IconField for the icon of the entry
  */
 @Composable
-fun TimelineCard(entry: TimelineEntry, onDelete: () -> Unit, columns: List<String>, reorderState: ReorderableState<*>) {
+fun TimelineCard(
+    entry: TimelineEntry,
+    onDelete: () -> Unit,
+    columns: List<String>,
+    reorderState: ReorderableState<*>
+) {
     var icon by entry.icon
     var column by entry.column
     var lineType by entry.lineType
 
     NestedSurface {
-        Row(Modifier.padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        Row(
+            Modifier.padding(10.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             ReorderHandle(reorderState)
 
-            IconField(icon) { icon = it }
+            IconField(icon, ColorFilter.tint(MaterialTheme.colors.onPrimary)) { icon = it }
 
-            OptionsField(column, { column = it }, options = columns) {
+            OptionsField(column, { column = it }, options = columns, label = { Label(Labels.COLUMN) }) {
                 Text(it)
             }
 
-            OptionsField(lineType, { lineType = it }, LineType.entries.toList()) {
+            OptionsField(
+                lineType,
+                { lineType = it },
+                LineType.entries.toList(),
+                label = { Label(Labels.FIELD_LINE_TYPE) }) {
                 Text(it.toString())
             }
 

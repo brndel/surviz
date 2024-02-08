@@ -30,7 +30,7 @@ class ProjectData(
         if (other !is ProjectData) return false
 
         // smart casting
-        if(!other.dataScheme.compareTo(this.dataScheme)) return false
+        if (!other.dataScheme.compareTo(this.dataScheme)) return false
 
         // check blocks
         if (this.blocks.size != other.blocks.size) return false

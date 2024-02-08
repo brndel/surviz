@@ -52,7 +52,10 @@ sealed class SingleValueColumn(
             when (val type = obj.get("type").asString) {
                 "ListColumns" -> {
                     val columns =
-                        ctx.deserialize<SnapshotStateList<String>>(obj.get("columns"), SnapshotStateList::class.java)
+                        ctx.deserialize<SnapshotStateList<String>>(
+                            obj.get("columns"),
+                            SnapshotStateList::class.java
+                        )
 
                     ListColumns(columns)
                 }

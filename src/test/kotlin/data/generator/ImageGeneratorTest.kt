@@ -1,6 +1,7 @@
 package data.generator
 
 import androidx.compose.ui.graphics.toAwtImage
+import data.generator.ImageGenerator
 import data.project.config.ProjectConfiguration
 import data.project.data.IconStorage
 import data.project.data.SituationOption
