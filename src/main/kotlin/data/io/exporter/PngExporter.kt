@@ -260,12 +260,14 @@ object PngExporter : Exporter {
         val outputPath = Path(path, "$name.png")
 
         val bufferedImage = bitmap.toAwtImage()
-        val outputFile = outputPath.toFile()
+        val file = outputPath.toFile()
 
-        if (!outputFile.exists()) {
-            outputFile.mkdirs()
+        file.parentFile.mkdirs()
+
+        if (!file.exists()) {
+            file.createNewFile()
         }
 
-        ImageIO.write(bufferedImage, "png", outputFile)
+        ImageIO.write(bufferedImage, "png", file)
     }
 }

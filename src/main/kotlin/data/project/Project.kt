@@ -54,6 +54,8 @@ class Project(
     fun saveProjectData(path: String) {
         val file = File(path)
 
+        file.parentFile.mkdirs()
+
         if (!file.exists()) {
             file.createNewFile()
         }
