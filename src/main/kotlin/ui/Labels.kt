@@ -94,6 +94,27 @@ object Labels {
     const val SITUATION_SINGLE_VALUE_COLUMNS = "SITUATION_SINGLE_VALUE_COLUMNS"
 
     const val FORBIDDEN_CHARACTERS = "FORBIDDEN_CHARACTERS"
+
+    const val USER_GUIDE = "USER_GUIDE"
+    const val USER_GUIDE_START_SCREEN = "USER_GUIDE_START_SCREEN"
+    const val USER_GUIDE_START_SCREEN_DESCRIPTION = "USER_GUIDE_START_SCREEN_DESCRIPTION"
+    const val USER_GUIDE_START_SCREEN_LAST_PROJECT = "USER_GUIDE_START_SCREEN_LAST_PROJECT"
+    const val USER_GUIDE_START_SCREEN_LAST_PROJECT_DESCRIPTION =
+        "USER_GUIDE_START_SCREEN_LAST_PROJECT_DESCRIPTION"
+    const val USER_GUIDE_START_SCREEN_NEW_PROJECT = "USER_GUIDE_START_SCREEN_NEW_PROJECT"
+    const val USER_GUIDE_START_SCREEN_NEW_PROJECT_DESCRIPTION =
+        "USER_GUIDE_START_SCREEN_NEW_PROJECT_DESCRIPTION"
+    const val USER_GUIDE_START_SCREEN_LOAD_PROJECT = "USER_GUIDE_START_SCREEN_LOAD_PROJECT"
+    const val USER_GUIDE_START_SCREEN_LOAD_PROJECT_DESCRIPTION =
+        "USER_GUIDE_START_SCREEN_LOAD_PROJECT_DESCRIPTION"
+    const val USER_GUIDE_START_SCREEN_SETTINGS = "USER_GUIDE_START_SCREEN_SETTINGS"
+    const val USER_GUIDE_START_SCREEN_SETTINGS_DESCRIPTION =
+        "USER_GUIDE_START_SCREEN_SETTINGS_DESCRIPTION"
+    const val USER_GUIDE_PROJECT_SCREEN = "USER_GUIDE_PROJECT_SCREEN"
+    const val USER_GUIDE_PROJECT_SCREEN_DESCRIPTION = "USER_GUIDE_PROJECT_SCREEN_DESCRIPTION"
+    const val USER_GUIDE_PROJECT_SCREEN_PREVIEW = "USER_GUIDE_PROJECT_SCREEN_PREVIEW"
+    const val USER_GUIDE_PROJECT_SCREEN_PREVIEW_DESCRIPTION =
+        "USER_GUIDE_PROJECT_SCREEN_PREVIEW_DESCRIPTION"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -281,6 +302,22 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.SITUATION_SINGLE_VALUE_COLUMNS to "Einzelwert-Spalten",
 
             Labels.FORBIDDEN_CHARACTERS to "Verbotene Zeichen",
+
+            Labels.USER_GUIDE to "SurViz Benutzerhandbuch",
+            Labels.USER_GUIDE_START_SCREEN to "Startbildschirm",
+            Labels.USER_GUIDE_START_SCREEN_DESCRIPTION to "Auf dem Startbildschirm lässt sich das letzte Projekt laden, ein neues Projekt erstellen, eine bereits angelegte Projektdatei laden oder die Einstellungen öffnen.\n" + "\n" + "Letztes Projekt laden",
+            Labels.USER_GUIDE_START_SCREEN_LAST_PROJECT to "Letztes Projekt laden",
+            Labels.USER_GUIDE_START_SCREEN_LAST_PROJECT_DESCRIPTION to "Durch Klicken auf die Schaltfläche Letztes Projekt Laden wird automatisch das letzte bearbeitete und gespeicherte SurViz Projekt geladen.",
+            Labels.USER_GUIDE_START_SCREEN_NEW_PROJECT to "Ein neues Projekt erstellen",
+            Labels.USER_GUIDE_START_SCREEN_NEW_PROJECT_DESCRIPTION to "Durch Klicken auf die Schaltfläche Neues Projekt öffnet sich automatisch der Explorer, damit eine Ngene-Datei ausgewählt werden kann.\n" + "Nach der Auswahl einer gültigen Datei wird automatisch ein neues Projekt aufgrund dieser Datei erstellt.",
+            Labels.USER_GUIDE_START_SCREEN_LOAD_PROJECT to "Eine bereits angelegte Projektdatei laden",
+            Labels.USER_GUIDE_START_SCREEN_LOAD_PROJECT_DESCRIPTION to "Durch Klicken auf die Schaltfläche Projekt laden öffnet sich automatisch der Explorer, damit eine Projektdatei ausgewählt werden kann.\\n\" + \"Nach der Auswahl einer gültigen Datei wird automatisch das gewählte SurViz Projekt geladen.",
+            Labels.USER_GUIDE_START_SCREEN_SETTINGS to "Einstellungen öffnen",
+            Labels.USER_GUIDE_START_SCREEN_SETTINGS_DESCRIPTION to "Durch Klicken auf die Schaltfläche Einstellungen öffnet sich ein neues Fenster mit den Einstellungen des Programms.",
+            Labels.USER_GUIDE_PROJECT_SCREEN to "Projektbildschirm",
+            Labels.USER_GUIDE_PROJECT_SCREEN_DESCRIPTION to "Im Projektbildschirm lässt sich zu jeder Zeit das Dateimenü öffnen.\\n\" + \"Außerdem kann zwischen den Reitern Einzelwerte, Situationen und Export ausgewählt werden.\\n\" + \"Nach dem Erstellen einer neuen oder öffnen einer bereits bestehenden Projektdatei ist standardmäßig der Reiter Einzelwerte ausgewählt.\\n\" + \"Im Projektbildschirm wird zu jeder Zeit eine Vorschau der Konfiguration einer Situation angezeigt",
+            Labels.USER_GUIDE_PROJECT_SCREEN_PREVIEW to "Situation eines Blocks in Vorschau anzeigen",
+            Labels.USER_GUIDE_PROJECT_SCREEN_PREVIEW_DESCRIPTION to "In jedem der Reiter kann rechts oben in den Textfeldern Block und Situation die gewünschte Situation eines Blocks angegeben werden, um diese in der Vorschau anzuzeigen.",
         )
     );
 
