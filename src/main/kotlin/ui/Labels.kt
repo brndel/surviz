@@ -68,9 +68,13 @@ object Labels {
 
     const val APP_BAR_GROUP_FILE = "APP_BAR_GROUP_FILE"
     const val ACTION_SAVE = "ACTION_SAVE"
+    const val ACTION_SAVE_AS = "ACTION_SAVE_AS"
     const val ACTION_LOAD_DATA = "ACTION_LOAD_DATA"
     const val ACTION_CLOSE = "ACTION_CLOSE"
     const val ACTION_OPEN_SETTINGS = "ACTION_OPEN_SETTINGS"
+
+    const val ACTION_SAVE_AS_DIRECTORY = "ACTION_SAVE_AS_DIRECTORY"
+    const val ACTION_SAVE_AS_PROJECT_NAME = "ACTION_SAVE_AS_PROJECT_NAME"
 
     const val SHORTCUT_CTRL = "SHORTCUT_CTRL"
     const val SHORTCUT_ALT = "SHORTCUT_ALT"
@@ -88,6 +92,8 @@ object Labels {
 
     const val SITUATION_NAME = "SITUATION_NAME"
     const val SITUATION_SINGLE_VALUE_COLUMNS = "SITUATION_SINGLE_VALUE_COLUMNS"
+
+    const val FORBIDDEN_CHARACTERS = "FORBIDDEN_CHARACTERS"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -156,9 +162,13 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.APP_BAR_GROUP_FILE to "File",
             Labels.ACTION_SAVE to "Save file",
+            Labels.ACTION_SAVE_AS to "Save file as",
             Labels.ACTION_LOAD_DATA to "Load new simulation data",
             Labels.ACTION_CLOSE to "Close file",
             Labels.ACTION_OPEN_SETTINGS to "Open Settings",
+
+            Labels.ACTION_SAVE_AS_DIRECTORY to "Choose directory",
+            Labels.ACTION_SAVE_AS_PROJECT_NAME to "Project name",
 
             Labels.SHORTCUT_CTRL to "Ctrl",
             Labels.SHORTCUT_ALT to "Alt",
@@ -176,6 +186,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.SITUATION_NAME to "Name",
             Labels.SITUATION_SINGLE_VALUE_COLUMNS to "Single value columns",
+
+            Labels.FORBIDDEN_CHARACTERS to "Forbidden characters",
         )
     ),
     German(
@@ -243,9 +255,13 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.APP_BAR_GROUP_FILE to "Datei",
             Labels.ACTION_SAVE to "Datei speichern",
+            Labels.ACTION_SAVE_AS to "Datei speichern unter",
             Labels.ACTION_LOAD_DATA to "Neue Simulationsdatei laden",
             Labels.ACTION_CLOSE to "Datei schließen",
             Labels.ACTION_OPEN_SETTINGS to "Einstellungen öffnen",
+
+            Labels.ACTION_SAVE_AS_DIRECTORY to "Verzeichnis auswählen",
+            Labels.ACTION_SAVE_AS_PROJECT_NAME to "Projektname",
 
             Labels.SHORTCUT_CTRL to "Strg",
             Labels.SHORTCUT_ALT to "Alt",
@@ -263,6 +279,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.SITUATION_NAME to "Name",
             Labels.SITUATION_SINGLE_VALUE_COLUMNS to "Einzelwert-Spalten",
+
+            Labels.FORBIDDEN_CHARACTERS to "Verbotene Zeichen",
         )
     );
 

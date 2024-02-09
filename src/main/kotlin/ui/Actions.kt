@@ -1,7 +1,14 @@
 package ui
 
 import GlobalCallbacks
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.SaveAs
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.UploadFile
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.isAltPressed
@@ -13,7 +20,8 @@ import androidx.compose.ui.input.key.nativeKeyCode
 
 sealed class AppBarAction(
     val label: String,
-    val shortcut: Shortcut? = null
+    val shortcut: Shortcut? = null,
+    val icon: ImageVector? = null,
 ) {
     abstract fun onClick(globalCallbacks: GlobalCallbacks)
 }
@@ -36,6 +44,7 @@ class ShortcutActionsManager(vararg groups: AppBarGroup) {
 val fileGroup = AppBarGroup(
     Labels.APP_BAR_GROUP_FILE, listOf(
         SaveAction,
+        SaveAsAction,
         LoadDataAction,
         CloseAction,
         OpenSettingsAction
@@ -44,25 +53,31 @@ val fileGroup = AppBarGroup(
 
 // Actions
 
-data object SaveAction : AppBarAction(Labels.ACTION_SAVE, Shortcut(Key.S, ctrl = true)) {
+data object SaveAction : AppBarAction(Labels.ACTION_SAVE, Shortcut(Key.S, ctrl = true), Icons.Default.Save) {
     override fun onClick(globalCallbacks: GlobalCallbacks) {
         globalCallbacks.saveProject()
     }
 }
 
-data object LoadDataAction : AppBarAction(Labels.ACTION_LOAD_DATA) {
+data object SaveAsAction : AppBarAction(Labels.ACTION_SAVE_AS, icon = Icons.Default.SaveAs) {
+    override fun onClick(globalCallbacks: GlobalCallbacks) {
+        globalCallbacks.saveProjectAs()
+    }
+}
+
+data object LoadDataAction : AppBarAction(Labels.ACTION_LOAD_DATA, icon = Icons.Default.UploadFile) {
     override fun onClick(globalCallbacks: GlobalCallbacks) {
         globalCallbacks.loadData()
     }
 }
 
-data object CloseAction : AppBarAction(Labels.ACTION_CLOSE) {
+data object CloseAction : AppBarAction(Labels.ACTION_CLOSE, icon = Icons.Default.Close) {
     override fun onClick(globalCallbacks: GlobalCallbacks) {
         globalCallbacks.closeProject()
     }
 }
 
-data object OpenSettingsAction : AppBarAction(Labels.ACTION_OPEN_SETTINGS) {
+data object OpenSettingsAction : AppBarAction(Labels.ACTION_OPEN_SETTINGS, icon = Icons.Default.Settings) {
     override fun onClick(globalCallbacks: GlobalCallbacks) {
         globalCallbacks.openSettings()
     }

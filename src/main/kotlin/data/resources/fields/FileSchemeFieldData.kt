@@ -31,4 +31,17 @@ class FileSchemeFieldData(
     override fun getValue(): Any {
         return value.value
     }
+
+    /**
+     * Check for illegal characters that could lead to problems
+     *
+     * @return true if path is valid
+     */
+    override fun check(): Boolean {
+        return value.value.none { char -> forbiddenCharacters.any { it.contains(char) } }
+    }
+
+    companion object {
+        val forbiddenCharacters = setOf("/", "\\", "*", ":", "?", "\"", "<", ">", "|")
+    }
 }

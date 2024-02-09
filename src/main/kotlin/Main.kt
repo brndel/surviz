@@ -1,10 +1,18 @@
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -13,6 +21,7 @@ import data.project.Project
 import data.project.ProjectData
 import ui.*
 import ui.fields.DirectoryPickerField
+import ui.window.save.SaveProjectWindow
 import ui.window.settings.SettingsWindow
 import java.io.File
 import java.nio.file.Path
@@ -49,6 +58,10 @@ fun main() = application {
                 }
             }
 
+            override fun saveProjectAs() {
+                filePickerOpen = true
+            }
+
             override fun closeProject() {
                 currentProject = null
                 currentProjectPath = null
@@ -59,7 +72,7 @@ fun main() = application {
             }
 
             override fun loadData() {
-                TODO()
+                println("pls implement me")
             }
         }
     }
@@ -101,7 +114,7 @@ fun main() = application {
             }
 
             if (filePickerOpen) {
-                ProjectPathPicker({ filePickerOpen = false }) {
+                SaveProjectWindow({ filePickerOpen = false }) {
                     currentProjectPath = it.pathString
                     callbacks.saveProject()
                 }
@@ -148,46 +161,11 @@ fun ApplicationScope.MainWindow(
     }
 }
 
-@Composable
-fun ProjectPathPicker(
-    onCloseRequest: () -> Unit,
-    onFilePicked: (Path) -> Unit
-) {
-    var directory: String by remember { mutableStateOf(Project.defaultSaveDirectory) }
-
-    var filename: String by remember { mutableStateOf(Project.DEFAULT_FILE_NAME) }
-
-    val path by derivedStateOf {
-        var p = Path(directory, filename)
-        if (p.extension == "") {
-            p = Path(p.pathString.removeSuffix(".") + ".svz")
-        }
-
-        p
-    }
-
-    DialogWindow(onCloseRequest = onCloseRequest) {
-        Column(
-            Modifier.padding(4.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            DirectoryPickerField(directory, { directory = it })
-            TextField(filename, { filename = it })
-            Text(path.pathString)
-            Button({
-                onCloseRequest()
-                onFilePicked(path)
-            }) {
-                Label(Labels.ACTION_SAVE)
-            }
-        }
-    }
-}
-
 interface GlobalCallbacks {
     fun loadProject(filePath: String)
     fun createProject(projectData: ProjectData)
     fun saveProject()
+    fun saveProjectAs()
     fun closeProject()
     fun openSettings()
     fun loadData()

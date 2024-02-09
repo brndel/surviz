@@ -54,6 +54,13 @@ class Project(
     fun saveProjectData(path: String) {
         val file = File(path)
 
+        file.parentFile.mkdirs()
+
+        if (!file.exists()) {
+            file.createNewFile()
+        }
+        file.setWritable(true)
+
         val json = GSON.toJson(this)
 
         file.writeText(json)
