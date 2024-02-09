@@ -12,9 +12,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -58,7 +63,10 @@ fun ExportPage(project: Project) {
 
         NestedSurface {
             Column(Modifier.padding(10.dp)) {
-                Label(Labels.EXPORT_SETTINGS, style = MaterialTheme.typography.h6, modifier = Modifier.padding(bottom = 8.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Icon(Icons.Default.Tune, contentDescription = null)
+                    Label(Labels.EXPORT_SETTINGS, style = MaterialTheme.typography.h6, modifier = Modifier.padding(bottom = 10.dp))
+                }
                 OptionsField(
                     selectedExporter,
                     { selectedExporter = it },
@@ -119,7 +127,10 @@ private fun ExporterConfigCard(
                 if (isExporting) {
                     CircularProgressIndicator()
                 } else {
-                    Text(LocalLanguage.current.getString(Labels.EXPORT_BUTTON))
+                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                        Label(Labels.EXPORT_BUTTON, style = MaterialTheme.typography.h6)
+                        Icon(Icons.Default.Send, contentDescription = null)
+                    }
                 }
             }
         }

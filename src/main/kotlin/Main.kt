@@ -49,6 +49,10 @@ fun main() = application {
                 }
             }
 
+            override fun saveProjectAs() {
+                TODO()
+            }
+
             override fun closeProject() {
                 currentProject = null
                 currentProjectPath = null
@@ -188,6 +192,7 @@ interface GlobalCallbacks {
     fun loadProject(filePath: String)
     fun createProject(projectData: ProjectData)
     fun saveProject()
+    fun saveProjectAs()
     fun closeProject()
     fun openSettings()
     fun loadData()

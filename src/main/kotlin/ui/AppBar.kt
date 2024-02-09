@@ -2,11 +2,13 @@ package ui
 
 import LocalGlobalCallbacks
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -52,7 +54,11 @@ private fun AppBarButton(group: AppBarGroup) {
                 DropdownMenuItem({
                     menuOpen = false
                     action.onClick(globalCallbacks)
-                }) {
+                })
+                {
+                    Box(Modifier.padding(end = 10.dp)) {
+                        action.icon?.let { Icon(it, null) }
+                    }
                     Label(action.label)
 
                     action.shortcut?.let {
