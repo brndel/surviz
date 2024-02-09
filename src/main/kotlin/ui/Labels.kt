@@ -89,6 +89,8 @@ object Labels {
 
     const val SITUATION_NAME = "SITUATION_NAME"
     const val SITUATION_SINGLE_VALUE_COLUMNS = "SITUATION_SINGLE_VALUE_COLUMNS"
+
+    const val FORBIDDEN_CHARACTERS = "FORBIDDEN_CHARACTERS"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -178,6 +180,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.SITUATION_NAME to "Name",
             Labels.SITUATION_SINGLE_VALUE_COLUMNS to "Single value columns",
+
+            Labels.FORBIDDEN_CHARACTERS to "Forbidden characters",
         )
     ),
     German(
@@ -266,6 +270,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.SITUATION_NAME to "Name",
             Labels.SITUATION_SINGLE_VALUE_COLUMNS to "Einzelwert-Spalten",
+
+            Labels.FORBIDDEN_CHARACTERS to "Verbotene Zeichen",
         )
     );
 
