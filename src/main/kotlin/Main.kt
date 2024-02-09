@@ -50,7 +50,7 @@ fun main() = application {
             }
 
             override fun saveProjectAs() {
-                TODO()
+                filePickerOpen = true
             }
 
             override fun closeProject() {
