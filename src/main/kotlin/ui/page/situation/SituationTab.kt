@@ -16,6 +16,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Timeline
+import androidx.compose.material.icons.filled.ViewWeek
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -80,7 +82,14 @@ fun SituationTab(
         }
 
         item {
-           Label(Labels.SITUATION_SINGLE_VALUE_COLUMNS)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Icon(Icons.Default.ViewWeek,contentDescription = null)
+                Label(Labels.SITUATION_SINGLE_VALUE_COLUMNS, style = MaterialTheme.typography.h6)
+            }
+
         }
 
         items(singleValueIds, key = { it }) { id ->
@@ -105,9 +114,10 @@ fun SituationTab(
         item {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Label(Labels.TIMELINE)
+                Icon(Icons.Default.Timeline, contentDescription = null)
+                Label(Labels.TIMELINE, style = MaterialTheme.typography.h6)
                 IconButton({
                     config.addTimelineEntry()
                 }) {
@@ -176,7 +186,12 @@ private fun SingleValueColumnField(
                     }) {
                         Column(
                             verticalArrangement = Arrangement.spacedBy(4.dp),
-                            modifier = Modifier.padding(top = 10.dp, bottom = 10.dp, start = 4.dp, end = 4.dp)
+                            modifier = Modifier.padding(
+                                top = 10.dp,
+                                bottom = 10.dp,
+                                start = 4.dp,
+                                end = 4.dp
+                            )
                         ) {
                             Label(nameLabel)
                             Label(

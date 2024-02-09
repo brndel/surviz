@@ -17,6 +17,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CarCrash
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Tune
@@ -55,8 +56,13 @@ fun ExportPage(project: Project) {
         Modifier.fillMaxSize().padding(10.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Box(Modifier.padding(10.dp)) {
+        Row(
+            modifier = Modifier.padding(10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
             Label(Labels.PAGE_EXPORT, style = MaterialTheme.typography.h4)
+            Icon(Icons.Default.Send, contentDescription = null)
         }
         ImageConfigCard(project.configuration.imageConfig, Modifier.fillMaxWidth())
 
