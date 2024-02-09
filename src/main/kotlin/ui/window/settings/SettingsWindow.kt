@@ -61,7 +61,7 @@ fun SettingsWindow(onCloseRequest: () -> Unit, project: Project?, openedTab: Int
                     )
                 }
 
-                Box(Modifier.padding(8.dp)) {
+                Box(Modifier.padding(horizontal = 10.dp)) {
                     when (selectedTabIndex) {
                         0 -> GeneralSettingsTab()
                         1 -> HelpTab()
