@@ -127,7 +127,7 @@ private fun ExporterConfigCard(
                 if (isExporting) {
                     CircularProgressIndicator()
                 } else {
-                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
                         Label(Labels.EXPORT_BUTTON, style = MaterialTheme.typography.h6)
                         Icon(Icons.Default.Send, contentDescription = null)
                     }

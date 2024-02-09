@@ -73,6 +73,9 @@ object Labels {
     const val ACTION_CLOSE = "ACTION_CLOSE"
     const val ACTION_OPEN_SETTINGS = "ACTION_OPEN_SETTINGS"
 
+    const val ACTION_SAVE_AS_DIRECTORY = "ACTION_SAVE_AS_DIRECTORY"
+    const val ACTION_SAVE_AS_PROJECT_NAME = "ACTION_SAVE_AS_PROJECT_NAME"
+
     const val SHORTCUT_CTRL = "SHORTCUT_CTRL"
     const val SHORTCUT_ALT = "SHORTCUT_ALT"
     const val SHORTCUT_META = "SHORTCUT_META"
@@ -164,6 +167,9 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.ACTION_CLOSE to "Close file",
             Labels.ACTION_OPEN_SETTINGS to "Open Settings",
 
+            Labels.ACTION_SAVE_AS_DIRECTORY to "Choose directory",
+            Labels.ACTION_SAVE_AS_PROJECT_NAME to "Project name",
+
             Labels.SHORTCUT_CTRL to "Ctrl",
             Labels.SHORTCUT_ALT to "Alt",
             Labels.SHORTCUT_META to "Meta",
@@ -253,6 +259,9 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.ACTION_LOAD_DATA to "Neue Simulationsdatei laden",
             Labels.ACTION_CLOSE to "Datei schließen",
             Labels.ACTION_OPEN_SETTINGS to "Einstellungen öffnen",
+
+            Labels.ACTION_SAVE_AS_DIRECTORY to "Verzeichnis auswählen",
+            Labels.ACTION_SAVE_AS_PROJECT_NAME to "Projektname",
 
             Labels.SHORTCUT_CTRL to "Strg",
             Labels.SHORTCUT_ALT to "Alt",

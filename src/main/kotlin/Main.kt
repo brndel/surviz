@@ -1,10 +1,18 @@
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -63,7 +71,7 @@ fun main() = application {
             }
 
             override fun loadData() {
-                TODO()
+                println("pls implement me")
             }
         }
     }
@@ -170,19 +178,31 @@ fun ProjectPathPicker(
         p
     }
 
-    DialogWindow(onCloseRequest = onCloseRequest) {
+    DialogWindow(
+        onCloseRequest = onCloseRequest,
+        icon = rememberVectorPainter(Icons.Default.Save),
+        title = LocalLanguage.current.getString(Labels.ACTION_SAVE_AS)
+    ) {
         Column(
-            Modifier.padding(4.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            Modifier.padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            DirectoryPickerField(directory, { directory = it })
-            TextField(filename, { filename = it })
+            DirectoryPickerField(directory, { directory = it }, label = {Label(Labels.ACTION_SAVE_AS_DIRECTORY)})
+
+            OutlinedTextField(filename, { filename = it }, label = {Label(Labels.ACTION_SAVE_AS_PROJECT_NAME)})
             Text(path.pathString)
+
             Button({
                 onCloseRequest()
                 onFilePicked(path)
             }) {
-                Label(Labels.ACTION_SAVE)
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Label(Labels.ACTION_SAVE)
+                    Icon(Icons.Default.Save, contentDescription = null)
+                }
             }
         }
     }
