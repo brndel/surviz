@@ -23,4 +23,13 @@ sealed class FieldData(private val label: String) {
      * @return the value stored in the field
      */
     abstract fun getValue(): Any
+
+    /**
+     * Checks for validity of content
+     *
+     * @return true by default
+     */
+    open fun check(): Boolean {
+        return true
+    }
 }
