@@ -149,6 +149,11 @@ object Labels {
     const val USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME = "USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME"
     const val USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION =
         "USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION"
+
+    const val SETTINGS_CHANGE_LANGUAGE = "SETTINGS_CHANGE_LANGUAGE"
+
+    const val English = "English"
+    const val German = "German"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -279,7 +284,12 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_DESCRIPTION to "In the Export tab, the project can be exported as PNG or HTML. For exporting the project, the size and scaling of the timeline can be specified. Additionally, a file path and a schema for the file name can be specified.",
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME to "Schema for file names",
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION to "In the schema for the file names, the following placeholders can be used:\n" + "\n" + "\$block\$\n" + "\$situation\$\n" + "\$option\$\n" + "\$block\$ is replaced with the number of the block when creating the file name.\n" + "\n" + "\$situation\$ is replaced with the number of the situation when creating the file name.\n" + "\n" + "\$option\$ is replaced with the number of the selection option when creating the file name. However, the replacement of \$option\$ only occurs when Export all options separately is activated.",
-        )
+
+            Labels.SETTINGS_CHANGE_LANGUAGE to "Change language",
+
+            Labels.English to "English",
+            Labels.German to "German",
+            )
     ),
     German(
         "de", mapOf(
@@ -408,6 +418,11 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_DESCRIPTION to "Im Reiter Export kann das projekt als PNG oder HTML exportiert werden.\n" + "Zum Exportieren des Projekts kann die Größe und Skalierung der Zeitlinie angegeben werden. Außerdem kann ein Dateipfad und ein Schema für den Dateinamen angegeben werden",
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME to "Schema für Dateinamen",
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION to "Im Schema für die Dateinamen der Dateien können folgende Platzhalter benutzt werden:\n" + "- \$block\$\n" + "- \$situation\$\n" + "- \$option\$\n" + "\n" + "\$block\$ wird beim Erstellen des Dateinamens mit der Nummer des Blocks ersetzt.\n" + "\n" + "\$situation\$ wird beim Erstellen des Dateinamens mit der Nummer der Situation ersetzt.\n" + "\n" + "\$option\$ wird beim Erstellen des Dateinamens mit der Nummer der Auswahloption ersetzt. Die Ersetzung von \$option\$ erfolgt jedoch nur, wenn *Alle Optionen separat exportieren* aktiviert ist.",
+
+            Labels.SETTINGS_CHANGE_LANGUAGE to "Sprache ändern",
+
+            Labels.English to "Englisch",
+            Labels.German to "Deutsch",
             )
     );
 
