@@ -1,6 +1,7 @@
 package ui
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
@@ -69,7 +70,7 @@ private fun ProjectPageNavigator(
     currentPage: Page,
     onNavigate: (Page) -> Unit
 ) {
-    Column(modifier = Modifier.width(128.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+    Column(modifier = Modifier.width(128.dp)) {
         for (page in Page.entries) {
             NavButton(
                 currentPage == page,
@@ -96,7 +97,8 @@ private fun ColumnScope.NavButton(
                 MaterialTheme.colors.surface
             }
         ),
-        elevation = null
+        elevation = null,
+        shape = AbsoluteRoundedCornerShape(topRightPercent = 5, bottomRightPercent = 5)
     ) {
         Label(page.label)
     }

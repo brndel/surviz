@@ -6,6 +6,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -37,7 +39,10 @@ fun Preview(project: Project) {
 
         LazyColumn(Modifier.fillMaxSize()) {
             stickyHeader {
-                NestedSurface(Modifier.fillMaxWidth().padding(10.dp), elevation = 4.dp) {
+                Surface(
+                    Modifier.fillMaxWidth().padding(10.dp),
+                    color = MaterialTheme.colors.background
+                ) {
                     Row(
                         Modifier.padding(4.dp),
                         verticalAlignment = Alignment.CenterVertically,
@@ -60,7 +65,6 @@ fun Preview(project: Project) {
                     }
                 }
             }
-
             if (situation != null) {
                 items(situation!!.options) { option ->
 
@@ -91,6 +95,5 @@ fun Preview(project: Project) {
 
             }
         }
-
     }
 }

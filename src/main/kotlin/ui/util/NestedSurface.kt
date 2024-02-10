@@ -29,7 +29,7 @@ fun NestedSurface(
         Surface(
             modifier = modifier,
             shape = RoundedCornerShape(4.dp),
-            color = if (surface) MaterialTheme.colors.surface else MaterialTheme.colors.background,
+            color = if (!surface) MaterialTheme.colors.surface else MaterialTheme.colors.background,
             elevation = elevation,
             border = border,
             content = content,

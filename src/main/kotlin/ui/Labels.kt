@@ -151,6 +151,7 @@ object Labels {
         "USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION"
 
     const val SETTINGS_CHANGE_LANGUAGE = "SETTINGS_CHANGE_LANGUAGE"
+    const val SETTINGS_CHANGE_DARK_MODE = "SETTINGS_CHANGE_DARK_MODE"
 
     const val English = "English"
     const val German = "German"
@@ -289,6 +290,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.English to "English",
             Labels.German to "German",
+
+            Labels.SETTINGS_CHANGE_DARK_MODE to "Dark mode",
             )
     ),
     German(
@@ -423,6 +426,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.English to "Englisch",
             Labels.German to "Deutsch",
+
+            Labels.SETTINGS_CHANGE_DARK_MODE to "Dunkel-Modus",
             )
     );
 

@@ -1,3 +1,4 @@
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
@@ -104,28 +105,58 @@ fun main() = application {
         return true
     }
 
-    var language by remember {
+    // set language
+    var language = remember {
         val langCode = System.getProperty("user.language")
 
         mutableStateOf(Language.fromCode(langCode))
     }
 
-    loadSettings(setLanguage = {language = it})
+    // set colors
+    val lightColors = lightColors(
+        surface = Color(235, 235, 235),
+        primary = Color(64, 147, 138),
+        primaryVariant = Color(85, 180, 169),
+        secondary = Color(34, 47, 89),
+        secondaryVariant = Color(50, 70, 133),
+        onSecondary = Color.White,
+    )
+    val darkColors = darkColors(
+        background = Color(18, 18, 18),
+        surface = Color(53, 53, 53),
+        primary = Color(64, 147, 138),
+        primaryVariant = Color(85, 180, 169),
+        secondary = Color(34, 47, 89),
+        secondaryVariant = Color(50, 70, 133),
+        onPrimary = Color.White,
+        onSecondary = Color.White,
+        onSurface = Color.White,
+        onBackground = Color.White,
+    )
+
+    val systemDarkMode = isSystemInDarkTheme()
+    val isDarkTheme = remember { mutableStateOf(systemDarkMode) }
+
+
+
+    // load settings
+    loadSettings(
+        setLanguage = { language.value = it },
+        setDarkMode = { isDarkTheme.value = it }
+    )
+
+    val colors = if (isDarkTheme.value) {
+        darkColors
+    } else {
+        lightColors
+    }
 
     CompositionLocalProvider(
-        LocalLanguage provides language,
+        LocalLanguage provides language.value,
         LocalGlobalCallbacks provides callbacks
     ) {
         MaterialTheme(
-            colors = lightColors(
-                background = Color(245, 245, 245),
-                surface = Color(235, 235, 235),
-                primary = Color(64, 147, 138),
-                primaryVariant = Color(85, 180, 169),
-                secondary = Color(34, 47, 89),
-                secondaryVariant = Color(50, 70, 133),
-                onSecondary = Color.White,
-            )
+            colors = colors
         ) {
 
             MainWindow(currentProject, currentProjectPath) {
@@ -142,11 +173,10 @@ fun main() = application {
                 SettingsWindow(
                     {
                         settingsWindowOpen = false
-                    }, project = currentProject,
-                    onLanguageChange = {
-                        language = it
-                        saveSettings(language)
-                    }
+                    },
+                    SettingsFile,
+                    language,
+                    isDarkTheme
                 )
             }
         }
@@ -198,7 +228,7 @@ interface GlobalCallbacks {
 
 val LocalGlobalCallbacks = compositionLocalOf<GlobalCallbacks?> { null }
 
-private val SettingsFile: String by lazy {
+val SettingsFile: String by lazy {
     platformPath(windows = {
         "C:\\Users\\$it\\AppData\\Local\\SurViz\\settings.cfg"
     }, linux = {
@@ -208,33 +238,21 @@ private val SettingsFile: String by lazy {
     })
 }
 
-private fun saveSettings(language: Language) {
-    val file = File(SettingsFile)
-
-    if (!file.exists()) {
-        file.parentFile.mkdirs()
-        file.createNewFile()
-    }
-    val prop = Properties()
-    prop.load(FileInputStream(file))
-
-    prop.setProperty("lang", language.toCode())
-
-    FileOutputStream(file).use { output ->
-        prop.forEach { (key, value) ->
-            output.write("$key=$value\n".toByteArray())
-        }
-    }
-}
-
-private fun loadSettings(setLanguage: (Language) -> Unit) {
+private fun loadSettings(setLanguage: (Language) -> Unit, setDarkMode: (Boolean) -> Unit) {
     val file = File(SettingsFile)
 
     if (file.exists()) {
         val prop = Properties()
         prop.load(FileInputStream(file))
 
-        val languageCode = prop.getProperty("lang")?: System.getProperty("user.language")
-        setLanguage(Language.fromCode(languageCode))
+        val languageCode = prop.getProperty("lang")
+        if (languageCode != null) {
+            setLanguage(Language.fromCode(languageCode))
+        }
+
+        val isDarkMode = prop.getProperty("dark_mode")
+        if (isDarkMode != null) {
+            setDarkMode(isDarkMode.toBoolean())
+        }
     }
 }
