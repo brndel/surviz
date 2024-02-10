@@ -1,33 +1,18 @@
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Save
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
+import data.io.DataManager
 import data.project.Project
 import data.project.ProjectData
 import ui.*
-import ui.fields.DirectoryPickerField
-import ui.window.save.SaveProjectWindow
+import ui.window.save.ProjectFilePicker
+import ui.window.save.ProjectFilePickerTarget
 import ui.window.settings.SettingsWindow
 import java.io.File
-import java.nio.file.Path
-import kotlin.io.path.Path
-import kotlin.io.path.extension
-import kotlin.io.path.pathString
 
 fun main() = application {
     var settingsWindowOpen by remember { mutableStateOf(false) }
@@ -35,31 +20,44 @@ fun main() = application {
     var currentProject by remember { mutableStateOf<Project?>(null) }
     var currentProjectPath by remember { mutableStateOf<String?>(null) }
 
-    var filePickerOpen by remember { mutableStateOf(false) }
+    var filePickerTarget by remember { mutableStateOf<ProjectFilePickerTarget?>(null) }
 
     val callbacks = remember {
         object : GlobalCallbacks {
-            override fun loadProject(filePath: String) {
-                val project = Project.loadProjectFromFile(File(filePath))
-                currentProject = project
-                currentProjectPath = filePath
+            override fun loadProject(filePath: String?) {
+                if (filePath == null) {
+                    filePickerTarget = ProjectFilePickerTarget.LoadProjectFile
+                } else {
+                    val project = Project.loadProjectFromFile(File(filePath))
+                    currentProject = project
+                    currentProjectPath = filePath
+                }
+
             }
 
-            override fun createProject(projectData: ProjectData) {
-                currentProject = Project.newProjectWithData(projectData)
-                currentProjectPath = null
+            override fun createProject(filePath: String?) {
+                if (filePath == null) {
+                    filePickerTarget = ProjectFilePickerTarget.LoadProjectFileFromData
+                } else {
+                    val data = DataManager.loadData(File(filePath))
+                    currentProject = Project.newProjectWithData(data)
+                }
             }
 
-            override fun saveProject() {
+            override fun saveProject(filePath: String?) {
+                if (filePath != null) {
+                    currentProjectPath = filePath
+                }
+
                 if (currentProjectPath != null) {
                     currentProject?.saveProjectData(currentProjectPath!!)
                 } else {
-                    filePickerOpen = true
+                    filePickerTarget = ProjectFilePickerTarget.SaveProjectFile
                 }
             }
 
             override fun saveProjectAs() {
-                filePickerOpen = true
+                filePickerTarget = ProjectFilePickerTarget.SaveProjectFile
             }
 
             override fun closeProject() {
@@ -71,8 +69,23 @@ fun main() = application {
                 settingsWindowOpen = true
             }
 
-            override fun loadData() {
-                println("pls implement me")
+            override fun loadData(filePath: String?): ProjectData? {
+                if (currentProject == null) throw IllegalStateException("no project is currently loaded")
+                if (filePath == null) {
+                    filePickerTarget = ProjectFilePickerTarget.OverrideProjectData
+                } else {
+                    val data = DataManager.loadData(File(filePath))
+
+                    val success = currentProject!!.loadProjectData(data)
+                    if (!success) {
+                        return data
+                    }
+                }
+                return null
+            }
+
+            override fun forceLoadData(projectData: ProjectData) {
+                currentProject?.loadProjectData(projectData, true)
             }
         }
     }
@@ -87,10 +100,10 @@ fun main() = application {
         return true
     }
 
-    val language = remember {
+    val language by remember {
         val langCode = System.getProperty("user.language")
 
-        Language.fromCode(langCode)
+        mutableStateOf(Language.fromCode(langCode))
     }
 
     CompositionLocalProvider(
@@ -113,10 +126,9 @@ fun main() = application {
                 onKeyEvent(it)
             }
 
-            if (filePickerOpen) {
-                SaveProjectWindow({ filePickerOpen = false }) {
-                    currentProjectPath = it.pathString
-                    callbacks.saveProject()
+            if (filePickerTarget != null) {
+                ProjectFilePicker(filePickerTarget!!) {
+                    filePickerTarget = null
                 }
             }
 
@@ -162,31 +174,14 @@ fun ApplicationScope.MainWindow(
 }
 
 interface GlobalCallbacks {
-    fun loadProject(filePath: String)
-    fun createProject(projectData: ProjectData)
-    fun saveProject()
+    fun loadProject(filePath: String? = null)
+    fun createProject(filePath: String? = null)
+    fun saveProject(filePath: String? = null)
     fun saveProjectAs()
     fun closeProject()
     fun openSettings()
-    fun loadData()
-
-    companion object {
-        @Composable
-        fun loadProject(filePath: String) = LocalGlobalCallbacks.current?.loadProject(filePath)
-
-        @Composable
-        fun createProject(projectData: ProjectData) =
-            LocalGlobalCallbacks.current?.createProject(projectData)
-
-        @Composable
-        fun saveProject() = LocalGlobalCallbacks.current?.saveProject()
-
-        @Composable
-        fun closeProject() = LocalGlobalCallbacks.current?.closeProject()
-
-        @Composable
-        fun openSettings() = LocalGlobalCallbacks.current?.openSettings()
-    }
+    fun loadData(filePath: String? = null): ProjectData?
+    fun forceLoadData(projectData: ProjectData)
 }
 
 val LocalGlobalCallbacks = compositionLocalOf<GlobalCallbacks?> { null }
