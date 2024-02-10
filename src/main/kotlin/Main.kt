@@ -12,7 +12,11 @@ import ui.*
 import ui.window.save.ProjectFilePicker
 import ui.window.save.ProjectFilePickerTarget
 import ui.window.settings.SettingsWindow
+import util.platformPath
 import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.util.Properties
 
 fun main() = application {
     var settingsWindowOpen by remember { mutableStateOf(false) }
@@ -106,6 +110,8 @@ fun main() = application {
         mutableStateOf(Language.fromCode(langCode))
     }
 
+    loadSettings(setLanguage = {language = it})
+
     CompositionLocalProvider(
         LocalLanguage provides language,
         LocalGlobalCallbacks provides callbacks
@@ -137,7 +143,10 @@ fun main() = application {
                     {
                         settingsWindowOpen = false
                     }, project = currentProject,
-                    onLanguageChange = {language = it}
+                    onLanguageChange = {
+                        language = it
+                        saveSettings(language)
+                    }
                 )
             }
         }
@@ -188,3 +197,42 @@ interface GlobalCallbacks {
 }
 
 val LocalGlobalCallbacks = compositionLocalOf<GlobalCallbacks?> { null }
+
+private val SettingsFile: String by lazy {
+    platformPath(windows = {
+        "C:\\Users\\$it\\AppData\\Local\\SurViz\\settings.cfg"
+    }, linux = {
+        "/home/$it/.local/share/SurViz/settings.cfg"
+    }, mac = {
+        "/Users/$it/.local/share/SurViz/settings.cfg"
+    })
+}
+
+private fun saveSettings(language: Language) {
+    val file = File(SettingsFile)
+
+    if (!file.exists()) {
+        file.parentFile.mkdirs()
+        file.createNewFile()
+    }
+    val prop = Properties()
+    prop.load(FileInputStream(file))
+
+    prop.setProperty("lang", language.toCode())
+
+    FileOutputStream(file).use { output ->
+        prop.store(output,null)
+    }
+}
+
+private fun loadSettings(setLanguage: (Language) -> Unit) {
+    val file = File(SettingsFile)
+
+    if (file.exists()) {
+        val prop = Properties()
+        prop.load(FileInputStream(file))
+
+        val languageCode = prop.getProperty("lang")?: System.getProperty("user.language")
+        setLanguage(Language.fromCode(languageCode))
+    }
+}

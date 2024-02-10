@@ -428,6 +428,10 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
     fun getString(label: String): String = strings[label] ?: "<MISSING LABEL '$label'>"
 
+    fun toCode(): String {
+        return code
+    }
+
     companion object {
         fun fromCode(code: String): Language {
             for (lang in entries) {
