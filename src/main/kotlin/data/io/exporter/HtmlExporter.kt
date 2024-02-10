@@ -51,7 +51,7 @@ object HtmlExporter : Exporter {
 
         //  Configure situations to export
         val blockOptionList = ArrayList<String>().apply {
-            project.data.blocks.size.let { blockCount ->
+            project.getData().blocks.size.let { blockCount ->
                 addAll((1..blockCount).map(Int::toString))
             }
         }
@@ -125,10 +125,10 @@ object HtmlExporter : Exporter {
 
         val blocks = ArrayList<Block>()
         if (allBlocks) {
-            blocks.addAll(project.data.blocks)
+            blocks.addAll(project.getData().blocks)
         } else {
             val block = exportConfig[BLOCK_KEY].toString().toInt()
-            blocks.add(project.data.blocks[block - 1])
+            blocks.add(project.getData().blocks[block - 1])
         }
 
         val situation = exportConfig[SITUATION_KEY].toString().toInt()
@@ -148,7 +148,7 @@ object HtmlExporter : Exporter {
             val widthList = coroutineScope {
                 blocks.map { block ->
                     async {
-                        val blockId = project.data.blocks.indexOf(block) + 1
+                        val blockId = project.getData().blocks.indexOf(block) + 1
                         saveBlock(
                             block,
                             blockId,

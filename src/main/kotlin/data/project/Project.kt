@@ -1,10 +1,13 @@
 package data.project
 
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import com.google.gson.*
 import data.generator.resources.ImageConfig
 import data.project.config.*
 import data.project.config.columns.*
+import data.project.data.Block
 import data.project.data.DataScheme
 import data.project.data.IconStorage
 import util.platformPath
@@ -25,12 +28,15 @@ import kotlin.io.path.createParentDirectories
  * @property configuration the configuration of the project.
  * @property iconStorage the icon storage of the project.
  */
-class Project(
-    var data: ProjectData,
-    var dataScheme: DataScheme,
-    var configuration: ProjectConfiguration,
-    val iconStorage: IconStorage
+data class Project(
+    private val data: MutableState<ProjectData>,
+    private val dataScheme: MutableState<DataScheme>,
+    val configuration: ProjectConfiguration = ProjectConfiguration(),
+    val iconStorage: IconStorage = IconStorage()
 ) {
+    fun getData(): ProjectData = data.value
+    fun getDataScheme(): DataScheme = dataScheme.value
+
     /**
      * This method loads the project data.
      * @param data The project data to load.
@@ -38,14 +44,13 @@ class Project(
      * differs from the new one.
      * @return True if the project data was loaded successfully, false otherwise.
      */
-    fun loadProjectData(data: ProjectData, force: Boolean): Boolean {
-        if (force || dataScheme.compareTo(data.dataScheme)) {
-            this.data = data
+    fun loadProjectData(data: ProjectData, force: Boolean = false): Boolean {
+        if (force || dataScheme.value.compareTo(data.dataScheme)) {
+            this.data.value = data
             return true
         }
         return false
     }
-
 
     /**
      * This method saves the project data.
@@ -121,7 +126,7 @@ class Project(
          * @param data The project data to load.
          */
         fun newProjectWithData(data: ProjectData): Project {
-            return Project(data, data.dataScheme, ProjectConfiguration(), IconStorage())
+            return Project(mutableStateOf(data), mutableStateOf(data.dataScheme), ProjectConfiguration(), IconStorage())
         }
 
         /**
@@ -136,6 +141,8 @@ class Project(
 
         private val GSON: Gson by lazy {
             GsonBuilder()
+                .registerTypeAdapter(Project::class.java, Project.serializer)
+                .registerTypeAdapter(Project::class.java, Project.deserializer)
                 .registerTypeAdapter(IconStorage::class.java, IconStorage.serializer)
                 .registerTypeAdapter(IconStorage::class.java, IconStorage.deserializer)
                 // Project Config
@@ -162,11 +169,39 @@ class Project(
                 .registerTypeAdapter(SchemeColumns::class.java, SingleValueColumn.serializer)
                 .registerTypeAdapter(TimelineColumns::class.java, SingleValueColumn.serializer)
                 .registerTypeAdapter(ZeroColumn::class.java, SingleValueColumn.serializer)
-
                 .registerTypeAdapter(SingleValueColumn::class.java, SingleValueColumn.deserializer)
                 //
                 .setPrettyPrinting()
                 .create()
+        }
+
+        private val serializer = JsonSerializer<Project> { value, _, ctx ->
+            val obj = JsonObject()
+
+            obj.addProperty("version", "1.0")
+            obj.add("configuration", ctx.serialize(value.configuration))
+            obj.add("dataScheme", ctx.serialize(value.dataScheme.value))
+            obj.add("iconStorage", ctx.serialize(value.iconStorage))
+            obj.add("data", ctx.serialize(value.data.value))
+
+            obj
+        }
+
+        private val deserializer = JsonDeserializer<Project> { element, _, ctx ->
+            val obj = element.asJsonObject
+
+            val configuration =
+                ctx.deserialize<ProjectConfiguration>(obj.get("configuration"), ProjectConfiguration::class.java)
+            val dataScheme = ctx.deserialize<DataScheme>(obj.get("dataScheme"), DataScheme::class.java)
+            val iconStorage = ctx.deserialize<IconStorage>(obj.get("iconStorage"), IconStorage::class.java)
+            val data = ctx.deserialize<ProjectData>(obj.get("data"), ProjectData::class.java)
+
+            Project(
+                mutableStateOf(data),
+                mutableStateOf(dataScheme),
+                configuration,
+                iconStorage
+            )
         }
     }
 }

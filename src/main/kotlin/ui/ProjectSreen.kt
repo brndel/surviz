@@ -49,7 +49,7 @@ fun ProjectScreen(project: Project) {
                 Box(Modifier.weight(1F)) {
                     when (currentPage) {
                         Page.SingleValue -> SingleValuePage(project.configuration)
-                        Page.Situation -> SituationPage(project.configuration, project.dataScheme)
+                        Page.Situation -> SituationPage(project.configuration, project.getDataScheme())
                         Page.Export -> ExportPage(project)
                     }
                 }
