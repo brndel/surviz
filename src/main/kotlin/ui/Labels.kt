@@ -115,6 +115,40 @@ object Labels {
     const val USER_GUIDE_PROJECT_SCREEN_PREVIEW = "USER_GUIDE_PROJECT_SCREEN_PREVIEW"
     const val USER_GUIDE_PROJECT_SCREEN_PREVIEW_DESCRIPTION =
         "USER_GUIDE_PROJECT_SCREEN_PREVIEW_DESCRIPTION"
+    const val USER_GUIDE_PROJECT_SCREEN_APPBAR = "USER_GUIDE_PROJECT_SCREEN_APPBAR"
+    const val USER_GUIDE_PROJECT_SCREEN_APPBAR_DESCRIPTION =
+        "USER_GUIDE_PROJECT_SCREEN_APPBAR_DESCRIPTION"
+    const val USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_SAVE =
+        "USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_SAVE"
+    const val USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_SAVE_DESCRIPTION =
+        "USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_SAVE_DESCRIPTION"
+    const val USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE =
+        "USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE"
+    const val USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE_DESCRIPTION =
+        "USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE_DESCRIPTION"
+    const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE = "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE"
+    const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_DESCRIPTION =
+        "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_DESCRIPTION"
+    const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD =
+        "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD"
+    const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD_DESCRIPTION =
+        "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD_DESCRIPTION"
+    const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME =
+        "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME"
+    const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME_DESCRIPTION =
+        "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME_DESCRIPTION"
+    const val USER_GUIDE_PROJECT_SCREEN_SITUATION = "USER_GUIDE_PROJECT_SCREEN_SITUATION"
+    const val USER_GUIDE_PROJECT_SCREEN_SITUATION_DESCRIPTION =
+        "USER_GUIDE_PROJECT_SCREEN_SITUATION_DESCRIPTION"
+    const val USER_GUIDE_PROJECT_SCREEN_SITUATION_EDIT = "USER_GUIDE_PROJECT_SCREEN_SITUATION_EDIT"
+    const val USER_GUIDE_PROJECT_SCREEN_SITUATION_EDIT_DESCRIPTION =
+        "USER_GUIDE_PROJECT_SCREEN_SITUATION_EDIT_DESCRIPTION"
+    const val USER_GUIDE_PROJECT_SCREEN_EXPORT = "USER_GUIDE_PROJECT_SCREEN_EXPORT"
+    const val USER_GUIDE_PROJECT_SCREEN_EXPORT_DESCRIPTION =
+        "USER_GUIDE_PROJECT_SCREEN_EXPORT_DESCRIPTION"
+    const val USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME = "USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME"
+    const val USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION =
+        "USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -318,7 +352,27 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.USER_GUIDE_PROJECT_SCREEN_DESCRIPTION to "Im Projektbildschirm lässt sich zu jeder Zeit das Dateimenü öffnen.\\n\" + \"Außerdem kann zwischen den Reitern Einzelwerte, Situationen und Export ausgewählt werden.\\n\" + \"Nach dem Erstellen einer neuen oder öffnen einer bereits bestehenden Projektdatei ist standardmäßig der Reiter Einzelwerte ausgewählt.\\n\" + \"Im Projektbildschirm wird zu jeder Zeit eine Vorschau der Konfiguration einer Situation angezeigt",
             Labels.USER_GUIDE_PROJECT_SCREEN_PREVIEW to "Situation eines Blocks in Vorschau anzeigen",
             Labels.USER_GUIDE_PROJECT_SCREEN_PREVIEW_DESCRIPTION to "In jedem der Reiter kann rechts oben in den Textfeldern Block und Situation die gewünschte Situation eines Blocks angegeben werden, um diese in der Vorschau anzuzeigen.",
-        )
+            Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR to "Dateimenü",
+            Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_DESCRIPTION to "Über das Dateimenü lässt sich die gerade geöffnete Projektdatei speichern oder schließen.\n" + "Außerdem können hier die Einstellungen geöffnet werden.",
+            Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_SAVE to "Projekt Speichern",
+            Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_SAVE_DESCRIPTION to "Nach dem Öffnen des Dateimenüs kann die derzeitige Projektkonfiguration, durch Klicken auf Datei speichern, gespeichert werden.\n" + "Beim erstmaligen Speichern eines Projekts muss der Speicherpfad der Datei festgelegt werden.",
+            Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE to "Projekt schließen",
+            Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE_DESCRIPTION to "Nach dem Öffnen des Dateimenüs kann durch Klicken auf Datei schließen, das Projekt geschlossen werden, um zum Startbildschirm zurückzukehren.",
+            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE to "Einzelwerte Reiter",
+            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_DESCRIPTION to "Im Reiter Einzelwerte können Einzelwerte konfiguriert werden.",
+            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD to "Einzelwert hinzufügen und konfigurieren",
+            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD_DESCRIPTION to "Durch Klicken auf die Schaltfläche + Neu kann ein neuer Einzelwert hinzugefügt werden.\n" + "\n" + "Dem Einzelwert kann im Textfeld Einheit eine Einheit zugewiesen werden.\n" + "\n" + "Dem Einzelwert kann im Textfeld Spaltenschema ein Spaltenschema zugewiesen werden. Weitere Informationen hierzu sind im Benutzerhandbuch unter \$Einzelwert Spaltenschema\$ zu finden.\n" + "\n" + "Durch Klicken der Schaltfläche unter dem Textfeld Spaltenschema kann ein Icon für den Einzelwert ausgewählt werden.\n" + "\n" + "Durch Klicken des + unter der Schaltfläche für das Icon, kann ein Iconlevel hinzugefügt werden.\n" + "\n" + "Einem Iconlevel kann ein eigenes Icon hinzugefügt werden. Außerdem kann im Textfeld neben der Schaltfläche für das Icon eine untere Schwelle festgelegt werden.\n" + "Diese gibt an, ab welchem Wert des Einzelwerts das Icon wechselt.\n" + "\n" + "Die Reihenfolge der Einzelwerte kann durch Anklicken der Schaltfläche mit den drei übereinanderliegenden Strichen, mittels Drag and Drop, angepasst werden.",
+            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME to "Einzelwert Spaltenschema",
+            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME_DESCRIPTION to "Durch Angeben eines Spaltenschemas kann SurViz aus den Spalten jeder Situation automatisch eine Liste der Spalten erstellen, die durch Aufsummieren der Werte, den Wert dieses Einzelwerts angeben.\n" + "\n" + "Das Schema besteht aus einem genau definierten \$Präfix\$ eines Spaltennamens und einem beliebigen \$Suffix\$ eines Spaltennamens, welcher mit einem * ersetzt wird.\n" + "Das Schema \$Präfix*\$ wählt alle Spalten der Ngene-Datei aus, deren Name folgendermaßen aufgebaut ist: \$Situation\$.\$PräfixSuffix\$\n" + "\n" + "Beispiel:\n" + "Es existieren die Spalten\n" + "- \$car.cost_maut\$\n" + "- \$car.cost_benzin\$\n" + "- \$car.fz\$\n" + "- \$car.fz_abgang\$\n" + "- \$car.fz_zugang\$\n" + "\n" + "zu der Situation \$car\$.\n" + "\n" + "Durch das Schema \$cost*\$ werden die folgenden Spalten in der Situation \$car\$ ausgewählt:\n" + "- \$car.cost_maut\$\n" + "- \$car.cost_benzin\$\n" + "\n" + "Jedoch würde in diesem Beispiel bereits das Schema \$c*\$ reichen, um die oben aufgeführten Spalten auszuwählen.\n" + "\n" + "Durch das Schema \$fz*\$ werden die folgenden Spalten in der Situation \$car\$ ausgewählt:\n" + "- \$car.fz\$\n" + "- \$car.fz_abgang\$\n" + "- \$car.fz_zugang\$\n" + "\n" + "Durch das Schema \$fz_*\$ werden die folgenden Spalten in der Situation \$car\$ ausgewählt:\n" + "- \$car.fz_abgang\$\n" + "- \$car.fz_zugang\$\n" + "\n" + "Die Spalte \$car.fz\$ wird hier nicht mehr ausgewählt, da diese nicht den suffix \$fz_\$ enthält.",
+            Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION to "Situationen Reiter",
+            Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION_DESCRIPTION to "Im Reiter Situationen können die einzelnen Situationen eines projekts konfiguriert werden.",
+            Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION_EDIT to "Situation konfigurieren",
+            Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION_EDIT_DESCRIPTION to "Um eine Situation zu konfigurieren, muss diese zunächst ausgewählt werden.\n" + "\n" + "Im Textfeld Name kann der Situation ein Name zugewiesen werden.\n" + "\n" + "Unter dem Textfeld Name kann eine Farbe, durch Angeben eines Hex-Codes oder durch Verändern der Farbregler, festgelegt werden.\n" + "\n" + "Unter Einzelwert Spalten kann jedem Einzelwert zugewiesen werden, welche Spalten für die Berechnung des Wertes benutzt werden. Durch Klicken auf die Schaltfläche neben dem Icon, des jeweiligen Eigenwerts, öffnet sich ein Dropdown-Menü. In diesem kann die Art der Spaltenberechnung ausgewählt werden.\n" + "\n" + "Wird Schema ausgewählt, wird die zuvor durch das Schema definierte Liste an Spalten verwendet.\n" + "Wird Null ausgewählt, ist diese Spalte immer Null.\n" + "Wird Zeitlinie ausgewählt, werden die Spalten der Zeitlinie ausgewählt.\n" + "Wird Auswählen ausgewählt, können die Spalten per Hand ausgewählt werden.\n" + "Unter Zeitlinie kann der Zeitstrahl der Situation angepasst werden. Einzelne Abschnitte des Zeitstrahl können mittels des + hinzugefügt werden. Durch Anklicken der Icon Schaltfläche kann, wie bei den Einzelwerten, jedem Abschnitt ein Icon zugewiesen werden. Neben der Icon-Schaltfläche kann die Spalte angegeben werden, die den Wert dieses Abschnitts enthält. Außerdem kann der Typ der Linie angegeben werden. Genauso wie bei den Einzelwerten kann die Reihenfolge der Abschnitte, durch Drag and Drop angepasst werden.",
+            Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT to "Export Reiter",
+            Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_DESCRIPTION to "Im Reiter Export kann das projekt als PNG oder HTML exportiert werden.\n" + "Zum Exportieren des Projekts kann die Größe und Skalierung der Zeitlinie angegeben werden. Außerdem kann ein Dateipfad und ein Schema für den Dateinamen angegeben werden",
+            Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME to "Schema für Dateinamen",
+            Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION to "Im Schema für die Dateinamen der Dateien können folgende Platzhalter benutzt werden:\n" + "- \$block\$\n" + "- \$situation\$\n" + "- \$option\$\n" + "\n" + "\$block\$ wird beim Erstellen des Dateinamens mit der Nummer des Blocks ersetzt.\n" + "\n" + "\$situation\$ wird beim Erstellen des Dateinamens mit der Nummer der Situation ersetzt.\n" + "\n" + "\$option\$ wird beim Erstellen des Dateinamens mit der Nummer der Auswahloption ersetzt. Die Ersetzung von \$option\$ erfolgt jedoch nur, wenn *Alle Optionen separat exportieren* aktiviert ist.",
+            )
     );
 
     fun getString(label: String): String = strings[label] ?: "<MISSING LABEL '$label'>"
