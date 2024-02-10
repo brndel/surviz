@@ -37,14 +37,14 @@ fun Preview(project: Project) {
             project.getData().getSituations(blockId, situationId)
         }
 
-        LazyColumn(Modifier.fillMaxSize()) {
+        LazyColumn(Modifier.fillMaxSize().padding(bottom = 10.dp, end = 10.dp)) {
             stickyHeader {
                 Surface(
-                    Modifier.fillMaxWidth().padding(10.dp),
+                    Modifier.fillMaxWidth(),
                     color = MaterialTheme.colors.background
                 ) {
                     Row(
-                        Modifier.padding(4.dp),
+                        Modifier.padding(10.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
