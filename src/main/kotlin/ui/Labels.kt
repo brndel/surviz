@@ -149,6 +149,8 @@ object Labels {
     const val USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME = "USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME"
     const val USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION =
         "USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION"
+
+    const val SETTINGS_CHANGE_LANGUAGE = "SETTINGS_CHANGE_LANGUAGE"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -243,6 +245,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.SITUATION_SINGLE_VALUE_COLUMNS to "Single value columns",
 
             Labels.FORBIDDEN_CHARACTERS to "Forbidden characters",
+
+            Labels.SETTINGS_CHANGE_LANGUAGE to "Change language",
         )
     ),
     German(
@@ -372,6 +376,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_DESCRIPTION to "Im Reiter Export kann das projekt als PNG oder HTML exportiert werden.\n" + "Zum Exportieren des Projekts kann die Größe und Skalierung der Zeitlinie angegeben werden. Außerdem kann ein Dateipfad und ein Schema für den Dateinamen angegeben werden",
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME to "Schema für Dateinamen",
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION to "Im Schema für die Dateinamen der Dateien können folgende Platzhalter benutzt werden:\n" + "- \$block\$\n" + "- \$situation\$\n" + "- \$option\$\n" + "\n" + "\$block\$ wird beim Erstellen des Dateinamens mit der Nummer des Blocks ersetzt.\n" + "\n" + "\$situation\$ wird beim Erstellen des Dateinamens mit der Nummer der Situation ersetzt.\n" + "\n" + "\$option\$ wird beim Erstellen des Dateinamens mit der Nummer der Auswahloption ersetzt. Die Ersetzung von \$option\$ erfolgt jedoch nur, wenn *Alle Optionen separat exportieren* aktiviert ist.",
+
+            Labels.SETTINGS_CHANGE_LANGUAGE to "Sprache ändern",
             )
     );
 

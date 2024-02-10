@@ -87,10 +87,10 @@ fun main() = application {
         return true
     }
 
-    val language = remember {
+    var language by remember {
         val langCode = System.getProperty("user.language")
 
-        Language.fromCode(langCode)
+        mutableStateOf(Language.fromCode(langCode))
     }
 
     CompositionLocalProvider(
@@ -121,9 +121,12 @@ fun main() = application {
             }
 
             if (settingsWindowOpen) {
-                SettingsWindow({
-                    settingsWindowOpen = false
-                }, project = currentProject)
+                SettingsWindow(
+                    {
+                        settingsWindowOpen = false
+                    }, project = currentProject,
+                    onLanguageChange = {language = it}
+                )
             }
         }
     }
