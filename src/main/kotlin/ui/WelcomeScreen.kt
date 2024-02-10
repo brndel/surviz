@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import data.project.Project
+import java.io.File
 import kotlin.io.path.Path
 import kotlin.io.path.name
 
@@ -54,7 +55,7 @@ fun WelcomeScreen() {
                 WelcomeScreenButton(
                     Labels.LOAD_LAST_PROJECT,
                     Icons.Default.Refresh,
-                    enabled = projectPath != null,
+                    enabled = (projectPath?.let { File(it).exists() } == true),
                     subLabel = projectPath?.let { { Text(Path(it).name) } }
                 ) {
                     globalCallbacks.loadProject(projectPath!!)
