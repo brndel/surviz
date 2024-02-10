@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Language
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import ui.Label
 import ui.Labels
 import ui.Language
 import ui.LocalLanguage
@@ -29,6 +30,7 @@ fun GeneralSettingsTab(onLanguageChange: (Language) -> Unit) {
     ) {
         item {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 10.dp)) {
+                // change language
                 NestedSurface(modifier = Modifier.fillMaxWidth()) {
                     Row(
                         modifier = Modifier.padding(10.dp),
@@ -47,7 +49,7 @@ fun GeneralSettingsTab(onLanguageChange: (Language) -> Unit) {
                                 onValueChange = { onLanguageChange(it) },
                                 Language.entries
                             ) {
-                                Text(it.toString())
+                                Label(it.toString())
                             }
                         }
                     }

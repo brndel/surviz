@@ -151,6 +151,9 @@ object Labels {
         "USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION"
 
     const val SETTINGS_CHANGE_LANGUAGE = "SETTINGS_CHANGE_LANGUAGE"
+
+    const val English = "English"
+    const val German = "German"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -247,6 +250,9 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.FORBIDDEN_CHARACTERS to "Forbidden characters",
 
             Labels.SETTINGS_CHANGE_LANGUAGE to "Change language",
+
+            Labels.English to "English",
+            Labels.German to "German",
         )
     ),
     German(
@@ -378,6 +384,9 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION to "Im Schema für die Dateinamen der Dateien können folgende Platzhalter benutzt werden:\n" + "- \$block\$\n" + "- \$situation\$\n" + "- \$option\$\n" + "\n" + "\$block\$ wird beim Erstellen des Dateinamens mit der Nummer des Blocks ersetzt.\n" + "\n" + "\$situation\$ wird beim Erstellen des Dateinamens mit der Nummer der Situation ersetzt.\n" + "\n" + "\$option\$ wird beim Erstellen des Dateinamens mit der Nummer der Auswahloption ersetzt. Die Ersetzung von \$option\$ erfolgt jedoch nur, wenn *Alle Optionen separat exportieren* aktiviert ist.",
 
             Labels.SETTINGS_CHANGE_LANGUAGE to "Sprache ändern",
+
+            Labels.English to "Englisch",
+            Labels.German to "Deutsch",
             )
     );
 
