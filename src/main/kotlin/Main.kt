@@ -221,7 +221,9 @@ private fun saveSettings(language: Language) {
     prop.setProperty("lang", language.toCode())
 
     FileOutputStream(file).use { output ->
-        prop.store(output,null)
+        prop.forEach { (key, value) ->
+            output.write("$key=$value\n".toByteArray())
+        }
     }
 }
 
