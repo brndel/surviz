@@ -64,7 +64,7 @@ object PngExporter : Exporter {
 
         // configure situations to export
         val blockOptionList = ArrayList<String>().apply {
-            project.data.blocks.size.let { blockCount ->
+            project.getData().blocks.size.let { blockCount ->
                 addAll((1..blockCount).map(Int::toString))
             }
         }
@@ -121,10 +121,10 @@ object PngExporter : Exporter {
         val allBlocks = exportConfig[ALL_BLOCK_KEY] as Boolean
 
         if (allBlocks) {
-            blocks.addAll(project.data.blocks)
+            blocks.addAll(project.getData().blocks)
         } else {
             val block = exportConfig[BLOCK_KEY] as Int
-            blocks.add(project.data.blocks[block - 1])
+            blocks.add(project.getData().blocks[block - 1])
         }
 
         val allSituations = exportConfig[ALL_SITUATION_KEY] as Boolean
@@ -138,7 +138,7 @@ object PngExporter : Exporter {
             val widthList = coroutineScope {
                 blocks.map { block ->
                     async {
-                        val blockId = project.data.blocks.indexOf(block) + 1
+                        val blockId = project.getData().blocks.indexOf(block) + 1
                         saveBlock(
                             block,
                             blockId,

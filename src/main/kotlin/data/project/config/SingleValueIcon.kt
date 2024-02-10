@@ -54,7 +54,11 @@ data class SingleValueIcon(
         val deserializer = JsonDeserializer { element, _, ctx ->
             val obj = element.asJsonObject
 
-            val baseIcon = obj.get("baseIcon").asString
+            val baseIcon = if (obj.has("baseIcon")) {
+                obj.get("baseIcon").asString
+            } else {
+                null
+            }
             val levels = ctx.deserialize<SnapshotStateList<SingleValueIconLevel>>(
                 obj.get("levels"),
                 SnapshotStateList::class.java

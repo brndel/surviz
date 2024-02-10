@@ -3,21 +3,13 @@ package ui
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import data.generator.ImageGenerator
 import data.project.Project
@@ -40,7 +32,7 @@ fun Preview(project: Project) {
         var situationId by remember { mutableIntStateOf(0) }
 
         val situation by derivedStateOf {
-            project.data.getSituations(blockId, situationId)
+            project.getData().getSituations(blockId, situationId)
         }
 
         LazyColumn(Modifier.fillMaxSize()) {
@@ -54,14 +46,14 @@ fun Preview(project: Project) {
                         OptionsField(
                             blockId,
                             { blockId = it },
-                            (0..<project.data.blocks.size).toList(),
+                            (0..<project.getData().blocks.size).toList(),
                             label = { Label(Labels.BLOCK) }) {
                             Text((it + 1).toString())
                         }
                         OptionsField(
                             situationId,
                             { situationId = it },
-                            (0..<project.data.blocks[blockId].situations.size).toList(),
+                            (0..<project.getData().blocks[blockId].situations.size).toList(),
                             label = { Label(Labels.SITUATION) }) {
                             Text((it + 1).toString())
                         }
