@@ -10,8 +10,10 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.UploadFile
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -67,7 +69,7 @@ fun WelcomeScreen() {
 
                 WelcomeScreenButton(
                     Labels.LOAD_PROJECT,
-                    Icons.Default.Create
+                    Icons.Default.UploadFile
                 ) {
                     globalCallbacks.loadProject()
                 }
