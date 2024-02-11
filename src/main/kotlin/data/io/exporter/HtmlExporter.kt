@@ -12,6 +12,7 @@ import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 import util.platformPath
 import java.io.File
+import kotlin.math.exp
 
 
 /**
@@ -24,17 +25,19 @@ object HtmlExporter : Exporter {
     private const val ALL_SITUATION_KEY = "all_situations"
     private const val PATH_KEY = "path"
     private const val SCHEME_KEY = "scheme"
-
-    private const val DEFAULT_SCHEME = "block_\$block\$_situation_\$situation\$"
     private const val SEPARATE_OPTION_KEY = "separate_options"
 
+    private const val NEEDS_VERSION_NUMBER_KEY = "needs_version_number"
+    private const val VERSION_NUMBER_KEY = "version_number"
+
+    private const val DEFAULT_SCHEME = "block_\$block\$_situation_\$situation\$"
     private val defaultPath: String by lazy {
         platformPath(windows = {
-            "C:\\Users\\$it\\Desktop\\SurViz\\images"
+            "C:\\Users\\$it\\Desktop\\SurViz\\"
         }, linux = {
-            "/home/$it/surviz/images"
+            "/home/$it/surviz/"
         }, mac = {
-            "/Users/$it/surviz/images"
+            "/Users/$it/surviz/"
         })
     }
 
@@ -49,22 +52,12 @@ object HtmlExporter : Exporter {
     override fun getFields(project: Project): List<NamedField> {
         val fields: ArrayList<NamedField> = ArrayList()
 
-        //  Configure situations to export
-        val blockOptionList = ArrayList<String>().apply {
-            project.getData().blocks.size.let { blockCount ->
-                addAll((1..blockCount).map(Int::toString))
-            }
-        }
-        fields.add(NamedField(BLOCK_KEY, OptionsFieldData("1", Labels.BLOCK, blockOptionList)))
-
         fields.add(
             NamedField(
                 ALL_BLOCK_KEY,
                 BooleanFieldData(true, Labels.EXPORT_SELECT_ALL_BLOCKS)
             )
         )
-
-        fields.add(NamedField(SITUATION_KEY, IntFieldData(1, Labels.SITUATION, 1, Int.MAX_VALUE)))
 
         fields.add(
             NamedField(
@@ -73,22 +66,19 @@ object HtmlExporter : Exporter {
             )
         )
 
+        fields.add(NamedField(BLOCK_KEY, IntFieldData(1, Labels.BLOCK, 1, Int.MAX_VALUE)))
+        fields.add(NamedField(SITUATION_KEY, IntFieldData(1, Labels.SITUATION, 1, Int.MAX_VALUE)))
+
+        // Field for unipark variable
         fields.add(
             NamedField(
-                SEPARATE_OPTION_KEY,
-                BooleanFieldData(true, Labels.EXPORT_SEPARATE_OPTIONS)
+                NEEDS_VERSION_NUMBER_KEY,
+                BooleanFieldData(true,Labels.EXPORT_HTML_INCLUDE_VERSION)
             )
         )
 
-//// Field for unipark variable
-////        fields.add(
-////            NamedField(
-////                UNIPARK_VAR,
-////                StringFieldData("v10", "Choose a unipark variable")
-////            )
-////        )
+        fields.add(NamedField(VERSION_NUMBER_KEY, IntFieldData(10, Labels.EXPORT_HTML_VERSION_NUMBER, 1, Int.MAX_VALUE)))
 
-        // Configure output files
         fields.add(
             NamedField(
                 PATH_KEY,
@@ -133,11 +123,14 @@ object HtmlExporter : Exporter {
 
         val situation = exportConfig[SITUATION_KEY].toString().toInt()
 
+        val needsVersionNumber = exportConfig[NEEDS_VERSION_NUMBER_KEY].toString().toBoolean()
+        val versionNumber = exportConfig[VERSION_NUMBER_KEY].toString().toInt()
+
         // Generate Images with Selection
         val pngExportConfig = exportConfig.toMutableMap()
         pngExportConfig[SCHEME_KEY] = "block_\$block\$_situation_\$situation\$_option_\$option\$"
-        pngExportConfig[PATH_KEY] = "/Users/benicio/Desktop/Test1/images"
-        pngExportConfig[SEPARATE_OPTION_KEY] = "true"
+        pngExportConfig[PATH_KEY] = path + "images"
+        pngExportConfig[SEPARATE_OPTION_KEY] = true
 
         PngExporter.export(project, pngExportConfig)
 
@@ -155,7 +148,9 @@ object HtmlExporter : Exporter {
                             scheme,
                             path,
                             allSituations,
-                            situation
+                            situation,
+                            needsVersionNumber,
+                            versionNumber
                         )
                     }
                 }.awaitAll()
@@ -170,7 +165,9 @@ object HtmlExporter : Exporter {
         scheme: String,
         path: String,
         allSituations: Boolean,
-        situationId: Int
+        situationId: Int,
+        needsVersionNumber: Boolean,
+        versionNumber: Int
     ): List<ExportWarning?> {
         val situations = ArrayList<Situation>()
 
@@ -184,7 +181,7 @@ object HtmlExporter : Exporter {
             situations.map { situation ->
                 async {
                     val id = block.situations.indexOf(situation) + 1
-                    saveSituation(situation, id, blockId, scheme, path)
+                    saveSituation(situation, id, blockId, scheme, path, needsVersionNumber, versionNumber)
                 }
             }.awaitAll()
         }
@@ -196,7 +193,9 @@ object HtmlExporter : Exporter {
         situationId: Int,
         blockId: Int,
         scheme: String,
-        path: String
+        path: String,
+        needsVersionNumber: Boolean,
+        versionNumber: Int
     ): List<ExportWarning?> {
         // Generate HTML Document
         val htmlContent = buildString {
@@ -206,6 +205,7 @@ object HtmlExporter : Exporter {
                 }
                 body {
                     getOptions(situation, blockId, situationId)
+                    if (needsVersionNumber){ getVersionNumber(versionNumber) }
                 }
             }
         }
@@ -241,7 +241,7 @@ object HtmlExporter : Exporter {
 
             label {
                 style = "display: flex; align-items: center;"
-
+                br()
                 input(InputType.radio) {
                     this.id = optionId.toString()
                     this.name = radioButtonName
@@ -251,6 +251,14 @@ object HtmlExporter : Exporter {
                 img {this.src = getImgSrc(blockId, situationId, optionId)}
                 br()
             }
+        }
+    }
+
+    private fun BODY.getVersionNumber(versionNumber: Int) {
+        val version: String = "Version: $versionNumber"
+
+        h1 {
+            +version
         }
     }
 

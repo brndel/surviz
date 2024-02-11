@@ -49,6 +49,9 @@ object Labels {
     const val EXPORT_OUTPUT_PATH = "EXPORT_OUTPUT_PATH"
     const val EXPORT_FILE_NAME_SCHEME = "EXPORT_FILE_NAME_SCHEME"
 
+    const val EXPORT_HTML_INCLUDE_VERSION = "EXPORT_HTML_INCLUDE_VERSION"
+    const val EXPORT_HTML_VERSION_NUMBER = "EXPORT_HTML_VERSION_NUMBER"
+
     const val EXPORT_SETTINGS = "EXPORT_GENERAL_SETTINGS"
     const val EXPORT_IMAGE_SETTINGS = "EXPORT_IMAGE_SETTINGS"
 
@@ -209,6 +212,9 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.EXPORT_OUTPUT_PATH to "Output path",
             Labels.EXPORT_FILE_NAME_SCHEME to "File name scheme",
 
+            Labels.EXPORT_HTML_INCLUDE_VERSION to "Include a version number",
+            Labels.EXPORT_HTML_VERSION_NUMBER to "Version Number",
+
             Labels.EXPORT_SETTINGS to "Export settings",
             Labels.EXPORT_IMAGE_SETTINGS to "General image settings",
 
@@ -346,6 +352,9 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.EXPORT_SEPARATE_OPTIONS to "Alle Optionen separat exportieren",
             Labels.EXPORT_OUTPUT_PATH to "Speicherpfad",
             Labels.EXPORT_FILE_NAME_SCHEME to "Schema für Dateinamen",
+
+            Labels.EXPORT_HTML_INCLUDE_VERSION to "Versionsnummer hinzufügen",
+            Labels.EXPORT_HTML_VERSION_NUMBER to "Version",
 
             Labels.EXPORT_SETTINGS to "Export Einstellungen",
             Labels.EXPORT_IMAGE_SETTINGS to "Generelle Bildeinstellungen",
