@@ -106,7 +106,7 @@ fun main() = application {
     }
 
     // set language
-    var language = remember {
+    val language = remember {
         val langCode = System.getProperty("user.language")
 
         mutableStateOf(Language.fromCode(langCode))

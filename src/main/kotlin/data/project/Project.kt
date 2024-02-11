@@ -10,6 +10,7 @@ import data.project.config.columns.*
 import data.project.data.Block
 import data.project.data.DataScheme
 import data.project.data.IconStorage
+import data.resources.exceptions.FileTypeException
 import util.platformPath
 import java.io.File
 import kotlin.io.path.Path
@@ -134,6 +135,10 @@ data class Project(
          * @param projectFile The project file to load.
          */
         fun loadProjectFromFile(projectFile: File): Project {
+            if (projectFile.extension != "svz") {
+                throw FileTypeException(projectFile.extension)
+            }
+
             val file = projectFile.readText()
 
             return GSON.fromJson(file, Project::class.java)
