@@ -66,10 +66,11 @@ data class IconStorage(
     }
 
     private fun storeInternalIcon(imagePath: String) {
-        val file = File(imagePath)
+        val cleanImagePath = imagePath.replace('\\', '/')
+        val file = File(cleanImagePath)
         val icon = createIcon(file.readBytes(), file.extension)
 
-        internalIcons[imagePath] = icon
+        internalIcons[cleanImagePath] = icon
     }
 
     /**
@@ -78,7 +79,8 @@ data class IconStorage(
      * @return the icon as a string
      */
     fun getIcon(name: String): ImageBitmap? {
-        return userIcons[name]?.image ?: internalIcons[name]
+        val cleanName = name.replace('\\', '/')
+        return userIcons[cleanName]?.image ?: internalIcons[cleanName]
     }
 
     fun getInternalIconNames(): List<String> {

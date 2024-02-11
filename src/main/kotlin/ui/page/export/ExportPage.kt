@@ -62,7 +62,7 @@ fun ExportPage(project: Project) {
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Label(Labels.PAGE_EXPORT, style = MaterialTheme.typography.h4)
-            Icon(Icons.Default.Send, contentDescription = null)
+            Icon(Icons.Default.Send, contentDescription = null, tint = MaterialTheme.colors.onBackground)
         }
         ImageConfigCard(project.configuration.imageConfig, Modifier.fillMaxWidth())
 

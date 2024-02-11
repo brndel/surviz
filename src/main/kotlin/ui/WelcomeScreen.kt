@@ -2,13 +2,7 @@ package ui
 
 import LocalGlobalCallbacks
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -16,24 +10,18 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.UploadFile
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.darkrockstudios.libraries.mpfilepicker.FilePicker
-import data.io.DataManager
 import data.project.Project
-import data.resources.exceptions.CorruptFileException
-import data.resources.exceptions.FileTypeException
-import ui.util.ErrorDialog
 import java.io.File
 import kotlin.io.path.Path
 import kotlin.io.path.name
@@ -45,9 +33,6 @@ import kotlin.io.path.name
  */
 @Composable
 fun WelcomeScreen() {
-    var fileExplorerTarget: FileExplorerTarget? by remember { mutableStateOf(null) }
-    var errorDialogLabel: String? by remember { mutableStateOf(null) }
-
     val globalCallbacks = LocalGlobalCallbacks.current!!
 
     Box(Modifier.fillMaxSize()) {
@@ -70,7 +55,7 @@ fun WelcomeScreen() {
                 WelcomeScreenButton(
                     Labels.LOAD_LAST_PROJECT,
                     Icons.Default.Refresh,
-                    enabled = projectPath != null,
+                    enabled = (projectPath?.let { File(it).exists() } == true),
                     subLabel = projectPath?.let { { Text(Path(it).name) } }
                 ) {
                     globalCallbacks.loadProject(projectPath!!)
@@ -80,14 +65,14 @@ fun WelcomeScreen() {
                     Labels.NEW_PROJECT,
                     Icons.Default.Add
                 ) {
-                    fileExplorerTarget = FileExplorerTarget.NewProject
+                    globalCallbacks.createProject()
                 }
 
                 WelcomeScreenButton(
                     Labels.LOAD_PROJECT,
-                    Icons.Default.Create
+                    Icons.Default.UploadFile
                 ) {
-                    fileExplorerTarget = FileExplorerTarget.LoadProject
+                    globalCallbacks.loadProject()
                 }
 
                 WelcomeScreenButton(
@@ -99,45 +84,7 @@ fun WelcomeScreen() {
             }
         }
     }
-
-    FilePicker(fileExplorerTarget != null) {
-        val target = fileExplorerTarget
-        fileExplorerTarget = null
-
-        if (it == null) return@FilePicker
-
-        when (target) {
-            FileExplorerTarget.NewProject -> {
-                val data = try {
-                    DataManager.loadData(File(it.path))
-                } catch (e: FileTypeException) {
-                    errorDialogLabel = Labels.IMPORT_ERROR_INVALID_FILE_TYPE
-                    return@FilePicker
-                } catch (e: CorruptFileException) {
-                    errorDialogLabel = Labels.IMPORT_ERROR_CORRUPT_FILE
-                    return@FilePicker
-                }
-                globalCallbacks.createProject(data)
-            }
-
-            FileExplorerTarget.LoadProject -> {
-                globalCallbacks.loadProject(it.path)
-            }
-
-            else -> return@FilePicker
-        }
-    }
-
-    ErrorDialog(errorDialogLabel) {
-        errorDialogLabel = null
-    }
 }
-
-private enum class FileExplorerTarget {
-    NewProject,
-    LoadProject,
-}
-
 @Composable
 private fun WelcomeScreenButton(
     label: String,

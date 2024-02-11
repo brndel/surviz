@@ -49,11 +49,11 @@ fun SituationPage(projectConfiguration: ProjectConfiguration, dataScheme: DataSc
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Label(Labels.PAGE_SITUATION, style = MaterialTheme.typography.h4)
-            Icon(Icons.Default.ModeOfTravel, contentDescription = null)
+            Icon(Icons.Default.ModeOfTravel, contentDescription = null, tint = MaterialTheme.colors.onBackground)
         }
         NestedSurface {
             Column {
-                TabRow(selectedTabIndex = selectedTab, modifier = Modifier.height(42.dp)) {
+                TabRow(selectedTabIndex = selectedTab, modifier = Modifier.height(42.dp), backgroundColor = MaterialTheme.colors.primary) {
                     dataScheme.options.forEachIndexed { index, option ->
                         Tab(index == selectedTab, onClick = { selectedTab = index }) {
                             Text(option.name)

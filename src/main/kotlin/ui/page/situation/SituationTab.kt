@@ -26,6 +26,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.unit.dp
 import data.project.config.SingleValueConfig
 import data.project.config.SituationConfig
@@ -86,7 +88,7 @@ fun SituationTab(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Icon(Icons.Default.ViewWeek,contentDescription = null)
+                Icon(Icons.Default.ViewWeek, contentDescription = null)
                 Label(Labels.SITUATION_SINGLE_VALUE_COLUMNS, style = MaterialTheme.typography.h6)
             }
 
@@ -98,9 +100,21 @@ fun SituationTab(
             NestedSurface(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Row(Modifier.padding(4.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                Row(Modifier.padding(10.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     val singleValueConfig = singleValues[id] ?: return@Row
-                    IconStorageImage(singleValueConfig.icon.baseIcon.value)
+                    IconStorageImage(
+                        singleValueConfig.icon.baseIcon.value,
+                        colorFilter = ColorFilter.colorMatrix(
+                            ColorMatrix(
+                                floatArrayOf(
+                                    0f, 0f, 0f, 0f, MaterialTheme.colors.onBackground.red * 255,
+                                    0f, 0f, 0f, 0f, MaterialTheme.colors.onBackground.green * 255,
+                                    0f, 0f, 0f, 0f, MaterialTheme.colors.onBackground.blue * 255,
+                                    0f, 0f, 0f, 1f, 0f
+                                )
+                            )
+                        )
+                    )
                     SingleValueColumnField(
                         column,
                         { config.singleValueColumns[id] = it },

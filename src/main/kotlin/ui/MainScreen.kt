@@ -1,6 +1,11 @@
 package ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import data.project.Project
 
 /**
@@ -14,10 +19,11 @@ import data.project.Project
  */
 @Composable
 fun MainScreen(project: Project?) {
-
-    if (project == null) {
-        WelcomeScreen()
-    } else {
-        ProjectScreen(project)
+    Surface(color = MaterialTheme.colors.background) {
+        if (project == null) {
+            WelcomeScreen()
+        } else {
+            ProjectScreen(project)
+        }
     }
 }
