@@ -155,6 +155,8 @@ object Labels {
 
     const val English = "English"
     const val German = "German"
+
+    const val PREVIEW = "PREVIEW"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -292,6 +294,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.German to "German",
 
             Labels.SETTINGS_CHANGE_DARK_MODE to "Dark mode",
+
+            Labels.PREVIEW to "Preview",
             )
     ),
     German(
@@ -428,6 +432,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.German to "Deutsch",
 
             Labels.SETTINGS_CHANGE_DARK_MODE to "Dunkel-Modus",
+
+            Labels.PREVIEW to "Vorschau",
             )
     );
 

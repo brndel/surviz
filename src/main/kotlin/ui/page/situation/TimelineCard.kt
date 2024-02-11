@@ -3,6 +3,7 @@ package ui.page.situation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -55,7 +56,13 @@ fun TimelineCard(
 
             IconField(icon, ColorFilter.tint(MaterialTheme.colors.onPrimary)) { icon = it }
 
-            OptionsField(column, { column = it }, options = columns, label = { Label(Labels.COLUMN) }) {
+            OptionsField(
+                column,
+                { column = it },
+                options = columns,
+                label = { Label(Labels.COLUMN) },
+                modifier = Modifier.width(246.dp)
+            ) {
                 Text(it)
             }
 
@@ -63,7 +70,9 @@ fun TimelineCard(
                 lineType,
                 { lineType = it },
                 LineType.entries.toList(),
-                label = { Label(Labels.FIELD_LINE_TYPE) }) {
+                label = { Label(Labels.FIELD_LINE_TYPE) },
+                modifier = Modifier.width(246.dp)
+            ) {
                 Text(it.toString())
             }
 

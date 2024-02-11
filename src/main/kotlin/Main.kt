@@ -123,11 +123,11 @@ fun main() = application {
     )
     val darkColors = darkColors(
         background = Color(18, 18, 18),
-        surface = Color(53, 53, 53),
+        surface = Color(31, 31, 31),
         primary = Color(64, 147, 138),
         primaryVariant = Color(85, 180, 169),
-        secondary = Color(34, 47, 89),
-        secondaryVariant = Color(50, 70, 133),
+        secondary = Color(50, 70, 133),
+        secondaryVariant = Color(62, 85, 163),
         onPrimary = Color.White,
         onSecondary = Color.White,
         onSurface = Color.White,

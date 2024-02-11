@@ -6,9 +6,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Preview
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,24 +46,35 @@ fun Preview(project: Project) {
                     Modifier.fillMaxWidth(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Row(
+                    Column(
                         Modifier.padding(10.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
-                        OptionsField(
-                            blockId,
-                            { blockId = it },
-                            (0..<project.getData().blocks.size).toList(),
-                            label = { Label(Labels.BLOCK) }) {
-                            Text((it + 1).toString())
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            Label(Labels.PREVIEW, style = MaterialTheme.typography.h4)
+                            Icon(Icons.Default.Preview, null)
                         }
-                        OptionsField(
-                            situationId,
-                            { situationId = it },
-                            (0..<project.getData().blocks[blockId].situations.size).toList(),
-                            label = { Label(Labels.SITUATION) }) {
-                            Text((it + 1).toString())
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            OptionsField(
+                                blockId,
+                                { blockId = it },
+                                (0..<project.getData().blocks.size).toList(),
+                                label = { Label(Labels.BLOCK) }) {
+                                Text((it + 1).toString())
+                            }
+                            OptionsField(
+                                situationId,
+                                { situationId = it },
+                                (0..<project.getData().blocks[blockId].situations.size).toList(),
+                                label = { Label(Labels.SITUATION) }) {
+                                Text((it + 1).toString())
+                            }
                         }
                     }
                 }
