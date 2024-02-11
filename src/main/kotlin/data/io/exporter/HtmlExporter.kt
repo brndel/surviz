@@ -12,7 +12,6 @@ import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 import util.platformPath
 import java.io.File
-import kotlin.math.exp
 
 
 /**
@@ -255,7 +254,7 @@ object HtmlExporter : Exporter {
     }
 
     private fun BODY.getVersionNumber(versionNumber: Int) {
-        val version: String = "Version: $versionNumber"
+        val version = "Version: $versionNumber"
 
         h1 {
             +version
