@@ -1,17 +1,20 @@
 package ui.window.settings
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.LeadingIconTab
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.HelpCenter
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -31,12 +34,17 @@ import ui.LocalLanguage
 import ui.util.NestedSurface
 import ui.window.settings.tabs.GeneralSettingsTab
 import ui.window.settings.tabs.HelpTab
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.util.Properties
 
 @Composable
 fun SettingsWindow(
     onCloseRequest: () -> Unit,
-    project: Project?,
-    onLanguageChange: (Language) -> Unit,
+    settingsFilePath: String,
+    language: MutableState<Language>,
+    isDarkMode: MutableState<Boolean>,
     openedTab: Int = 0
 ) {
     val (selectedTabIndex, setSelectedTabIndex) = remember { mutableStateOf(openedTab) }
@@ -46,9 +54,12 @@ fun SettingsWindow(
         onCloseRequest = onCloseRequest,
         icon = rememberVectorPainter(Icons.Default.Settings)
     ) {
-        NestedSurface {
+        Surface(color = MaterialTheme.colors.background) {
             Column {
-                TabRow(selectedTabIndex = selectedTabIndex) {
+                TabRow(
+                    selectedTabIndex = selectedTabIndex,
+                    backgroundColor = MaterialTheme.colors.primary
+                ) {
                     LeadingIconTab(
                         text = { Text(LocalLanguage.current.getString(Labels.SETTINGS_GENERAL)) },
                         selected = selectedTabIndex == 0,
@@ -75,7 +86,17 @@ fun SettingsWindow(
 
                 Box(Modifier.padding(horizontal = 10.dp)) {
                     when (selectedTabIndex) {
-                        0 -> GeneralSettingsTab(onLanguageChange)
+                        0 -> GeneralSettingsTab(
+                            language,
+                            isDarkMode,
+                            onSettingChanged = {
+                                saveSettings(
+                                    settingsFilePath,
+                                    language.value,
+                                    isDarkMode.value
+                                )
+                            })
+
                         1 -> HelpTab()
                     }
                 }
@@ -118,4 +139,24 @@ fun HighlightedHeading(
         style = textStyle.copy(fontWeight = FontWeight.Bold, color = MaterialTheme.colors.primary),
         modifier = modifier
     )
+}
+
+fun saveSettings(path: String, language: Language, darkMode: Boolean) {
+    val file = File(path)
+
+    if (!file.exists()) {
+        file.parentFile.mkdirs()
+        file.createNewFile()
+    }
+    val prop = Properties()
+    prop.load(FileInputStream(file))
+
+    prop.setProperty("lang", language.toCode())
+    prop.setProperty("dark_mode", darkMode.toString())
+
+    FileOutputStream(file).use { output ->
+        prop.forEach { (key, value) ->
+            output.write("$key=$value\n".toByteArray())
+        }
+    }
 }

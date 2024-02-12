@@ -151,9 +151,12 @@ object Labels {
         "USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION"
 
     const val SETTINGS_CHANGE_LANGUAGE = "SETTINGS_CHANGE_LANGUAGE"
+    const val SETTINGS_CHANGE_DARK_MODE = "SETTINGS_CHANGE_DARK_MODE"
 
     const val English = "English"
     const val German = "German"
+
+    const val PREVIEW = "PREVIEW"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -261,7 +264,7 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.USER_GUIDE_START_SCREEN_SETTINGS to "Open settings",
             Labels.USER_GUIDE_START_SCREEN_SETTINGS_DESCRIPTION to "By clicking on the Settings button, a new window opens displaying the program settings.",
             Labels.USER_GUIDE_PROJECT_SCREEN to "Project screen",
-            Labels.USER_GUIDE_PROJECT_SCREEN_DESCRIPTION to "In the project screen, the file menu can be opened at any time.\n" + "Additionally, users can select between the tabs single values, situations, and export.\n" + "After creating a new project or opening an existing project file, the single salues tab is selected by default.\n" + "In the project screen, a preview of the configuration of a situation is always displayed",
+            Labels.USER_GUIDE_PROJECT_SCREEN_DESCRIPTION to "In the project screen, the file menu can be opened at any time.\n" + "Additionally, users can select between the tabs Single Values, Situations, and Export.\n" + "After creating a new project or opening an existing project file, the Single Values tab is selected by default.\n" + "In the project screen, a preview of the configuration of a situation is always displayed",
             Labels.USER_GUIDE_PROJECT_SCREEN_PREVIEW to "Display preview of a block's situation",
             Labels.USER_GUIDE_PROJECT_SCREEN_PREVIEW_DESCRIPTION to "In each of the tabs, in the text fields located at the top right, the desired situation of a block can be specified to display it in the preview.",
             Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR to "File menu",
@@ -289,6 +292,10 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.English to "English",
             Labels.German to "German",
+
+            Labels.SETTINGS_CHANGE_DARK_MODE to "Dark mode",
+
+            Labels.PREVIEW to "Preview",
             )
     ),
     German(
@@ -423,6 +430,10 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.English to "Englisch",
             Labels.German to "Deutsch",
+
+            Labels.SETTINGS_CHANGE_DARK_MODE to "Dunkel-Modus",
+
+            Labels.PREVIEW to "Vorschau",
             )
     );
 

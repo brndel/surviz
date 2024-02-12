@@ -52,7 +52,7 @@ fun SingleValuePage(projectConfig: ProjectConfiguration) {
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Label(Labels.PAGE_SINGLE_VALUE, style = MaterialTheme.typography.h4)
-            Icon(Icons.Default.ViewWeek, contentDescription = null)
+            Icon(Icons.Default.ViewWeek, contentDescription = null, tint = MaterialTheme.colors.onBackground)
         }
         Button(onClick = {
             projectConfig.addSingleValue()

@@ -84,7 +84,7 @@ fun HelpTab() {
                                 HighlightedHeading(Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_SAVE)
                                 Label(Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_SAVE_DESCRIPTION)
                                 HighlightedHeading(Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE)
-                                Text(Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE_DESCRIPTION)
+                                Label(Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE_DESCRIPTION)
                             }
                         }
                         NestedSurface(

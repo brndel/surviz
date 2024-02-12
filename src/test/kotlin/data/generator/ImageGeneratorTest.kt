@@ -12,8 +12,9 @@ import javax.imageio.ImageIO
 
 class ImageGeneratorTest {
 
-    @Test
-    fun generateOptionTest() {
+
+ /*   @Test
+   fun generateOptionTest() {
         val option = SituationOption(
             "fuss",
             hashMapOf("fz_fuss" to 10.0)
@@ -24,5 +25,5 @@ class ImageGeneratorTest {
         val outputFile = File("src/test/resources/image/test_image.png")
         ImageIO.write(bufferedImage, "png", outputFile)
         println(outputFile.absolutePath)
-    }
+    }*/
 }

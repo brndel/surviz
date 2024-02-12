@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -44,7 +45,7 @@ import ui.util.ErrorDialog
  * @param onIconChange gets called when the user selects a new item
  */
 @Composable
-fun IconField(icon: String?,colorFilter: ColorFilter? = null, onIconChange: (String?) -> Unit) {
+fun IconField(icon: String?, colorFilter: ColorFilter? = null, onIconChange: (String?) -> Unit) {
     var dialogOpen by remember { mutableStateOf(false) }
 
     Button({ dialogOpen = true }, modifier = Modifier.size(64.dp)) {
@@ -69,35 +70,37 @@ private fun IconFieldDialog(
     val dialogTitle = LocalLanguage.current.getString(Labels.ICON_SELECT_WINDOW)
 
     DialogWindow(onCloseRequest = onDismissRequest, title = dialogTitle) {
-        Column(Modifier.fillMaxSize()) {
-            LazyVerticalGrid(
-                columns = GridCells.FixedSize(64.dp),
-                modifier = Modifier.weight(1F),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                items(iconStorage.getUserIconNames()) { icon ->
-                    IconFieldDialogButton(icon, selectedIcon, iconStorage) {
-                        selectedIcon = icon
+        Surface(color = MaterialTheme.colors.background) {
+            Column(Modifier.fillMaxSize()) {
+                LazyVerticalGrid(
+                    columns = GridCells.FixedSize(64.dp),
+                    modifier = Modifier.weight(1F),
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    items(iconStorage.getUserIconNames()) { icon ->
+                        IconFieldDialogButton(icon, selectedIcon, iconStorage) {
+                            selectedIcon = icon
+                        }
+                    }
+                    items(
+                        iconStorage.getInternalIconNames()
+                    ) { icon ->
+                        IconFieldDialogButton(icon, selectedIcon, iconStorage) {
+                            selectedIcon = icon
+                        }
                     }
                 }
-                items(
-                    iconStorage.getInternalIconNames()
-                ) { icon ->
-                    IconFieldDialogButton(icon, selectedIcon, iconStorage) {
-                        selectedIcon = icon
+
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    ImportIconButton()
+
+                    Button({
+                        onIconChange(selectedIcon)
+                        onDismissRequest()
+                    }) {
+                        Label(Labels.SELECT)
                     }
-                }
-            }
-
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                ImportIconButton()
-
-                Button({
-                    onIconChange(selectedIcon)
-                    onDismissRequest()
-                }) {
-                    Label(Labels.SELECT)
                 }
             }
         }
@@ -147,7 +150,20 @@ private fun IconFieldDialogButton(
         border = if (selected) BorderStroke(2.dp, MaterialTheme.colors.primary) else null,
         modifier = Modifier.size(64.dp)
     ) {
-        IconStorageImage(icon, iconStorage = iconStorage)
+        IconStorageImage(
+            icon,
+            iconStorage = iconStorage,
+            colorFilter = ColorFilter.colorMatrix(
+                ColorMatrix(
+                    floatArrayOf(
+                        0f, 0f, 0f, 0f, MaterialTheme.colors.onBackground.red * 255,
+                        0f, 0f, 0f, 0f, MaterialTheme.colors.onBackground.green * 255,
+                        0f, 0f, 0f, 0f, MaterialTheme.colors.onBackground.blue * 255,
+                        0f, 0f, 0f, 1f, 0f
+                    )
+                )
+            )
+        )
     }
 }
 
