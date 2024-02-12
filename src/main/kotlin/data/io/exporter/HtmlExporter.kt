@@ -26,9 +26,6 @@ object HtmlExporter : Exporter {
     private const val SCHEME_KEY = "scheme"
     private const val SEPARATE_OPTION_KEY = "separate_options"
 
-    private const val NEEDS_VERSION_NUMBER_KEY = "needs_version_number"
-    private const val VERSION_NUMBER_KEY = "version_number"
-
     private const val DEFAULT_SCHEME = "block_\$block\$_situation_\$situation\$"
     private val defaultPath: String by lazy {
         platformPath(windows = {
@@ -47,9 +44,7 @@ object HtmlExporter : Exporter {
         val allBlocks: Boolean,
         val allSituations: Boolean,
         val blocks: ArrayList<Block>,
-        val situation: Int,
-        val needsVersionNumber: Boolean,
-        val versionNumber: Int
+        val situation: Int
     )
 
     /**
@@ -75,16 +70,6 @@ object HtmlExporter : Exporter {
 
         fields.add(NamedField(BLOCK_KEY, IntFieldData(1, Labels.BLOCK, 1, Int.MAX_VALUE)))
         fields.add(NamedField(SITUATION_KEY, IntFieldData(1, Labels.SITUATION, 1, Int.MAX_VALUE)))
-
-        // Field for unipark variable
-        fields.add(
-            NamedField(
-                NEEDS_VERSION_NUMBER_KEY,
-                BooleanFieldData(true,Labels.EXPORT_HTML_INCLUDE_VERSION)
-            )
-        )
-
-        fields.add(NamedField(VERSION_NUMBER_KEY, IntFieldData(10, Labels.EXPORT_HTML_VERSION_NUMBER, 1, Int.MAX_VALUE)))
 
         fields.add(
             NamedField(
@@ -130,20 +115,14 @@ object HtmlExporter : Exporter {
 
         val situation = exportConfig[SITUATION_KEY].toString().toInt()
 
-        val needsVersionNumber = exportConfig[NEEDS_VERSION_NUMBER_KEY].toString().toBoolean()
-        val versionNumber = exportConfig[VERSION_NUMBER_KEY].toString().toInt()
-
         val config = Config(
             scheme,
             path,
             allBlocks,
             allSituations,
             blocks,
-            situation,
-            needsVersionNumber,
-            versionNumber
+            situation
         )
-
 
         // Generate Images with Selection
         val pngExportConfig = exportConfig.toMutableMap()
@@ -213,8 +192,9 @@ object HtmlExporter : Exporter {
                 }
                 body {
                     getOptions(situation, blockId, situationId)
-                    if (config.needsVersionNumber){ getVersionNumber(config.versionNumber) }
                 }
+
+
             }
         }
 
