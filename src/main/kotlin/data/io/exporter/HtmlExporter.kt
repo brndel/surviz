@@ -40,10 +40,6 @@ object HtmlExporter : Exporter {
         })
     }
 
-// TODO("UNIPARK VARIABLE")
-//    private const val UNIPARK_VAR = "unipark_variable"
-
-
     /**
      * This method returns the fields that the UI uses to configure the export.
      * @return The fields of the exporter.
