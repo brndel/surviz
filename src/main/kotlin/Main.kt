@@ -134,9 +134,7 @@ fun main() = application {
         onBackground = Color.White,
     )
 
-    val systemDarkMode = isSystemInDarkTheme()
-    val isDarkTheme = remember { mutableStateOf(systemDarkMode) }
-
+    val isDarkTheme = remember { mutableStateOf(false) }
 
 
     // load settings
@@ -189,8 +187,17 @@ fun ApplicationScope.MainWindow(
     currentProjectPath: String?,
     onKeyEvent: (KeyEvent) -> Boolean
 ) {
-    val windowState =
-        rememberWindowState(width = 1700.dp, height = 900.dp, placement = WindowPlacement.Maximized)
+    var windowState by remember {
+        mutableStateOf(
+            WindowState(
+                width = 700.dp,
+                height = 500.dp,
+                placement = WindowPlacement.Floating,
+                position = WindowPosition((1920.dp - 700.dp) / 2, (1080.dp - 500.dp) / 2)
+            )
+        )
+    }
+
 
     val lang = LocalLanguage.current
     val windowTitle by derivedStateOf {
@@ -211,7 +218,7 @@ fun ApplicationScope.MainWindow(
         icon = painterResource("logo.png"),
         onKeyEvent = { onKeyEvent(it) }) {
 
-        MainScreen(currentProject)
+        MainScreen(currentProject, setWindowState = { windowState = it })
     }
 }
 

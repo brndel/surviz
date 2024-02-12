@@ -92,7 +92,7 @@ private fun ColumnScope.NavButton(
         onClick = { onNavigate(page) },
         colors = ButtonDefaults.buttonColors(
             if (selected) {
-                MaterialTheme.colors.primarySurface
+                MaterialTheme.colors.primary
             } else {
                 MaterialTheme.colors.surface
             }
