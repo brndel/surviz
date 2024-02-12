@@ -40,9 +40,17 @@ object HtmlExporter : Exporter {
         })
     }
 
-// TODO("UNIPARK VARIABLE")
-//    private const val UNIPARK_VAR = "unipark_variable"
 
+    private data class Config(
+        val scheme: String,
+        val path: String,
+        val allBlocks: Boolean,
+        val allSituations: Boolean,
+        val blocks: ArrayList<Block>,
+        val situation: Int,
+        val needsVersionNumber: Boolean,
+        val versionNumber: Int
+    )
 
     /**
      * This method returns the fields that the UI uses to configure the export.
@@ -125,6 +133,18 @@ object HtmlExporter : Exporter {
         val needsVersionNumber = exportConfig[NEEDS_VERSION_NUMBER_KEY].toString().toBoolean()
         val versionNumber = exportConfig[VERSION_NUMBER_KEY].toString().toInt()
 
+        val config = Config(
+            scheme,
+            path,
+            allBlocks,
+            allSituations,
+            blocks,
+            situation,
+            needsVersionNumber,
+            versionNumber
+        )
+
+
         // Generate Images with Selection
         val pngExportConfig = exportConfig.toMutableMap()
         pngExportConfig[SCHEME_KEY] = "block_\$block\$_situation_\$situation\$_option_\$option\$"
@@ -142,14 +162,10 @@ object HtmlExporter : Exporter {
                     async {
                         val blockId = project.getData().blocks.indexOf(block) + 1
                         saveBlock(
+                            config,
                             block,
                             blockId,
-                            scheme,
-                            path,
-                            allSituations,
-                            situation,
-                            needsVersionNumber,
-                            versionNumber
+                            situation
                         )
                     }
                 }.awaitAll()
@@ -159,18 +175,14 @@ object HtmlExporter : Exporter {
         return ExportResult(errorList.filterNotNull())
     }
     private suspend fun saveBlock(
+        config: Config,
         block: Block,
         blockId: Int,
-        scheme: String,
-        path: String,
-        allSituations: Boolean,
-        situationId: Int,
-        needsVersionNumber: Boolean,
-        versionNumber: Int
+        situationId: Int
     ): List<ExportWarning?> {
         val situations = ArrayList<Situation>()
 
-        if (allSituations) {
+        if (config.allSituations) {
             situations.addAll(block.situations)
         } else {
             situations.add(block.situations[situationId - 1])
@@ -180,7 +192,7 @@ object HtmlExporter : Exporter {
             situations.map { situation ->
                 async {
                     val id = block.situations.indexOf(situation) + 1
-                    saveSituation(situation, id, blockId, scheme, path, needsVersionNumber, versionNumber)
+                    saveSituation(config, situation, id, blockId)
                 }
             }.awaitAll()
         }
@@ -188,13 +200,10 @@ object HtmlExporter : Exporter {
     }
 
     private fun saveSituation(
+        config: Config,
         situation: Situation,
         situationId: Int,
         blockId: Int,
-        scheme: String,
-        path: String,
-        needsVersionNumber: Boolean,
-        versionNumber: Int
     ): List<ExportWarning?> {
         // Generate HTML Document
         val htmlContent = buildString {
@@ -204,18 +213,19 @@ object HtmlExporter : Exporter {
                 }
                 body {
                     getOptions(situation, blockId, situationId)
-                    if (needsVersionNumber){ getVersionNumber(versionNumber) }
+                    if (config.needsVersionNumber){ getVersionNumber(config.versionNumber) }
                 }
             }
         }
 
         val fileName = getNameFromScheme(
-            scheme,
+            config.scheme,
             "block" to blockId.toString(),
             "situation" to situationId.toString()
         )
 
-        val outputFile = File("$path/$fileName.html")
+        val filePath = config.path + fileName + ".html"
+        val outputFile = File(filePath)
         outputFile.writeText(htmlContent)
         println("HTML-Datei wurde unter ${outputFile.absolutePath} erstellt.")
 //        saveHtmlFile(html, path, fileName)
