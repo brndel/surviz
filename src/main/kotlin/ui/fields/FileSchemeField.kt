@@ -35,7 +35,7 @@ fun FileSchemeField(
 
     var showPlaceholderPopup by remember { mutableStateOf(false) }
 
-    Column {
+    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
         OutlinedTextField(value, onValueChange, modifier, label = label, trailingIcon = {
             Box {
