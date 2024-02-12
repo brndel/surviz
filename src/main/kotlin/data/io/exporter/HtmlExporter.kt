@@ -127,7 +127,7 @@ object HtmlExporter : Exporter {
         pngExportConfig[PATH_KEY] = path + "images"
         pngExportConfig[SEPARATE_OPTION_KEY] = true
 
-        PngExporter.export(project, pngExportConfig)
+        val pngResult = PngExporter.export(project, pngExportConfig)
 
         // Generate HTML Files with Selection
         val errorList = ArrayList<ExportWarning?>()
@@ -152,6 +152,7 @@ object HtmlExporter : Exporter {
             }
             errorList.addAll(widthList.flatten())
         }
+        errorList.addAll(pngResult.warnings)
         return ExportResult(errorList.filterNotNull())
     }
     private suspend fun saveBlock(
@@ -211,7 +212,10 @@ object HtmlExporter : Exporter {
             "situation" to situationId.toString()
         )
 
-        val outputFile = File("$path/$fileName.html")
+        val outputFile = File("$path/html/$fileName.html")
+
+        outputFile.parentFile.mkdirs()
+
         outputFile.writeText(htmlContent)
         println("HTML-Datei wurde unter ${outputFile.absolutePath} erstellt.")
 //        saveHtmlFile(html, path, fileName)
