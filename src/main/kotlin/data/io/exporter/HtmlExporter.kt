@@ -141,7 +141,7 @@ object HtmlExporter : Exporter {
                             block,
                             blockId,
                             scheme,
-                            path,
+                            "$path\\html\\",
                             allSituations,
                             situation,
                             needsVersionNumber,
@@ -212,7 +212,7 @@ object HtmlExporter : Exporter {
             "situation" to situationId.toString()
         )
 
-        val outputFile = File("$path/html/$fileName.html")
+        val outputFile = File("$path/$fileName.html")
 
         outputFile.parentFile.mkdirs()
 
@@ -262,7 +262,7 @@ object HtmlExporter : Exporter {
     }
 
     private fun getImgSrc(blockId: Int, situationId: Int, optionId: Int): String {
-        return "images/block_$blockId" + "_situation_$situationId" + "_option_$optionId" + ".png"
+        return "..\\images\\block_$blockId" + "_situation_$situationId" + "_option_$optionId" + ".png"
     }
 
     private fun getNameFromScheme(template: String, vararg values: Pair<String, String>): String {
