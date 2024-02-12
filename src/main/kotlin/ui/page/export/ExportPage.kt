@@ -1,5 +1,6 @@
 package ui.page.export
 
+import ImageConfigCard
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,11 +15,8 @@ import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CarCrash
-import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.runtime.Composable
@@ -35,7 +33,6 @@ import data.io.utils.result.ExportResult
 import data.project.Project
 import ui.Label
 import ui.Labels
-import ui.LocalLanguage
 import ui.fields.GenericField
 import ui.fields.OptionsField
 import ui.util.NestedSurface
