@@ -54,6 +54,13 @@ object HtmlExporter : Exporter {
             )
         )
 
+        val blockOptionList = ArrayList<String>().apply {
+            project.getData().blocks.size.let { blockCount ->
+                addAll((1..blockCount).map(kotlin.Int::toString))
+            }
+        }
+        fields.add(NamedField(BLOCK_KEY, OptionsFieldData("1", Labels.BLOCK, blockOptionList)))
+
         fields.add(
             NamedField(
                 ALL_SITUATION_KEY,
@@ -61,7 +68,6 @@ object HtmlExporter : Exporter {
             )
         )
 
-        fields.add(NamedField(BLOCK_KEY, IntFieldData(1, Labels.BLOCK, 1, Int.MAX_VALUE)))
         fields.add(NamedField(SITUATION_KEY, IntFieldData(1, Labels.SITUATION, 1, Int.MAX_VALUE)))
 
         // Field for unipark variable
