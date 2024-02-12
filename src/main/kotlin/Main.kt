@@ -134,8 +134,7 @@ fun main() = application {
         onBackground = Color.White,
     )
 
-    val systemDarkMode = isSystemInDarkTheme()
-    val isDarkTheme = remember { mutableStateOf(systemDarkMode) }
+    val isDarkTheme = remember { mutableStateOf(false) }
 
 
     // load settings
