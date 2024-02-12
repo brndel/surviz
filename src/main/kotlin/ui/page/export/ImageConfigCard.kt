@@ -58,7 +58,7 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
                 )
             }
 
-            IntField(width, { width = it }) {
+            IntField(width, { width = it }, maxValue = 5000) {
                 Text(LocalLanguage.current.getString(Labels.EXPORT_IMAGE_CONFIG_WIDTH))
             }
             Row(
