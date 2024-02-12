@@ -62,13 +62,6 @@ object PngExporter : Exporter {
     override fun getFields(project: Project): List<NamedField> {
         val fields: ArrayList<NamedField> = ArrayList()
 
-        // configure situations to export
-        val blockOptionList = ArrayList<String>().apply {
-            project.getData().blocks.size.let { blockCount ->
-                addAll((1..blockCount).map(Int::toString))
-            }
-        }
-        fields.add(NamedField(BLOCK_KEY, OptionsFieldData("1", Labels.BLOCK, blockOptionList)))
         fields.add(
             NamedField(
                 ALL_BLOCK_KEY,
@@ -76,13 +69,22 @@ object PngExporter : Exporter {
             )
         )
 
-        fields.add(NamedField(SITUATION_KEY, IntFieldData(1, Labels.SITUATION, 1, Int.MAX_VALUE)))
+        // configure situations to export
+        val blockOptionList = ArrayList<String>().apply {
+            project.getData().blocks.size.let { blockCount ->
+                addAll((1..blockCount).map(Int::toString))
+            }
+        }
+        fields.add(NamedField(BLOCK_KEY, OptionsFieldData("1", Labels.BLOCK, blockOptionList)))
+
         fields.add(
             NamedField(
                 ALL_SITUATION_KEY,
                 BooleanFieldData(true, Labels.EXPORT_SELECT_ALL_SITUATIONS)
             )
         )
+
+        fields.add(NamedField(SITUATION_KEY, IntFieldData(1, Labels.SITUATION, 1, Int.MAX_VALUE)))
 
         fields.add(
             NamedField(

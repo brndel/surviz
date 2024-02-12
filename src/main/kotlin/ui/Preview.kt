@@ -62,14 +62,14 @@ fun Preview(project: Project) {
                             horizontalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             OptionsField(
-                                blockId,
+                                blockId + 1,
                                 { blockId = it },
                                 (0..<project.getData().blocks.size).toList(),
                                 label = { Label(Labels.BLOCK) }) {
                                 Text((it + 1).toString())
                             }
                             OptionsField(
-                                situationId,
+                                situationId + 1,
                                 { situationId = it },
                                 (0..<project.getData().blocks[blockId].situations.size).toList(),
                                 label = { Label(Labels.SITUATION) }) {
@@ -93,12 +93,10 @@ fun Preview(project: Project) {
                         null
                     }
 
-                    AnimatedContent(image) {
-                        if (it != null) {
-                            Image(it.image, null)
-                        } else {
-                            Text("Error while creating image '$errorText'")
-                        }
+                    if (image != null) {
+                        Image(image.image, null)
+                    } else {
+                        Text("Error while creating image '$errorText'")
                     }
 
                 }
