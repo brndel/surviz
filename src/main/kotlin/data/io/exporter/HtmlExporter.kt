@@ -208,8 +208,7 @@ ul {
                     async {
                         saveBlock(
                             config,
-                            block,
-                            situation
+                            block
                         )
                     }
                 }.awaitAll()
@@ -221,15 +220,14 @@ ul {
     }
     private suspend fun saveBlock(
         config: Config,
-        block: Block,
-        situationId: Int
+        block: Block
     ): List<ExportWarning?> {
         val situations = ArrayList<Situation>()
 
         if (config.allSituations) {
             situations.addAll(block.getSituations())
         } else {
-            val situation = block.getSituation(situationId)
+            val situation = block.getSituation(config.situation)
             if(situation != null) {
                 situations.add(situation)
             } else {
