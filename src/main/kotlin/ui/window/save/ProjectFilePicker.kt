@@ -1,11 +1,15 @@
 package ui.window.save
 
 import LocalGlobalCallbacks
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindow
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import data.project.ProjectData
@@ -92,9 +96,14 @@ fun ProjectFilePicker(
 
             if (projectData != null) {
                 DialogWindow(onCloseRequest) {
-                    Column {
+                    Column(
+                        Modifier.padding(4.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
                         Label(Labels.OVERRIDE_DATA_NOT_FITTING)
-                        Row {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
                             Button({ onCloseRequest() }) {
                                 Label(Labels.CANCEL)
                             }
