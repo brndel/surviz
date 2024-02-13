@@ -31,6 +31,21 @@ fun main() = application {
     var currentProject by remember { mutableStateOf<Project?>(null) }
     var currentProjectPath by remember { mutableStateOf<String?>(null) }
 
+    val mainWindowState = rememberWindowState(
+        width = 700.dp,
+        height = 500.dp,
+        placement = WindowPlacement.Floating,
+        position = WindowPosition((1920.dp - 700.dp) / 2, (1080.dp - 500.dp) / 2)
+    )
+
+    fun onProjectLoad() {
+        mainWindowState.placement = WindowPlacement.Maximized
+    }
+
+    fun onProjectClose() {
+        mainWindowState.placement = WindowPlacement.Floating
+    }
+
     var filePickerTarget by remember { mutableStateOf<ProjectFilePickerTarget?>(null) }
 
     val callbacks = remember {
@@ -42,6 +57,7 @@ fun main() = application {
                     val project = Project.loadProjectFromFile(File(filePath))
                     currentProject = project
                     currentProjectPath = filePath
+                    onProjectLoad()
                 }
 
             }
@@ -52,6 +68,7 @@ fun main() = application {
                 } else {
                     val data = DataManager.loadData(File(filePath))
                     currentProject = Project.newProjectWithData(data)
+                    onProjectLoad()
                 }
             }
 
@@ -74,6 +91,7 @@ fun main() = application {
             override fun closeProject() {
                 currentProject = null
                 currentProjectPath = null
+                onProjectClose()
             }
 
             override fun openSettings() {
@@ -165,7 +183,7 @@ fun main() = application {
             colors = colors
         ) {
 
-            MainWindow(currentProject, currentProjectPath) {
+            MainWindow(currentProject, currentProjectPath, mainWindowState) {
                 onKeyEvent(it)
             }
 
@@ -193,21 +211,10 @@ fun main() = application {
 fun ApplicationScope.MainWindow(
     currentProject: Project?,
     currentProjectPath: String?,
+    windowState: WindowState,
     onKeyEvent: (KeyEvent) -> Boolean
 ) {
     var isExitDialogVisible by remember { mutableStateOf(false) }
-
-    var windowState by remember {
-        mutableStateOf(
-            WindowState(
-                width = 700.dp,
-                height = 500.dp,
-                placement = WindowPlacement.Floating,
-                position = WindowPosition((1920.dp - 700.dp) / 2, (1080.dp - 500.dp) / 2)
-            )
-        )
-    }
-
 
     val lang = LocalLanguage.current
     val windowTitle by derivedStateOf {
@@ -228,7 +235,7 @@ fun ApplicationScope.MainWindow(
         icon = painterResource("logo.png"),
         onKeyEvent = { onKeyEvent(it) }) {
 
-        MainScreen(currentProject, setWindowState = { windowState = it })
+        MainScreen(currentProject)
 
         if (isExitDialogVisible) {
             CloseDialog(
@@ -287,13 +294,13 @@ private fun CloseDialog(onCloseRequest: () -> Unit, onDismissRequest: () -> Unit
     AlertDialog(
         onDismissRequest = onDismissRequest,
         title = {
-                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    Icon(Icons.Default.Warning, null, tint = MaterialTheme.colors.error)
-                    Label(Labels.CLOSE_DIALOG_TITLE)
-                }
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                Icon(Icons.Default.Warning, null, tint = MaterialTheme.colors.error)
+                Label(Labels.CLOSE_DIALOG_TITLE)
+            }
         },
         text = {
-               Label(Labels.CLOSE_DIALOG_TEXT)
+            Label(Labels.CLOSE_DIALOG_TEXT)
         },
         dismissButton = {
             Button(onClick = onDismissRequest) {
