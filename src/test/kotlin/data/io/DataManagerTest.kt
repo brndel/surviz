@@ -844,7 +844,7 @@ class DataManagerTest {
 
     @Test
     fun loadData() {
-        val path = "src/test/resources/Sample.ngd"
+        val path = "src/test/resources/data/Sample.ngd"
         val file = File(path)
         val projectData = DataManager.loadData(file)
         // implementation of equals() in projectData is needed
@@ -853,7 +853,7 @@ class DataManagerTest {
 
     @Test
     fun loadMissingFile() {
-        val path = "src/test/resources/Sample.abc"
+        val path = "src/test/resources/data/Sample.abc"
         val file = File(path)
 
         assertFailsWith<FileTypeException> {
@@ -863,7 +863,7 @@ class DataManagerTest {
 
     @Test
     fun loadCorruptFile() {
-        val path = "src/test/resources/Sample_Corrupt.ngd"
+        val path = "src/test/resources/data/Sample_Corrupt.ngd"
         val file = File(path)
         assertFailsWith<CorruptFileException> {
             DataManager.loadData(file)
