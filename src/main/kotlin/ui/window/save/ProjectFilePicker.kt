@@ -12,11 +12,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindow
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import data.project.ProjectData
-import data.resources.exceptions.CorruptFileException
-import data.resources.exceptions.FileTypeException
 import ui.Label
 import ui.Labels
-import ui.util.ErrorDialog
 import kotlin.io.path.pathString
 
 @Composable
@@ -25,7 +22,6 @@ fun ProjectFilePicker(
     onCloseRequest: () -> Unit
 ) {
     val callbacks = LocalGlobalCallbacks.current!!
-    var errorDialogLabel: String? by remember { mutableStateOf(null) }
 
     when (target) {
         ProjectFilePickerTarget.SaveProjectFile -> {
@@ -37,15 +33,7 @@ fun ProjectFilePicker(
         ProjectFilePickerTarget.LoadProjectFile -> {
             FilePicker(true) {
                 if (it != null) {
-                    try {
-                        callbacks.loadProject(it.path)
-                    } catch (e: FileTypeException) {
-                        errorDialogLabel = Labels.IMPORT_ERROR_INVALID_FILE_TYPE
-                        return@FilePicker
-                    } catch (e: CorruptFileException) {
-                        errorDialogLabel = Labels.IMPORT_ERROR_CORRUPT_FILE
-                        return@FilePicker
-                    }
+                    callbacks.loadProject(it.path)
                 }
                 onCloseRequest()
             }
@@ -54,15 +42,7 @@ fun ProjectFilePicker(
         ProjectFilePickerTarget.LoadProjectFileFromData -> {
             FilePicker(true) {
                 if (it != null) {
-                    try {
-                        callbacks.createProject(it.path)
-                    } catch (e: FileTypeException) {
-                        errorDialogLabel = Labels.IMPORT_ERROR_INVALID_FILE_TYPE
-                        return@FilePicker
-                    } catch (e: CorruptFileException) {
-                        errorDialogLabel = Labels.IMPORT_ERROR_CORRUPT_FILE
-                        return@FilePicker
-                    }
+                    callbacks.createProject(it.path)
                 }
                 onCloseRequest()
             }
@@ -75,21 +55,14 @@ fun ProjectFilePicker(
                 if (it == null) {
                     onCloseRequest()
                 } else {
-                    val data = try {
-                        callbacks.loadData(it.path)
-                    } catch (e: FileTypeException) {
-                        errorDialogLabel = Labels.IMPORT_ERROR_INVALID_FILE_TYPE
-                        return@FilePicker
-                    } catch (e: CorruptFileException) {
-                        errorDialogLabel = Labels.IMPORT_ERROR_CORRUPT_FILE
-                        return@FilePicker
-                    }
+                    val data = callbacks.loadData()
 
                     if (data != null) {
                         projectData = data
                     } else {
                         onCloseRequest()
                     }
+
                 }
             }
 
@@ -119,9 +92,6 @@ fun ProjectFilePicker(
         }
     }
 
-    ErrorDialog(errorDialogLabel) {
-        onCloseRequest()
-    }
 }
 
 enum class ProjectFilePickerTarget {

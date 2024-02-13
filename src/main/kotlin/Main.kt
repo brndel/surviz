@@ -1,4 +1,3 @@
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.*
@@ -14,16 +13,18 @@ import androidx.compose.ui.window.*
 import data.io.DataManager
 import data.project.Project
 import data.project.ProjectData
+import data.resources.exceptions.CorruptFileException
+import data.resources.exceptions.FileTypeException
+import data.resources.exceptions.InvalidVersionException
 import ui.*
+import ui.util.ErrorDialog
 import ui.window.save.ProjectFilePicker
 import ui.window.save.ProjectFilePickerTarget
 import ui.window.settings.SettingsWindow
 import util.platformPath
 import java.io.File
 import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.util.Properties
-import kotlin.system.exitProcess
 
 fun main() = application {
     var settingsWindowOpen by remember { mutableStateOf(false) }
@@ -48,16 +49,36 @@ fun main() = application {
 
     var filePickerTarget by remember { mutableStateOf<ProjectFilePickerTarget?>(null) }
 
+    var errorDialogLabel by remember { mutableStateOf<String?>(null) }
+
+    ErrorDialog(errorDialogLabel) {
+        errorDialogLabel = null
+    }
+
+    fun catchLabelExceptions(inner: () -> Unit) {
+        try {
+            inner()
+        } catch (e: FileTypeException) {
+            errorDialogLabel = Labels.IMPORT_ERROR_INVALID_FILE_TYPE
+        } catch (e: CorruptFileException) {
+            errorDialogLabel = Labels.IMPORT_ERROR_CORRUPT_FILE
+        } catch (e: InvalidVersionException) {
+            errorDialogLabel = Labels.IMPORT_ERROR_WRONG_VERSION
+        }
+    }
+
     val callbacks = remember {
         object : GlobalCallbacks {
             override fun loadProject(filePath: String?) {
                 if (filePath == null) {
                     filePickerTarget = ProjectFilePickerTarget.LoadProjectFile
                 } else {
-                    val project = Project.loadProjectFromFile(File(filePath))
-                    currentProject = project
-                    currentProjectPath = filePath
-                    onProjectLoad()
+                    catchLabelExceptions {
+                        val project = Project.loadProjectFromFile(File(filePath))
+                        currentProject = project
+                        currentProjectPath = filePath
+                        onProjectLoad()
+                    }
                 }
 
             }
@@ -66,9 +87,11 @@ fun main() = application {
                 if (filePath == null) {
                     filePickerTarget = ProjectFilePickerTarget.LoadProjectFileFromData
                 } else {
-                    val data = DataManager.loadData(File(filePath))
-                    currentProject = Project.newProjectWithData(data)
-                    onProjectLoad()
+                    catchLabelExceptions {
+                        val data = DataManager.loadData(File(filePath))
+                        currentProject = Project.newProjectWithData(data)
+                        onProjectLoad()
+                    }
                 }
             }
 
@@ -78,7 +101,9 @@ fun main() = application {
                 }
 
                 if (currentProjectPath != null) {
-                    currentProject?.saveProjectData(currentProjectPath!!)
+                    catchLabelExceptions {
+                        currentProject?.saveProjectData(currentProjectPath!!)
+                    }
                 } else {
                     filePickerTarget = ProjectFilePickerTarget.SaveProjectFile
                 }
@@ -103,11 +128,15 @@ fun main() = application {
                 if (filePath == null) {
                     filePickerTarget = ProjectFilePickerTarget.OverrideProjectData
                 } else {
-                    val data = DataManager.loadData(File(filePath))
-
-                    val success = currentProject!!.loadProjectData(data)
-                    if (!success) {
-                        return data
+                    var data: ProjectData? = null
+                    catchLabelExceptions {
+                        data = DataManager.loadData(File(filePath))
+                    }
+                    if (data != null) {
+                        val success = currentProject!!.loadProjectData(data!!)
+                        if (!success) {
+                            return data
+                        }
                     }
                 }
                 return null
