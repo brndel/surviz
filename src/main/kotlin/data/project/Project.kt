@@ -12,6 +12,7 @@ import data.project.data.DataScheme
 import data.project.data.IconStorage
 import data.project.data.Situation
 import data.resources.exceptions.FileTypeException
+import data.resources.exceptions.InvalidVersionException
 import util.platformPath
 import java.io.File
 import kotlin.io.path.Path
@@ -156,6 +157,7 @@ data class Project(
             return GSON.fromJson(file, Project::class.java)
         }
 
+        @Suppress("RemoveRedundantQualifierName")
         private val GSON: Gson by lazy {
             GsonBuilder()
                 .registerTypeAdapter(Project::class.java, Project.serializer)
@@ -195,7 +197,7 @@ data class Project(
         private val serializer = JsonSerializer<Project> { value, _, ctx ->
             val obj = JsonObject()
 
-            obj.addProperty("version", "1.0")
+            obj.addProperty("version", VERSION)
             obj.add("configuration", ctx.serialize(value.configuration))
             obj.add("dataScheme", ctx.serialize(value.dataScheme.value))
             obj.add("iconStorage", ctx.serialize(value.iconStorage))
@@ -206,6 +208,11 @@ data class Project(
 
         private val deserializer = JsonDeserializer<Project> { element, _, ctx ->
             val obj = element.asJsonObject
+
+            val version = obj.get("version").asString
+            if (version != VERSION) {
+                throw InvalidVersionException(version, VERSION)
+            }
 
             val configuration =
                 ctx.deserialize<ProjectConfiguration>(obj.get("configuration"), ProjectConfiguration::class.java)
@@ -220,6 +227,8 @@ data class Project(
                 iconStorage
             )
         }
+
+        private const val VERSION = "1.1"
     }
 }
 
