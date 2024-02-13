@@ -13,11 +13,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.unit.dp
@@ -45,11 +42,11 @@ import ui.util.ErrorDialog
  * @param onIconChange gets called when the user selects a new item
  */
 @Composable
-fun IconField(icon: String?, colorFilter: ColorFilter? = null, onIconChange: (String?) -> Unit) {
+fun IconField(icon: String?, onIconChange: (String?) -> Unit) {
     var dialogOpen by remember { mutableStateOf(false) }
 
     Button({ dialogOpen = true }, modifier = Modifier.size(64.dp)) {
-        IconStorageImage(icon, colorFilter = colorFilter)
+        IconStorageImage(icon)
     }
 
     if (dialogOpen) {
@@ -153,16 +150,6 @@ private fun IconFieldDialogButton(
         IconStorageImage(
             icon,
             iconStorage = iconStorage,
-            colorFilter = ColorFilter.colorMatrix(
-                ColorMatrix(
-                    floatArrayOf(
-                        0f, 0f, 0f, 0f, MaterialTheme.colors.onBackground.red * 255,
-                        0f, 0f, 0f, 0f, MaterialTheme.colors.onBackground.green * 255,
-                        0f, 0f, 0f, 0f, MaterialTheme.colors.onBackground.blue * 255,
-                        0f, 0f, 0f, 1f, 0f
-                    )
-                )
-            )
         )
     }
 }
@@ -172,7 +159,7 @@ fun IconStorageImage(
     iconPath: String?,
     modifier: Modifier = Modifier,
     iconStorage: IconStorage? = LocalIconStorage.current,
-    colorFilter: ColorFilter? = null
+    color: Color = LocalContentColor.current
 ) {
     if (iconPath == null) {
         Box(modifier.size(64.dp)) {
@@ -191,5 +178,14 @@ fun IconStorageImage(
         return
     }
 
-    Image(image, null, modifier = modifier.size(64.dp), colorFilter = colorFilter)
+    Image(image, null, modifier = modifier.size(64.dp), colorFilter =  ColorFilter.colorMatrix(
+        ColorMatrix(
+            floatArrayOf(
+                0f, 0f, 0f, 0f, color.red * 255,
+                0f, 0f, 0f, 0f, color.green * 255,
+                0f, 0f, 0f, 0f, color.blue * 255,
+                0f, 0f, 0f, 1f, 0f
+            )
+        )
+    ))
 }
