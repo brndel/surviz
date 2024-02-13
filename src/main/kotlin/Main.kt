@@ -1,6 +1,11 @@
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.res.painterResource
@@ -18,6 +23,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.Properties
+import kotlin.system.exitProcess
 
 fun main() = application {
     var settingsWindowOpen by remember { mutableStateOf(false) }
@@ -120,6 +126,7 @@ fun main() = application {
         secondary = Color(34, 47, 89),
         secondaryVariant = Color(50, 70, 133),
         onSecondary = Color.White,
+        error = Color(160, 55, 49),
     )
     val darkColors = darkColors(
         background = Color(18, 18, 18),
@@ -132,6 +139,7 @@ fun main() = application {
         onSecondary = Color.White,
         onSurface = Color.White,
         onBackground = Color.White,
+        error = Color(160, 55, 49),
     )
 
     val isDarkTheme = remember { mutableStateOf(false) }
@@ -187,6 +195,8 @@ fun ApplicationScope.MainWindow(
     currentProjectPath: String?,
     onKeyEvent: (KeyEvent) -> Boolean
 ) {
+    var isExitDialogVisible by remember { mutableStateOf(false) }
+
     var windowState by remember {
         mutableStateOf(
             WindowState(
@@ -212,14 +222,22 @@ fun ApplicationScope.MainWindow(
     }
 
     Window(
-        onCloseRequest = ::exitApplication,
+        onCloseRequest = { isExitDialogVisible = true },
         state = windowState,
         title = windowTitle,
         icon = painterResource("logo.png"),
         onKeyEvent = { onKeyEvent(it) }) {
 
         MainScreen(currentProject, setWindowState = { windowState = it })
+
+        if (isExitDialogVisible) {
+            CloseDialog(
+                onCloseRequest = ::exitApplication,
+                onDismissRequest = { isExitDialogVisible = false })
+        }
     }
+
+
 }
 
 interface GlobalCallbacks {
@@ -262,4 +280,30 @@ private fun loadSettings(setLanguage: (Language) -> Unit, setDarkMode: (Boolean)
             setDarkMode(isDarkMode.toBoolean())
         }
     }
+}
+
+@Composable
+private fun CloseDialog(onCloseRequest: () -> Unit, onDismissRequest: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        title = {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Icon(Icons.Default.Warning, null, tint = MaterialTheme.colors.error)
+                    Label(Labels.CLOSE_DIALOG_TITLE)
+                }
+        },
+        text = {
+               Label(Labels.CLOSE_DIALOG_TEXT)
+        },
+        dismissButton = {
+            Button(onClick = onDismissRequest) {
+                Label(Labels.CANCEL)
+            }
+        },
+        confirmButton = {
+            Button(onClick = onCloseRequest) {
+                Label(Labels.CLOSE_DIALOG_CONFIRM)
+            }
+        }
+    )
 }

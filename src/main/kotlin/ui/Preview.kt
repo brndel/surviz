@@ -96,13 +96,16 @@ fun Preview(project: Project) {
                     if (image != null) {
                         Image(image.image, null)
                     } else {
-                        Text("Error while creating image '$errorText'")
+                        Row {
+                            Label(Labels.IMAGE_CREATE_ERROR)
+                            Text(" '$errorText'")
+                        }
                     }
 
                 }
             } else {
                 item {
-                    Text("Situation not found")
+                    Label(Labels.SITUATION_NOT_FOUND)
                 }
 
             }

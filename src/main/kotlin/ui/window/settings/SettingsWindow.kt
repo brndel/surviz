@@ -27,6 +27,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import data.project.Project
+import ui.Label
 
 import ui.Labels
 import ui.Language
@@ -61,7 +62,7 @@ fun SettingsWindow(
                     backgroundColor = MaterialTheme.colors.primary
                 ) {
                     LeadingIconTab(
-                        text = { Text(LocalLanguage.current.getString(Labels.SETTINGS_GENERAL)) },
+                        text = { Label(Labels.SETTINGS_GENERAL) },
                         selected = selectedTabIndex == 0,
                         onClick = { setSelectedTabIndex(0) },
                         icon = {
@@ -72,7 +73,7 @@ fun SettingsWindow(
                         }
                     )
                     LeadingIconTab(
-                        text = { Text(LocalLanguage.current.getString(Labels.SETTINGS_HELP)) },
+                        text = { Label(Labels.SETTINGS_HELP) },
                         selected = selectedTabIndex == 1,
                         onClick = { setSelectedTabIndex(1) },
                         icon = {
@@ -134,8 +135,8 @@ fun HighlightedHeading(
     val textStyle = style
         ?: TextStyle(fontSize = MaterialTheme.typography.subtitle1.fontSize) // Use MaterialTheme.typography.subtitle1.fontSize if style is null
 
-    Text(
-        LocalLanguage.current.getString(label),
+    Label(
+        label,
         style = textStyle.copy(fontWeight = FontWeight.Bold, color = MaterialTheme.colors.primary),
         modifier = modifier
     )
