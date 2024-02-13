@@ -1,5 +1,6 @@
 package ui.page.export
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
@@ -49,7 +51,7 @@ fun ExportDialog(exportResult: ExportResult, project: Project, onDismissRequest:
                 imageVector = Icons.Default.Warning,
                 contentDescription = null,
                 modifier = Modifier.size(30.dp),
-                tint = Color(160, 55, 49)
+                tint = MaterialTheme.colors.error
             )
         }
     }
@@ -57,9 +59,8 @@ fun ExportDialog(exportResult: ExportResult, project: Project, onDismissRequest:
     AlertDialog(
         onDismissRequest = onDismissRequest,
         title = {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 icon()
-                Spacer(modifier = Modifier.width(8.dp)) // Add space between icon and text
                 Text(title)
             }
         },

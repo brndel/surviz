@@ -176,6 +176,10 @@ object Labels {
 
     const val OVERRIDE_DATA_NOT_FITTING = "OVERRIDE_DATA_NOT_FITTING"
     const val OVERRIDE_DATA_ANYWAYS = "OVERRIDE_DATA_ANYWAYS"
+
+    const val CLOSE_DIALOG_TITLE = "CLOSE_DIALOG_TITLE"
+    const val CLOSE_DIALOG_TEXT = "CLOSE_DIALOG_TEXT"
+    const val CLOSE_DIALOG_CONFIRM = "CLOSED_DIALOG_CONFIRM"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -335,6 +339,10 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.OVERRIDE_DATA_NOT_FITTING to "The scheme of the file you tried to load does not match the currently loaded one",
             Labels.OVERRIDE_DATA_ANYWAYS to "Load data anyways",
+
+            Labels.CLOSE_DIALOG_TITLE to "Close application",
+            Labels.CLOSE_DIALOG_TEXT to "Any unsaved progress may be lost",
+            Labels.CLOSE_DIALOG_CONFIRM to "Close",
         )
     ),
     German(
@@ -490,6 +498,10 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.OVERRIDE_DATA_NOT_FITTING to "Das Schema der Simulationsdatei entspricht nicht dem aktuellen Schema",
             Labels.OVERRIDE_DATA_ANYWAYS to "Trotzdem laden",
+
+            Labels.CLOSE_DIALOG_TITLE to "Anwendung schließen",
+            Labels.CLOSE_DIALOG_TEXT to "Ungespeicherte Änderungen können verloren gehen",
+            Labels.CLOSE_DIALOG_CONFIRM to "Schließen",
         )
     );
 
