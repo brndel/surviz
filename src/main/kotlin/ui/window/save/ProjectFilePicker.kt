@@ -11,6 +11,7 @@ import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import data.project.ProjectData
 import data.resources.exceptions.CorruptFileException
 import data.resources.exceptions.FileTypeException
+import ui.Label
 import ui.Labels
 import ui.util.ErrorDialog
 import kotlin.io.path.pathString
@@ -92,16 +93,16 @@ fun ProjectFilePicker(
             if (projectData != null) {
                 DialogWindow(onCloseRequest) {
                     Column {
-                        Text("Data scheme not fitting")
+                        Label(Labels.OVERRIDE_DATA_NOT_FITTING)
                         Row {
                             Button({ onCloseRequest() }) {
-                                Text("Cancel")
+                                Label(Labels.CANCEL)
                             }
                             Button({
                                 callbacks.forceLoadData(projectData!!)
                                 onCloseRequest()
                             }) {
-                                Text("Load anyways")
+                                Label(Labels.OVERRIDE_DATA_ANYWAYS)
                             }
                         }
                     }

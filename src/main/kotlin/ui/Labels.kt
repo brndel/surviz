@@ -16,6 +16,7 @@ object Labels {
     const val NEW = "NEW"
     const val SELECT = "SELECT"
     const val OK = "OK"
+    const val CANCEL = "CANCEL"
     const val ENUMERATION_SIGN: Char = 0x25CF.toChar()
 
     const val FIELD_UNIT = "FIELD_UNIT"
@@ -165,6 +166,16 @@ object Labels {
 
     const val TIMELINE_SCALING_INFO_TITLE = "TIMELINE_SCALING_INFO_TITLE"
     const val TIMELINE_SCALING_INFO_DESCRIPTION = "TIMELINE_SCALING_INFO_DESCRIPTION"
+
+    const val IMAGE_CREATE_ERROR = "IMAGE_CREATE_ERROR"
+    const val SITUATION_NOT_FOUND = "SITUATION_NOT_FOUND"
+
+    const val IMPORT_ICON = "IMPORT_ICON"
+
+    const val EXPORT_DIALOG_APPLY_FIX = "EXPORT_DIALOG_APPLY_FIX"
+
+    const val OVERRIDE_DATA_NOT_FITTING = "OVERRIDE_DATA_NOT_FITTING"
+    const val OVERRIDE_DATA_ANYWAYS = "OVERRIDE_DATA_ANYWAYS"
 }
 
 enum class Language(private val code: String, private val strings: Map<String, String>) {
@@ -183,6 +194,7 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.NEW to "New",
             Labels.SELECT to "Select",
             Labels.OK to "Ok",
+            Labels.CANCEL to "Cancel",
 
             Labels.FIELD_UNIT to "Unit",
             Labels.FIELD_COLUMN_SCHEME to "Column scheme",
@@ -313,6 +325,16 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.TIMELINE_SCALING_INFO_TITLE to "Recommended scaling based on minimum section length",
             Labels.TIMELINE_SCALING_INFO_DESCRIPTION to "- 1: ~45 min\n" + "- 5: ~10 min\n" + "- 10: ~5 min\n" + "- 15: ~3 min\n" + "- 20: ~2 min",
+
+            Labels.IMAGE_CREATE_ERROR to "Error while creating image",
+            Labels.SITUATION_NOT_FOUND to "Situation not found",
+
+            Labels.IMPORT_ICON to "Import icon",
+
+            Labels.EXPORT_DIALOG_APPLY_FIX to "Apply fix",
+
+            Labels.OVERRIDE_DATA_NOT_FITTING to "The scheme of the file you tried to load does not match the currently loaded one",
+            Labels.OVERRIDE_DATA_ANYWAYS to "Load data anyways",
         )
     ),
     German(
@@ -330,6 +352,7 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.NEW to "Neu",
             Labels.SELECT to "Auswählen",
             Labels.OK to "Ok",
+            Labels.CANCEL to "Abbrechen",
 
             Labels.FIELD_UNIT to "Einheit",
             Labels.FIELD_COLUMN_SCHEME to "Spaltenschema",
@@ -457,6 +480,16 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.TIMELINE_SCALING_INFO_TITLE to "Empfohlene Skalierung basierend auf kleinstem Zeitabschnitt",
             Labels.TIMELINE_SCALING_INFO_DESCRIPTION to "- 1: ~45 min\n" + "- 5: ~10 min\n" + "- 10: ~5 min\n" + "- 15: ~3 min\n" + "- 20: ~2 min",
+
+            Labels.IMAGE_CREATE_ERROR to "Fehler beim Erstellen des Bildes",
+            Labels.SITUATION_NOT_FOUND to "Situation konnte nicht gefunden werden",
+
+            Labels.IMPORT_ICON to "Icon hinzufügen",
+
+            Labels.EXPORT_DIALOG_APPLY_FIX to "Fehler beheben",
+
+            Labels.OVERRIDE_DATA_NOT_FITTING to "Das Schema der Simulationsdatei entspricht nicht dem aktuellen Schema",
+            Labels.OVERRIDE_DATA_ANYWAYS to "Trotzdem laden",
         )
     );
 

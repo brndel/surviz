@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import data.io.utils.result.ExportResult
 import data.io.utils.result.report.ExportReport
 import data.project.Project
+import ui.Label
 import ui.Labels
 import ui.LocalLanguage
 
@@ -68,7 +69,7 @@ fun ExportDialog(exportResult: ExportResult, project: Project, onDismissRequest:
                 onClick = {
                     onDismissRequest()
                 }) {
-                Text(LocalLanguage.current.getString(Labels.OK))
+                Label(Labels.OK)
             }
         },
         confirmButton = {
@@ -81,7 +82,7 @@ fun ExportDialog(exportResult: ExportResult, project: Project, onDismissRequest:
                 },
                 enabled = confirmClickable
             ) {
-                Text(LocalLanguage.current.getString(Labels.APPLY_FIX))
+                Label(Labels.EXPORT_DIALOG_APPLY_FIX)
             }
         },
         text = {

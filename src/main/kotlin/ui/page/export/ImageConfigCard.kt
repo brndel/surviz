@@ -37,7 +37,7 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
             }
 
             IntField(width, { width = it }) {
-                Text(LocalLanguage.current.getString(Labels.EXPORT_IMAGE_CONFIG_WIDTH))
+                Label(Labels.EXPORT_IMAGE_CONFIG_WIDTH)
             }
 
             var sliderPosition by remember { mutableStateOf(timelineScaling.toFloat()) }
