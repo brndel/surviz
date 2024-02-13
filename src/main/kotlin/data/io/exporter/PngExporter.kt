@@ -70,12 +70,7 @@ object PngExporter : Exporter {
         )
 
         // configure situations to export
-        val blockOptionList = ArrayList<String>().apply {
-            project.getData().blocks.size.let { blockCount ->
-                addAll((1..blockCount).map(Int::toString))
-            }
-        }
-        fields.add(NamedField(BLOCK_KEY, OptionsFieldData("1", Labels.BLOCK, blockOptionList)))
+        fields.add(NamedField(BLOCK_KEY, IntFieldData(1, Labels.BLOCK)))
 
         fields.add(
             NamedField(
@@ -123,10 +118,15 @@ object PngExporter : Exporter {
         val allBlocks = exportConfig[ALL_BLOCK_KEY] as Boolean
 
         if (allBlocks) {
-            blocks.addAll(project.getData().blocks)
+            blocks.addAll(project.getAllBlocks())
         } else {
-            val block = exportConfig[BLOCK_KEY] as Int
-            blocks.add(project.getData().blocks[block - 1])
+            val blockId = exportConfig[BLOCK_KEY] as Int
+            val block = project.getBlock(blockId)
+            if (block != null) {
+                blocks.add(block)
+            } else {
+                // TODO return ExportResult
+            }
         }
 
         val allSituations = exportConfig[ALL_SITUATION_KEY] as Boolean
@@ -140,10 +140,8 @@ object PngExporter : Exporter {
             val widthList = coroutineScope {
                 blocks.map { block ->
                     async {
-                        val blockId = project.getData().blocks.indexOf(block) + 1
                         saveBlock(
                             block,
-                            blockId,
                             scheme,
                             path,
                             allSituations,
@@ -168,7 +166,6 @@ object PngExporter : Exporter {
 
     private suspend fun saveBlock(
         block: Block,
-        blockId: Int,
         scheme: String,
         path: String,
         allSituations: Boolean,
@@ -178,16 +175,20 @@ object PngExporter : Exporter {
         val situations = ArrayList<Situation>()
 
         if (allSituations) {
-            situations.addAll(block.situations)
+            situations.addAll(block.getSituations())
         } else {
-            situations.add(block.situations[situationId - 1])
+            val situation = block.getSituation(situationId)
+            if (situation != null) {
+                situations.add(situation)
+            } else {
+                // TODO return ExportWarning
+            }
         }
 
         val resultList = coroutineScope {
             situations.map { situation ->
                 async {
-                    val id = block.situations.indexOf(situation) + 1
-                    saveSituation(situation, id, blockId, scheme, path, separateOptions)
+                    saveSituation(situation, block.id, scheme, path, separateOptions)
                 }
             }.awaitAll()
         }
@@ -196,7 +197,6 @@ object PngExporter : Exporter {
 
     private suspend fun saveSituation(
         situation: Situation,
-        situationId: Int,
         blockId: Int,
         scheme: String,
         path: String,
@@ -210,7 +210,7 @@ object PngExporter : Exporter {
             val fileName = getNameFromScheme(
                 scheme,
                 "block" to blockId.toString(),
-                "situation" to situationId.toString()
+                "situation" to situation.id.toString()
             )
             saveBitmap(imageResult.image, path, fileName)
             if (!imageResult.checkWidth()) {
@@ -218,7 +218,7 @@ object PngExporter : Exporter {
                     ImageSizeExportWarning(
                         imageResult.neededWidth,
                         blockId,
-                        situationId
+                        situation.id
                     )
                 )
             }
@@ -226,10 +226,9 @@ object PngExporter : Exporter {
         }
 
         val errorList = coroutineScope {
-            situation.options.map { option ->
+            situation.options.values.map { option ->
                 async {
-                    val id = situation.options.indexOf(option) + 1
-                    saveOption(option, id, situationId, blockId, scheme, path)
+                    saveOption(option, situation.id, blockId, scheme, path)
                 }
             }.awaitAll()
         }
@@ -238,7 +237,6 @@ object PngExporter : Exporter {
 
     private fun saveOption(
         option: SituationOption,
-        optionId: Int,
         situationId: Int,
         blockId: Int,
         scheme: String,
@@ -249,11 +247,11 @@ object PngExporter : Exporter {
             scheme,
             "block" to blockId.toString(),
             "situation" to situationId.toString(),
-            "option" to optionId.toString()
+            "option" to option.name
         )
         saveBitmap(imageResult.image, path, fileName)
         if (!imageResult.checkWidth()) {
-            return ImageSizeExportWarning(imageResult.neededWidth, blockId, situationId, optionId)
+            return ImageSizeExportWarning(imageResult.neededWidth, blockId, situationId, option.name)
         }
         return null
     }

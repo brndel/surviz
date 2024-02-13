@@ -1,5 +1,7 @@
 package data.project.data
 
+import java.util.SortedMap
+
 /**
  * This class represents a data scheme.
  * A data scheme of a project describes the structure of a nGene file.
@@ -7,9 +9,9 @@ package data.project.data
  *
  * @property options The list of data scheme options.
  */
-class DataScheme(
-    val options: MutableList<DataSchemeOption>
-) {
+class DataScheme(options: List<DataSchemeOption>) {
+    val options: SortedMap<String, DataSchemeOption> = options.associateBy { it.name }.toSortedMap()
+
     /**
      * This method compares two data schemes for compatibility.
      * Method compares given data scheme with current project data scheme.
@@ -20,10 +22,8 @@ class DataScheme(
      *
      */
     fun compareTo(scheme: DataScheme): Boolean {
-        if (this.options.size != scheme.options.size) return false
-
-        for (i in 0..<options.size) {
-            if (this.options[i] != scheme.options[i]) return false
+        for (name in options.keys) {
+            if (this.options[name] != scheme.options[name]) return false
         }
         return true
     }
