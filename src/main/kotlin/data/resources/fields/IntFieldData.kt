@@ -15,7 +15,7 @@ import androidx.compose.runtime.mutableStateOf
  */
 class IntFieldData(
     initialValue: Int,
-    label: String, val min: Int, val max: Int
+    label: String, val min: Int? = null, val max: Int? = null
 ) : FieldData(label) {
 
     /**
