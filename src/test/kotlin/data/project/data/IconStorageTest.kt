@@ -36,6 +36,15 @@ class IconStorageTest {
 
 
     }
+    @Test
+    fun storeSmallSvg() {
+        val imagePath = "src/test/resources/images/duck.svg"
+        iconStorage.storeIcon(imagePath)
+        assert(iconStorage.getUserIconNames().isNotEmpty())
+
+        val key = iconStorage.getUserIconNames().first()
+        assert(iconStorage.getIcon(key) != null)
+    }
 
     @Test
     fun storeIconPng() {
@@ -48,7 +57,7 @@ class IconStorageTest {
     }
     @Test
     fun storeUnsupportedIcon() {
-        val imagePath = "src/test/resources/travel_time.wrong"
+        val imagePath = "src/test/resources/data/travel_time.wrong"
         assertThrows(FileTypeException::class.java) {
             iconStorage.storeIcon(imagePath)
 
@@ -91,25 +100,25 @@ class IconStorageTest {
 
     @Test
     fun serializeIcon() {
-        val ngenePath = "src/test/resources/Sample.ngd"
+        val ngenePath = "src/test/resources/data/Sample.ngd"
         val project = Project.newProjectWithData(NgeneImporter.importFile(File(ngenePath)))
-        project.saveProjectData("src/test/resources/test.svz" )
-        val file = File("src/test/resources/test.svz")
-        project.iconStorage.storeIcon("src/main/resources/icons/autonomous_shuttle_on_demand.png")
+        project.iconStorage.storeIcon("src/test/resources/images/duck.svg")
+        project.saveProjectData("src/test/resources/data/test.svz" )
+        val file = File("src/test/resources/data/test.svz")
         assert(file.exists())
-        sleep(1000)
+        sleep(100)
         file.delete()
     }
     @Test
     fun  deserializeIcon(){
-        val ngenePath = "src/test/resources/Sample.ngd"
+        val ngenePath = "src/test/resources/data/Sample.ngd"
         val project = Project.newProjectWithData(NgeneImporter.importFile(File(ngenePath)))
-
-        project.saveProjectData("src/test/resources/test.svz" )
-        val file = File("src/test/resources/test.svz")
+        project.iconStorage.storeIcon("src/test/resources/images/duck.svg")
+        project.saveProjectData("src/test/resources/data/test.svz" )
+        val file = File("src/test/resources/data/test.svz")
         val project2 = Project.loadProjectFromFile(file)
         assert(project2 != null)
-        sleep(1000)
+        sleep(100)
         file.delete()
     }
 
