@@ -79,7 +79,7 @@ class ImageGenerator(
         val imageList = ArrayList<ImageBitmap>()
         val optionCount = situation.options.size
 
-        for (option in situation.options) {
+        for (option in situation.options.values) {
             val imageResult = generateOption(option)
 
             imageList.add(imageResult.image)

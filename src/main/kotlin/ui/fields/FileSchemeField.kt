@@ -31,7 +31,7 @@ fun FileSchemeField(
     label: @Composable (() -> Unit)? = null
 ) {
     val filename =
-        Exporter.getNameFromScheme(value, *placeholders.map { it to 0.toString() }.toTypedArray())
+        Exporter.getNameFromScheme(value, *placeholders.map { it to it.uppercase() }.toTypedArray())
 
     var showPlaceholderPopup by remember { mutableStateOf(false) }
 

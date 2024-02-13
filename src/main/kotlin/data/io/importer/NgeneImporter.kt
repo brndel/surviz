@@ -94,7 +94,7 @@ object NgeneImporter : Importer {
      * This method returns the type of the importer.
      * @return The type of the importer.
      */
-    override fun getType(): String {
+    override fun getFileExtension(): String {
         return EXTENSION
     }
 
@@ -163,7 +163,7 @@ object NgeneImporter : Importer {
     private fun createDataScheme(options: List<String>, keys: List<String>): DataScheme {
         val dataSchemeOptions = mutableListOf<DataSchemeOption>()
         for (option in options) {
-            val fields = ArrayList<String>()
+            val fields = HashSet<String>()
             for (key in keys) {
                 if (key.startsWith(option)) {
                     // i'm not sure if separation here is wanted TODO(Check for format)

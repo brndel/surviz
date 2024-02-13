@@ -12,12 +12,17 @@ package data.project.data
  * @property situations The situations of the block.
  */
 class Block(
-    var id: Int,
+    val id: Int,
+    situations: List<Situation> = listOf()
 ) {
-    var situations = ArrayList<Situation>()
+    private val situations: MutableList<Situation> = situations.toMutableList()
 
-    constructor(id: Int, situations: List<Situation>) : this(id) {
-        this.situations = ArrayList(situations)
+    fun getSituations(): List<Situation> {
+        return this.situations.toList()
+    }
+
+    fun getSituation(id: Int): Situation? {
+        return situations.getOrNull(id - 1)
     }
 
     /**
@@ -29,19 +34,5 @@ class Block(
      */
     fun addSituation(options: List<SituationOption>) {
         situations.add(Situation(situations.size + 1, options))
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is Block) return false
-
-        if (this.id != other.id) return false
-
-        if (this.situations.size != other.situations.size) return false
-
-        for (i in 0..<this.situations.size) {
-            if (this.situations[i] != other.situations[i]) return false
-        }
-        return true
     }
 }
