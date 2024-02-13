@@ -4,7 +4,6 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toAwtImage
 import data.generator.ImageGenerator
 import data.io.exporter.Exporter.Companion.getNameFromScheme
-import data.io.exporter.Exporter.Companion.isValidSituation
 import data.io.utils.result.ExportResult
 import data.io.utils.result.warnings.ExportWarning
 import data.io.utils.result.warnings.ImageSizeExportWarning

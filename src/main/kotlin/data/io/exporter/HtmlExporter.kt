@@ -258,7 +258,7 @@ ul {
 
         return listOfNotNull()
     }
-    
+
     private fun UL.getOption(situation: Situation, blockId: Int) {
         val lineSeparator = System.lineSeparator()
 
@@ -302,7 +302,7 @@ ul {
         }
     }
 
-    private fun getImgSrc(blockId: Int, situationId: Int, optionId: Int): String {
+    private fun getImgSrc(blockId: Int, situationId: Int, optionId: String): String {
         return "images/block_$blockId" + "_situation_$situationId" + "_option_$optionId" + ".png"
     }
 }
