@@ -59,14 +59,17 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
                 )
             }
 
-            IntField(width, { width = it }) {
+            IntField(width, { width = it }, maxValue = 5000) {
                 Text(LocalLanguage.current.getString(Labels.EXPORT_IMAGE_CONFIG_WIDTH))
             }
             Row(
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "${LocalLanguage.current.getString(Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING)}: ${timelineScaling.roundToInt()}", fontWeight = FontWeight.Bold)
+                Text(
+                    text = "${LocalLanguage.current.getString(Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING)}: ${timelineScaling.roundToInt()}",
+                    fontWeight = FontWeight.Bold
+                )
                 Box {
                     IconButton({ showTimelineInfoPopup = true }) {
                         Icon(Icons.Default.Info, null)
@@ -85,7 +88,7 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
                     timelineScaling = it.roundToInt().toDouble()
                 },
                 valueRange = 1f..25f,
-                steps = 23,
+                steps = 24,
                 modifier = Modifier.pointerInput(Unit) {
                     // Add your mouse speed adjustment logic here
                 }
@@ -98,14 +101,18 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
 private fun TimelinePopup(onDismissRequest: () -> Unit) {
     Popup(
         alignment = Alignment.CenterEnd,
-        onDismissRequest = onDismissRequest) {
+        onDismissRequest = onDismissRequest
+    ) {
         Surface(
             color = MaterialTheme.colors.background,
             shape = RoundedCornerShape(4.dp),
             elevation = 8.dp
         ) {
             Column(Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Label(Labels.TIMELINE_SCALING_INFO_TITLE ,style = TextStyle(fontWeight = FontWeight.Bold))
+                Label(
+                    Labels.TIMELINE_SCALING_INFO_TITLE,
+                    style = TextStyle(fontWeight = FontWeight.Bold)
+                )
                 Label(Labels.TIMELINE_SCALING_INFO_DESCRIPTION)
             }
         }

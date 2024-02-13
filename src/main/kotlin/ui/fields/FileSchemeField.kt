@@ -66,13 +66,6 @@ fun FileSchemeField(
                                 for (placeholder in placeholders) {
                                     Text("- $placeholder")
                                 }
-                                Label(
-                                    Labels.FORBIDDEN_CHARACTERS,
-                                    style = TextStyle(fontWeight = FontWeight.Bold)
-                                )
-                                val forbiddenChars =
-                                    FileSchemeFieldData.forbiddenCharacters.joinToString { it }
-                                Text(forbiddenChars)
                             }
                         }
                     }

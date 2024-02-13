@@ -116,7 +116,7 @@ private fun ImportIconButton(modifier: Modifier = Modifier) {
     Button(onClick = {
         filePickerOpen = true
     }, modifier) {
-        Text("Import Icon")
+        Label(Labels.IMPORT_ICON)
     }
 
     FilePicker(filePickerOpen) {
