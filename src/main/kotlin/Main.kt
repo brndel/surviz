@@ -139,7 +139,7 @@ fun main() = application {
         onSecondary = Color.White,
         onSurface = Color.White,
         onBackground = Color.White,
-        error = Color(160, 55, 49),
+        error = Color(197, 74, 68),
     )
 
     val isDarkTheme = remember { mutableStateOf(false) }
