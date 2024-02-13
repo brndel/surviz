@@ -122,12 +122,7 @@ ul {
             )
         )
 
-        val blockOptionList = ArrayList<String>().apply {
-            project.getData().blocks.size.let { blockCount ->
-                addAll((1..blockCount).map(kotlin.Int::toString))
-            }
-        }
-        fields.add(NamedField(BLOCK_KEY, OptionsFieldData("1", Labels.BLOCK, blockOptionList)))
+        fields.add(NamedField(BLOCK_KEY, IntFieldData(1, label = Labels.BLOCK)))
 
         fields.add(
             NamedField(
@@ -167,17 +162,22 @@ ul {
      */
     override fun export(project: Project, exportConfig: Map<String, Any>): ExportResult {
         // Configure Export Selection
-        val scheme = exportConfig[SCHEME_KEY].toString()
-        val path = exportConfig[PATH_KEY].toString()
-        val allBlocks = exportConfig[ALL_BLOCK_KEY].toString().toBoolean()
-        val allSituations = exportConfig[ALL_SITUATION_KEY].toString().toBoolean()
+        val scheme = exportConfig[SCHEME_KEY] as String
+        val path = exportConfig[PATH_KEY] as String
+        val allBlocks = exportConfig[ALL_BLOCK_KEY] as Boolean
+        val allSituations = exportConfig[ALL_SITUATION_KEY] as Boolean
 
         val blocks = ArrayList<Block>()
         if (allBlocks) {
-            blocks.addAll(project.getData().blocks)
+            blocks.addAll(project.getAllBlocks())
         } else {
-            val block = exportConfig[BLOCK_KEY].toString().toInt()
-            blocks.add(project.getData().blocks[block - 1])
+            val blockId = exportConfig[BLOCK_KEY] as Int
+            val block = project.getBlock(blockId)
+            if ( block != null) {
+                project.getBlock(blockId)?.let { blocks.add(it) }
+            } else {
+                // TODO return ExportWarning
+            }
         }
 
         val situation = exportConfig[SITUATION_KEY].toString().toInt()
@@ -206,11 +206,9 @@ ul {
             val widthList = coroutineScope {
                 blocks.map { block ->
                     async {
-                        val blockId = project.getData().blocks.indexOf(block) + 1
                         saveBlock(
                             config,
                             block,
-                            blockId,
                             situation
                         )
                     }
@@ -223,22 +221,25 @@ ul {
     private suspend fun saveBlock(
         config: Config,
         block: Block,
-        blockId: Int,
         situationId: Int
     ): List<ExportWarning?> {
         val situations = ArrayList<Situation>()
 
         if (config.allSituations) {
-            situations.addAll(block.situations)
+            situations.addAll(block.getSituations())
         } else {
-            situations.add(block.situations[situationId - 1])
+            val situation = block.getSituation(situationId)
+            if(situation != null) {
+                situations.add(situation)
+            } else {
+                // TODO return ExportWarning
+            }
         }
 
         val resultList = coroutineScope {
             situations.map { situation ->
                 async {
-                    val id = block.situations.indexOf(situation) + 1
-                    saveSituation(config, situation, id, blockId)
+                    saveSituation(config, situation, block.id)
                 }
             }.awaitAll()
         }
@@ -248,7 +249,6 @@ ul {
     private fun saveSituation(
         config: Config,
         situation: Situation,
-        situationId: Int,
         blockId: Int,
     ): List<ExportWarning?> {
         val newLine = System.lineSeparator()
@@ -267,7 +267,7 @@ ul {
                 ul {
                     +newLine
                     +newLine
-                    getOption(situation, blockId, situationId)
+                    getOption(situation, blockId, situation.id)
                 }
                 +newLine
             }
@@ -282,7 +282,7 @@ ul {
         val fileName = getNameFromScheme(
             config.scheme,
             "block" to blockId.toString(),
-            "situation" to situationId.toString()
+            "situation" to situation.id.toString()
         )
 
         val filePath = config.path + fileName + ".html"
@@ -293,11 +293,9 @@ ul {
         return listOfNotNull()
     }
 
-    private fun UL.getOption(situation: Situation, blockId: Int, situationId: Int) {
-        var optionId = 0
+    private fun UL.getOption(situation: Situation, blockId: Int) {
 
-        for(option in situation.options) {
-            optionId ++
+        for((optionId, option) in situation.options.values.withIndex()) {
             li {
                 +System.lineSeparator()
                 input(InputType.radio) {
@@ -312,7 +310,7 @@ ul {
                     this.htmlFor = "x$optionId"
                     this.id = "x$optionId-label"
                     img {
-                        this.src = getImgSrc(blockId, situationId, optionId)
+                        this.src = getImgSrc(blockId, situation.id, optionId)
                         this.alt = "Travel by ${option.name}"
                     }
                 }

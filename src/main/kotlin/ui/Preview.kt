@@ -1,6 +1,5 @@
 package ui
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -18,8 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import data.generator.ImageGenerator
 import data.project.Project
+import ui.fields.IntField
 import ui.fields.OptionsField
-import ui.util.NestedSurface
 
 /**
  * This view shows a preview of the current [Project]
@@ -33,11 +32,11 @@ import ui.util.NestedSurface
 fun Preview(project: Project) {
     Box(Modifier.fillMaxSize()) {
         val imageGenerator = remember { ImageGenerator(project.configuration, project.iconStorage) }
-        var blockId by remember { mutableIntStateOf(0) }
-        var situationId by remember { mutableIntStateOf(0) }
+        var blockId by remember { mutableIntStateOf(1) }
+        var situationId by remember { mutableIntStateOf(1) }
 
         val situation by derivedStateOf {
-            project.getData().getSituations(blockId, situationId)
+            project.getSituation(blockId, situationId)
         }
 
         LazyColumn(Modifier.fillMaxSize().padding(bottom = 10.dp, end = 10.dp)) {
@@ -61,26 +60,20 @@ fun Preview(project: Project) {
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
-                            OptionsField(
-                                blockId + 1,
+                            IntField(
+                                blockId,
                                 { blockId = it },
-                                (0..<project.getData().blocks.size).toList(),
-                                label = { Label(Labels.BLOCK) }) {
-                                Text((it + 1).toString())
-                            }
-                            OptionsField(
-                                situationId + 1,
+                                label = { Label(Labels.BLOCK) })
+                            IntField(
+                                situationId,
                                 { situationId = it },
-                                (0..<project.getData().blocks[blockId].situations.size).toList(),
-                                label = { Label(Labels.SITUATION) }) {
-                                Text((it + 1).toString())
-                            }
+                                label = { Label(Labels.SITUATION) })
                         }
                     }
                 }
             }
             if (situation != null) {
-                items(situation!!.options) { option ->
+                items(situation!!.options.values.toList()) { option ->
 
                     var errorText: String? = null
                     val image = try {

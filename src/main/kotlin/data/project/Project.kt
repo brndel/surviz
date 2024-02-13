@@ -10,6 +10,7 @@ import data.project.config.columns.*
 import data.project.data.Block
 import data.project.data.DataScheme
 import data.project.data.IconStorage
+import data.project.data.Situation
 import data.resources.exceptions.FileTypeException
 import util.platformPath
 import java.io.File
@@ -35,8 +36,19 @@ data class Project(
     val configuration: ProjectConfiguration = ProjectConfiguration(),
     val iconStorage: IconStorage = IconStorage()
 ) {
-    fun getData(): ProjectData = data.value
     fun getDataScheme(): DataScheme = dataScheme.value
+
+    fun getAllBlocks(): List<Block> {
+        return data.value.getBlocks()
+    }
+
+    fun getBlock(id: Int): Block? {
+        return data.value.getBlock(id)
+    }
+
+    fun getSituation(block: Int, situation: Int): Situation? {
+        return data.value.getSituation(block, situation)
+    }
 
     /**
      * This method loads the project data.

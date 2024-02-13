@@ -14,7 +14,7 @@ import data.io.utils.OptionId
 abstract class ExportWarning(
     private val blockId: Int,
     private val situationId: Int,
-    private val optionId: Int? = null
+    private val optionId: String? = null
 )  {
     val id = OptionId(blockId, situationId, optionId)
 }
