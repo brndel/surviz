@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
@@ -16,7 +15,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import data.project.config.SingleValueIcon
 import ui.fields.DoubleField
@@ -43,7 +41,6 @@ fun SingleValueIconCard(icon: SingleValueIcon) {
         ) {
             IconField(
                 baseIcon,
-                ColorFilter.tint(MaterialTheme.colors.onPrimary)
             ) { baseIcon = it }
 
             for (level in icon.levels) {
@@ -51,7 +48,7 @@ fun SingleValueIconCard(icon: SingleValueIcon) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    IconField(level.icon.value, ColorFilter.tint(MaterialTheme.colors.onPrimary)) { level.icon.value = it }
+                    IconField(level.icon.value) { level.icon.value = it }
                     DoubleField(level.lowerThreshold.value, { level.lowerThreshold.value = it })
                     IconButton({ icon.removeLevel(level) }) {
                         Icon(Icons.Default.Delete, null)
