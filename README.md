@@ -4,6 +4,9 @@ SurViz is a tool for better visualizing stated choice surveys.
 
 ## Usage
 
+>[!tip]
+>See `src/notes/User_guide` or *Help*-Tab in *Settings* window for detailed explanation
+
 ## Supported file types
 
 ### Input
@@ -58,7 +61,45 @@ Further layout of those areas is explained in corresponding sections.
 
 #### Single value section
 
+![Single value layout](assets/single_value_layout.png)
+
+| Nr. | Identifier/Calculation                 | Description                                       | Unit |
+|-----|----------------------------------------|---------------------------------------------------|------|
+| 7   | <code>single_value_size</code>         | size of each single value column                  | px   |
+| 8   | <code>single_value_y_offset</code>     | middle offset from center line                    | px   |
+| 9   | <code>single_value_text_padding</code> | padding between center line and top pixel of text | px   |
+| 10  | <code>single_value_icon_padding</code> | padding between center line and icon              | px   |
+
+**Other adjustments that can be made:**
+
+| Identifier                      | Description                                 | Unit              |
+|---------------------------------|---------------------------------------------|-------------------|
+| <code>single_value_alpha</code> | alpha value of single values with value $0$ | float between 0-1 |
+
+**Other identifiers**
+
+| Nr. | Description |
+|-----|-------------|
+| 11  | Icon        |
+| 12  | Text        | 
+
 #### Timeline section
+
+![Timeline layout](assets/timeline_layout.png)
+
+| Nr. | Identifier/Calculation                                                                                 | Description                                 | Unit |     |     |
+|-----|--------------------------------------------------------------------------------------------------------|---------------------------------------------|------|-----|-----|
+| 13  | <code>timeline_y_offset</code>                                                                         | offset from center line                     | px   |     |     |
+| 14  | <code>timeline_divider_height</code>                                                                   | height of divider between timeline sections | px   |     |     |
+| 15  | <code>timeline_padding</code>                                                                          | padding of text and icons from timeline     | px   |     |     |
+| 16  | <code>timeline_icon_size</code>                                                                        | width and height of icon                    | px   |     |     |
+| 17  | $\text{value of section}\times \text{timeline scaling}$; default=<code>timeline_default_scaling</code> | length of timeline section                  | px   |     |     |
+
+**Other adjustments that can be made:**
+
+| Identifier                   | Description                | Unit |
+|------------------------------|----------------------------|------|
+| <code>timeline_weight</code> | line thickness of timeline | pt   |
 
 ## Adding features
 
@@ -71,9 +112,20 @@ For the new Importer to be recognized by the rest of the program add <code>YourI
 enum class ImporterVariant(private val importer: Importer) {
 	Ngene(NgeneImporter),
 	//....
-	YourFileFormat(YourImporter);
+	YourFileFormat(YourImporter),
 	//....
 }
 ```
 
 ### Exporter
+
+Similar to adding an `Importer`, you just have to implement the `Exporter` interface. With `getFields()` the exporter can request inputs from the user for configuration.
+`export`, as the name implies, is called when the user wants to export.
+For the exporter to be shown in the UI, simply add `YourExporter` to `ExporterVariant`:
+
+```kotlin
+enum class ExporterVariant(private val exporter: Exporter) {
+	//....
+	YourExporterName(YourExporter),
+}
+```
