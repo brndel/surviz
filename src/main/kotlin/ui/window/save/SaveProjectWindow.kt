@@ -3,10 +3,13 @@ package ui.window.save
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
@@ -54,25 +57,33 @@ fun SaveProjectWindow(
         icon = rememberVectorPainter(Icons.Default.Save),
         title = LocalLanguage.current.getString(Labels.ACTION_SAVE_AS)
     ) {
-        Column(
-            Modifier.padding(10.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            DirectoryPickerField(directory, { directory = it }, label = { Label(Labels.ACTION_SAVE_AS_DIRECTORY) })
+        Surface(color = MaterialTheme.colors.background, modifier = Modifier.fillMaxSize()) {
+            Column(
+                Modifier.padding(10.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                DirectoryPickerField(
+                    directory,
+                    { directory = it },
+                    label = { Label(Labels.ACTION_SAVE_AS_DIRECTORY) })
 
-            OutlinedTextField(filename, { filename = it }, label = { Label(Labels.ACTION_SAVE_AS_PROJECT_NAME) })
-            Text(path.pathString)
+                OutlinedTextField(
+                    filename,
+                    { filename = it },
+                    label = { Label(Labels.ACTION_SAVE_AS_PROJECT_NAME) })
+                Text(path.pathString)
 
-            Button({
-                onCloseRequest()
-                onFilePicked(path)
-            }) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Label(Labels.ACTION_SAVE)
-                    Icon(Icons.Default.Save, contentDescription = null)
+                Button({
+                    onCloseRequest()
+                    onFilePicked(path)
+                }) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Label(Labels.ACTION_SAVE)
+                        Icon(Icons.Default.Save, contentDescription = null)
+                    }
                 }
             }
         }
