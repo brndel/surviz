@@ -1,6 +1,5 @@
 package ui.page.export
 
-import ImageConfigCard
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
