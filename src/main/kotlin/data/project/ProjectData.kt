@@ -13,30 +13,25 @@ import data.project.data.Situation
  * @property blocks The blocks of the project
  */
 class ProjectData(
-    var dataScheme: DataScheme,
-    var blocks: List<Block>
+    val dataScheme: DataScheme,
+    blocks: List<Block>
 ) {
+    private val blocks: Map<Int, Block> = blocks.associateBy { it.id }
+
+    fun getBlocks(): List<Block> {
+        return blocks.entries.sortedBy { it.key }.map { it.value }
+    }
+
+    fun getBlock(id: Int): Block? {
+        return blocks[id]
+    }
+
     /**
      * This function returns a situation from a block.
      * @param block the block id
      * @param situation the situation id
      */
-    fun getSituations(block: Int, situation: Int): Situation? {
-        return blocks.getOrNull(block)?.situations?.getOrNull(situation)
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is ProjectData) return false
-
-        // smart casting
-        if (!other.dataScheme.compareTo(this.dataScheme)) return false
-
-        // check blocks
-        if (this.blocks.size != other.blocks.size) return false
-        for (i in 0..<this.blocks.size) {
-            if (this.blocks[i] != other.blocks[i]) return false
-        }
-        return true
+    fun getSituation(block: Int, situation: Int): Situation? {
+        return blocks[block]?.getSituation(situation)
     }
 }

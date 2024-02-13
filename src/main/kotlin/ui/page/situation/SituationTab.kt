@@ -106,7 +106,7 @@ fun SituationTab(
                     SingleValueColumnField(
                         column,
                         { config.singleValueColumns[id] = it },
-                        option.fields,
+                        option.fieldsList,
                         singleValueConfig.columnScheme.value
                     )
                 }
@@ -147,7 +147,7 @@ fun SituationTab(
                             TimelineCard(
                                 entry,
                                 { config.removeTimelineEntry(entry) },
-                                option.fields,
+                                option.fieldsList,
                                 reorderState
                             )
                         }

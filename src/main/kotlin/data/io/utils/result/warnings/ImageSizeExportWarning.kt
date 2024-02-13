@@ -8,12 +8,12 @@ package data.io.utils.result.warnings
  *
  * @param blockId ID of the block the problem occurred
  * @param situationId ID of the situation the problem occurred
- * @param optionId ID of the option the problem occurred
+ * @param optionName ID of the option the problem occurred
  */
 class ImageSizeExportWarning(
     val neededWidth: Int,
     blockId: Int,
     situationId: Int,
-    optionId: Int? = null
+    optionName: String? = null
 ) :
-    ExportWarning(blockId, situationId, optionId)
+    ExportWarning(blockId, situationId, optionName)

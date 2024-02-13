@@ -1,1 +1,3 @@
 - Changed method signature from getSituations(block; Int, situation: Situation) to getSituations(block; Int, situation: int) 
+- Changed typo from `getSituations` to `getSituation`
+- added getBlock method

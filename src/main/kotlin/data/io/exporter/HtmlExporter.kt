@@ -1,5 +1,6 @@
 package data.io.exporter
 
+import data.io.exporter.Exporter.Companion.getNameFromScheme
 import data.io.utils.result.ExportResult
 import data.io.utils.result.warnings.ExportWarning
 import data.project.Project
@@ -89,12 +90,7 @@ ul {
             )
         )
 
-        val blockOptionList = ArrayList<String>().apply {
-            project.getData().blocks.size.let { blockCount ->
-                addAll((1..blockCount).map(kotlin.Int::toString))
-            }
-        }
-        fields.add(NamedField(BLOCK_KEY, OptionsFieldData("1", Labels.BLOCK, blockOptionList)))
+        fields.add(NamedField(BLOCK_KEY, IntFieldData(1, label = Labels.BLOCK)))
 
         fields.add(
             NamedField(
@@ -135,19 +131,24 @@ ul {
     override fun export(project: Project, exportConfig: Map<String, Any>): ExportResult {
         // Configure Export Selection
         val scheme = exportConfig[SCHEME_KEY] as String
-        val path = exportConfig[PATH_KEY]as String
+        val path = exportConfig[PATH_KEY] as String
         val allBlocks = exportConfig[ALL_BLOCK_KEY] as Boolean
         val allSituations = exportConfig[ALL_SITUATION_KEY] as Boolean
 
         val blocks = ArrayList<Block>()
         if (allBlocks) {
-            blocks.addAll(project.getData().blocks)
+            blocks.addAll(project.getAllBlocks())
         } else {
-            val block = exportConfig[BLOCK_KEY].toString().toInt()
-            blocks.add(project.getData().blocks[block - 1])
+            val blockId = exportConfig[BLOCK_KEY] as Int
+            val block = project.getBlock(blockId)
+            if ( block != null) {
+                project.getBlock(blockId)?.let { blocks.add(it) }
+            } else {
+                // TODO return ExportWarning
+            }
         }
 
-        val situationId = exportConfig[SITUATION_KEY].toString().toInt()
+        val situationId = exportConfig[SITUATION_KEY] as Int
 
         val config = Config(
             scheme,
@@ -172,12 +173,9 @@ ul {
             val widthList = coroutineScope {
                 blocks.map { block ->
                     async {
-                        val blockId = project.getData().blocks.indexOf(block) + 1
-                        println("Save block: $blockId")
                         saveBlock(
                             config,
-                            block,
-                            blockId
+                            block
                         )
                     }
                 }.awaitAll()
@@ -189,22 +187,25 @@ ul {
     }
     private suspend fun saveBlock(
         config: Config,
-        block: Block,
-        blockId: Int
+        block: Block
     ): List<ExportWarning?> {
         val situations = ArrayList<Situation>()
 
         if (config.allSituations) {
-            situations.addAll(block.situations)
+            situations.addAll(block.getSituations())
         } else {
-            situations.add(block.situations[config.situationId - 1])
+            val situation = block.getSituation(config.situationId)
+            if(situation != null) {
+                situations.add(situation)
+            } else {
+                // TODO return ExportWarning
+            }
         }
 
         val resultList = coroutineScope {
             situations.map { situation ->
                 async {
-                    val situationId = block.situations.indexOf(situation) + 1
-                    saveSituation(config, situation, situationId, blockId)
+                    saveSituation(config, situation, block.id)
                 }
             }.awaitAll()
         }
@@ -214,7 +215,6 @@ ul {
     private fun saveSituation(
         config: Config,
         situation: Situation,
-        situationId: Int,
         blockId: Int,
     ): List<ExportWarning?> {
         val lineSeparator = System.lineSeparator()
@@ -233,7 +233,7 @@ ul {
                 ul {
                     +lineSeparator
                     +lineSeparator
-                    getOption(situation, blockId, situationId)
+                    getOption(situation, blockId)
                 }
                 +lineSeparator
             }
@@ -248,7 +248,7 @@ ul {
         val fileName = getNameFromScheme(
             config.scheme,
             "block" to blockId.toString(),
-            "situation" to situationId.toString()
+            "situation" to situation.id.toString()
         )
 
         val filePath = config.path + fileName + ".html"
@@ -258,28 +258,26 @@ ul {
 
         return listOfNotNull()
     }
-
-    private fun UL.getOption(situation: Situation, blockId: Int, situationId: Int) {
-        var optionId = 0
+    
+    private fun UL.getOption(situation: Situation, blockId: Int) {
         val lineSeparator = System.lineSeparator()
 
-        for(option in situation.options) {
-            optionId ++
+        for(option in situation.options.values) {
             li {
                 +lineSeparator
                 input(InputType.radio) {
-                    this.id = "x$optionId"
+                    this.id = option.name
                     this.name = "PLACEHOLDER"
-                    this.value = optionId.toString()
+                    this.value = option.name
                     this.classes = setOf("input-hidden")
                     this.onClick = "change('${option.name}')"
                 }
                 +lineSeparator
                 label {
-                    this.htmlFor = "x$optionId"
-                    this.id = "x$optionId-label"
+                    this.htmlFor = option.name
+                    this.id = "x${option.name}-label"
                     img {
-                        this.src = getImgSrc(blockId, situationId, optionId)
+                        this.src = getImgSrc(blockId, situation.id, option.name)
                         this.alt = "Travel by ${option.name}"
                     }
                 }
@@ -306,13 +304,5 @@ ul {
 
     private fun getImgSrc(blockId: Int, situationId: Int, optionId: Int): String {
         return "images/block_$blockId" + "_situation_$situationId" + "_option_$optionId" + ".png"
-    }
-
-    private fun getNameFromScheme(template: String, vararg values: Pair<String, String>): String {
-        var result = template
-        values.forEach { (placeholder, replacement) ->
-            result = result.replace("\$$placeholder\$", replacement)
-        }
-        return result
     }
 }

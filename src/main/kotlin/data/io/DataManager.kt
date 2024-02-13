@@ -68,7 +68,7 @@ object DataManager {
      * @return right importer if found, null if no right importer is present
      */
     private fun getImporterByExtension(extension: String): Importer? {
-        return ImporterVariant.entries.find { it.getImporter().getType() == extension }
+        return ImporterVariant.entries.find { it.getImporter().getFileExtension() == extension }
             ?.getImporter()
     }
 }

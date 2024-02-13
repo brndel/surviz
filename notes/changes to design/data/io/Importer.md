@@ -1,0 +1,1 @@
+- Rename `getType` to `getFileExtension`

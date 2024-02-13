@@ -19,5 +19,5 @@ interface Importer {
      * Please return extension without "."
      * @see NgeneImporter
      */
-    fun getType(): String
+    fun getFileExtension(): String
 }
