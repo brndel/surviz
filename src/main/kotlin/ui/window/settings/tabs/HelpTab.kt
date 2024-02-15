@@ -66,7 +66,6 @@ fun HelpTab() {
 
                         HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_DESCRIPTION)
                         HighlightedHeading(Labels.USER_GUIDE_PROJECT_SCREEN_PREVIEW)
-                        //TODO(ADD GIF)
                         HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_PREVIEW_DESCRIPTION)
                         NestedSurface(
                             modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp)
@@ -79,7 +78,7 @@ fun HelpTab() {
                                     Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR,
                                     style = MaterialTheme.typography.h6
                                 )
-                                //TODO(ADD GIF)
+                                Image(painterResource("userguide/File_Tab.png"), null)
                                 HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_DESCRIPTION)
                                 HighlightedHeading(Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_SAVE)
                                 HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_SAVE_DESCRIPTION)
@@ -98,12 +97,12 @@ fun HelpTab() {
                                     Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE,
                                     style = MaterialTheme.typography.h6,
                                 )
-                                //TODO(ADD GIF)
+                                Image(painterResource("userguide/Single_Values_Tab.png"), null)
                                 HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_DESCRIPTION)
                                 HighlightedHeading(Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD)
+                                Image(painterResource("userguide/Single_Value.png"), null)
                                 HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD_DESCRIPTION)
                                 HighlightedHeading(Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME)
-                                //TODO(ADD GIF)
                                 HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME_DESCRIPTION)
                             }
                         }
@@ -118,6 +117,7 @@ fun HelpTab() {
                                     Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION,
                                     style = MaterialTheme.typography.h6,
                                 )
+                                Image(painterResource("userguide/Situations_Tab.png"), null)
                                 HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION_DESCRIPTION)
                                 HighlightedHeading(Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION_EDIT)
                                 HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION_EDIT_DESCRIPTION)
@@ -134,8 +134,10 @@ fun HelpTab() {
                                     Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT,
                                     style = MaterialTheme.typography.h6,
                                 )
+                                Image(painterResource("userguide/Export_Tab.png"), null)
                                 HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_DESCRIPTION)
                                 HighlightedHeading(Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME)
+                                Image(painterResource("userguide/Filename_Scheme.png"), null)
                                 Label(Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION)
                             }
                         }
