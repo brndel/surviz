@@ -43,15 +43,15 @@ fun HelpTab() {
                             style = MaterialTheme.typography.h5
                         )
                         Image(painterResource("userguide/Start_Screen.png"), null)
-                        Label(Labels.USER_GUIDE_START_SCREEN_DESCRIPTION)
+                        HighlightedText(Labels.USER_GUIDE_START_SCREEN_DESCRIPTION)
                         HighlightedHeading(Labels.USER_GUIDE_START_SCREEN_LAST_PROJECT)
-                        Label(Labels.USER_GUIDE_START_SCREEN_LAST_PROJECT_DESCRIPTION)
+                        HighlightedText(Labels.USER_GUIDE_START_SCREEN_LAST_PROJECT_DESCRIPTION)
                         HighlightedHeading(Labels.USER_GUIDE_START_SCREEN_NEW_PROJECT)
-                        Label(Labels.USER_GUIDE_START_SCREEN_NEW_PROJECT_DESCRIPTION)
+                        HighlightedText(Labels.USER_GUIDE_START_SCREEN_NEW_PROJECT_DESCRIPTION)
                         HighlightedHeading(Labels.USER_GUIDE_START_SCREEN_LOAD_PROJECT)
-                        Label(Labels.USER_GUIDE_START_SCREEN_LOAD_PROJECT_DESCRIPTION)
+                        HighlightedText(Labels.USER_GUIDE_START_SCREEN_LOAD_PROJECT_DESCRIPTION)
                         HighlightedHeading(Labels.USER_GUIDE_START_SCREEN_SETTINGS)
-                        Label(Labels.USER_GUIDE_START_SCREEN_SETTINGS_DESCRIPTION)
+                        HighlightedText(Labels.USER_GUIDE_START_SCREEN_SETTINGS_DESCRIPTION)
                     }
                 }
                 NestedSurface(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp)) {
@@ -64,10 +64,10 @@ fun HelpTab() {
                             style = MaterialTheme.typography.h5
                         )
 
-                        Label(Labels.USER_GUIDE_PROJECT_SCREEN_DESCRIPTION)
+                        HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_DESCRIPTION)
                         HighlightedHeading(Labels.USER_GUIDE_PROJECT_SCREEN_PREVIEW)
                         //TODO(ADD GIF)
-                        Label(Labels.USER_GUIDE_PROJECT_SCREEN_PREVIEW_DESCRIPTION)
+                        HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_PREVIEW_DESCRIPTION)
                         NestedSurface(
                             modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp)
                         ) {
@@ -80,11 +80,11 @@ fun HelpTab() {
                                     style = MaterialTheme.typography.h6
                                 )
                                 //TODO(ADD GIF)
-                                Label(Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_DESCRIPTION)
+                                HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_DESCRIPTION)
                                 HighlightedHeading(Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_SAVE)
-                                Label(Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_SAVE_DESCRIPTION)
+                                HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_SAVE_DESCRIPTION)
                                 HighlightedHeading(Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE)
-                                Label(Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE_DESCRIPTION)
+                                HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE_DESCRIPTION)
                             }
                         }
                         NestedSurface(
@@ -99,7 +99,7 @@ fun HelpTab() {
                                     style = MaterialTheme.typography.h6,
                                 )
                                 //TODO(ADD GIF)
-                                Label(Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_DESCRIPTION)
+                                HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_DESCRIPTION)
                                 HighlightedHeading(Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD)
                                 HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD_DESCRIPTION)
                                 HighlightedHeading(Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME)
@@ -118,9 +118,9 @@ fun HelpTab() {
                                     Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION,
                                     style = MaterialTheme.typography.h6,
                                 )
-                                Label(Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION_DESCRIPTION)
+                                HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION_DESCRIPTION)
                                 HighlightedHeading(Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION_EDIT)
-                                Label(Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION_EDIT_DESCRIPTION)
+                                HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION_EDIT_DESCRIPTION)
                             }
                         }
                         NestedSurface(
@@ -134,9 +134,9 @@ fun HelpTab() {
                                     Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT,
                                     style = MaterialTheme.typography.h6,
                                 )
-                                Label(Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_DESCRIPTION)
+                                HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_DESCRIPTION)
                                 HighlightedHeading(Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME)
-                                HighlightedText(Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION)
+                                Label(Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION)
                             }
                         }
                     }
