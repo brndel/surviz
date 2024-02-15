@@ -7,12 +7,11 @@ import data.project.data.Block
 import data.project.data.Situation
 import data.resources.fields.*
 import kotlinx.coroutines.*
-import ui.Labels
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
+import ui.Labels
 import util.platformPath
 import java.io.File
-
 
 /**
  * This class implements the [Exporter] interface and exports the project to an HTML file.
@@ -36,7 +35,45 @@ object HtmlExporter : Exporter {
             "/Users/$it/surviz/"
         })
     }
+    private fun htmlScript(): String {
+        val newLine = System.lineSeparator()
 
+        return "function change(value) {$newLine" +
+                "document.getElementById(\"PLACEHOLDER\").value = value;$newLine" +
+                "}" + newLine
+    }
+
+    private fun htmlStyle(): String {
+//        val newLine = System.lineSeparator()
+
+        return """
+        ul {
+        list-style-type: none;
+        }
+   
+        .radio-toolbar input[type="radio"] {
+            display: none;
+        }
+  
+        .radio-toolbar label {
+          display: inline-block;
+          background-color: #ddd;
+          padding: 4px 11px;
+          font-family: Arial;
+          font-size: 16px;
+          cursor: pointer;
+        }
+        
+        .radio-toolbar input[type="radio"]:checked+label {
+          background-color: #bbb;
+        }
+        
+        """.trimIndent()
+    }
+
+    private const val HTML_STYLE = """
+
+    """
 
     private data class Config(
         val scheme: String,
@@ -190,17 +227,42 @@ object HtmlExporter : Exporter {
         situationId: Int,
         blockId: Int,
     ): List<ExportWarning?> {
+        val newLine = System.lineSeparator()
         // Generate HTML Document
         val htmlContent = buildString {
-            appendHTML().html {
-                head {
-                    getHeader(situationId, blockId)
-                }
-                body {
-                    getOptions(situation, blockId, situationId)
-                }
+            append("<script>")
+            append(newLine)
+            append(htmlScript())
+            append("</script>")
 
+            append(newLine)
+            append(newLine)
 
+            append("<style type=\"text/css\">")
+            append(newLine)
+            append(htmlStyle())
+            append("</style>")
+
+            append(newLine)
+            append(newLine)
+
+            appendHTML(false).div{
+                this.classes = setOf("radio-toolbar")
+
+                +newLine
+
+                ul {
+                    +newLine
+                    +newLine
+                    getOption(situation, blockId, situationId)
+                }
+                +newLine
+            }
+            append(newLine)
+            append(newLine)
+
+            appendHTML(false).form {
+                getForm()
             }
         }
 
@@ -214,46 +276,49 @@ object HtmlExporter : Exporter {
         val outputFile = File(filePath)
         outputFile.writeText(htmlContent)
         println("HTML-Datei wurde unter ${outputFile.absolutePath} erstellt.")
-//        saveHtmlFile(html, path, fileName)
 
         return listOfNotNull()
     }
 
-    private fun HEAD.getHeader(situationId: Int, blockId: Int) {
-        val blockNumber = "This is block number: $blockId"
-        val situationNumber = "This is situation number: $situationId"
-
-        title { +blockNumber }
-        title { +situationNumber }
-    }
-
-    private fun BODY.getOptions(situation: Situation, blockId: Int, situationId: Int) {
+    private fun UL.getOption(situation: Situation, blockId: Int, situationId: Int) {
         var optionId = 0
-        val radioButtonName = situationId.toString()
 
         for(option in situation.options) {
             optionId ++
-
-            label {
-                style = "display: flex; align-items: center;"
-                br()
+            li {
+                +System.lineSeparator()
                 input(InputType.radio) {
-                    this.id = optionId.toString()
-                    this.name = radioButtonName
+                    this.id = "x$optionId"
+                    this.name = "PLACEHOLDER"
                     this.value = optionId.toString()
+                    this.classes = setOf("input-hidden")
+                    this.onClick = "change('${option.name}')"
                 }
-
-                img {this.src = getImgSrc(blockId, situationId, optionId)}
-                br()
+                +System.lineSeparator()
+                label {
+                    this.htmlFor = "x$optionId"
+                    this.id = "x$optionId-label"
+                    img {
+                        this.src = getImgSrc(blockId, situationId, optionId)
+                        this.alt = "Travel by ${option.name}"
+                    }
+                }
+                +System.lineSeparator()
             }
+            +System.lineSeparator()
+            +System.lineSeparator()
         }
     }
 
-    private fun BODY.getVersionNumber(versionNumber: Int) {
-        val version = "Version: $versionNumber"
-
-        h1 {
-            +version
+    private fun FORM.getForm() {
+        div {
+            +System.lineSeparator()
+            input(InputType.text) {
+                this.id = "PLACEHOLDER"
+                this.name = "PLACEHOLDER"
+                this.value = "#PLACEHOLDER#"
+            }
+            +System.lineSeparator()
         }
     }
 
