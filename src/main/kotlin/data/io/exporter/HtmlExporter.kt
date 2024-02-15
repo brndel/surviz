@@ -71,10 +71,6 @@ object HtmlExporter : Exporter {
         """.trimIndent()
     }
 
-    private const val HTML_STYLE = """
-
-    """
-
     private data class Config(
         val scheme: String,
         val path: String,
