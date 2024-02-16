@@ -22,7 +22,7 @@ fun DoubleField(
 ) {
 
     ParserField(value, onValueChange, parse = {
-        val newValue = it.toDoubleOrNull()
+        val newValue = it.replace(',', '.').toDoubleOrNull()
 
         if (newValue != null && (maxValue == null || newValue <= maxValue) && (minValue == null || newValue >= minValue)) {
             newValue
