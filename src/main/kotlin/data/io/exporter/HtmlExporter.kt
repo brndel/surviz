@@ -197,7 +197,7 @@ ul {
         pngExportConfig[PATH_KEY] = path + "images"
         pngExportConfig[SEPARATE_OPTION_KEY] = true
 
-        PngExporter.export(project, pngExportConfig)
+        val pngWarnings = PngExporter.export(project, pngExportConfig)
 
         // Generate HTML Files with Selection
         val errorList = ArrayList<ExportWarning?>()
@@ -218,6 +218,7 @@ ul {
             }
             errorList.addAll(widthList.flatten())
         }
+        errorList.addAll(pngWarnings.warnings)
         return ExportResult(errorList.filterNotNull())
     }
     private suspend fun saveBlock(
