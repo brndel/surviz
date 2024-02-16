@@ -65,39 +65,6 @@ ul {
   list-style-type: none;
 }
 </style>"""
-//    private fun htmlScript(): String {
-//        val newLine = System.lineSeparator()
-//
-//        return "function change(value) {$newLine" +
-//                "document.getElementById(\"PLACEHOLDER\").value = value;$newLine" +
-//                "}" + newLine
-//    }
-//
-//    private fun htmlStyle(): String {
-//        return """
-//        ul {
-//        list-style-type: none;
-//        }
-//
-//        .radio-toolbar input[type="radio"] {
-//            display: none;
-//        }
-//
-//        .radio-toolbar label {
-//          display: inline-block;
-//          background-color: #ddd;
-//          padding: 4px 11px;
-//          font-family: Arial;
-//          font-size: 16px;
-//          cursor: pointer;
-//        }
-//
-//        .radio-toolbar input[type="radio"]:checked+label {
-//          background-color: #bbb;
-//        }
-//
-//        """.trimIndent()
-//    }
 
     private data class Config(
         val scheme: String,
@@ -105,7 +72,7 @@ ul {
         val allBlocks: Boolean,
         val allSituations: Boolean,
         val blocks: ArrayList<Block>,
-        val situation: Int
+        val situationId: Int
     )
 
     /**
@@ -167,10 +134,10 @@ ul {
      */
     override fun export(project: Project, exportConfig: Map<String, Any>): ExportResult {
         // Configure Export Selection
-        val scheme = exportConfig[SCHEME_KEY].toString()
-        val path = exportConfig[PATH_KEY].toString()
-        val allBlocks = exportConfig[ALL_BLOCK_KEY].toString().toBoolean()
-        val allSituations = exportConfig[ALL_SITUATION_KEY].toString().toBoolean()
+        val scheme = exportConfig[SCHEME_KEY] as String
+        val path = exportConfig[PATH_KEY]as String
+        val allBlocks = exportConfig[ALL_BLOCK_KEY] as Boolean
+        val allSituations = exportConfig[ALL_SITUATION_KEY] as Boolean
 
         val blocks = ArrayList<Block>()
         if (allBlocks) {
@@ -180,7 +147,7 @@ ul {
             blocks.add(project.getData().blocks[block - 1])
         }
 
-        val situation = exportConfig[SITUATION_KEY].toString().toInt()
+        val situationId = exportConfig[SITUATION_KEY].toString().toInt()
 
         val config = Config(
             scheme,
@@ -188,7 +155,7 @@ ul {
             allBlocks,
             allSituations,
             blocks,
-            situation
+            situationId
         )
 
         // Generate Images with Selection
@@ -199,7 +166,6 @@ ul {
 
         val pngWarnings = PngExporter.export(project, pngExportConfig)
 
-        // Generate HTML Files with Selection
         val errorList = ArrayList<ExportWarning?>()
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -207,11 +173,11 @@ ul {
                 blocks.map { block ->
                     async {
                         val blockId = project.getData().blocks.indexOf(block) + 1
+                        println("Save block: $blockId")
                         saveBlock(
                             config,
                             block,
-                            blockId,
-                            situation
+                            blockId
                         )
                     }
                 }.awaitAll()
@@ -224,22 +190,21 @@ ul {
     private suspend fun saveBlock(
         config: Config,
         block: Block,
-        blockId: Int,
-        situationId: Int
+        blockId: Int
     ): List<ExportWarning?> {
         val situations = ArrayList<Situation>()
 
         if (config.allSituations) {
             situations.addAll(block.situations)
         } else {
-            situations.add(block.situations[situationId - 1])
+            situations.add(block.situations[config.situationId - 1])
         }
 
         val resultList = coroutineScope {
             situations.map { situation ->
                 async {
-                    val id = block.situations.indexOf(situation) + 1
-                    saveSituation(config, situation, id, blockId)
+                    val situationId = block.situations.indexOf(situation) + 1
+                    saveSituation(config, situation, situationId, blockId)
                 }
             }.awaitAll()
         }
@@ -252,28 +217,28 @@ ul {
         situationId: Int,
         blockId: Int,
     ): List<ExportWarning?> {
-        val newLine = System.lineSeparator()
+        val lineSeparator = System.lineSeparator()
         // Generate HTML Document
         val htmlContent = buildString {
             append(HTML_SCRIPT)
-            append(newLine)
+            append(lineSeparator)
             append(HTML_STYLE)
-            append(newLine)
-            append(newLine)
+            append(lineSeparator)
+            append(lineSeparator)
 
             appendHTML(false).div{
                 this.classes = setOf("radio-toolbar")
 
-                +newLine
+                +lineSeparator
                 ul {
-                    +newLine
-                    +newLine
+                    +lineSeparator
+                    +lineSeparator
                     getOption(situation, blockId, situationId)
                 }
-                +newLine
+                +lineSeparator
             }
-            append(newLine)
-            append(newLine)
+            append(lineSeparator)
+            append(lineSeparator)
 
             appendHTML(false).form {
                 getForm()
@@ -296,11 +261,12 @@ ul {
 
     private fun UL.getOption(situation: Situation, blockId: Int, situationId: Int) {
         var optionId = 0
+        val lineSeparator = System.lineSeparator()
 
         for(option in situation.options) {
             optionId ++
             li {
-                +System.lineSeparator()
+                +lineSeparator
                 input(InputType.radio) {
                     this.id = "x$optionId"
                     this.name = "PLACEHOLDER"
@@ -308,7 +274,7 @@ ul {
                     this.classes = setOf("input-hidden")
                     this.onClick = "change('${option.name}')"
                 }
-                +System.lineSeparator()
+                +lineSeparator
                 label {
                     this.htmlFor = "x$optionId"
                     this.id = "x$optionId-label"
@@ -317,22 +283,24 @@ ul {
                         this.alt = "Travel by ${option.name}"
                     }
                 }
-                +System.lineSeparator()
+                +lineSeparator
             }
-            +System.lineSeparator()
-            +System.lineSeparator()
+            +lineSeparator
+            +lineSeparator
         }
     }
 
     private fun FORM.getForm() {
+        val lineSeparator = System.lineSeparator()
+
         div {
-            +System.lineSeparator()
+            +lineSeparator
             input(InputType.text) {
                 this.id = "PLACEHOLDER"
                 this.name = "PLACEHOLDER"
                 this.value = "#PLACEHOLDER#"
             }
-            +System.lineSeparator()
+            +lineSeparator
         }
     }
 
