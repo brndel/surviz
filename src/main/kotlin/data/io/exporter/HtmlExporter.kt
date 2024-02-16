@@ -30,9 +30,7 @@ object HtmlExporter : Exporter {
     private const val SCHEME_KEY = "scheme"
     private const val SEPARATE_OPTION_KEY = "separate_options"
 
-    private const val PNG_FILE_SCHEME = "block_\$block\$_situation_\$situation\$_option_\$option\$"
-
-    private const val DEFAULT_SCHEME = "block_\$block\$_situation_\$situation\$"
+    private const val DEFAULT_SCHEME = "block_\$block\$_situation_\$situation\$.html"
     private val defaultPath: String by lazy {
         platformPath(windows = {
             "C:\\Users\\$it\\Desktop\\SurViz\\"
@@ -167,7 +165,7 @@ ul {
 
         // Generate Images with Selection
         val pngExportConfig = exportConfig.toMutableMap()
-        pngExportConfig[SCHEME_KEY] = PNG_FILE_SCHEME
+        pngExportConfig[SCHEME_KEY] = PngExporter.DEFAULT_SCHEME
         pngExportConfig[PATH_KEY] = Path(path, "images").pathString
         pngExportConfig[SEPARATE_OPTION_KEY] = true
 
@@ -257,7 +255,7 @@ ul {
             "situation" to situation.id.toString()
         )
 
-        val filePath = Path(config.path, "$fileName.html").pathString
+        val filePath = Path(config.path, fileName).pathString
         val outputFile = File(filePath)
         outputFile.writeText(htmlContent)
         println("HTML-Datei wurde unter ${outputFile.absolutePath} erstellt.")
@@ -310,7 +308,7 @@ ul {
 
     private fun getImgSrc(blockId: Int, situationId: Int, optionName: String): String {
         val fileName = getNameFromScheme(
-            PNG_FILE_SCHEME,
+            PngExporter.DEFAULT_SCHEME,
             "block" to blockId.toString(),
             "situation" to situationId.toString(),
             "option" to optionName

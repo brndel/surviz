@@ -39,7 +39,7 @@ object PngExporter : Exporter {
     private const val PATH_KEY = "path"
     private const val SCHEME_KEY = "scheme"
 
-    private const val DEFAULT_SCHEME = "block_\$block\$_situation_\$situation\$_option_\$option\$"
+    const val DEFAULT_SCHEME = "block_\$block\$_situation_\$situation\$_option_\$option\$.png"
 
     private val defaultPath: String by lazy {
         platformPath(windows = {
@@ -269,7 +269,7 @@ object PngExporter : Exporter {
     }
 
     private fun saveBitmap(bitmap: ImageBitmap, path: String, name: String) {
-        val outputPath = Path(path, "$name.png")
+        val outputPath = Path(path, name)
 
         val bufferedImage = bitmap.toAwtImage()
         val file = outputPath.toFile()
