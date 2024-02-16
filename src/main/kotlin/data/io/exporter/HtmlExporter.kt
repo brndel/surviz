@@ -35,41 +35,69 @@ object HtmlExporter : Exporter {
             "/Users/$it/surviz/"
         })
     }
-    private fun htmlScript(): String {
-        val newLine = System.lineSeparator()
 
-        return "function change(value) {$newLine" +
-                "document.getElementById(\"PLACEHOLDER\").value = value;$newLine" +
-                "}" + newLine
-    }
+    private const val HTML_SCRIPT = """<script>
+function change(value){
+    document.getElementById("PLACEHOLDER").value= value;
+}
+</script>
+    """
 
-    private fun htmlStyle(): String {
+    private const val HTML_STYLE = """<style type="text/css">
+.radio-toolbar input[type="radio"] {
+  display: none;
+}
+
+.radio-toolbar label {
+  display: inline-block;
+  background-color: #ddd;
+  padding: 4px 11px;
+  font-family: Arial;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.radio-toolbar input[type="radio"]:checked+label {
+  background-color: #bbb;
+}
+
+ul {
+  list-style-type: none;
+}
+</style>"""
+//    private fun htmlScript(): String {
 //        val newLine = System.lineSeparator()
-
-        return """
-        ul {
-        list-style-type: none;
-        }
-   
-        .radio-toolbar input[type="radio"] {
-            display: none;
-        }
-  
-        .radio-toolbar label {
-          display: inline-block;
-          background-color: #ddd;
-          padding: 4px 11px;
-          font-family: Arial;
-          font-size: 16px;
-          cursor: pointer;
-        }
-        
-        .radio-toolbar input[type="radio"]:checked+label {
-          background-color: #bbb;
-        }
-        
-        """.trimIndent()
-    }
+//
+//        return "function change(value) {$newLine" +
+//                "document.getElementById(\"PLACEHOLDER\").value = value;$newLine" +
+//                "}" + newLine
+//    }
+//
+//    private fun htmlStyle(): String {
+//        return """
+//        ul {
+//        list-style-type: none;
+//        }
+//
+//        .radio-toolbar input[type="radio"] {
+//            display: none;
+//        }
+//
+//        .radio-toolbar label {
+//          display: inline-block;
+//          background-color: #ddd;
+//          padding: 4px 11px;
+//          font-family: Arial;
+//          font-size: 16px;
+//          cursor: pointer;
+//        }
+//
+//        .radio-toolbar input[type="radio"]:checked+label {
+//          background-color: #bbb;
+//        }
+//
+//        """.trimIndent()
+//    }
 
     private data class Config(
         val scheme: String,
@@ -226,19 +254,9 @@ object HtmlExporter : Exporter {
         val newLine = System.lineSeparator()
         // Generate HTML Document
         val htmlContent = buildString {
-            append("<script>")
+            append(HTML_SCRIPT)
             append(newLine)
-            append(htmlScript())
-            append("</script>")
-
-            append(newLine)
-            append(newLine)
-
-            append("<style type=\"text/css\">")
-            append(newLine)
-            append(htmlStyle())
-            append("</style>")
-
+            append(HTML_STYLE)
             append(newLine)
             append(newLine)
 
@@ -246,7 +264,6 @@ object HtmlExporter : Exporter {
                 this.classes = setOf("radio-toolbar")
 
                 +newLine
-
                 ul {
                     +newLine
                     +newLine
