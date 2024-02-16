@@ -86,6 +86,8 @@ object Labels {
     const val ACTION_SAVE_AS_DIRECTORY = "ACTION_SAVE_AS_DIRECTORY"
     const val ACTION_SAVE_AS_PROJECT_NAME = "ACTION_SAVE_AS_PROJECT_NAME"
 
+    const val FILE_ALREADY_EXISTS = "FILE_ALREADY_EXISTS"
+
     const val SHORTCUT_CTRL = "SHORTCUT_CTRL"
     const val SHORTCUT_ALT = "SHORTCUT_ALT"
     const val SHORTCUT_META = "SHORTCUT_META"
@@ -274,6 +276,8 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.ACTION_SAVE_AS_DIRECTORY to "Choose directory",
             Labels.ACTION_SAVE_AS_PROJECT_NAME to "Project name",
 
+            Labels.FILE_ALREADY_EXISTS to "File already exists and will be overwritten",
+
             Labels.SHORTCUT_CTRL to "Ctrl",
             Labels.SHORTCUT_ALT to "Alt",
             Labels.SHORTCUT_META to "Meta",
@@ -442,6 +446,8 @@ enum class Language(private val code: String, val label: String, private val str
 
             Labels.ACTION_SAVE_AS_DIRECTORY to "Verzeichnis auswählen",
             Labels.ACTION_SAVE_AS_PROJECT_NAME to "Projektname",
+
+            Labels.FILE_ALREADY_EXISTS to "Datei exisitiert bereits und wird überschrieben",
 
             Labels.SHORTCUT_CTRL to "Strg",
             Labels.SHORTCUT_ALT to "Alt",

@@ -1,10 +1,13 @@
 package ui.window.save
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.TooltipArea
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -13,6 +16,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -31,9 +35,11 @@ import ui.LocalLanguage
 import ui.fields.DirectoryPickerField
 import java.nio.file.Path
 import kotlin.io.path.Path
+import kotlin.io.path.exists
 import kotlin.io.path.extension
 import kotlin.io.path.pathString
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SaveProjectWindow(
     onCloseRequest: () -> Unit,
@@ -71,7 +77,25 @@ fun SaveProjectWindow(
                     filename,
                     { filename = it },
                     label = { Label(Labels.ACTION_SAVE_AS_PROJECT_NAME) })
-                Text(path.pathString)
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Text(path.pathString)
+
+                    if (path.exists()) {
+                        TooltipArea(tooltip = {
+                            Surface {
+                                Label(Labels.FILE_ALREADY_EXISTS, modifier = Modifier.padding(4.dp))
+                            }
+                        }) {
+                            Surface(color = MaterialTheme.colors.error, shape = RoundedCornerShape(4.dp)) {
+                                Icon(Icons.Default.Warning, null, Modifier.padding(4.dp))
+                            }
+                        }
+                    }
+                }
 
                 Button({
                     onCloseRequest()
