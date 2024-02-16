@@ -75,7 +75,7 @@ object PngExporter : Exporter {
      * This method returns the fields that the UI uses to configure the export.
      * @return The fields that can be used in the export configuration.
      */
-    override fun getFields(project: Project): List<NamedField> {
+    override fun getFields(): List<NamedField> {
         val fields: ArrayList<NamedField> = ArrayList()
 
         fields.add(

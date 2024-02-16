@@ -17,10 +17,9 @@ interface Exporter {
 
     /**
      * This method returns the fields that the UI uses to configure the export.
-     * @param project project to get the fields for
      * * @return The fields that can be exported.
      */
-    fun getFields(project: Project): List<NamedField>
+    fun getFields(): List<NamedField>
 
     companion object {
         fun getNameFromScheme(template: String, vararg values: Pair<String, String>): String {

@@ -84,7 +84,7 @@ ul {
      * This method returns the fields that the UI uses to configure the export.
      * @return The fields of the exporter.
      */
-    override fun getFields(project: Project): List<NamedField> {
+    override fun getFields(): List<NamedField> {
         val fields: ArrayList<NamedField> = ArrayList()
 
         fields.add(
