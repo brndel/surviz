@@ -18,4 +18,24 @@ class DataSchemeOption(
     private val fields: SortedSet<String> = fields.toSortedSet()
     val fieldsList: List<String>
         get() = fields.toList()
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as DataSchemeOption
+
+        if (name != other.name) return false
+        if (fields != other.fields) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + fields.hashCode()
+        return result
+    }
+
+
 }

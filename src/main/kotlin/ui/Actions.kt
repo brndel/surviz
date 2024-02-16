@@ -2,11 +2,7 @@ package ui
 
 import GlobalCallbacks
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Save
-import androidx.compose.material.icons.filled.SaveAs
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.UploadFile
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.key.Key
@@ -30,7 +26,8 @@ data class AppBarGroup(val label: String, val actions: List<AppBarAction>)
 
 val actionsManager by lazy {
     ShortcutActionsManager(
-        fileGroup
+        fileGroup,
+        windowGroup
     )
 }
 
@@ -46,8 +43,14 @@ val fileGroup = AppBarGroup(
         SaveAction,
         SaveAsAction,
         LoadDataAction,
-        CloseAction,
-        OpenSettingsAction
+        CloseAction
+    )
+)
+
+val windowGroup = AppBarGroup(
+    Labels.APP_BAR_GROUP_WINDOW, listOf(
+        OpenSettingsAction,
+        OpenHelpAction
     )
 )
 
@@ -59,28 +62,41 @@ data object SaveAction : AppBarAction(Labels.ACTION_SAVE, Shortcut(Key.S, ctrl =
     }
 }
 
-data object SaveAsAction : AppBarAction(Labels.ACTION_SAVE_AS, Shortcut(Key.S, ctrl = true, shift = true), icon = Icons.Default.SaveAs) {
+data object SaveAsAction :
+    AppBarAction(Labels.ACTION_SAVE_AS, Shortcut(Key.S, ctrl = true, shift = true), icon = Icons.Default.SaveAs) {
     override fun onClick(globalCallbacks: GlobalCallbacks) {
         globalCallbacks.saveProjectAs()
     }
 }
 
-data object LoadDataAction : AppBarAction(Labels.ACTION_LOAD_DATA, Shortcut(Key.L, ctrl = true), icon = Icons.Default.UploadFile) {
+data object LoadDataAction :
+    AppBarAction(Labels.ACTION_LOAD_DATA, Shortcut(Key.L, ctrl = true), icon = Icons.Default.UploadFile) {
     override fun onClick(globalCallbacks: GlobalCallbacks) {
         globalCallbacks.loadData()
     }
 }
 
-data object CloseAction : AppBarAction(Labels.ACTION_CLOSE, Shortcut(Key.X, ctrl = true, shift = true), icon = Icons.Default.Close) {
+data object CloseAction : AppBarAction(Labels.ACTION_CLOSE, icon = Icons.Default.Close) {
     override fun onClick(globalCallbacks: GlobalCallbacks) {
         globalCallbacks.closeProject()
     }
 }
 
-data object OpenSettingsAction : AppBarAction(Labels.ACTION_OPEN_SETTINGS, Shortcut(Key.P, ctrl = true, shift = true), icon = Icons.Default.Settings) {
+data object OpenSettingsAction : AppBarAction(
+    Labels.ACTION_OPEN_SETTINGS,
+    Shortcut(Key.P, ctrl = true, shift = true),
+    icon = Icons.Default.Settings
+) {
     override fun onClick(globalCallbacks: GlobalCallbacks) {
         globalCallbacks.openSettings()
     }
+}
+
+data object OpenHelpAction : AppBarAction(Labels.ACTION_OPEN_HELP, Shortcut(Key.F1), icon = Icons.Default.HelpCenter) {
+    override fun onClick(globalCallbacks: GlobalCallbacks) {
+        globalCallbacks.openHelp()
+    }
+
 }
 
 data class Shortcut(
@@ -117,7 +133,26 @@ data class Shortcut(
                 append(lang.getString(Labels.SHORTCUT_SHIFT), "+")
             }
 
-            append(key.nativeKeyCode.toChar())
+            append(keyToString(key))
+        }
+    }
+
+    private fun keyToString(key: Key): String {
+        return when (key) {
+            Key.F1 -> "F1"
+            Key.F2 -> "F2"
+            Key.F3 -> "F3"
+            Key.F4 -> "F4"
+            Key.F5 -> "F5"
+            Key.F6 -> "F6"
+            Key.F7 -> "F7"
+            Key.F8 -> "F8"
+            Key.F9 -> "F9"
+            Key.F10 -> "F10"
+            Key.F11 -> "F11"
+            Key.F12 -> "F12"
+            else ->
+                key.nativeKeyCode.toChar().toString()
         }
     }
 }

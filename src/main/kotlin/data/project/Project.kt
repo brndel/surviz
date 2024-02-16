@@ -11,6 +11,7 @@ import data.project.data.Block
 import data.project.data.DataScheme
 import data.project.data.IconStorage
 import data.project.data.Situation
+import data.resources.exceptions.CorruptFileException
 import data.resources.exceptions.FileTypeException
 import data.resources.exceptions.InvalidVersionException
 import util.platformPath
@@ -207,11 +208,11 @@ data class Project(
         }
 
         private val deserializer = JsonDeserializer<Project> { element, _, ctx ->
-            val obj = element.asJsonObject
+            val obj = element.asJsonObject ?: throw CorruptFileException()
 
-            val version = obj.get("version").asString
-            if (version != VERSION) {
-                throw InvalidVersionException(version, VERSION)
+            val version = if(obj.has("version")) obj.get("version").asString else null
+            if (version == null || version != VERSION) {
+                throw InvalidVersionException(version ?: "null", VERSION)
             }
 
             val configuration =

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
@@ -17,6 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import data.project.config.SingleValueIcon
+import ui.Label
+import ui.Labels
 import ui.fields.DoubleField
 import ui.fields.IconField
 import ui.util.NestedSurface
@@ -56,8 +59,13 @@ fun SingleValueIconCard(icon: SingleValueIcon) {
                 }
             }
 
-            IconButton({ icon.addLevel() }) {
+            Button(
+                onClick = {
+                    icon.addLevel()
+                }
+            ) {
                 Icon(Icons.Default.Add, null)
+                Label(Labels.ADD_SINGLE_VALUE_ICON_LEVEL)
             }
         }
     }

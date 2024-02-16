@@ -1,11 +1,10 @@
 package ui.window.save
 
 import LocalGlobalCallbacks
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -68,22 +67,27 @@ fun ProjectFilePicker(
 
             if (projectData != null) {
                 DialogWindow(onCloseRequest) {
-                    Column(
-                        Modifier.padding(4.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    Surface(
+                        color = MaterialTheme.colors.background,
+                        modifier = Modifier.fillMaxSize()
                     ) {
-                        Label(Labels.OVERRIDE_DATA_NOT_FITTING)
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        Column(
+                            Modifier.padding(4.dp),
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
-                            Button({ onCloseRequest() }) {
-                                Label(Labels.CANCEL)
-                            }
-                            Button({
-                                callbacks.forceLoadData(projectData!!)
-                                onCloseRequest()
-                            }) {
-                                Label(Labels.OVERRIDE_DATA_ANYWAYS)
+                            Label(Labels.OVERRIDE_DATA_NOT_FITTING)
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Button({ onCloseRequest() }) {
+                                    Label(Labels.CANCEL)
+                                }
+                                Button({
+                                    callbacks.forceLoadData(projectData!!)
+                                    onCloseRequest()
+                                }) {
+                                    Label(Labels.OVERRIDE_DATA_ANYWAYS)
+                                }
                             }
                         }
                     }

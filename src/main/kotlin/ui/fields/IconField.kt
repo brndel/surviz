@@ -67,7 +67,7 @@ private fun IconFieldDialog(
     val dialogTitle = LocalLanguage.current.getString(Labels.ICON_SELECT_WINDOW)
 
     DialogWindow(onCloseRequest = onDismissRequest, title = dialogTitle) {
-        Surface(color = MaterialTheme.colors.background) {
+        Surface(color = MaterialTheme.colors.background, modifier = Modifier.fillMaxSize()) {
             Column(Modifier.fillMaxSize()) {
                 LazyVerticalGrid(
                     columns = GridCells.FixedSize(64.dp),
