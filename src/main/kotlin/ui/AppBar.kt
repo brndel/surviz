@@ -1,11 +1,8 @@
 package ui
 
 import LocalGlobalCallbacks
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
@@ -20,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ui.util.NestedSurface
 
 
 @Composable
@@ -56,13 +52,15 @@ private fun AppBarButton(group: AppBarGroup) {
                     action.onClick(globalCallbacks)
                 })
                 {
-                    Box(Modifier.padding(end = 10.dp)) {
+                    Box(Modifier.padding(end = 8.dp)) {
                         action.icon?.let { Icon(it, null) }
                     }
-                    Label(action.label)
+                    Column(verticalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.padding(4.dp)) {
+                        Label(action.label)
 
-                    action.shortcut?.let {
-                        ShortcutTag(it)
+                        action.shortcut?.let {
+                            ShortcutTag(it)
+                        }
                     }
                 }
             }
@@ -72,7 +70,7 @@ private fun AppBarButton(group: AppBarGroup) {
 
 @Composable
 private fun ShortcutTag(shortcut: Shortcut) {
-    NestedSurface(Modifier.padding(4.dp)) {
-        Text(shortcut.toStringLocalized(), modifier = Modifier.padding(4.dp))
+    Surface(color = MaterialTheme.colors.background, shape = RoundedCornerShape(4.dp)) {
+        Text(shortcut.toStringLocalized(), modifier = Modifier.padding(2.dp))
     }
 }

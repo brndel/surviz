@@ -59,25 +59,25 @@ data object SaveAction : AppBarAction(Labels.ACTION_SAVE, Shortcut(Key.S, ctrl =
     }
 }
 
-data object SaveAsAction : AppBarAction(Labels.ACTION_SAVE_AS, icon = Icons.Default.SaveAs) {
+data object SaveAsAction : AppBarAction(Labels.ACTION_SAVE_AS, Shortcut(Key.S, ctrl = true, shift = true), icon = Icons.Default.SaveAs) {
     override fun onClick(globalCallbacks: GlobalCallbacks) {
         globalCallbacks.saveProjectAs()
     }
 }
 
-data object LoadDataAction : AppBarAction(Labels.ACTION_LOAD_DATA, icon = Icons.Default.UploadFile) {
+data object LoadDataAction : AppBarAction(Labels.ACTION_LOAD_DATA, Shortcut(Key.L, ctrl = true), icon = Icons.Default.UploadFile) {
     override fun onClick(globalCallbacks: GlobalCallbacks) {
         globalCallbacks.loadData()
     }
 }
 
-data object CloseAction : AppBarAction(Labels.ACTION_CLOSE, icon = Icons.Default.Close) {
+data object CloseAction : AppBarAction(Labels.ACTION_CLOSE, Shortcut(Key.X, ctrl = true, shift = true), icon = Icons.Default.Close) {
     override fun onClick(globalCallbacks: GlobalCallbacks) {
         globalCallbacks.closeProject()
     }
 }
 
-data object OpenSettingsAction : AppBarAction(Labels.ACTION_OPEN_SETTINGS, icon = Icons.Default.Settings) {
+data object OpenSettingsAction : AppBarAction(Labels.ACTION_OPEN_SETTINGS, Shortcut(Key.P, ctrl = true, shift = true), icon = Icons.Default.Settings) {
     override fun onClick(globalCallbacks: GlobalCallbacks) {
         globalCallbacks.openSettings()
     }
