@@ -3,7 +3,6 @@ package ui.page.situation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
@@ -59,7 +58,7 @@ fun TimelineCard(
                 { column = it },
                 options = columns,
                 label = { Label(Labels.COLUMN) },
-                modifier = Modifier.width(246.dp)
+                modifier = Modifier.weight(1F)
             ) {
                 it
             }
@@ -69,7 +68,7 @@ fun TimelineCard(
                 { lineType = it },
                 LineType.entries.toList(),
                 label = { Label(Labels.FIELD_LINE_TYPE) },
-                modifier = Modifier.width(246.dp)
+                modifier = Modifier.weight(1F)
             ) {
                 LocalLanguage.current.getString(it.label)
             }
