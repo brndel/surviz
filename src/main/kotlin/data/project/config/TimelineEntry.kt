@@ -32,7 +32,7 @@ data class TimelineEntry(
         val deserializer = JsonDeserializer<TimelineEntry> { element, _, _ ->
             val obj = element.asJsonObject
 
-            val icon = obj.get("icon").asString
+            val icon = if (obj.has("icon")) obj.get("icon").asString else null
             val column = obj.get("column").asString
             val lineType = LineType.valueOf(obj.get("lineType").asString)
 
