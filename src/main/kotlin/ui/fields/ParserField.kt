@@ -1,5 +1,6 @@
 package ui.fields
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -7,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.*
 
 @Composable
 fun <T> ParserField(
@@ -17,7 +19,9 @@ fun <T> ParserField(
     modifier: Modifier = Modifier,
     label: @Composable (() -> Unit)? = null
 ) {
-    var text by remember { mutableStateOf(toString(value)) }
+    var isFocused by remember { mutableStateOf(false) }
+
+    var text by remember(if (isFocused) Unit else value) { mutableStateOf(toString(value)) }
     var isError by remember { mutableStateOf(false) }
 
     OutlinedTextField(text, {
@@ -30,5 +34,7 @@ fun <T> ParserField(
         } else {
             isError = true
         }
-    }, modifier = modifier, singleLine = true, isError = isError, label = label)
+    }, modifier = modifier.onFocusChanged {
+        isFocused = it.isFocused
+    }, singleLine = true, isError = isError, label = label)
 }
