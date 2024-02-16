@@ -92,7 +92,7 @@ private fun ExporterConfigCard(
     project: Project,
     modifier: Modifier = Modifier
 ) {
-    val fields = remember(exporter) { exporter.getExporter().getFields(project) }
+    val fields = remember(exporter) { exporter.getExporter().getFields() }
 
     fun getExporterConfig() =
         fields.associate {
