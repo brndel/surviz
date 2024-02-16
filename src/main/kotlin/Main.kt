@@ -51,10 +51,6 @@ fun main() = application {
 
     var errorDialogLabel by remember { mutableStateOf<String?>(null) }
 
-    ErrorDialog(errorDialogLabel) {
-        errorDialogLabel = null
-    }
-
     fun catchLabelExceptions(inner: () -> Unit) {
         try {
             inner()
@@ -231,6 +227,10 @@ fun main() = application {
                     language,
                     isDarkTheme
                 )
+            }
+
+            ErrorDialog(errorDialogLabel) {
+                errorDialogLabel = null
             }
         }
     }

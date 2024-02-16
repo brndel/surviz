@@ -16,6 +16,7 @@ object Labels {
     const val NEW = "NEW"
     const val SELECT = "SELECT"
     const val OK = "OK"
+    const val ERROR = "ERROR"
     const val CANCEL = "CANCEL"
     const val ENUMERATION_SIGN: Char = 0x25CF.toChar()
 
@@ -209,6 +210,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.NEW to "New",
             Labels.SELECT to "Select",
             Labels.OK to "Ok",
+            Labels.ERROR to "Error",
             Labels.CANCEL to "Cancel",
 
             Labels.FIELD_UNIT to "Unit",
@@ -382,6 +384,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.NEW to "Neu",
             Labels.SELECT to "Auswählen",
             Labels.OK to "Ok",
+            Labels.ERROR to "Fehler",
             Labels.CANCEL to "Abbrechen",
 
             Labels.FIELD_UNIT to "Einheit",
