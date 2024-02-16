@@ -71,7 +71,7 @@ data object LoadDataAction : AppBarAction(Labels.ACTION_LOAD_DATA, Shortcut(Key.
     }
 }
 
-data object CloseAction : AppBarAction(Labels.ACTION_CLOSE, Shortcut(Key.X, ctrl = true, shift = true), icon = Icons.Default.Close) {
+data object CloseAction : AppBarAction(Labels.ACTION_CLOSE, icon = Icons.Default.Close) {
     override fun onClick(globalCallbacks: GlobalCallbacks) {
         globalCallbacks.closeProject()
     }
