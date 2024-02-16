@@ -26,7 +26,14 @@ import java.io.File
 import java.io.FileInputStream
 import java.util.Properties
 
+const val WINDOW_WIDTH = 700
+const val WINDOW_HEIGHT = 500
+
 fun main() = application {
+    val screenSize = remember {
+        java.awt.Toolkit.getDefaultToolkit().screenSize
+    }
+
     var settingsWindowOpen by remember { mutableStateOf(false) }
     var settingsWindowTab by remember { mutableStateOf(0) }
 
@@ -34,10 +41,10 @@ fun main() = application {
     var currentProjectPath by remember { mutableStateOf<String?>(null) }
 
     val mainWindowState = rememberWindowState(
-        width = 1920.dp,
-        height = 1080.dp,
+        width = WINDOW_WIDTH.dp,
+        height = WINDOW_HEIGHT.dp,
         placement = WindowPlacement.Floating,
-        position = WindowPosition((1920.dp - 700.dp) / 2, (1080.dp - 500.dp) / 2)
+        position = WindowPosition((screenSize.width.dp - WINDOW_WIDTH.dp) / 2, (screenSize.height.dp - WINDOW_HEIGHT.dp) / 2)
     )
 
     fun onProjectLoad() {
