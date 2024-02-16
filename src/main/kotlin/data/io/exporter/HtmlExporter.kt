@@ -3,6 +3,8 @@ package data.io.exporter
 import data.io.exporter.Exporter.Companion.getNameFromScheme
 import data.io.utils.result.ExportResult
 import data.io.utils.result.warnings.ExportWarning
+import data.io.utils.result.warnings.InvalidBlockWarning
+import data.io.utils.result.warnings.InvalidSituationWarning
 import data.project.Project
 import data.project.data.Block
 import data.project.data.Situation
@@ -148,7 +150,7 @@ ul {
             if ( block != null) {
                 project.getBlock(blockId)?.let { blocks.add(it) }
             } else {
-                // TODO return ExportWarning
+                return ExportResult(arrayListOf(InvalidBlockWarning(blockId)))
             }
         }
 
@@ -202,7 +204,7 @@ ul {
             if(situation != null) {
                 situations.add(situation)
             } else {
-                // TODO return ExportWarning
+                return arrayListOf(InvalidSituationWarning(block.id, config.situationId))
             }
         }
 

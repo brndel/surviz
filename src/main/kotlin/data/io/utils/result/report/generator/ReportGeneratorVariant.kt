@@ -10,7 +10,9 @@ enum class ReportGeneratorVariant(private val generator: ReportGenerator) {
 
     ImageSize(ImageSizeReportGenerator),
 
-    InvalidSituation(InvalidSituationReportGenerator);
+    InvalidSituation(InvalidSituationReportGenerator),
+
+    InvalidBlock(InvalidBlockReportGenerator);
 
     fun getGenerator(): ReportGenerator {
         return generator

@@ -107,11 +107,7 @@ fun ShowReport(report: ExportReport) {
     val unit = report.unit
 
     Text(
-        "${language.getString(Labels.BLOCK)} $blockId, ${
-            language.getString(
-                Labels.SITUATION
-            )
-        } $situationId${optionId?.let { ", ${language.getString(Labels.OPTION)} $it" } ?: ""}: $label $info $unit"
+        "${language.getString(Labels.BLOCK)} $blockId${situationId?.let { ", ${language.getString(Labels.SITUATION)} $it"} ?: ""}${optionId?.let { ", ${language.getString(Labels.OPTION)} $it" } ?: ""}: $label $info $unit"
     )
 
 }
