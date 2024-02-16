@@ -1,5 +1,6 @@
 package data.io.exporter
 
+import data.io.exporter.Exporter.Companion.getNameFromScheme
 import data.io.utils.result.ExportResult
 import data.io.utils.result.warnings.ExportWarning
 import data.project.Project
@@ -257,13 +258,5 @@ object HtmlExporter : Exporter {
 
     private fun getImgSrc(blockId: Int, situationId: Int, optionId: Int): String {
         return "images/block_$blockId" + "_situation_$situationId" + "_option_$optionId" + ".png"
-    }
-
-    private fun getNameFromScheme(template: String, vararg values: Pair<String, String>): String {
-        var result = template
-        values.forEach { (placeholder, replacement) ->
-            result = result.replace("\$$placeholder\$", replacement)
-        }
-        return result
     }
 }
