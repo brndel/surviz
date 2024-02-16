@@ -51,6 +51,16 @@ object PngExporter : Exporter {
 
     private lateinit var imageGenerator: ImageGenerator
 
+    private data class Config(
+        val scheme: String,
+        val path: String,
+        val allBlocks: Boolean,
+        val allSituations: Boolean,
+        val blocks: ArrayList<Block>,
+        val situationId: Int,
+        val separateOptions: Boolean
+    )
+
     ///////////////////////////////////////////////////////////////////////////////
     // public functions
     ///////////////////////////////////////////////////////////////////////////////
@@ -125,14 +135,24 @@ object PngExporter : Exporter {
         if (allBlocks) {
             blocks.addAll(project.getData().blocks)
         } else {
-            val block = exportConfig[BLOCK_KEY].toString().toInt()
+            val block = exportConfig[BLOCK_KEY] as Int
             blocks.add(project.getData().blocks[block - 1])
         }
 
         val allSituations = exportConfig[ALL_SITUATION_KEY] as Boolean
-        val situation = exportConfig[SITUATION_KEY] as Int
+        val situationId = exportConfig[SITUATION_KEY] as Int
 
         val separateOptions = exportConfig[SEPARATE_OPTION_KEY] as Boolean
+
+        val config = Config(
+            scheme,
+            path,
+            allBlocks,
+            allSituations,
+            blocks,
+            situationId,
+            separateOptions
+        )
 
         val errorList = ArrayList<ExportWarning?>()
 
@@ -142,13 +162,9 @@ object PngExporter : Exporter {
                     async {
                         val blockId = project.getData().blocks.indexOf(block) + 1
                         saveBlock(
+                            config,
                             block,
-                            blockId,
-                            scheme,
-                            path,
-                            allSituations,
-                            situation,
-                            separateOptions
+                            blockId
                         )
                     }
                 }.awaitAll()
@@ -167,27 +183,23 @@ object PngExporter : Exporter {
     ///////////////////////////////////////////////////////////////////////////////
 
     private suspend fun saveBlock(
+        config: Config,
         block: Block,
-        blockId: Int,
-        scheme: String,
-        path: String,
-        allSituations: Boolean,
-        situationId: Int,
-        separateOptions: Boolean
+        blockId: Int
     ): List<ExportWarning?> {
         val situations = ArrayList<Situation>()
 
-        if (allSituations) {
+        if (config.allSituations) {
             situations.addAll(block.situations)
         } else {
-            situations.add(block.situations[situationId - 1])
+            situations.add(block.situations[config.situationId - 1])
         }
 
         val resultList = coroutineScope {
             situations.map { situation ->
                 async {
-                    val id = block.situations.indexOf(situation) + 1
-                    saveSituation(situation, id, blockId, scheme, path, separateOptions)
+                    val situationId = block.situations.indexOf(situation) + 1
+                    saveSituation(config, situation, situationId, blockId)
                 }
             }.awaitAll()
         }
@@ -195,24 +207,22 @@ object PngExporter : Exporter {
     }
 
     private suspend fun saveSituation(
+        config: Config,
         situation: Situation,
         situationId: Int,
-        blockId: Int,
-        scheme: String,
-        path: String,
-        separateOptions: Boolean
+        blockId: Int
     ): List<ExportWarning?> {
         // check if options need to be separated
-        if (!separateOptions) {
+        if (!config.separateOptions) {
             // save whole option
             val imageResult = imageGenerator.generateSituation(situation)
             // TODO("maybe exclude the situation placeholder?")
             val fileName = getNameFromScheme(
-                scheme,
+                config.scheme,
                 "block" to blockId.toString(),
                 "situation" to situationId.toString()
             )
-            saveBitmap(imageResult.image, path, fileName)
+            saveBitmap(imageResult.image, config.path, fileName)
             if (!imageResult.checkWidth()) {
                 return arrayListOf(
                     ImageSizeExportWarning(
@@ -229,7 +239,7 @@ object PngExporter : Exporter {
             situation.options.map { option ->
                 async {
                     val id = situation.options.indexOf(option) + 1
-                    saveOption(option, id, situationId, blockId, scheme, path)
+                    saveOption(option, id, situationId, blockId, config)
                 }
             }.awaitAll()
         }
@@ -241,17 +251,16 @@ object PngExporter : Exporter {
         optionId: Int,
         situationId: Int,
         blockId: Int,
-        scheme: String,
-        path: String
+        config: Config
     ): ExportWarning? {
         val imageResult = imageGenerator.generateOption(option)
         val fileName = getNameFromScheme(
-            scheme,
+            config.scheme,
             "block" to blockId.toString(),
             "situation" to situationId.toString(),
             "option" to optionId.toString()
         )
-        saveBitmap(imageResult.image, path, fileName)
+        saveBitmap(imageResult.image, config.path, fileName)
         if (!imageResult.checkWidth()) {
             return ImageSizeExportWarning(imageResult.neededWidth, blockId, situationId, optionId)
         }
