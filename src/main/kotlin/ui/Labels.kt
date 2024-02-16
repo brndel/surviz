@@ -256,6 +256,10 @@ enum class Language(private val code: String, val label: String, private val str
 
             Labels.EXPORT_BUTTON to "Export",
 
+            Labels.IMPORT_ERROR_INVALID_FILE_TYPE to "Invalid File type",
+            Labels.IMPORT_ERROR_CORRUPT_FILE to "Corrupt file",
+            Labels.IMPORT_ERROR_WRONG_VERSION to "Wrong file version",
+
             Labels.ICON_SELECT_WINDOW to "Select icon",
 
             Labels.UNNAMED_PROJECT to "Untitled project",
@@ -420,6 +424,10 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.PLACEHOLDERS to "Platzhalter",
 
             Labels.EXPORT_BUTTON to "Exportieren",
+
+            Labels.IMPORT_ERROR_INVALID_FILE_TYPE to "Unbekannter Dateityp",
+            Labels.IMPORT_ERROR_CORRUPT_FILE to "Korrupte Datei",
+            Labels.IMPORT_ERROR_WRONG_VERSION to "Falsche Dateiversion",
 
             Labels.ICON_SELECT_WINDOW to "Icon auswählen",
 
