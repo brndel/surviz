@@ -28,4 +28,18 @@ class DataScheme(options: List<DataSchemeOption>) {
         return true
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as DataScheme
+
+        return options == other.options
+    }
+
+    override fun hashCode(): Int {
+        return options.hashCode()
+    }
+
+
 }

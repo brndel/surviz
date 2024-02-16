@@ -35,4 +35,22 @@ class Block(
     fun addSituation(options: List<SituationOption>) {
         situations.add(Situation(situations.size + 1, options))
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Block
+
+        if (id != other.id) return false
+        if (situations != other.situations) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id
+        result = 31 * result + situations.hashCode()
+        return result
+    }
 }

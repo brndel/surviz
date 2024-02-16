@@ -27,27 +27,27 @@ class DataManagerTest {
                 mutableListOf(
                     DataSchemeOption(
                         "fuss",
-                        arrayListOf("fz_fuss")
+                        setOf("fz_fuss")
                     ),
                     DataSchemeOption(
                         "rad",
-                        arrayListOf("fz_rad")
+                        setOf("fz_rad")
                     ),
                     DataSchemeOption(
                         "car",
-                        arrayListOf("fz_miv", "zugang", "abgang", "cost_car")
+                        setOf("fz_miv", "zugang", "abgang", "cost_car")
                     ),
                     DataSchemeOption(
                         "oev_fuss",
-                        arrayListOf("fz_oev", "cost_oev", "freq_oev", "zugang_oevfuss")
+                        setOf("fz_oev", "cost_oev", "freq_oev", "zugang_oevfuss")
                     ),
                     DataSchemeOption(
                         "shuttle_tb",
-                        arrayListOf("fz_oev", "cost_oev", "freq_oev", "zugang_oevfuss")
+                        setOf("fz_oev", "cost_oev", "freq_oev", "zugang_oevfuss")
                     ),
                     DataSchemeOption(
                         "shuttle_od",
-                        arrayListOf("fz_oev", "cost_oev", "warten")
+                        setOf("fz_oev", "cost_oev", "warten")
                     )
                 )
             ),
@@ -60,15 +60,15 @@ class DataManagerTest {
                             arrayListOf(
                                 SituationOption(
                                     "fuss",
-                                    linkedMapOf("fz_fuss" to 135.0)
+                                    mapOf("fz_fuss" to 135.0)
                                 ),
                                 SituationOption(
                                     "rad",
-                                    linkedMapOf("fz_rad" to 40.0)
+                                    mapOf("fz_rad" to 40.0)
                                 ),
                                 SituationOption(
                                     "car",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_miv" to 30.0,
                                         "zugang" to 3.0,
                                         "abgang" to 0.0,
@@ -77,7 +77,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "oev_fuss",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 26.0,
                                         "cost_oev" to 2.5,
                                         "freq_oev" to 5.0,
@@ -86,7 +86,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_tb",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 26.0,
                                         "cost_oev" to 1.0,
                                         "freq_oev" to 60.0,
@@ -95,7 +95,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_od",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 50.0,
                                         "cost_oev" to 1.5,
                                         "warten" to 7.0
@@ -108,15 +108,15 @@ class DataManagerTest {
                             arrayListOf(
                                 SituationOption(
                                     "fuss",
-                                    linkedMapOf("fz_fuss" to 15.0)
+                                    mapOf("fz_fuss" to 15.0)
                                 ),
                                 SituationOption(
                                     "rad",
-                                    linkedMapOf("fz_rad" to 5.0)
+                                    mapOf("fz_rad" to 5.0)
                                 ),
                                 SituationOption(
                                     "car",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_miv" to 4.0,
                                         "zugang" to 3.0,
                                         "abgang" to 0.0,
@@ -125,7 +125,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "oev_fuss",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 5.0,
                                         "cost_oev" to 2.0,
                                         "freq_oev" to 10.0,
@@ -134,7 +134,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_tb",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 13.0,
                                         "cost_oev" to 1.5,
                                         "freq_oev" to 30.0,
@@ -143,7 +143,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_od",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 5.0,
                                         "cost_oev" to 2.0,
                                         "warten" to 7.0
@@ -156,15 +156,15 @@ class DataManagerTest {
                             arrayListOf(
                                 SituationOption(
                                     "fuss",
-                                    linkedMapOf("fz_fuss" to 45.0)
+                                    mapOf("fz_fuss" to 45.0)
                                 ),
                                 SituationOption(
                                     "rad",
-                                    linkedMapOf("fz_rad" to 20.0)
+                                    mapOf("fz_rad" to 20.0)
                                 ),
                                 SituationOption(
                                     "car",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_miv" to 25.0,
                                         "zugang" to 1.0,
                                         "abgang" to 5.0,
@@ -173,7 +173,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "oev_fuss",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 20.0,
                                         "cost_oev" to 1.0,
                                         "freq_oev" to 5.0,
@@ -182,7 +182,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_tb",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 32.0,
                                         "cost_oev" to 2.0,
                                         "freq_oev" to 60.0,
@@ -191,7 +191,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_od",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 20.0,
                                         "cost_oev" to 2.5,
                                         "warten" to 17.0
@@ -204,15 +204,15 @@ class DataManagerTest {
                             arrayListOf(
                                 SituationOption(
                                     "fuss",
-                                    linkedMapOf("fz_fuss" to 135.0)
+                                    mapOf("fz_fuss" to 135.0)
                                 ),
                                 SituationOption(
                                     "rad",
-                                    linkedMapOf("fz_rad" to 40.0)
+                                    mapOf("fz_rad" to 40.0)
                                 ),
                                 SituationOption(
                                     "car",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_miv" to 25.0,
                                         "zugang" to 1.0,
                                         "abgang" to 5.0,
@@ -221,7 +221,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "oev_fuss",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 50.0,
                                         "cost_oev" to 1.5,
                                         "freq_oev" to 60.0,
@@ -230,7 +230,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_tb",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 50.0,
                                         "cost_oev" to 1.0,
                                         "freq_oev" to 5.0,
@@ -239,7 +239,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_od",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 32.0,
                                         "cost_oev" to 2.5,
                                         "warten" to 3.0
@@ -257,15 +257,15 @@ class DataManagerTest {
                             arrayListOf(
                                 SituationOption(
                                     "fuss",
-                                    linkedMapOf("fz_fuss" to 45.0)
+                                    mapOf("fz_fuss" to 45.0)
                                 ),
                                 SituationOption(
                                     "rad",
-                                    linkedMapOf("fz_rad" to 20.0)
+                                    mapOf("fz_rad" to 20.0)
                                 ),
                                 SituationOption(
                                     "car",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_miv" to 20.0,
                                         "zugang" to 3.0,
                                         "abgang" to 5.0,
@@ -274,7 +274,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "oev_fuss",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 20.0,
                                         "cost_oev" to 2.5,
                                         "freq_oev" to 60.0,
@@ -283,7 +283,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_tb",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 32.0,
                                         "cost_oev" to 2.5,
                                         "freq_oev" to 10.0,
@@ -292,7 +292,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_od",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 13.0,
                                         "cost_oev" to 1.0,
                                         "warten" to 3.0
@@ -305,15 +305,15 @@ class DataManagerTest {
                             arrayListOf(
                                 SituationOption(
                                     "fuss",
-                                    linkedMapOf("fz_fuss" to 15.0)
+                                    mapOf("fz_fuss" to 15.0)
                                 ),
                                 SituationOption(
                                     "rad",
-                                    linkedMapOf("fz_rad" to 5.0)
+                                    mapOf("fz_rad" to 5.0)
                                 ),
                                 SituationOption(
                                     "car",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_miv" to 15.0,
                                         "zugang" to 1.0,
                                         "abgang" to 2.0,
@@ -322,7 +322,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "oev_fuss",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 9.0,
                                         "cost_oev" to 1.0,
                                         "freq_oev" to 10.0,
@@ -331,7 +331,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_tb",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 13.0,
                                         "cost_oev" to 1.5,
                                         "freq_oev" to 10.0,
@@ -340,7 +340,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_od",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 13.0,
                                         "cost_oev" to 2.5,
                                         "warten" to 7.0
@@ -353,15 +353,15 @@ class DataManagerTest {
                             arrayListOf(
                                 SituationOption(
                                     "fuss",
-                                    linkedMapOf("fz_fuss" to 15.0)
+                                    mapOf("fz_fuss" to 15.0)
                                 ),
                                 SituationOption(
                                     "rad",
-                                    linkedMapOf("fz_rad" to 5.0)
+                                    mapOf("fz_rad" to 5.0)
                                 ),
                                 SituationOption(
                                     "car",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_miv" to 7.0,
                                         "zugang" to 3.0,
                                         "abgang" to 5.0,
@@ -370,7 +370,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "oev_fuss",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 9.0,
                                         "cost_oev" to 1.5,
                                         "freq_oev" to 30.0,
@@ -379,7 +379,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_tb",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 5.0,
                                         "cost_oev" to 2.0,
                                         "freq_oev" to 10.0,
@@ -388,7 +388,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_od",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 5.0,
                                         "cost_oev" to 2.0,
                                         "warten" to 13.0
@@ -401,15 +401,15 @@ class DataManagerTest {
                             arrayListOf(
                                 SituationOption(
                                     "fuss",
-                                    linkedMapOf("fz_fuss" to 45.0)
+                                    mapOf("fz_fuss" to 45.0)
                                 ),
                                 SituationOption(
                                     "rad",
-                                    linkedMapOf("fz_rad" to 20.0)
+                                    mapOf("fz_rad" to 20.0)
                                 ),
                                 SituationOption(
                                     "car",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_miv" to 25.0,
                                         "zugang" to 1.0,
                                         "abgang" to 2.0,
@@ -418,7 +418,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "oev_fuss",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 13.0,
                                         "cost_oev" to 1.0,
                                         "freq_oev" to 60.0,
@@ -427,7 +427,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_tb",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 13.0,
                                         "cost_oev" to 2.5,
                                         "freq_oev" to 5.0,
@@ -436,7 +436,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_od",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 32.0,
                                         "cost_oev" to 2.0,
                                         "warten" to 13.0
@@ -453,15 +453,15 @@ class DataManagerTest {
                             arrayListOf(
                                 SituationOption(
                                     "fuss",
-                                    linkedMapOf("fz_fuss" to 15.0)
+                                    mapOf("fz_fuss" to 15.0)
                                 ),
                                 SituationOption(
                                     "rad",
-                                    linkedMapOf("fz_rad" to 5.0)
+                                    mapOf("fz_rad" to 5.0)
                                 ),
                                 SituationOption(
                                     "car",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_miv" to 10.0,
                                         "zugang" to 3.0,
                                         "abgang" to 0.0,
@@ -470,7 +470,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "oev_fuss",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 13.0,
                                         "cost_oev" to 1.5,
                                         "freq_oev" to 30.0,
@@ -479,7 +479,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_tb",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 9.0,
                                         "cost_oev" to 1.5,
                                         "freq_oev" to 10.0,
@@ -488,7 +488,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_od",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 13.0,
                                         "cost_oev" to 2.0,
                                         "warten" to 7.0
@@ -501,15 +501,15 @@ class DataManagerTest {
                             arrayListOf(
                                 SituationOption(
                                     "fuss",
-                                    linkedMapOf("fz_fuss" to 135.0)
+                                    mapOf("fz_fuss" to 135.0)
                                 ),
                                 SituationOption(
                                     "rad",
-                                    linkedMapOf("fz_rad" to 40.0)
+                                    mapOf("fz_rad" to 40.0)
                                 ),
                                 SituationOption(
                                     "car",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_miv" to 30.0,
                                         "zugang" to 3.0,
                                         "abgang" to 0.0,
@@ -518,7 +518,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "oev_fuss",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 32.0,
                                         "cost_oev" to 1.0,
                                         "freq_oev" to 5.0,
@@ -527,7 +527,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_tb",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 50.0,
                                         "cost_oev" to 2.5,
                                         "freq_oev" to 60.0,
@@ -536,7 +536,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_od",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 50.0,
                                         "cost_oev" to 2.5,
                                         "warten" to 3.0
@@ -549,15 +549,15 @@ class DataManagerTest {
                             arrayListOf(
                                 SituationOption(
                                     "fuss",
-                                    linkedMapOf("fz_fuss" to 45.0)
+                                    mapOf("fz_fuss" to 45.0)
                                 ),
                                 SituationOption(
                                     "rad",
-                                    linkedMapOf("fz_rad" to 20.0)
+                                    mapOf("fz_rad" to 20.0)
                                 ),
                                 SituationOption(
                                     "car",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_miv" to 25.0,
                                         "zugang" to 1.0,
                                         "abgang" to 0.0,
@@ -566,7 +566,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "oev_fuss",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 26.0,
                                         "cost_oev" to 2.5,
                                         "freq_oev" to 5.0,
@@ -575,7 +575,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_tb",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 20.0,
                                         "cost_oev" to 2.0,
                                         "freq_oev" to 60.0,
@@ -584,7 +584,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_od",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 26.0,
                                         "cost_oev" to 1.5,
                                         "warten" to 13.0
@@ -597,15 +597,15 @@ class DataManagerTest {
                             arrayListOf(
                                 SituationOption(
                                     "fuss",
-                                    linkedMapOf("fz_fuss" to 135.0)
+                                    mapOf("fz_fuss" to 135.0)
                                 ),
                                 SituationOption(
                                     "rad",
-                                    linkedMapOf("fz_rad" to 40.0)
+                                    mapOf("fz_rad" to 40.0)
                                 ),
                                 SituationOption(
                                     "car",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_miv" to 25.0,
                                         "zugang" to 3.0,
                                         "abgang" to 5.0,
@@ -614,7 +614,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "oev_fuss",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 50.0,
                                         "cost_oev" to 1.0,
                                         "freq_oev" to 60.0,
@@ -623,7 +623,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_tb",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 50.0,
                                         "cost_oev" to 2.5,
                                         "freq_oev" to 10.0,
@@ -632,7 +632,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_od",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 50.0,
                                         "cost_oev" to 1.5,
                                         "warten" to 17.0
@@ -649,15 +649,15 @@ class DataManagerTest {
                             arrayListOf(
                                 SituationOption(
                                     "fuss",
-                                    linkedMapOf("fz_fuss" to 45.0)
+                                    mapOf("fz_fuss" to 45.0)
                                 ),
                                 SituationOption(
                                     "rad",
-                                    linkedMapOf("fz_rad" to 20.0)
+                                    mapOf("fz_rad" to 20.0)
                                 ),
                                 SituationOption(
                                     "car",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_miv" to 20.0,
                                         "zugang" to 3.0,
                                         "abgang" to 5.0,
@@ -666,7 +666,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "oev_fuss",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 26.0,
                                         "cost_oev" to 2.0,
                                         "freq_oev" to 10.0,
@@ -675,7 +675,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_tb",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 13.0,
                                         "cost_oev" to 1.0,
                                         "freq_oev" to 60.0,
@@ -684,7 +684,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_od",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 20.0,
                                         "cost_oev" to 2.5,
                                         "warten" to 17.0
@@ -697,15 +697,15 @@ class DataManagerTest {
                             arrayListOf(
                                 SituationOption(
                                     "fuss",
-                                    linkedMapOf("fz_fuss" to 15.0)
+                                    mapOf("fz_fuss" to 15.0)
                                 ),
                                 SituationOption(
                                     "rad",
-                                    linkedMapOf("fz_rad" to 5.0)
+                                    mapOf("fz_rad" to 5.0)
                                 ),
                                 SituationOption(
                                     "car",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_miv" to 10.0,
                                         "zugang" to 1.0,
                                         "abgang" to 2.0,
@@ -714,7 +714,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "oev_fuss",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 9.0,
                                         "cost_oev" to 1.0,
                                         "freq_oev" to 10.0,
@@ -723,7 +723,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_tb",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 13.0,
                                         "cost_oev" to 1.5,
                                         "freq_oev" to 30.0,
@@ -732,7 +732,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_od",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 9.0,
                                         "cost_oev" to 2.5,
                                         "warten" to 7.0
@@ -745,15 +745,15 @@ class DataManagerTest {
                             arrayListOf(
                                 SituationOption(
                                     "fuss",
-                                    linkedMapOf("fz_fuss" to 15.0)
+                                    mapOf("fz_fuss" to 15.0)
                                 ),
                                 SituationOption(
                                     "rad",
-                                    linkedMapOf("fz_rad" to 5.0)
+                                    mapOf("fz_rad" to 5.0)
                                 ),
                                 SituationOption(
                                     "car",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_miv" to 7.0,
                                         "zugang" to 1.0,
                                         "abgang" to 0.0,
@@ -762,7 +762,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "oev_fuss",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 5.0,
                                         "cost_oev" to 1.5,
                                         "freq_oev" to 10.0,
@@ -771,7 +771,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_tb",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 13.0,
                                         "cost_oev" to 2.0,
                                         "freq_oev" to 30.0,
@@ -780,7 +780,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_od",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 5.0,
                                         "cost_oev" to 2.0,
                                         "warten" to 7.0
@@ -793,15 +793,15 @@ class DataManagerTest {
                             arrayListOf(
                                 SituationOption(
                                     "fuss",
-                                    linkedMapOf("fz_fuss" to 135.0)
+                                    mapOf("fz_fuss" to 135.0)
                                 ),
                                 SituationOption(
                                     "rad",
-                                    linkedMapOf("fz_rad" to 40.0)
+                                    mapOf("fz_rad" to 40.0)
                                 ),
                                 SituationOption(
                                     "car",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_miv" to 20.0,
                                         "zugang" to 1.0,
                                         "abgang" to 5.0,
@@ -810,7 +810,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "oev_fuss",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 32.0,
                                         "cost_oev" to 2.5,
                                         "freq_oev" to 60.0,
@@ -819,7 +819,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_tb",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 50.0,
                                         "cost_oev" to 1.0,
                                         "freq_oev" to 5.0,
@@ -828,7 +828,7 @@ class DataManagerTest {
                                 ),
                                 SituationOption(
                                     "shuttle_od",
-                                    linkedMapOf(
+                                    mapOf(
                                         "fz_oev" to 50.0,
                                         "cost_oev" to 2.0,
                                         "warten" to 3.0
@@ -848,7 +848,7 @@ class DataManagerTest {
         val file = File(path)
         val projectData = DataManager.loadData(file)
         // implementation of equals() in projectData is needed
-        assertEquals(projectData, testProjectData)
+        assertTrue(projectData == testProjectData)
     }
 
     @Test
