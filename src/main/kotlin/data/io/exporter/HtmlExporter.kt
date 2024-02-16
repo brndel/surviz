@@ -13,6 +13,8 @@ import kotlinx.html.stream.appendHTML
 import ui.Labels
 import util.platformPath
 import java.io.File
+import kotlin.io.path.Path
+import kotlin.io.path.pathString
 
 /**
  * This class implements the [Exporter] interface and exports the project to an HTML file.
@@ -25,6 +27,8 @@ object HtmlExporter : Exporter {
     private const val PATH_KEY = "path"
     private const val SCHEME_KEY = "scheme"
     private const val SEPARATE_OPTION_KEY = "separate_options"
+
+    private const val PNG_FILE_SCHEME = "block_\$block\$_situation_\$situation\$_option_\$option\$"
 
     private const val DEFAULT_SCHEME = "block_\$block\$_situation_\$situation\$"
     private val defaultPath: String by lazy {
@@ -161,8 +165,8 @@ ul {
 
         // Generate Images with Selection
         val pngExportConfig = exportConfig.toMutableMap()
-        pngExportConfig[SCHEME_KEY] = "block_\$block\$_situation_\$situation\$_option_\$option\$"
-        pngExportConfig[PATH_KEY] = path + "images"
+        pngExportConfig[SCHEME_KEY] = PNG_FILE_SCHEME
+        pngExportConfig[PATH_KEY] = Path(path, "images").pathString
         pngExportConfig[SEPARATE_OPTION_KEY] = true
 
         val pngWarnings = PngExporter.export(project, pngExportConfig)
@@ -251,7 +255,7 @@ ul {
             "situation" to situation.id.toString()
         )
 
-        val filePath = config.path + fileName + ".html"
+        val filePath = Path(config.path, "$fileName.html").pathString
         val outputFile = File(filePath)
         outputFile.writeText(htmlContent)
         println("HTML-Datei wurde unter ${outputFile.absolutePath} erstellt.")
@@ -275,7 +279,7 @@ ul {
                 +lineSeparator
                 label {
                     this.htmlFor = option.name
-                    this.id = "x${option.name}-label"
+                    this.id = "${option.name}-label"
                     img {
                         this.src = getImgSrc(blockId, situation.id, option.name)
                         this.alt = "Travel by ${option.name}"
@@ -302,7 +306,14 @@ ul {
         }
     }
 
-    private fun getImgSrc(blockId: Int, situationId: Int, optionId: String): String {
-        return "images/block_$blockId" + "_situation_$situationId" + "_option_$optionId" + ".png"
+    private fun getImgSrc(blockId: Int, situationId: Int, optionName: String): String {
+        val fileName = getNameFromScheme(
+            PNG_FILE_SCHEME,
+            "block" to blockId.toString(),
+            "situation" to situationId.toString(),
+            "option" to optionName
+        )
+
+        return Path("images", "$fileName.png").pathString
     }
 }

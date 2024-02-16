@@ -32,6 +32,21 @@ fun main() = application {
     var currentProject by remember { mutableStateOf<Project?>(null) }
     var currentProjectPath by remember { mutableStateOf<String?>(null) }
 
+    val mainWindowState = rememberWindowState(
+        width = 700.dp,
+        height = 500.dp,
+        placement = WindowPlacement.Floating,
+        position = WindowPosition((1920.dp - 700.dp) / 2, (1080.dp - 500.dp) / 2)
+    )
+
+    fun onProjectLoad() {
+        mainWindowState.placement = WindowPlacement.Maximized
+    }
+
+    fun onProjectClose() {
+        mainWindowState.placement = WindowPlacement.Floating
+    }
+
     var filePickerTarget by remember { mutableStateOf<ProjectFilePickerTarget?>(null) }
 
     var errorDialogLabel by remember { mutableStateOf<String?>(null) }
