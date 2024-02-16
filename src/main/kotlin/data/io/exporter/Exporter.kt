@@ -2,7 +2,6 @@ package data.io.exporter
 
 import data.io.utils.result.ExportResult
 import data.project.Project
-import data.project.data.Block
 import data.resources.fields.NamedField
 
 /**
@@ -30,10 +29,6 @@ interface Exporter {
                 result = result.replace("\$$placeholder\$", replacement)
             }
             return result
-        }
-
-        fun isValidSituation(block: Block, situation: Int) : Boolean{
-            return situation in 1..block.situations.size
         }
     }
 }
