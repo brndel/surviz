@@ -23,6 +23,8 @@ object Labels {
     const val FIELD_COLUMN_SCHEME = "FIELD_COLUMN_SCHEME"
     const val SCHEME_NO_RESULT_FOUND = "SCHEME_NO_RESULT_FOUND"
 
+    const val ADD_SINGLE_VALUE_ICON_LEVEL = "ADD_SINGLE_VALUE_ICON_LEVEL"
+
     const val FIELD_LINE_TYPE = "FIELD_LINE_TYPE"
     const val LINE_TYPE_SOLID = "LINE_TYPE_SOLID"
     const val LINE_TYPE_DOTTED = "LINE_TYPE_DOTTED"
@@ -213,6 +215,8 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.FIELD_COLUMN_SCHEME to "Column scheme",
             Labels.SCHEME_NO_RESULT_FOUND to "No columns found",
 
+            Labels.ADD_SINGLE_VALUE_ICON_LEVEL to "Add level",
+
             Labels.FIELD_LINE_TYPE to "Line type",
             Labels.LINE_TYPE_SOLID to "Solid",
             Labels.LINE_TYPE_DOTTED to "Dotted",
@@ -383,6 +387,8 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.FIELD_UNIT to "Einheit",
             Labels.FIELD_COLUMN_SCHEME to "Spaltenschema",
             Labels.SCHEME_NO_RESULT_FOUND to "Keine Spalten gefunden",
+
+            Labels.ADD_SINGLE_VALUE_ICON_LEVEL to "Stufe hinzufügen",
 
             Labels.FIELD_LINE_TYPE to "Linientyp",
             Labels.LINE_TYPE_SOLID to "Solide",
