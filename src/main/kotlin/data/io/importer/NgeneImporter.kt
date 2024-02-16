@@ -166,7 +166,6 @@ object NgeneImporter : Importer {
             val fields = HashSet<String>()
             for (key in keys) {
                 if (key.startsWith(option)) {
-                    // i'm not sure if separation here is wanted TODO(Check for format)
                     fields.add(key.split(".")[1])
                 }
             }
