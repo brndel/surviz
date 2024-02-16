@@ -8,7 +8,9 @@ package data.io.utils.result.report.generator
  */
 enum class ReportGeneratorVariant(private val generator: ReportGenerator) {
 
-    ImageSize(ImageSizeReportGenerator);
+    ImageSize(ImageSizeReportGenerator),
+
+    InvalidSituation(InvalidSituationReportGenerator);
 
     fun getGenerator(): ReportGenerator {
         return generator

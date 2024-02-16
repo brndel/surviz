@@ -16,7 +16,7 @@ import data.project.Project
 abstract class ExportReport(
     val id: OptionId,
     val label: String,
-    val info: Any,
+    val info: Any?,
     val unit: String = ""
 ) {
 

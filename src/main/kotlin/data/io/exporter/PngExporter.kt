@@ -4,9 +4,11 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toAwtImage
 import data.generator.ImageGenerator
 import data.io.exporter.Exporter.Companion.getNameFromScheme
+import data.io.exporter.Exporter.Companion.isValidSituation
 import data.io.utils.result.ExportResult
 import data.io.utils.result.warnings.ExportWarning
 import data.io.utils.result.warnings.ImageSizeExportWarning
+import data.io.utils.result.warnings.InvalidSituationWarning
 import data.project.Project
 import data.project.data.Block
 import data.project.data.Situation
@@ -135,7 +137,7 @@ object PngExporter : Exporter {
         if (allBlocks) {
             blocks.addAll(project.getData().blocks)
         } else {
-            val block = exportConfig[BLOCK_KEY] as Int
+            val block = exportConfig[BLOCK_KEY].toString().toInt()
             blocks.add(project.getData().blocks[block - 1])
         }
 
@@ -155,6 +157,7 @@ object PngExporter : Exporter {
         )
 
         val errorList = ArrayList<ExportWarning?>()
+
 
         val coroutine = CoroutineScope(Dispatchers.IO).launch {
             val widthList = coroutineScope {
@@ -192,7 +195,11 @@ object PngExporter : Exporter {
         if (config.allSituations) {
             situations.addAll(block.situations)
         } else {
-            situations.add(block.situations[config.situationId - 1])
+            val situationId = config.situationId
+            if (!isValidSituation(block, situationId)) {
+                return arrayListOf(InvalidSituationWarning(blockId, situationId))
+            }
+            situations.add(block.situations[situationId - 1])
         }
 
         val resultList = coroutineScope {

@@ -98,12 +98,12 @@ fun ExportDialog(exportResult: ExportResult, project: Project, onDismissRequest:
 fun ShowReport(report: ExportReport) {
     val language = LocalLanguage.current
 
-    val blockId = report.id.block.toString()
-    val situationId = report.id.situation.toString()
-    val optionId = report.id.option.toString()
+    val blockId = report.id.block
+    val situationId = report.id.situation
+    val optionId = report.id.option
 
     val label = language.getString(report.label)
-    val info = report.info
+    val info = report.info?: ""
     val unit = report.unit
 
     Text(
@@ -111,6 +111,7 @@ fun ShowReport(report: ExportReport) {
             language.getString(
                 Labels.SITUATION
             )
-        } $situationId, ${language.getString(Labels.OPTION)} $optionId: $label $info $unit"
+        } $situationId${optionId?.let { ", ${language.getString(Labels.OPTION)} $it" } ?: ""}: $label $info $unit"
     )
+
 }
