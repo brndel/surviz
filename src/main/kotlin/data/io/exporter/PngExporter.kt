@@ -223,7 +223,6 @@ object PngExporter : Exporter {
         if (!config.separateOptions) {
             // save whole option
             val imageResult = imageGenerator.generateSituation(situation)
-            // TODO("maybe exclude the situation placeholder?")
             val fileName = getNameFromScheme(
                 config.scheme,
                 "block" to blockId.toString(),
