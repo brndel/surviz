@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
@@ -20,6 +19,7 @@ import data.project.config.TimelineEntry
 import org.burnoutcrew.reorderable.ReorderableState
 import ui.Label
 import ui.Labels
+import ui.LocalLanguage
 import ui.fields.IconField
 import ui.fields.OptionsField
 import ui.util.NestedSurface
@@ -61,7 +61,7 @@ fun TimelineCard(
                 label = { Label(Labels.COLUMN) },
                 modifier = Modifier.width(246.dp)
             ) {
-                Text(it)
+                it
             }
 
             OptionsField(
@@ -71,7 +71,7 @@ fun TimelineCard(
                 label = { Label(Labels.FIELD_LINE_TYPE) },
                 modifier = Modifier.width(246.dp)
             ) {
-                Text(it.toString())
+                LocalLanguage.current.getString(it.label)
             }
 
             IconButton(onDelete) {

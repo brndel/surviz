@@ -262,7 +262,7 @@ private fun ListColumnsExtra(value: ListColumns, columns: List<String>) {
                     value.columns[column.index
                     ] = it
                 }, options = columns) {
-                    Text(it)
+                    it
                 }
                 IconButton(onClick = {
                     value.columns.removeAt(column.index)

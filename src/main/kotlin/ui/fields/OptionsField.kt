@@ -1,8 +1,6 @@
 package ui.fields
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -22,11 +20,11 @@ fun <T> OptionsField(
     options: List<T>,
     modifier: Modifier = Modifier.width(164.dp),
     label: @Composable (() -> Unit)? = null,
-    item: @Composable (T) -> Unit
+    itemToString: @Composable (T) -> String
 ) {
     var dropdownExpanded by remember { mutableStateOf(false) }
 
-    OutlinedTextField(value.toString(), {}, modifier, readOnly = true, label = label, trailingIcon = {
+    OutlinedTextField(itemToString(value), {}, modifier, readOnly = true, label = label, trailingIcon = {
         Box {
             IconButton({
                 dropdownExpanded = !dropdownExpanded
@@ -42,7 +40,9 @@ fun <T> OptionsField(
                         onValueChange(option)
                         dropdownExpanded = false
                     }) {
-                        item(option)
+                        Text(
+                            itemToString(option)
+                        )
                     }
                 }
             }

@@ -1,7 +1,5 @@
 package ui.fields
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import data.resources.fields.*
@@ -50,7 +48,7 @@ fun GenericField(field: FieldData, modifier: Modifier = Modifier) {
             field.options,
             modifier,
             { Label(field.getLabel()) }
-        ) { Text(it) }
+        ) { it }
 
         is StringFieldData ->
             when (field.hint) {

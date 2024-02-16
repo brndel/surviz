@@ -1,6 +1,5 @@
 package ui.window.settings.tabs
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,16 +11,13 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Switch
 import androidx.compose.material.SwitchDefaults
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode.Companion.Color
 import androidx.compose.ui.unit.dp
-import ui.Label
 import ui.Labels
 import ui.Language
 import ui.LocalLanguage
@@ -65,7 +61,7 @@ fun GeneralSettingsTab(
                                 },
                                 Language.entries
                             ) {
-                                Label(it.toString())
+                                LocalLanguage.current.getString(it.label)
                             }
                         }
                     }

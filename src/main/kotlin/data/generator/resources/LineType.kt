@@ -1,6 +1,6 @@
 package data.generator.resources
 
-import androidx.compose.ui.graphics.PathEffect
+import ui.Labels
 
 
 /**
@@ -10,16 +10,16 @@ import androidx.compose.ui.graphics.PathEffect
  * @property spaceKey key to get the space length out of .properties file
  * @constructor Create empty Line type
  */
-enum class LineType(val lineKey: String?, val spaceKey: String?) {
+enum class LineType(val label: String, val lineKey: String?, val spaceKey: String?) {
     /**
      * This is a solid, continuous line.
      */
-    Solid(null, null),
+    Solid(Labels.LINE_TYPE_SOLID, null, null),
 
     /**
      * This is a dotted line.
      */
-    Dotted("line_dotted_line", "line_dotted_space"),
+    Dotted(Labels.LINE_TYPE_DOTTED, "line_dotted_line", "line_dotted_space"),
 
-    Dashed("line_dashed_line", "line_dashed_space")
+    Dashed(Labels.LINE_TYPE_DASHED, "line_dashed_line", "line_dashed_space")
 }

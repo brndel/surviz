@@ -24,6 +24,9 @@ object Labels {
     const val SCHEME_NO_RESULT_FOUND = "SCHEME_NO_RESULT_FOUND"
 
     const val FIELD_LINE_TYPE = "FIELD_LINE_TYPE"
+    const val LINE_TYPE_SOLID = "LINE_TYPE_SOLID"
+    const val LINE_TYPE_DOTTED = "LINE_TYPE_DOTTED"
+    const val LINE_TYPE_DASHED = "LINE_TYPE_DASHED"
 
     const val BLOCK = "BLOCK"
     const val SITUATION = "SITUATION"
@@ -160,8 +163,8 @@ object Labels {
     const val SETTINGS_CHANGE_LANGUAGE = "SETTINGS_CHANGE_LANGUAGE"
     const val SETTINGS_CHANGE_DARK_MODE = "SETTINGS_CHANGE_DARK_MODE"
 
-    const val English = "English"
-    const val German = "German"
+    const val LANGUAGE_ENGLISH = "ENGLISH"
+    const val LANGUAGE_GERMAN = "GERMAN"
 
     const val PREVIEW = "PREVIEW"
 
@@ -183,9 +186,11 @@ object Labels {
     const val CLOSE_DIALOG_CONFIRM = "CLOSED_DIALOG_CONFIRM"
 }
 
-enum class Language(private val code: String, private val strings: Map<String, String>) {
+enum class Language(private val code: String, val label: String, private val strings: Map<String, String>) {
     English(
-        "en", mapOf(
+        "en",
+        Labels.LANGUAGE_ENGLISH,
+        mapOf(
             Labels.SURVIZ to "SurViz",
             Labels.LOAD_LAST_PROJECT to "Load last Project",
             Labels.NEW_PROJECT to "New Project",
@@ -206,6 +211,9 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.SCHEME_NO_RESULT_FOUND to "No columns found",
 
             Labels.FIELD_LINE_TYPE to "Line type",
+            Labels.LINE_TYPE_SOLID to "Solid",
+            Labels.LINE_TYPE_DOTTED to "Dotted",
+            Labels.LINE_TYPE_DASHED to "Dashed",
 
             Labels.BLOCK to "Block",
             Labels.SITUATION to "Situation",
@@ -306,7 +314,7 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD to "Add and configure single  value",
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD_DESCRIPTION to "By clicking on the \$+ New\$ button, a new single value can be added.\n" + "\n" + "A unit can be assigned to the single value in the \$Unit\$ text field.\n" + "\n" + "A column schema can be assigned to the single value in the \$Column Scheme\$ text field. Further information can be found in the user manual under \$single Value Column Schema\$.\n" + "\n" + "By clicking the button below the Column Schema text field, an icon for the single value can be selected.\n" + "\n",
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME to "Single Value Column Schema",
-            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME_DESCRIPTION to "By specifying a column schema, SurViz can automatically create a list of columns from each situation's columns, which, when summed, indicate the value of this single value.\n" + "\n" + "The schema consists of a precisely defined \$prefix\$ of a column name and an arbitrary \$suffix\$ of a column name, which is replaced with a \$*\$.\n" + "The schema \$prefix\$ selects all columns of the Ngene file whose name is structured as follows: \$Situation\$.\$PrefixSuffix\$\n" + "\n" + "Example:\n" + "There are the columns:\n" + "\n" + ENUMERATION_SIGN + "\$ car.cost_toll\$\n" + ENUMERATION_SIGN +"\$ car.cost_gasoline\$\n" + ENUMERATION_SIGN+"\$ car.time\$\n" + ENUMERATION_SIGN+"\$ car.time_access\$\n" + ENUMERATION_SIGN+"\$ car.time_exit\$\n\n" + "for the situation \$car\$.\n" + "\n" + "By the schema \$cost*\$, the following columns are selected in the situation \$car\$:\n" + ENUMERATION_SIGN+"\$ car.cost_toll\$\n" + ENUMERATION_SIGN+"\$ car.cost_gasoline\$\n" + "However, in this example, the schema \$c*\$ would be sufficient to select the columns listed above.\n" + "\n" + "By the schema \$time*\$, the following columns are selected in the situation \$car\$:\n" + ENUMERATION_SIGN+"\$ car.time\$\n" + ENUMERATION_SIGN+"\$ car.time_access\$\n" + ENUMERATION_SIGN+"\$ car.time_exit\$\n\n" + "By the scheme \$time_*\$, the following columns are selected in the situation \$car\$:\n" + ENUMERATION_SIGN+"\$ car.time_access\$\n" + ENUMERATION_SIGN+"\$ car.time_exit\$\n" + "The column \$car.time\$ is no longer selected here because it does not contain the suffix \$time_\$.",
+            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME_DESCRIPTION to "By specifying a column schema, SurViz can automatically create a list of columns from each situation's columns, which, when summed, indicate the value of this single value.\n" + "\n" + "The schema consists of a precisely defined \$prefix\$ of a column name and an arbitrary \$suffix\$ of a column name, which is replaced with a \$*\$.\n" + "The schema \$prefix\$ selects all columns of the Ngene file whose name is structured as follows: \$Situation\$.\$PrefixSuffix\$\n" + "\n" + "Example:\n" + "There are the columns:\n" + "\n" + ENUMERATION_SIGN + "\$ car.cost_toll\$\n" + ENUMERATION_SIGN + "\$ car.cost_gasoline\$\n" + ENUMERATION_SIGN + "\$ car.time\$\n" + ENUMERATION_SIGN + "\$ car.time_access\$\n" + ENUMERATION_SIGN + "\$ car.time_exit\$\n\n" + "for the situation \$car\$.\n" + "\n" + "By the schema \$cost*\$, the following columns are selected in the situation \$car\$:\n" + ENUMERATION_SIGN + "\$ car.cost_toll\$\n" + ENUMERATION_SIGN + "\$ car.cost_gasoline\$\n" + "However, in this example, the schema \$c*\$ would be sufficient to select the columns listed above.\n" + "\n" + "By the schema \$time*\$, the following columns are selected in the situation \$car\$:\n" + ENUMERATION_SIGN + "\$ car.time\$\n" + ENUMERATION_SIGN + "\$ car.time_access\$\n" + ENUMERATION_SIGN + "\$ car.time_exit\$\n\n" + "By the scheme \$time_*\$, the following columns are selected in the situation \$car\$:\n" + ENUMERATION_SIGN + "\$ car.time_access\$\n" + ENUMERATION_SIGN + "\$ car.time_exit\$\n" + "The column \$car.time\$ is no longer selected here because it does not contain the suffix \$time_\$.",
             Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION to "Situations tab",
             Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION_DESCRIPTION to "In the \$Situations\$ tab, the single situations of a project can be configured.",
             Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION_EDIT to "Configure situation",
@@ -318,8 +326,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.SETTINGS_CHANGE_LANGUAGE to "Change language",
 
-            Labels.English to "English",
-            Labels.German to "German",
+            Labels.LANGUAGE_ENGLISH to "English",
+            Labels.LANGUAGE_GERMAN to "German",
 
             Labels.SETTINGS_CHANGE_DARK_MODE to "Dark mode",
 
@@ -344,7 +352,9 @@ enum class Language(private val code: String, private val strings: Map<String, S
         )
     ),
     German(
-        "de", mapOf(
+        "de",
+        Labels.LANGUAGE_GERMAN,
+        mapOf(
             Labels.SURVIZ to "SurViz",
             Labels.LOAD_LAST_PROJECT to "Letztes Projekt laden",
             Labels.NEW_PROJECT to "Neues Projekt",
@@ -365,6 +375,9 @@ enum class Language(private val code: String, private val strings: Map<String, S
             Labels.SCHEME_NO_RESULT_FOUND to "Keine Spalten gefunden",
 
             Labels.FIELD_LINE_TYPE to "Linientyp",
+            Labels.LINE_TYPE_SOLID to "Solide",
+            Labels.LINE_TYPE_DOTTED to "Gepunktet",
+            Labels.LINE_TYPE_DASHED to "Gesterichelt",
 
             Labels.BLOCK to "Block",
             Labels.SITUATION to "Situation",
@@ -477,8 +490,8 @@ enum class Language(private val code: String, private val strings: Map<String, S
 
             Labels.SETTINGS_CHANGE_LANGUAGE to "Sprache ändern",
 
-            Labels.English to "Englisch",
-            Labels.German to "Deutsch",
+            Labels.LANGUAGE_ENGLISH to "Englisch",
+            Labels.LANGUAGE_GERMAN to "Deutsch",
 
             Labels.SETTINGS_CHANGE_DARK_MODE to "Dunkel-Modus",
 

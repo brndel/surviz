@@ -14,7 +14,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Tune
@@ -76,7 +75,7 @@ fun ExportPage(project: Project) {
                     label = {
                         Label(Labels.EXPORTER)
                     }) {
-                    Text(it.toString())
+                    it.name
                 }
 
                 ExporterConfigCard(selectedExporter, project, Modifier.weight(1F))
