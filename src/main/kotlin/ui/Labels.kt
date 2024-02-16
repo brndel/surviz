@@ -173,6 +173,7 @@ object Labels {
 
     const val IMAGE_CREATE_ERROR = "IMAGE_CREATE_ERROR"
     const val SITUATION_NOT_FOUND = "SITUATION_NOT_FOUND"
+    const val BLOCK_NOT_FOUND = "BLOCK_NOT_FOUND"
 
     const val IMPORT_ICON = "IMPORT_ICON"
 
@@ -338,6 +339,7 @@ enum class Language(private val code: String, val label: String, private val str
 
             Labels.IMAGE_CREATE_ERROR to "Error while creating image",
             Labels.SITUATION_NOT_FOUND to "Situation not found",
+            Labels.BLOCK_NOT_FOUND to "Block not found",
 
             Labels.IMPORT_ICON to "Import icon",
 
@@ -513,6 +515,8 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.CLOSE_DIALOG_TITLE to "Anwendung schließen",
             Labels.CLOSE_DIALOG_TEXT to "Ungespeicherte Änderungen können verloren gehen",
             Labels.CLOSE_DIALOG_CONFIRM to "Schließen",
+
+            Labels.BLOCK_NOT_FOUND to "Block konnte nicht gefunden werden",
         )
     );
 

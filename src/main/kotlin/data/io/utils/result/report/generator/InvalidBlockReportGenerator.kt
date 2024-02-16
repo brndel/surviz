@@ -1,18 +1,17 @@
 package data.io.utils.result.report.generator
 
 import data.io.utils.result.report.ExportReport
-import data.io.utils.result.report.InvalidSituationExportReport
+import data.io.utils.result.report.InvalidBlockExportReport
 import data.io.utils.result.warnings.ExportWarning
-import data.io.utils.result.warnings.InvalidSituationWarning
+import data.io.utils.result.warnings.InvalidBlockWarning
 
-object InvalidSituationReportGenerator: ReportGenerator{
+object InvalidBlockReportGenerator: ReportGenerator {
     override fun generateReport(warnings: List<ExportWarning>): ExportReport? {
         for (warning in warnings) {
-            if (warning is InvalidSituationWarning) {
-                return InvalidSituationExportReport(warning.id)
+            if (warning is InvalidBlockWarning) {
+                return InvalidBlockExportReport(warning.id)
             }
         }
         return null
     }
-
 }

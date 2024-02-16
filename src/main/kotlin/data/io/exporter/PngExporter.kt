@@ -7,6 +7,7 @@ import data.io.exporter.Exporter.Companion.getNameFromScheme
 import data.io.utils.result.ExportResult
 import data.io.utils.result.warnings.ExportWarning
 import data.io.utils.result.warnings.ImageSizeExportWarning
+import data.io.utils.result.warnings.InvalidBlockWarning
 import data.io.utils.result.warnings.InvalidSituationWarning
 import data.project.Project
 import data.project.data.Block
@@ -136,7 +137,7 @@ object PngExporter : Exporter {
             if (block != null) {
                 blocks.add(block)
             } else {
-                // TODO return ExportResult
+                return ExportResult(arrayListOf(InvalidBlockWarning(blockId)))
             }
         }
 
@@ -195,7 +196,7 @@ object PngExporter : Exporter {
             if (situation != null) {
                 situations.add(situation)
             } else {
-                // TODO return ExportWarning
+                return arrayListOf(InvalidSituationWarning(block.id, config.situationId))
             }
         }
 
