@@ -258,7 +258,13 @@ fun ApplicationScope.MainWindow(
     }
 
     Window(
-        onCloseRequest = { isExitDialogVisible = true },
+        onCloseRequest = {
+            if (currentProject != null) {
+                isExitDialogVisible = true
+            } else {
+                exitApplication()
+            }
+        },
         state = windowState,
         title = windowTitle,
         icon = painterResource("logo.png"),
