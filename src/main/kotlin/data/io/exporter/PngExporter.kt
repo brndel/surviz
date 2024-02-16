@@ -125,7 +125,7 @@ object PngExporter : Exporter {
         if (allBlocks) {
             blocks.addAll(project.getData().blocks)
         } else {
-            val block = exportConfig[BLOCK_KEY] as Int
+            val block = exportConfig[BLOCK_KEY].toString().toInt()
             blocks.add(project.getData().blocks[block - 1])
         }
 
