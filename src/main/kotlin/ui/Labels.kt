@@ -84,7 +84,10 @@ object Labels {
     const val ACTION_SAVE_AS = "ACTION_SAVE_AS"
     const val ACTION_LOAD_DATA = "ACTION_LOAD_DATA"
     const val ACTION_CLOSE = "ACTION_CLOSE"
+
+    const val APP_BAR_GROUP_WINDOW = "APP_BAR_GROUP_WINDOW"
     const val ACTION_OPEN_SETTINGS = "ACTION_OPEN_SETTINGS"
+    const val ACTION_OPEN_HELP = "ACTION_OPEN_HELP"
 
     const val ACTION_SAVE_AS_DIRECTORY = "ACTION_SAVE_AS_DIRECTORY"
     const val ACTION_SAVE_AS_PROJECT_NAME = "ACTION_SAVE_AS_PROJECT_NAME"
@@ -277,7 +280,10 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.ACTION_SAVE_AS to "Save file as",
             Labels.ACTION_LOAD_DATA to "Load new simulation data",
             Labels.ACTION_CLOSE to "Close file",
+
+            Labels.APP_BAR_GROUP_WINDOW to "Window",
             Labels.ACTION_OPEN_SETTINGS to "Open Settings",
+            Labels.ACTION_OPEN_HELP to "Open Help",
 
             Labels.ACTION_SAVE_AS_DIRECTORY to "Choose directory",
             Labels.ACTION_SAVE_AS_PROJECT_NAME to "Project name",
@@ -451,7 +457,10 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.ACTION_SAVE_AS to "Datei speichern unter",
             Labels.ACTION_LOAD_DATA to "Neue Simulationsdatei laden",
             Labels.ACTION_CLOSE to "Datei schließen",
+
+            Labels.APP_BAR_GROUP_WINDOW to "Fenster",
             Labels.ACTION_OPEN_SETTINGS to "Einstellungen öffnen",
+            Labels.ACTION_OPEN_HELP to "Hilfe öffnen",
 
             Labels.ACTION_SAVE_AS_DIRECTORY to "Verzeichnis auswählen",
             Labels.ACTION_SAVE_AS_PROJECT_NAME to "Projektname",
