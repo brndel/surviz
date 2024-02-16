@@ -187,6 +187,8 @@ object Labels {
     const val CLOSE_DIALOG_TITLE = "CLOSE_DIALOG_TITLE"
     const val CLOSE_DIALOG_TEXT = "CLOSE_DIALOG_TEXT"
     const val CLOSE_DIALOG_CONFIRM = "CLOSED_DIALOG_CONFIRM"
+
+    const val ILLEGAL_CHAR = "ILLEGAL_CHAR"
 }
 
 enum class Language(private val code: String, val label: String, private val strings: Map<String, String>) {
@@ -359,6 +361,8 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.CLOSE_DIALOG_TITLE to "Close application",
             Labels.CLOSE_DIALOG_TEXT to "Any unsaved progress may be lost",
             Labels.CLOSE_DIALOG_CONFIRM to "Close",
+
+            Labels.ILLEGAL_CHAR to "Illegal character in file name",
         )
     ),
     German(
@@ -531,6 +535,8 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.CLOSE_DIALOG_CONFIRM to "Schließen",
 
             Labels.BLOCK_NOT_FOUND to "Block konnte nicht gefunden werden",
+
+            Labels.ILLEGAL_CHAR to "Verbotenes Zeichen in Dateiname",
         )
     );
 

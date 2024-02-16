@@ -9,7 +9,7 @@ object InvalidSituationReportGenerator: ReportGenerator{
     override fun generateReport(warnings: List<ExportWarning>): ExportReport? {
         for (warning in warnings) {
             if (warning is InvalidSituationWarning) {
-                return InvalidSituationExportReport(warning.id)
+                return warning.id?.let { InvalidSituationExportReport(it) }
             }
         }
         return null

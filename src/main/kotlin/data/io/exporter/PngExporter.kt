@@ -6,6 +6,7 @@ import data.generator.ImageGenerator
 import data.io.exporter.Exporter.Companion.getNameFromScheme
 import data.io.utils.result.ExportResult
 import data.io.utils.result.warnings.ExportWarning
+import data.io.utils.result.warnings.IllegalCharacterWarning
 import data.io.utils.result.warnings.ImageSizeExportWarning
 import data.io.utils.result.warnings.InvalidBlockWarning
 import data.io.utils.result.warnings.InvalidSituationWarning
@@ -23,6 +24,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import ui.Labels
 import util.platformPath
+import java.awt.image.BufferedImage
+import java.io.File
+import java.nio.file.InvalidPathException
 import javax.imageio.ImageIO
 import kotlin.io.path.Path
 
@@ -261,25 +265,35 @@ object PngExporter : Exporter {
             "situation" to situationId.toString(),
             "option" to option.name
         )
-        saveBitmap(imageResult.image, config.path, fileName)
+        val saveResult = saveBitmap(imageResult.image, config.path, fileName)
+        if(saveResult != null) {
+            return saveResult
+        }
         if (!imageResult.checkWidth()) {
             return ImageSizeExportWarning(imageResult.neededWidth, blockId, situationId, option.name)
         }
         return null
     }
 
-    private fun saveBitmap(bitmap: ImageBitmap, path: String, name: String) {
-        val outputPath = Path(path, name)
+    private fun saveBitmap(bitmap: ImageBitmap, path: String, name: String): ExportWarning? {
+        val bufferedImage: BufferedImage
+        val file: File
 
-        val bufferedImage = bitmap.toAwtImage()
-        val file = outputPath.toFile()
-
+        try {
+            val outputPath = Path(path, name)
+            bufferedImage = bitmap.toAwtImage()
+            file = outputPath.toFile()
+        }
+        catch (e: InvalidPathException) {
+            return IllegalCharacterWarning(e.input[e.index].toString())
+        }
         file.parentFile.mkdirs()
 
         if (!file.exists()) {
             file.createNewFile()
         }
 
-        ImageIO.write(bufferedImage, "png", file)
+            ImageIO.write(bufferedImage, "png", file)
+        return null
     }
 }

@@ -12,9 +12,9 @@ import data.io.utils.OptionId
  * @constructor Create empty Export warning with given ids
  */
 abstract class ExportWarning(
-    private val blockId: Int,
+    private val blockId: Int? = null,
     private val situationId: Int? = null,
     private val optionId: String? = null
 )  {
-    val id = OptionId(blockId, situationId, optionId)
+    val id = blockId?.let { OptionId(it, situationId, optionId) }
 }

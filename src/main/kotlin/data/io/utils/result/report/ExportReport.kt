@@ -14,7 +14,7 @@ import data.project.Project
  * @constructor Create empty Export report
  */
 abstract class ExportReport(
-    val id: OptionId,
+    val id: OptionId? = null,
     val label: String,
     val info: Any? = null,
     val unit: String = ""

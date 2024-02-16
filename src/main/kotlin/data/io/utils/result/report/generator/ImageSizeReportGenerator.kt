@@ -25,6 +25,6 @@ object ImageSizeReportGenerator : ReportGenerator {
         val maxSizeWarning = warnings.filterIsInstance<ImageSizeExportWarning>()
             .maxByOrNull { it.neededWidth }
 
-        return maxSizeWarning?.let { ImageSizeExportReport(it.id, it.neededWidth) }
+        return maxSizeWarning?.let { it.id?.let { it1 -> ImageSizeExportReport(it1, it.neededWidth) } }
     }
 }

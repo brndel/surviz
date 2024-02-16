@@ -23,6 +23,7 @@ import data.io.utils.result.report.ExportReport
 import data.project.Project
 import ui.Label
 import ui.Labels
+import ui.Language
 import ui.LocalLanguage
 
 @Composable
@@ -59,7 +60,10 @@ fun ExportDialog(exportResult: ExportResult, project: Project, onDismissRequest:
     AlertDialog(
         onDismissRequest = onDismissRequest,
         title = {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
                 icon()
                 Text(title)
             }
@@ -96,18 +100,25 @@ fun ExportDialog(exportResult: ExportResult, project: Project, onDismissRequest:
 
 @Composable
 fun ShowReport(report: ExportReport) {
-    val language = LocalLanguage.current
+    val language: Language = LocalLanguage.current
 
-    val blockId = report.id.block
-    val situationId = report.id.situation
-    val optionId = report.id.option
+    val blockId: Int? = report.id?.block
+    val situationId: Int? = report.id?.situation
+    val optionId: String? = report.id?.option
 
     val label = language.getString(report.label)
-    val info = report.info?: ""
+    val info = report.info
     val unit = report.unit
 
     Text(
-        "${language.getString(Labels.BLOCK)} $blockId${situationId?.let { ", ${language.getString(Labels.SITUATION)} $it"} ?: ""}${optionId?.let { ", ${language.getString(Labels.OPTION)} $it" } ?: ""}: $label $info $unit"
+        buildString {
+            append(blockId?.let { "${language.getString(Labels.BLOCK)} $it" } ?: "")
+            append(situationId?.let { ", ${language.getString(Labels.SITUATION)} $it" } ?: "")
+            append(optionId?.let { ", ${language.getString(Labels.OPTION)} $it" } ?: "")
+            append(if (blockId != null) ": " else "")
+            append(label)
+            append(if(info != null) ": $info" else " ")
+            append(unit)
+        }
     )
-
 }

@@ -12,7 +12,9 @@ enum class ReportGeneratorVariant(private val generator: ReportGenerator) {
 
     InvalidSituation(InvalidSituationReportGenerator),
 
-    InvalidBlock(InvalidBlockReportGenerator);
+    InvalidBlock(InvalidBlockReportGenerator),
+
+    IllegalChar(IllegalCharReportGenerator);
 
     fun getGenerator(): ReportGenerator {
         return generator

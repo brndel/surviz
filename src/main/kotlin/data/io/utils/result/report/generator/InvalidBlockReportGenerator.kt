@@ -9,7 +9,7 @@ object InvalidBlockReportGenerator: ReportGenerator {
     override fun generateReport(warnings: List<ExportWarning>): ExportReport? {
         for (warning in warnings) {
             if (warning is InvalidBlockWarning) {
-                return InvalidBlockExportReport(warning.id)
+                return warning.id?.let { InvalidBlockExportReport(it) }
             }
         }
         return null
