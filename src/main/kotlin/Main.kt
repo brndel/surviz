@@ -33,8 +33,8 @@ fun main() = application {
     var currentProjectPath by remember { mutableStateOf<String?>(null) }
 
     val mainWindowState = rememberWindowState(
-        width = 700.dp,
-        height = 500.dp,
+        width = 1920.dp,
+        height = 1080.dp,
         placement = WindowPlacement.Floating,
         position = WindowPosition((1920.dp - 700.dp) / 2, (1080.dp - 500.dp) / 2)
     )
