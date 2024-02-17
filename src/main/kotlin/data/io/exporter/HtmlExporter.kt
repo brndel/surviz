@@ -314,6 +314,6 @@ ul {
             "option" to optionName
         )
 
-        return Path("images", "$fileName.png").pathString
+        return Path("images", "$fileName").pathString
     }
 }
