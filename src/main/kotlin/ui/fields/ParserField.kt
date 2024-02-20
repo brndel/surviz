@@ -1,6 +1,5 @@
 package ui.fields
 
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,13 +27,16 @@ fun <T> ParserField(
         text = it
         val newValue = parse(it)
 
-        if (newValue != null) {
+        isError = if (newValue != null) {
             onValueChange(newValue)
-            isError = false
+            false
         } else {
-            isError = true
+            true
         }
     }, modifier = modifier.onFocusChanged {
         isFocused = it.isFocused
+        if (!isFocused) {
+            isError = false
+        }
     }, singleLine = true, isError = isError, label = label)
 }
