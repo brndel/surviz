@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindow
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import data.project.data.IconStorage
+import data.resources.exceptions.CorruptFileException
 import data.resources.exceptions.FileTypeException
 import ui.Label
 import ui.Labels
@@ -127,6 +128,8 @@ private fun ImportIconButton(modifier: Modifier = Modifier) {
             iconStorage.storeIcon(path)
         } catch (e: FileTypeException) {
             errorLabel = Labels.IMPORT_ERROR_INVALID_FILE_TYPE
+        } catch (e: CorruptFileException) {
+            errorLabel = Labels.IMPORT_ERROR_CORRUPT_FILE
         }
     }
 
