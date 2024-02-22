@@ -59,10 +59,13 @@ data class SingleValueIcon(
             } else {
                 null
             }
-            val levels = ctx.deserialize<SnapshotStateList<SingleValueIconLevel>>(
-                obj.get("levels"),
-                SnapshotStateList::class.java
-            )
+
+            val levels = mutableStateListOf<SingleValueIconLevel>()
+
+            for (level in obj.get("levels").asJsonArray) {
+                val iconLevel = ctx.deserialize<SingleValueIconLevel>(level, SingleValueIconLevel::class.java)
+                levels.add(iconLevel)
+            }
 
             SingleValueIcon(mutableStateOf(baseIcon), levels)
         }
