@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
@@ -78,6 +79,8 @@ fun ExportPage(project: Project) {
                     }) {
                     it.name
                 }
+
+                Divider(Modifier.fillMaxWidth().padding(horizontal = 10.dp).padding(top = 20.dp))
 
                 ExporterConfigCard(selectedExporter, project, Modifier.weight(1F))
             }
