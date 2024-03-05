@@ -27,6 +27,7 @@ import util.platformPath
 import java.awt.image.BufferedImage
 import java.io.File
 import java.nio.file.InvalidPathException
+import java.nio.file.Path
 import javax.imageio.ImageIO
 import kotlin.io.path.Path
 
@@ -124,11 +125,16 @@ object PngExporter : Exporter {
         return fields
     }
 
-    override fun export(project: Project, exportConfig: Map<String, Any>): ExportResult {
+    override fun export(
+        project: Project,
+        exportConfig: Map<String, Any>,
+        onPathSelected: ((Path) -> Unit)?
+    ): ExportResult {
         imageGenerator = ImageGenerator(project.configuration, project.iconStorage)
 
         val scheme = exportConfig[SCHEME_KEY] as String
         val path = exportConfig[PATH_KEY] as String
+        onPathSelected?.let { it(Path.of(path)) }
 
         val blocks = ArrayList<Block>()
         val allBlocks = exportConfig[ALL_BLOCK_KEY] as Boolean

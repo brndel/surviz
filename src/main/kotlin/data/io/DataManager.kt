@@ -11,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
+import java.nio.file.Path
 
 /**
  * This class represents the data manager.
@@ -41,15 +42,18 @@ object DataManager {
      * @param project The project to save.
      * @param exporter The exporter to use.
      * @param exportConfig The export configuration.
+     * @param onPathSelected gets called if a path is selected in exporting process
+     * @param onFinished getsCalled when finished with exporting
      */
     fun saveData(
         project: Project,
         exporter: ExporterVariant,
         exportConfig: Map<String, Any>,
+        onPathSelected: (Path) -> Unit,
         onFinished: (ExportResult) -> Unit,
     ) {
         CoroutineScope(Dispatchers.IO).launch {
-            val result =  exporter.getExporter().export(project, exportConfig)
+            val result =  exporter.getExporter().export(project, exportConfig, onPathSelected)
 
             onFinished(result)
         }

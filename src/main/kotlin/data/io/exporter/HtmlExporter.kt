@@ -15,6 +15,7 @@ import kotlinx.html.stream.appendHTML
 import ui.Labels
 import util.platformPath
 import java.io.File
+import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlin.io.path.pathString
 
@@ -132,10 +133,15 @@ ul {
      * @param project The project to export.
      * @param exportConfig The export configuration.
      */
-    override fun export(project: Project, exportConfig: Map<String, Any>): ExportResult {
+    override fun export(
+        project: Project,
+        exportConfig: Map<String, Any>,
+        onPathSelected: ((Path) -> Unit)?
+    ): ExportResult {
         // Configure Export Selection
         val scheme = exportConfig[SCHEME_KEY] as String
         val path = exportConfig[PATH_KEY] as String
+        onPathSelected?.let { it(Path.of(path)) }
         val allBlocks = exportConfig[ALL_BLOCK_KEY] as Boolean
         val allSituations = exportConfig[ALL_SITUATION_KEY] as Boolean
 
@@ -145,7 +151,7 @@ ul {
         } else {
             val blockId = exportConfig[BLOCK_KEY] as Int
             val block = project.getBlock(blockId)
-            if ( block != null) {
+            if (block != null) {
                 project.getBlock(blockId)?.let { blocks.add(it) }
             } else {
                 return ExportResult(arrayListOf(InvalidBlockWarning(blockId)))
@@ -169,7 +175,7 @@ ul {
         pngExportConfig[PATH_KEY] = Path(path, "images").pathString
         pngExportConfig[SEPARATE_OPTION_KEY] = true
 
-        val pngWarnings = PngExporter.export(project, pngExportConfig)
+        val pngWarnings = PngExporter.export(project, pngExportConfig, null)
 
         val errorList = ArrayList<ExportWarning?>()
 
@@ -189,6 +195,7 @@ ul {
         errorList.addAll(pngWarnings.warnings)
         return ExportResult(errorList.filterNotNull())
     }
+
     private suspend fun saveBlock(
         config: Config,
         block: Block
@@ -199,7 +206,7 @@ ul {
             situations.addAll(block.getSituations())
         } else {
             val situation = block.getSituation(config.situationId)
-            if(situation != null) {
+            if (situation != null) {
                 situations.add(situation)
             } else {
                 return arrayListOf(InvalidSituationWarning(block.id, config.situationId))
@@ -230,7 +237,7 @@ ul {
             append(lineSeparator)
             append(lineSeparator)
 
-            appendHTML(false).div{
+            appendHTML(false).div {
                 this.classes = setOf("radio-toolbar")
 
                 +lineSeparator
@@ -266,7 +273,7 @@ ul {
     private fun UL.getOption(situation: Situation, blockId: Int) {
         val lineSeparator = System.lineSeparator()
 
-        for(option in situation.options.values) {
+        for (option in situation.options.values) {
             li {
                 +lineSeparator
                 input(InputType.radio) {

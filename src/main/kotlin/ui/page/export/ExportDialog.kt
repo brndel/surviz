@@ -2,9 +2,7 @@ package ui.page.export
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
@@ -25,9 +23,16 @@ import ui.Label
 import ui.Labels
 import ui.Language
 import ui.LocalLanguage
+import java.awt.Desktop
+import java.nio.file.Path
 
 @Composable
-fun ExportDialog(exportResult: ExportResult, project: Project, onDismissRequest: () -> Unit) {
+fun ExportDialog(
+    exportResult: ExportResult,
+    project: Project,
+    path: Path?,
+    onDismissRequest: () -> Unit
+) {
 
     val title: String
     val reportList = exportResult.getReportList()
@@ -70,6 +75,17 @@ fun ExportDialog(exportResult: ExportResult, project: Project, onDismissRequest:
         },
 
         dismissButton = {
+            val desktop = Desktop.getDesktop()
+            if (path != null) {
+                Button(
+                    onClick = {
+                        desktop.open(path.toFile())
+                    },
+                    enabled = desktop.isSupported(Desktop.Action.OPEN)
+                ) {
+                    Label(Labels.EXPORT_DIALOG_OPEN_FOLDER)
+                }
+            }
             Button(
                 onClick = {
                     onDismissRequest()
@@ -117,7 +133,7 @@ fun ShowReport(report: ExportReport) {
             append(optionId?.let { ", ${language.getString(Labels.OPTION)} $it" } ?: "")
             append(if (blockId != null) ": " else "")
             append(label)
-            append(if(info != null) ": $info" else " ")
+            append(if (info != null) ": $info" else " ")
             append(unit)
         }
     )

@@ -186,6 +186,7 @@ object Labels {
     const val IMPORT_ICON = "IMPORT_ICON"
 
     const val EXPORT_DIALOG_APPLY_FIX = "EXPORT_DIALOG_APPLY_FIX"
+    const val EXPORT_DIALOG_OPEN_FOLDER = "EXPORT_DIALOG_OPEN_FOLDER"
 
     const val OVERRIDE_DATA_NOT_FITTING = "OVERRIDE_DATA_NOT_FITTING"
     const val OVERRIDE_DATA_ANYWAYS = "OVERRIDE_DATA_ANYWAYS"
@@ -368,6 +369,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.IMPORT_ICON to "Import icon",
 
             Labels.EXPORT_DIALOG_APPLY_FIX to "Apply fix",
+            Labels.EXPORT_DIALOG_OPEN_FOLDER to "Open folder",
 
             Labels.OVERRIDE_DATA_NOT_FITTING to "The scheme of the file you tried to load does not match the currently loaded one",
             Labels.OVERRIDE_DATA_ANYWAYS to "Load data anyways",
@@ -548,6 +550,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.IMPORT_ICON to "Neues Icon importieren",
 
             Labels.EXPORT_DIALOG_APPLY_FIX to "Fehler beheben",
+            Labels.EXPORT_DIALOG_OPEN_FOLDER to "Ordner öffnen",
 
             Labels.OVERRIDE_DATA_NOT_FITTING to "Das Schema der Simulationsdatei entspricht nicht dem aktuellen Schema",
             Labels.OVERRIDE_DATA_ANYWAYS to "Trotzdem laden",

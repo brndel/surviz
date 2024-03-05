@@ -34,6 +34,7 @@ import ui.Labels
 import ui.fields.GenericField
 import ui.fields.OptionsField
 import ui.util.NestedSurface
+import java.nio.file.Path
 
 /**
  * On this page the user can export the current [Project].
@@ -110,6 +111,7 @@ private fun ExporterConfigCard(
 
     var exportResult: ExportResult? by remember { mutableStateOf(null) }
     var isExporting: Boolean by remember { mutableStateOf(false) }
+    var exportPath: Path? by remember { mutableStateOf(null) }
 
     Box(Modifier.fillMaxWidth()) {
         Row(
@@ -120,7 +122,7 @@ private fun ExporterConfigCard(
             Button(onClick = {
                 val config = getExporterConfig()
                 isExporting = true
-                DataManager.saveData(project, exporter, config) {
+                DataManager.saveData(project, exporter, config, onPathSelected = {exportPath = it}) {
                     exportResult = it
                     isExporting = false
                 }
@@ -138,6 +140,6 @@ private fun ExporterConfigCard(
     }
 
     exportResult?.let {
-        ExportDialog(it, project, onDismissRequest = { exportResult = null })
+        ExportDialog(it, project, exportPath, onDismissRequest = { exportResult = null })
     }
 }
