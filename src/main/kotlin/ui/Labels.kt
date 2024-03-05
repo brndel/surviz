@@ -198,6 +198,8 @@ object Labels {
     const val ILLEGAL_CHAR = "ILLEGAL_CHAR"
 
     const val LOWER_THRESHOLD = "LOWER_THRESHOLD"
+
+    const val COLOR = "COLOR"
 }
 
 enum class Language(private val code: String, val label: String, private val strings: Map<String, String>) {
@@ -381,6 +383,8 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.ILLEGAL_CHAR to "Illegal character in file name",
 
             Labels.LOWER_THRESHOLD to "Lower threshold",
+
+            Labels.COLOR to "Color",
         )
     ),
     German(
@@ -564,6 +568,8 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.ILLEGAL_CHAR to "Verbotenes Zeichen in Dateiname",
 
             Labels.LOWER_THRESHOLD to "Untergrenze",
+
+            Labels.COLOR to "Farbe",
         )
     );
 

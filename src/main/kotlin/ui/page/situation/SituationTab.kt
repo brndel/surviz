@@ -78,7 +78,7 @@ fun SituationTab(
         }
 
         item {
-            ColorField(color, { color = it })
+            ColorField(color, { color = it }, label = { Label(Labels.COLOR) })
         }
 
         item {
