@@ -541,7 +541,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.IMAGE_CREATE_ERROR to "Fehler beim Erstellen des Bildes",
             Labels.SITUATION_NOT_FOUND to "Situation konnte nicht gefunden werden",
 
-            Labels.IMPORT_ICON to "Icon hinzufügen",
+            Labels.IMPORT_ICON to "Neues Icon importieren",
 
             Labels.EXPORT_DIALOG_APPLY_FIX to "Fehler beheben",
 
