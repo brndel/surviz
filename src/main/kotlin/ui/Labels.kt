@@ -406,7 +406,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.FIELD_LINE_TYPE to "Linientyp",
             Labels.LINE_TYPE_SOLID to "Solide",
             Labels.LINE_TYPE_DOTTED to "Gepunktet",
-            Labels.LINE_TYPE_DASHED to "Gesterichelt",
+            Labels.LINE_TYPE_DASHED to "Gestrichelt",
 
             Labels.BLOCK to "Block",
             Labels.SITUATION to "Situation",
@@ -421,7 +421,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.ZERO_COLUMN_NAME to "Null",
             Labels.ZERO_COLUMN_DESC to "Diese Spalte ist immer 0",
 
-            Labels.TIMELINE_COLUMN_NAME to "Zeitlinie",
+            Labels.TIMELINE_COLUMN_NAME to "Zeitstrahl",
             Labels.TIMELINE_COLUMN_DESC to "Nimmt die Spalten aus dem Zeitstrahl",
 
             Labels.SELECT_COLUMN_NAME to "Auswählen",
