@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -14,6 +15,7 @@ import androidx.compose.material.icons.filled.Preview
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import data.generator.ImageGenerator
 import data.project.Project
@@ -74,28 +76,26 @@ fun Preview(project: Project) {
             }
             if (situation != null) {
                 items(situation!!.options.values.toList()) { option ->
-
                     var errorText: String? = null
                     val image = try {
                         imageGenerator.generateOption(option)
                     } catch (e: Throwable) {
-
-
                         errorText = e.toString() + " at " + e.stackTrace[0].toString()
-
                         null
                     }
 
-                    if (image != null) {
-                        Image(image.image, null)
-                    } else {
-                        Row {
-                            Label(Labels.IMAGE_CREATE_ERROR)
-                            Text(" '$errorText'")
+                    Column(Modifier.padding(vertical = 8.dp)) { // Add vertical padding between items
+                        if (image != null) {
+                            Image(image.image, null, modifier = Modifier.clip(RoundedCornerShape(10.dp)))
+                        } else {
+                            Row {
+                                Label(Labels.IMAGE_CREATE_ERROR)
+                                Text(" '$errorText'")
+                            }
                         }
                     }
-
                 }
+
             } else {
                 item {
                     Label(Labels.SITUATION_NOT_FOUND)
