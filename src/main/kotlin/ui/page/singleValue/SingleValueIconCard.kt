@@ -52,7 +52,10 @@ fun SingleValueIconCard(icon: SingleValueIcon) {
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     IconField(level.icon.value) { level.icon.value = it }
-                    DoubleField(level.lowerThreshold.value, { level.lowerThreshold.value = it })
+                    DoubleField(
+                        level.lowerThreshold.value,
+                        { level.lowerThreshold.value = it },
+                        label = { Label(Labels.LOWER_THRESHOLD) })
                     IconButton({ icon.removeLevel(level) }) {
                         Icon(Icons.Default.Delete, null)
                     }
