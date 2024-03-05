@@ -84,7 +84,7 @@ fun Preview(project: Project) {
                         null
                     }
 
-                    Column(Modifier.padding(vertical = 8.dp)) { // Add vertical padding between items
+                    Column(Modifier.padding(vertical = 5.dp)) { // Add vertical padding between items
                         if (image != null) {
                             Image(image.image, null, modifier = Modifier.clip(RoundedCornerShape(10.dp)))
                         } else {
