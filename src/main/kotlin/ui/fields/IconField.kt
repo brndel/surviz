@@ -14,6 +14,11 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AddAPhoto
+import androidx.compose.material.icons.filled.NewLabel
+import androidx.compose.material.icons.filled.Texture
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindow
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
@@ -164,10 +170,19 @@ fun IconStorageImage(
     iconStorage: IconStorage? = LocalIconStorage.current,
     color: Color = LocalContentColor.current
 ) {
+    val colorFilter = ColorFilter.colorMatrix(
+        ColorMatrix(
+            floatArrayOf(
+                0f, 0f, 0f, 0f, color.red * 255,
+                0f, 0f, 0f, 0f, color.green * 255,
+                0f, 0f, 0f, 0f, color.blue * 255,
+                0f, 0f, 0f, 1f, 0f
+            )
+        )
+    )
+
     if (iconPath == null) {
-        Box(modifier.size(64.dp)) {
-            Text("-", modifier = Modifier.align(Alignment.Center))
-        }
+        Image(Icons.Default.AddAPhoto, null, colorFilter = colorFilter)
         return
     }
 
@@ -181,14 +196,5 @@ fun IconStorageImage(
         return
     }
 
-    Image(image, null, modifier = modifier.size(64.dp), colorFilter =  ColorFilter.colorMatrix(
-        ColorMatrix(
-            floatArrayOf(
-                0f, 0f, 0f, 0f, color.red * 255,
-                0f, 0f, 0f, 0f, color.green * 255,
-                0f, 0f, 0f, 0f, color.blue * 255,
-                0f, 0f, 0f, 1f, 0f
-            )
-        )
-    ))
+    Image(image, null, modifier = modifier.size(64.dp), colorFilter =  colorFilter)
 }
