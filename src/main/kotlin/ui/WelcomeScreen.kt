@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.FileUpload
+import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.UploadFile
@@ -49,7 +50,7 @@ fun WelcomeScreen() {
                 Label(Labels.SURVIZ, style = MaterialTheme.typography.h3)
             }
 
-            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 val projectPath = remember { Project.getLastProjectFilePath() }
 
                 WelcomeScreenButton(
@@ -80,6 +81,13 @@ fun WelcomeScreen() {
                     Icons.Default.Settings
                 ) {
                     globalCallbacks.openSettings()
+                }
+
+                WelcomeScreenButton(
+                    Labels.SETTINGS_HELP,
+                    Icons.Default.Help
+                ) {
+                    globalCallbacks.openHelp()
                 }
             }
         }
