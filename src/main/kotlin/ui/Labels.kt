@@ -85,7 +85,8 @@ object Labels {
     const val ACTION_LOAD_DATA = "ACTION_LOAD_DATA"
     const val ACTION_CLOSE = "ACTION_CLOSE"
 
-    const val APP_BAR_GROUP_WINDOW = "APP_BAR_GROUP_WINDOW"
+    const val APP_BAR_GROUP_SETTINGS = "APP_BAR_GROUP_SETTINGS"
+    const val APP_BAR_GROUP_HELP = "APP_BAR_GROUP_HELP"
     const val ACTION_OPEN_SETTINGS = "ACTION_OPEN_SETTINGS"
     const val ACTION_OPEN_HELP = "ACTION_OPEN_HELP"
 
@@ -288,8 +289,9 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.ACTION_LOAD_DATA to "Load new simulation data",
             Labels.ACTION_CLOSE to "Close file",
 
-            Labels.APP_BAR_GROUP_WINDOW to "Window",
+            Labels.APP_BAR_GROUP_SETTINGS to "Settings",
             Labels.ACTION_OPEN_SETTINGS to "Open Settings",
+            Labels.APP_BAR_GROUP_HELP to "Help",
             Labels.ACTION_OPEN_HELP to "Open Help",
 
             Labels.ACTION_SAVE_AS_DIRECTORY to "Choose directory",
@@ -472,8 +474,10 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.ACTION_LOAD_DATA to "Neue Simulationsdatei laden",
             Labels.ACTION_CLOSE to "Datei schließen",
 
-            Labels.APP_BAR_GROUP_WINDOW to "Fenster",
+            Labels.APP_BAR_GROUP_SETTINGS to "Einstellungen",
             Labels.ACTION_OPEN_SETTINGS to "Einstellungen öffnen",
+
+            Labels.APP_BAR_GROUP_HELP to "Hilfe",
             Labels.ACTION_OPEN_HELP to "Hilfe öffnen",
 
             Labels.ACTION_SAVE_AS_DIRECTORY to "Verzeichnis auswählen",

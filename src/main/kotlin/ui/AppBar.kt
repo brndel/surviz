@@ -35,6 +35,18 @@ fun AppBar() {
 
 @Composable
 private fun AppBarButton(group: AppBarGroup) {
+    val globalCallbacks = LocalGlobalCallbacks.current!!
+    if(group.actions.size == 1) {
+        val action = group.actions[0]
+        Box {(Modifier.padding(end = 8.dp))
+            TextButton(
+                { action.onClick(globalCallbacks) }
+            ) {
+                Label(group.label)
+            }
+        }
+    }else{
+
     var menuOpen by remember { mutableStateOf(false) }
 
     Box {
@@ -45,7 +57,6 @@ private fun AppBarButton(group: AppBarGroup) {
         }
 
         DropdownMenu(menuOpen, { menuOpen = false }) {
-            val globalCallbacks = LocalGlobalCallbacks.current!!
             for (action in group.actions) {
                 DropdownMenuItem({
                     menuOpen = false
@@ -64,6 +75,7 @@ private fun AppBarButton(group: AppBarGroup) {
                     }
                 }
             }
+        }
         }
     }
 }

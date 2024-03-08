@@ -27,7 +27,8 @@ data class AppBarGroup(val label: String, val actions: List<AppBarAction>)
 val actionsManager by lazy {
     ShortcutActionsManager(
         fileGroup,
-        windowGroup
+        settingsGroup,
+        helpGroup,
     )
 }
 
@@ -47,12 +48,19 @@ val fileGroup = AppBarGroup(
     )
 )
 
-val windowGroup = AppBarGroup(
-    Labels.APP_BAR_GROUP_WINDOW, listOf(
+val settingsGroup = AppBarGroup(
+    Labels.APP_BAR_GROUP_SETTINGS, listOf(
         OpenSettingsAction,
+    )
+)
+
+val helpGroup = AppBarGroup(
+    Labels.APP_BAR_GROUP_HELP, listOf(
         OpenHelpAction
     )
 )
+
+
 
 // Actions
 
