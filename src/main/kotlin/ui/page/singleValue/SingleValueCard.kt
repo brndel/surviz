@@ -92,7 +92,7 @@ private fun RowScope.SingleValueCardContent(config: SingleValueConfig, dataSchem
                     SchemeMatchPopup(columnScheme, dataScheme)
                 }
             }
-            InfoIconBox(Labels.FIELD_COLUMN_SCHEME,Labels.FIELD_COLUMN_SCHEME)
+            InfoIconBox(Labels.SINGLE_VALUE_SCHEME_INFO_TITLE,Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION)
         })
 
         SingleValueIconCard(config.icon)

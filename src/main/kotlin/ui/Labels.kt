@@ -200,6 +200,11 @@ object Labels {
     /*
     #########################################   INFO LABELS   ##########################################################
     */
+    const val SINGLE_VALUE_SCHEME_INFO_TITLE = "SINGLE_VALUE_SCHEME_INFO_TITLE"
+    const val SINGLE_VALUE_SCHEME_INFO_DESCRIPTION = "SINGLE_VALUE_SCHEME_INFO_DESCRIPTION"
+
+    const val SINGLE_VALUE_LEVEL_INFO_TITLE = "SINGLE_VALUE_LEVEL_INFO_TITLE"
+    const val SINGLE_VALUE_LEVEL_INFO_DESCRIPTION = "SINGLE_VALUE_LEVEL_INFO_DESCRIPTION"
 
     const val TIMELINE_SCALING_INFO_TITLE = "TIMELINE_SCALING_INFO_TITLE"
     const val TIMELINE_SCALING_INFO_DESCRIPTION = "TIMELINE_SCALING_INFO_DESCRIPTION"
@@ -412,6 +417,12 @@ enum class Language(private val code: String, val label: String, private val str
             /*
             #########################################   INFO LABELS   ##################################################
             */
+            Labels.SINGLE_VALUE_SCHEME_INFO_TITLE to "Scheme for automatic column matching",
+            Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION to "By adding a Regular expression (Regex), SurViz can automatically\ndetermine the Ngene file columns for this Single Value.\n\nYou can find out more about scheme matching\nby clicking the Help tab (or pressing F1).",
+
+            Labels.SINGLE_VALUE_LEVEL_INFO_TITLE to "Icon-Levels",
+            Labels.SINGLE_VALUE_LEVEL_INFO_DESCRIPTION to "By adding a level the icon of this single value changes, depending\n on the specified lower threshold, to the selected icon of this level.",
+
             Labels.TIMELINE_SCALING_INFO_TITLE to "Recommended scaling based on minimum section length",
             Labels.TIMELINE_SCALING_INFO_DESCRIPTION to "- 1: ~45 min\n" + "- 5: ~10 min\n" + "- 10: ~5 min\n" + "- 15: ~3 min\n" + "- 20: ~2 min",
 
@@ -623,6 +634,12 @@ enum class Language(private val code: String, val label: String, private val str
             /*
             #########################################   INFO LABELS   ##################################################
             */
+
+            Labels.SINGLE_VALUE_SCHEME_INFO_TITLE to "Schema für eine automatische Spaltenauswahl",
+            Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION to "Durch hinzufügen eines Regulären Ausdrucks (Regex) kann SurViz\nautomatisch Spalten der Ngene Datei, diesem Einzelwert zuweisen.\n\nFinde mehr über automatische Spaltenauswahl heraus,\ndurch klicken auf das Hilfe Fenster (oder F1 drücken).",
+
+            Labels.SINGLE_VALUE_LEVEL_INFO_TITLE to "Mehrstufige Icons",
+            Labels.SINGLE_VALUE_LEVEL_INFO_DESCRIPTION to "Durch Hinzufügen einer Stufe wechselt das Icon dieses Einzelwerts,\nab der angegebenen Untergrenze, auf das gewählte Icon dieser Stufe.",
 
             Labels.TIMELINE_SCALING_INFO_TITLE to "Empfohlene Skalierung basierend auf kleinstem Zeitabschnitt",
             Labels.TIMELINE_SCALING_INFO_DESCRIPTION to "- 1: ~45 min\n" + "- 5: ~10 min\n" + "- 10: ~5 min\n" + "- 15: ~3 min\n" + "- 20: ~2 min",
