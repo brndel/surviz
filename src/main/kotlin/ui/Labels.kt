@@ -208,6 +208,9 @@ enum class Language(private val code: String, val label: String, private val str
         "en",
         Labels.LANGUAGE_ENGLISH,
         mapOf(
+            /*
+            #########################################   BASIC LABELS   #################################################
+             */
             Labels.SURVIZ to "SurViz",
             Labels.LOAD_LAST_PROJECT to "Load last Project",
             Labels.NEW_PROJECT to "New Project",
@@ -256,6 +259,10 @@ enum class Language(private val code: String, val label: String, private val str
 
             Labels.EXPORTER to "Exporter",
 
+            /*
+            #########################################   EXPORT/IMPORT LABELS   #########################################
+             */
+
             Labels.EXPORT_SELECT_ALL_BLOCKS to "Select all blocks",
             Labels.EXPORT_SELECT_ALL_SITUATIONS to "Select all situations",
             Labels.EXPORT_SEPARATE_OPTIONS to "Export all options separately",
@@ -282,6 +289,10 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.ICON_SELECT_WINDOW to "Select icon",
 
             Labels.UNNAMED_PROJECT to "Untitled project",
+
+            /*
+            #########################################   APPBAR/ACTION LABELS   #########################################
+            */
 
             Labels.APP_BAR_GROUP_FILE to "File",
             Labels.ACTION_SAVE to "Save file",
@@ -317,6 +328,10 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.SITUATION_SINGLE_VALUE_COLUMNS to "Single value columns",
 
             Labels.FORBIDDEN_CHARACTERS to "Forbidden characters",
+
+            /*
+            #########################################   USER GUIDE LABELS   ############################################
+            */
 
             Labels.USER_GUIDE to "SurViz user guide",
             Labels.USER_GUIDE_START_SCREEN to "Home screen",
@@ -354,6 +369,9 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME to "Scheme for file names",
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION to "In the scheme for the file names, the following placeholders can be used:\n" + ENUMERATION_SIGN + " \$block\$\n" + ENUMERATION_SIGN + " \$situation\$\n" + ENUMERATION_SIGN + " \$option\$\n" + "\n" + "\$block\$ is replaced with the number of the block when creating the file name.\n" + "\n" + "\$situation\$ is replaced with the number of the situation when creating the file name.\n" + "\n" + "\$option\$ is replaced with the number of the selection option when creating the file name. However, the replacement of \$option\$ only occurs when 'Export all options separately' is activated.",
 
+            /*
+            #########################################   SETTINGS LABELS   ##############################################
+            */
             Labels.SETTINGS_CHANGE_LANGUAGE to "Change language",
 
             Labels.LANGUAGE_ENGLISH to "English",
@@ -363,9 +381,16 @@ enum class Language(private val code: String, val label: String, private val str
 
             Labels.PREVIEW to "Preview",
 
+            /*
+            #########################################   INFO LABELS   ##################################################
+            */
             Labels.TIMELINE_SCALING_INFO_TITLE to "Recommended scaling based on minimum section length",
             Labels.TIMELINE_SCALING_INFO_DESCRIPTION to "- 1: ~45 min\n" + "- 5: ~10 min\n" + "- 10: ~5 min\n" + "- 15: ~3 min\n" + "- 20: ~2 min",
 
+
+            /*
+            #########################################   MISC/ERROR LABELS   ############################################
+            */
             Labels.IMAGE_CREATE_ERROR to "Error while creating image",
             Labels.SITUATION_NOT_FOUND to "Situation not found",
             Labels.BLOCK_NOT_FOUND to "Block not found",
@@ -393,6 +418,9 @@ enum class Language(private val code: String, val label: String, private val str
         "de",
         Labels.LANGUAGE_GERMAN,
         mapOf(
+            /*
+            #########################################   BASIC LABELS   #################################################
+            */
             Labels.SURVIZ to "SurViz",
             Labels.LOAD_LAST_PROJECT to "Letztes Projekt laden",
             Labels.NEW_PROJECT to "Neues Projekt",
@@ -439,6 +467,10 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.SELECT_COLUMN_NAME to "Auswählen",
             Labels.SELECT_COLUMN_DESC to "Wähle die Spalten von Hand aus",
 
+            /*
+            #########################################   EXPORT/IMPORT LABELS   #########################################
+            */
+
             Labels.EXPORTER to "Exporter",
 
             Labels.EXPORT_SELECT_ALL_BLOCKS to "Alle Blöcke auswählen",
@@ -468,6 +500,9 @@ enum class Language(private val code: String, val label: String, private val str
 
             Labels.UNNAMED_PROJECT to "Unbenanntes Projekt",
 
+            /*
+            #########################################   APPBAR/ACTION LABELS   #########################################
+            */
             Labels.APP_BAR_GROUP_FILE to "Datei",
             Labels.ACTION_SAVE to "Datei speichern",
             Labels.ACTION_SAVE_AS to "Datei speichern unter",
@@ -504,6 +539,10 @@ enum class Language(private val code: String, val label: String, private val str
 
             Labels.FORBIDDEN_CHARACTERS to "Verbotene Zeichen",
 
+            /*
+            #########################################   USER GUIDE LABELS   ############################################
+            */
+
             Labels.USER_GUIDE to "SurViz Benutzerhandbuch",
             Labels.USER_GUIDE_START_SCREEN to "Startbildschirm",
             Labels.USER_GUIDE_START_SCREEN_DESCRIPTION to "Auf dem Startbildschirm lässt sich das letzte Projekt laden, ein neues Projekt erstellen, eine bereits angelegte Projektdatei laden oder die Einstellungen öffnen.\n",
@@ -530,7 +569,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD to "Einzelwert hinzufügen und konfigurieren",
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD_DESCRIPTION to "Durch Klicken auf die Schaltfläche \$+ Neu\$ kann ein neuer Einzelwert hinzugefügt werden.\n" + "\n" + "Dem Einzelwert kann im Textfeld \$Einheit\$ eine Einheit zugewiesen werden.\n" + "\n" + "Dem Einzelwert kann im Textfeld \$Spaltenschema\$ ein Spaltenschema zugewiesen werden. Weitere Informationen hierzu sind im Benutzerhandbuch unter \$Einzelwert Spaltenschema\$ zu finden.\n" + "\n" + "Durch Klicken der \$Icon-Schaltfläche\$ unter dem Textfeld Spaltenschema kann ein Icon für den Einzelwert ausgewählt werden.\n" + "\n" + "Durch Klicken des \$+\$ unter der Schaltfläche für das Icon, kann ein Iconlevel hinzugefügt werden.\n" + "\n" + "Einem Iconlevel kann ein eigenes Icon hinzugefügt werden. Außerdem kann im Textfeld neben der Schaltfläche für das Icon eine untere Schwelle festgelegt werden.\n" + "Diese gibt an, ab welchem Wert des Einzelwerts das Icon wechselt.\n" + "\n" + "Die Reihenfolge der Einzelwerte kann durch Anklicken der \$Schaltfläche mit den drei übereinanderliegenden Strichen\$, mittels Drag and Drop, angepasst werden.",
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME to "Einzelwert Spaltenschema",
-            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME_DESCRIPTION to "Durch Angeben eines Spaltenschemas kann SurViz aus den Spalten jeder Situation automatisch eine Liste der Spalten erstellen, die durch Aufsummieren der Werte, den Wert dieses Einzelwerts angeben.\n" + "\n" + "Das Schema besteht aus einem genau definierten \$Präfix\$ eines Spaltennamens und einem beliebigen \$Suffix\$ eines Spaltennamens, welches mit einem \$*\$ ersetzt wird.\n" + "Das Schema \$Präfix*\$ wählt alle Spalten der Ngene-Datei aus, deren Name folgendermaßen aufgebaut ist: \$Situation\$.\$PräfixSuffix\$\n" + "\n" + "Beispiel:\n" + "Es existieren die Spalten\n" + ENUMERATION_SIGN + " \$car.cost_maut\$\n" + ENUMERATION_SIGN + " \$car.cost_benzin\$\n" + ENUMERATION_SIGN + " \$car.fz\$\n" + ENUMERATION_SIGN + " \$car.fz_abgang\$\n" + ENUMERATION_SIGN + " \$car.fz_zugang\$\n" + "\n" + "zu der Situation \$car\$.\n" + "\n" + "Durch das Schema \$cost*\$ werden die folgenden Spalten in der Situation \$car\$ ausgewählt:\n" + ENUMERATION_SIGN + " \$car.cost_maut\$\n" + ENUMERATION_SIGN + " \$car.cost_benzin\$\n" + "Jedoch würde in diesem Beispiel bereits das Schema \$c*\$ reichen, um die oben aufgeführten Spalten auszuwählen.\n" + "\n" + "Durch das Schema \$fz*\$ werden die folgenden Spalten in der Situation \$car\$ ausgewählt:\n" + ENUMERATION_SIGN + " \$car.fz\$\n" + ENUMERATION_SIGN + " \$car.fz_abgang\$\n" + ENUMERATION_SIGN + " \$car.fz_zugang\$\n" + "\n" + "Durch das Schema \$fz_*\$ werden die folgenden Spalten in der Situation \$car\$ ausgewählt:\n" + ENUMERATION_SIGN + " \$car.fz_abgang\$\n" + ENUMERATION_SIGN + " \$car.fz_zugang\$\n" + "Die Spalte \$car.fz\$ wird hier nicht mehr ausgewählt, da diese nicht den suffix \$fz_\$ enthält.",
+            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME_DESCRIPTION to "Durch die Angabe eines Spaltenschemas kann SurViz aus den Spalten jeder Situation automatisch eine Liste der Spalten erstellen, die durch Aufsummieren der Werte, den Wert dieses Einzelwerts angibt.\n" + "\n" + "Das Schema besteht aus einem genau definierten \$Präfix\$ eines Spaltennamens und einem beliebigen \$Suffix\$ eines Spaltennamens, welches mit einem \$*\$ ersetzt wird.\n" + "Das Schema \$Präfix*\$ wählt alle Spalten der Ngene-Datei aus, deren Name folgendermaßen aufgebaut ist: \$Situation\$.\$PräfixSuffix\$\n" + "\n" + "Beispiel:\n" + "Es existieren die Spalten\n" + ENUMERATION_SIGN + " \$car.cost_maut\$\n" + ENUMERATION_SIGN + " \$car.cost_benzin\$\n" + ENUMERATION_SIGN + " \$car.fz\$\n" + ENUMERATION_SIGN + " \$car.fz_abgang\$\n" + ENUMERATION_SIGN + " \$car.fz_zugang\$\n" + "\n" + "zu der Situation \$car\$.\n" + "\n" + "Durch das Schema \$cost*\$ werden die folgenden Spalten in der Situation \$car\$ ausgewählt:\n" + ENUMERATION_SIGN + " \$car.cost_maut\$\n" + ENUMERATION_SIGN + " \$car.cost_benzin\$\n" + "Jedoch würde in diesem Beispiel bereits das Schema \$c*\$ reichen, um die oben aufgeführten Spalten auszuwählen.\n" + "\n" + "Durch das Schema \$fz*\$ werden die folgenden Spalten in der Situation \$car\$ ausgewählt:\n" + ENUMERATION_SIGN + " \$car.fz\$\n" + ENUMERATION_SIGN + " \$car.fz_abgang\$\n" + ENUMERATION_SIGN + " \$car.fz_zugang\$\n" + "\n" + "Durch das Schema \$fz_*\$ werden die folgenden Spalten in der Situation \$car\$ ausgewählt:\n" + ENUMERATION_SIGN + " \$car.fz_abgang\$\n" + ENUMERATION_SIGN + " \$car.fz_zugang\$\n" + "Die Spalte \$car.fz\$ wird hier nicht mehr ausgewählt, da diese nicht den suffix \$fz_\$ enthält.",
             Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION to "Situationen Reiter",
             Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION_DESCRIPTION to "Im Reiter \$Situationen\$ können die einzelnen Situationen eines projekts konfiguriert werden.",
             Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION_EDIT to "Situation konfigurieren",
@@ -539,6 +578,10 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_DESCRIPTION to "Im Reiter \$Export\$ kann das projekt als \$PNG\$ oder \$HTML\$ exportiert werden.\n" + "Zum Exportieren des Projekts kann die \$Größe\$ und \$Skalierung\$ der Zeitlinie angegeben werden. Außerdem kann ein \$Dateipfad\$ und ein \$Schema für den Dateinamen\$ angegeben werden",
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME to "Schema für Dateinamen",
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION to "Im Schema für die Dateinamen der Dateien können folgende Platzhalter benutzt werden:\n" + ENUMERATION_SIGN + " \$block\$\n" + ENUMERATION_SIGN + " \$situation\$\n" + ENUMERATION_SIGN + " \$option\$\n" + "\n" + "\$block\$ wird beim Erstellen des Dateinamens mit der Nummer des Blocks ersetzt.\n" + "\n" + "\$situation\$ wird beim Erstellen des Dateinamens mit der Nummer der Situation ersetzt.\n" + "\n" + "\$option\$ wird beim Erstellen des Dateinamens mit der Nummer der Auswahloption ersetzt. Die Ersetzung von \$option\$ erfolgt jedoch nur, wenn 'Alle Optionen separat exportieren' aktiviert ist.",
+
+            /*
+            #########################################   SETTINGS LABELS   ##############################################
+            */
 
             Labels.SETTINGS_CHANGE_LANGUAGE to "Sprache ändern",
 
@@ -549,8 +592,16 @@ enum class Language(private val code: String, val label: String, private val str
 
             Labels.PREVIEW to "Vorschau",
 
+            /*
+            #########################################   INFO LABELS   ##################################################
+            */
+
             Labels.TIMELINE_SCALING_INFO_TITLE to "Empfohlene Skalierung basierend auf kleinstem Zeitabschnitt",
             Labels.TIMELINE_SCALING_INFO_DESCRIPTION to "- 1: ~45 min\n" + "- 5: ~10 min\n" + "- 10: ~5 min\n" + "- 15: ~3 min\n" + "- 20: ~2 min",
+
+            /*
+            #########################################   MISC/ERROR LABELS   ############################################
+            */
 
             Labels.IMAGE_CREATE_ERROR to "Fehler beim Erstellen des Bildes",
             Labels.SITUATION_NOT_FOUND to "Situation konnte nicht gefunden werden",
