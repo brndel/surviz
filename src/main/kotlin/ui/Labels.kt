@@ -200,6 +200,8 @@ object Labels {
     /*
     #########################################   INFO LABELS   ##########################################################
     */
+    const val OPEN_HElP_INFO_BOX = "OPEN_HElP_INFO_BOX"
+
     const val SINGLE_VALUE_SCHEME_INFO_TITLE = "SINGLE_VALUE_SCHEME_INFO_TITLE"
     const val SINGLE_VALUE_SCHEME_INFO_DESCRIPTION = "SINGLE_VALUE_SCHEME_INFO_DESCRIPTION"
 
@@ -417,8 +419,10 @@ enum class Language(private val code: String, val label: String, private val str
             /*
             #########################################   INFO LABELS   ##################################################
             */
+            Labels.OPEN_HElP_INFO_BOX to "Klick here to find out more (or press F1).",
+
             Labels.SINGLE_VALUE_SCHEME_INFO_TITLE to "Scheme for automatic column matching",
-            Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION to "By adding a Regular expression (Regex), SurViz can automatically\ndetermine the Ngene file columns for this Single Value.\n\nYou can find out more about scheme matching\nby clicking the Help tab (or pressing F1).",
+            Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION to "By adding a Regular expression (Regex), SurViz can automatically\ndetermine the Ngene file columns for this Single Value.",
 
             Labels.SINGLE_VALUE_LEVEL_INFO_TITLE to "Icon-Levels",
             Labels.SINGLE_VALUE_LEVEL_INFO_DESCRIPTION to "By adding a level the icon of this single value changes, depending\n on the specified lower threshold, to the selected icon of this level.",
@@ -635,8 +639,10 @@ enum class Language(private val code: String, val label: String, private val str
             #########################################   INFO LABELS   ##################################################
             */
 
+            Labels.OPEN_HElP_INFO_BOX to "Hier klicken um mehr zu erfahren (oder F1 drücken).",
+
             Labels.SINGLE_VALUE_SCHEME_INFO_TITLE to "Schema für eine automatische Spaltenauswahl",
-            Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION to "Durch hinzufügen eines Regulären Ausdrucks (Regex) kann SurViz\nautomatisch Spalten der Ngene Datei, diesem Einzelwert zuweisen.\n\nFinde mehr über automatische Spaltenauswahl heraus,\ndurch klicken auf das Hilfe Fenster (oder F1 drücken).",
+            Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION to "Durch hinzufügen eines Regulären Ausdrucks (Regex) kann SurViz\nautomatisch Spalten der Ngene Datei, diesem Einzelwert zuweisen.",
 
             Labels.SINGLE_VALUE_LEVEL_INFO_TITLE to "Mehrstufige Icons",
             Labels.SINGLE_VALUE_LEVEL_INFO_DESCRIPTION to "Durch Hinzufügen einer Stufe wechselt das Icon dieses Einzelwerts,\nab der angegebenen Untergrenze, auf das gewählte Icon dieser Stufe.",

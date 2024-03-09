@@ -1,15 +1,15 @@
 package ui.util
 
+import LocalGlobalCallbacks
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -23,6 +23,7 @@ import ui.Labels
 
 @Composable
 fun InfoIconBox(title : String, desc : String) {
+    val globalCallbacks = LocalGlobalCallbacks.current!!
     var showTimelineInfoPopup by remember { mutableStateOf(false) }
     Box {
         IconButton({ showTimelineInfoPopup = true }) {
@@ -44,6 +45,10 @@ fun InfoIconBox(title : String, desc : String) {
                             style = TextStyle(fontWeight = FontWeight.Bold)
                         )
                         Label(desc)
+                        Button({ globalCallbacks.openHelp() }) {
+                            Icon(Icons.Default.Help, null)
+                            Label(Labels.OPEN_HElP_INFO_BOX, Modifier.padding(8.dp))
+                        }
                     }
                 }
             }
