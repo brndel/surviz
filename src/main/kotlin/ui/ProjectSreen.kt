@@ -5,7 +5,6 @@ import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -47,11 +46,11 @@ fun ProjectScreen(project: Project) {
             AppBar()
 
             Row(Modifier.weight(1F)) {
-                ProjectPageNavigator(currentPage, { currentPage = it })
+                ProjectPageNavigator(currentPage) { currentPage = it }
 
                 Box(Modifier.weight(1F)) {
                     when (currentPage) {
-                        Page.SingleValue -> SingleValuePage(project.configuration)
+                        Page.SingleValue -> SingleValuePage(project.configuration, project.getDataScheme())
                         Page.Situation -> SituationPage(project.configuration, project.getDataScheme())
                         Page.Export -> ExportPage(project)
                     }

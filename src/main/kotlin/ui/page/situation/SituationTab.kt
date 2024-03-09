@@ -297,7 +297,7 @@ private fun SchemeColumnsExtra(scheme: String, columns: List<String>) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    val result = SchemeColumns.getSchemes(scheme = scheme, schemesList = columns)
+                    val result = SchemeColumns.filterWithScheme(scheme, columns)
                     for (string in result) {
                         Surface(
                             color = MaterialTheme.colors.secondaryVariant,

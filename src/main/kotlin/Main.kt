@@ -26,8 +26,8 @@ import java.io.File
 import java.io.FileInputStream
 import java.util.Properties
 
-const val WINDOW_WIDTH = 700
-const val WINDOW_HEIGHT = 500
+const val WINDOW_WIDTH = 1920
+const val WINDOW_HEIGHT = 1080
 
 fun main() = application {
     val screenSize = remember {
