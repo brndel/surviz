@@ -35,6 +35,7 @@ import ui.Labels
 import ui.LocalLanguage
 import ui.fields.DoubleField
 import ui.fields.IntField
+import ui.util.InfoIconBox
 import ui.util.NestedSurface
 import kotlin.math.roundToInt
 
@@ -42,8 +43,6 @@ import kotlin.math.roundToInt
 fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
     var width by imageConfig.width
     var timelineScaling by imageConfig.timelineScaling
-
-    var showTimelineInfoPopup by remember { mutableStateOf(false) }
 
     NestedSurface(modifier) {
         Column(
@@ -70,14 +69,7 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
                     text = "${LocalLanguage.current.getString(Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING)}: ${timelineScaling.roundToInt()}",
                     fontWeight = FontWeight.Bold
                 )
-                Box {
-                    IconButton({ showTimelineInfoPopup = true }) {
-                        Icon(Icons.Default.Info, null)
-                    }
-                    if (showTimelineInfoPopup) {
-                        TimelinePopup { showTimelineInfoPopup = false }
-                    }
-                }
+                InfoIconBox (Labels.TIMELINE_SCALING_INFO_TITLE, Labels.TIMELINE_SCALING_INFO_DESCRIPTION)
             }
             var sliderPosition by remember { mutableStateOf(timelineScaling.toFloat()) }
 
@@ -93,28 +85,6 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
                     // Add your mouse speed adjustment logic here
                 }
             )
-        }
-    }
-}
-
-@Composable
-private fun TimelinePopup(onDismissRequest: () -> Unit) {
-    Popup(
-        alignment = Alignment.CenterEnd,
-        onDismissRequest = onDismissRequest
-    ) {
-        Surface(
-            color = MaterialTheme.colors.background,
-            shape = RoundedCornerShape(4.dp),
-            elevation = 8.dp
-        ) {
-            Column(Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Label(
-                    Labels.TIMELINE_SCALING_INFO_TITLE,
-                    style = TextStyle(fontWeight = FontWeight.Bold)
-                )
-                Label(Labels.TIMELINE_SCALING_INFO_DESCRIPTION)
-            }
         }
     }
 }

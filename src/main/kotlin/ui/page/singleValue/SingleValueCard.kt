@@ -6,6 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +22,7 @@ import data.project.data.DataScheme
 import org.burnoutcrew.reorderable.ReorderableState
 import ui.Label
 import ui.Labels
+import ui.util.InfoIconBox
 import ui.util.NestedSurface
 import ui.util.ReorderHandle
 import java.util.regex.PatternSyntaxException
@@ -90,6 +92,7 @@ private fun RowScope.SingleValueCardContent(config: SingleValueConfig, dataSchem
                     SchemeMatchPopup(columnScheme, dataScheme)
                 }
             }
+            InfoIconBox(Labels.FIELD_COLUMN_SCHEME,Labels.FIELD_COLUMN_SCHEME)
         })
 
         SingleValueIconCard(config.icon)

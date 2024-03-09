@@ -64,7 +64,7 @@ fun FileSchemeField(
                                     style = TextStyle(fontWeight = FontWeight.Bold)
                                 )
                                 for (placeholder in placeholders) {
-                                    Text("- $placeholder")
+                                    Text("- " + "$" + placeholder + "$")
                                 }
                             }
                         }
