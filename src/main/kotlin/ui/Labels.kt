@@ -4,6 +4,10 @@ import androidx.compose.runtime.compositionLocalOf
 import ui.Labels.ENUMERATION_SIGN
 
 object Labels {
+
+    /*
+    #########################################   BASIC LABELS   #########################################################
+    */
     const val SURVIZ = "SurViz"
     const val LOAD_LAST_PROJECT = "LAST_PROJECT"
     const val NEW_PROJECT = "NEW_PROJECT"
@@ -50,6 +54,10 @@ object Labels {
     const val SELECT_COLUMN_NAME = "SELECT_COLUMN_NAME"
     const val SELECT_COLUMN_DESC = "SELECT_COLUMN_DESC"
 
+    /*
+    #########################################   EXPORT/IMPORT LABELS   #################################################
+    */
+
     const val EXPORTER = "EXPORTER"
 
     const val EXPORT_SELECT_ALL_BLOCKS = "SELECT_ALL_BLOCKS"
@@ -78,6 +86,10 @@ object Labels {
     const val ICON_SELECT_WINDOW = "ICON_SELECT_WINDOW"
 
     const val UNNAMED_PROJECT = "UNNAMED_PROJECT"
+
+    /*
+    #########################################   APPBAR/ACTION LABELS   #################################################
+    */
 
     const val APP_BAR_GROUP_FILE = "APP_BAR_GROUP_FILE"
     const val ACTION_SAVE = "ACTION_SAVE"
@@ -113,6 +125,10 @@ object Labels {
     const val SITUATION_SINGLE_VALUE_COLUMNS = "SITUATION_SINGLE_VALUE_COLUMNS"
 
     const val FORBIDDEN_CHARACTERS = "FORBIDDEN_CHARACTERS"
+
+    /*
+    #########################################   USER GUIDE LABELS   ####################################################
+    */
 
     const val USER_GUIDE = "USER_GUIDE"
     const val USER_GUIDE_START_SCREEN = "USER_GUIDE_START_SCREEN"
@@ -169,6 +185,10 @@ object Labels {
     const val USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION =
         "USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION"
 
+    /*
+    #########################################   SETTINGS LABELS   ######################################################
+    */
+
     const val SETTINGS_CHANGE_LANGUAGE = "SETTINGS_CHANGE_LANGUAGE"
     const val SETTINGS_CHANGE_DARK_MODE = "SETTINGS_CHANGE_DARK_MODE"
 
@@ -177,8 +197,16 @@ object Labels {
 
     const val PREVIEW = "PREVIEW"
 
+    /*
+    #########################################   INFO LABELS   ##########################################################
+    */
+
     const val TIMELINE_SCALING_INFO_TITLE = "TIMELINE_SCALING_INFO_TITLE"
     const val TIMELINE_SCALING_INFO_DESCRIPTION = "TIMELINE_SCALING_INFO_DESCRIPTION"
+
+    /*
+    #########################################   MISC/ERROR LABELS   ####################################################
+    */
 
     const val IMAGE_CREATE_ERROR = "IMAGE_CREATE_ERROR"
     const val SITUATION_NOT_FOUND = "SITUATION_NOT_FOUND"
