@@ -188,6 +188,7 @@ fun ColumnButton(projConfig: ProjectConfiguration, id: UUID){
             Button({ dropdownExpanded = true }) {
                 Icon(Icons.Default.ViewWeek, contentDescription = null)
                 Label(Labels.SINGLE_VALUE_SET_ALL_COLUMNS)
+                InfoIconBox(Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE, Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION)
             }
 
             DropdownMenu(dropdownExpanded, { dropdownExpanded = false }) {

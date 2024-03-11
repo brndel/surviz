@@ -213,6 +213,8 @@ object Labels {
     const val TIMELINE_SCALING_INFO_TITLE = "TIMELINE_SCALING_INFO_TITLE"
     const val TIMELINE_SCALING_INFO_DESCRIPTION = "TIMELINE_SCALING_INFO_DESCRIPTION"
 
+    const val SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE = "SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE"
+    const val SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION = "SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION"
     /*
     #########################################   MISC/ERROR LABELS   ####################################################
     */
@@ -426,7 +428,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.OPEN_HElP_INFO_BOX to "Klick here to find out more (or press F1).",
 
             Labels.SINGLE_VALUE_SCHEME_INFO_TITLE to "Scheme for automatic column matching",
-            Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION to "By adding a Regular expression (Regex), SurViz can automatically determine\nthe Ngene file columns for this Single Value by checking if the Regex\ncontains the name of the column\n\nThe automatic Column matching will be used if 'Scheme' is selected at the\nSingle Value columns option of a Situation\n\nIf the Scheme Regex is left empty but the 'Scheme' option is selected,\nall columns of this Situation will be chosen",
+            Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION to "By adding a Regular expression (Regex), SurViz can automatically determine\nthe Ngene file columns for this Single Value by checking if the Regex\ncontains the name of the column.\n\nThe automatic Column matching will be used if 'Scheme' is selected at the\nSingle Value columns option of a Situation.\n\nIf the Scheme Regex is left empty but the 'Scheme' option is selected,\nall columns of this Situation will be chosen.",
 
             Labels.SINGLE_VALUE_LEVEL_INFO_TITLE to "Icon-Levels",
             Labels.SINGLE_VALUE_LEVEL_INFO_DESCRIPTION to "By adding a level the icon of this single value changes, depending\n on the specified lower threshold, to the selected icon of this level.",
@@ -434,6 +436,8 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.TIMELINE_SCALING_INFO_TITLE to "Recommended scaling based on minimum section length",
             Labels.TIMELINE_SCALING_INFO_DESCRIPTION to "- 1: ~45 min\n" + "- 5: ~10 min\n" + "- 10: ~5 min\n" + "- 15: ~3 min\n" + "- 20: ~2 min",
 
+            Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE to "Setting the Single value columns option for all situations",
+            Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION to "Here, the 'Single value columns' option from the Situations window\ncan be set for all situations simultaneously.\n\nCaution: This will overwrite all previous settings in the 'Single value columns' option\nfor this single value in all situations!",
 
             /*
             #########################################   MISC/ERROR LABELS   ############################################
@@ -656,6 +660,9 @@ enum class Language(private val code: String, val label: String, private val str
 
             Labels.TIMELINE_SCALING_INFO_TITLE to "Empfohlene Skalierung basierend auf kleinstem Zeitabschnitt",
             Labels.TIMELINE_SCALING_INFO_DESCRIPTION to "- 1: ~45 min\n" + "- 5: ~10 min\n" + "- 10: ~5 min\n" + "- 15: ~3 min\n" + "- 20: ~2 min",
+
+            Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE to "Einzelwert-Spalten für alle Situationen setzen",
+            Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION to "Hier kann die 'Einzelwert-Spalten' option aus dem Situationen Fenster,\nfür diesen Einzelwert und für alle Situationen gleichzeitig festgelegt werden.\n\nAchtung: Hierbei werden die bisherigen Einstellungen dieses Einzelwerts\nin der 'Einzelwert Spalten' Option in allen Situationen überschrieben!",
 
             /*
             #########################################   MISC/ERROR LABELS   ############################################
