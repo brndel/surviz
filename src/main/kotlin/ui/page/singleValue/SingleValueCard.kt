@@ -30,6 +30,7 @@ import ui.Labels
 import ui.util.InfoIconBox
 import ui.util.NestedSurface
 import ui.util.ReorderHandle
+import ui.window.help.UserGuide
 import java.util.*
 import java.util.regex.PatternSyntaxException
 
@@ -103,7 +104,7 @@ private fun RowScope.SingleValueCardContent(config: SingleValueConfig,
                     SchemeMatchPopup(columnScheme, dataScheme)
                 }
             }
-            InfoIconBox(Labels.SINGLE_VALUE_SCHEME_INFO_TITLE,Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION)
+            InfoIconBox(Labels.SINGLE_VALUE_SCHEME_INFO_TITLE, Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION, UserGuide.SingleValue.scheme)
         })
 
         SingleValueIconCard(config.icon)
@@ -188,7 +189,7 @@ fun ColumnButton(projConfig: ProjectConfiguration, id: UUID){
             Button({ dropdownExpanded = true }) {
                 Icon(Icons.Default.ViewWeek, contentDescription = null)
                 Label(Labels.SINGLE_VALUE_SET_ALL_COLUMNS)
-                InfoIconBox(Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE, Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION)
+                InfoIconBox(Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE, Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION, null)
             }
 
             DropdownMenu(dropdownExpanded, { dropdownExpanded = false }) {

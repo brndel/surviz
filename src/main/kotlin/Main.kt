@@ -18,6 +18,8 @@ import data.resources.exceptions.FileTypeException
 import data.resources.exceptions.InvalidVersionException
 import ui.*
 import ui.util.ErrorDialog
+import ui.window.help.HelpEntry
+import ui.window.help.HelpWindow
 import ui.window.save.ProjectFilePicker
 import ui.window.save.ProjectFilePickerTarget
 import ui.window.settings.SettingsWindow
@@ -35,7 +37,8 @@ fun main() = application {
     }
 
     var settingsWindowOpen by remember { mutableStateOf(false) }
-    var settingsWindowTab by remember { mutableStateOf(0) }
+    var helpWindowOpen by remember { mutableStateOf(false) }
+    var focusedHelpEntry by remember { mutableStateOf<HelpEntry?>(null) }
 
     var currentProject by remember { mutableStateOf<Project?>(null) }
     var currentProjectPath by remember { mutableStateOf<String?>(null) }
@@ -125,12 +128,11 @@ fun main() = application {
 
             override fun openSettings() {
                 settingsWindowOpen = true
-                settingsWindowTab = 0
             }
 
-            override fun openHelp() {
-                settingsWindowOpen = true
-                settingsWindowTab = 1
+            override fun openHelp(focusedEntry: HelpEntry?) {
+                helpWindowOpen = true
+                focusedHelpEntry = focusedEntry
             }
 
             override fun loadData(filePath: String?): ProjectData? {
@@ -239,8 +241,16 @@ fun main() = application {
                     },
                     SettingsFile,
                     language,
-                    isDarkTheme,
-                    settingsWindowTab
+                    isDarkTheme
+                )
+            }
+
+            if (helpWindowOpen) {
+                HelpWindow(
+                    onCloseRequest = {
+                        helpWindowOpen = false
+                    },
+                    focusedHelpEntry
                 )
             }
 
@@ -304,7 +314,7 @@ interface GlobalCallbacks {
     fun saveProjectAs()
     fun closeProject()
     fun openSettings()
-    fun openHelp()
+    fun openHelp(focusedEntry: HelpEntry? = null)
     fun loadData(filePath: String? = null): ProjectData?
     fun forceLoadData(projectData: ProjectData)
 }

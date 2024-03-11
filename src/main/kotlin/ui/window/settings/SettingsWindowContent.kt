@@ -1,4 +1,4 @@
-package ui.window.settings.tabs
+package ui.window.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,10 +23,10 @@ import ui.Language
 import ui.LocalLanguage
 import ui.fields.OptionsField
 import ui.util.NestedSurface
-import ui.window.settings.HighlightedHeading
+import ui.window.help.HighlightedHeading
 
 @Composable
-fun GeneralSettingsTab(
+fun SettingsWindowContent(
     language: MutableState<Language>,
     isDarkMode: MutableState<Boolean>,
     onSettingChanged: () -> Unit

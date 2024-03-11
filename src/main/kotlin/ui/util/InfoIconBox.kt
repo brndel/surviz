@@ -20,9 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import ui.Label
 import ui.Labels
+import ui.window.help.HelpEntry
 
 @Composable
-fun InfoIconBox(title : String, desc : String) {
+fun InfoIconBox(title : String, desc : String, helpEntry: HelpEntry?) {
     val globalCallbacks = LocalGlobalCallbacks.current!!
     var showTimelineInfoPopup by remember { mutableStateOf(false) }
     Box {
@@ -45,7 +46,7 @@ fun InfoIconBox(title : String, desc : String) {
                             style = TextStyle(fontWeight = FontWeight.Bold)
                         )
                         Label(desc)
-                        Button({ globalCallbacks.openHelp() }) {
+                        Button({ globalCallbacks.openHelp(helpEntry) }) {
                             Icon(Icons.Default.Help, null)
                             Label(Labels.OPEN_HElP_INFO_BOX, Modifier.padding(8.dp))
                         }

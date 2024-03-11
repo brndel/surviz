@@ -69,7 +69,7 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
                     text = "${LocalLanguage.current.getString(Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING)}: ${timelineScaling.roundToInt()}",
                     fontWeight = FontWeight.Bold
                 )
-                InfoIconBox (Labels.TIMELINE_SCALING_INFO_TITLE, Labels.TIMELINE_SCALING_INFO_DESCRIPTION)
+                InfoIconBox (Labels.TIMELINE_SCALING_INFO_TITLE, Labels.TIMELINE_SCALING_INFO_DESCRIPTION, null)
             }
             var sliderPosition by remember { mutableStateOf(timelineScaling.toFloat()) }
 
