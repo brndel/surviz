@@ -7,9 +7,11 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.ViewWeek
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.SpanStyle
@@ -17,7 +19,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
+import data.project.config.ProjectConfiguration
 import data.project.config.SingleValueConfig
+import data.project.config.SituationConfig
+import data.project.config.columns.*
 import data.project.data.DataScheme
 import org.burnoutcrew.reorderable.ReorderableState
 import ui.Label
@@ -25,6 +30,7 @@ import ui.Labels
 import ui.util.InfoIconBox
 import ui.util.NestedSurface
 import ui.util.ReorderHandle
+import java.util.*
 import java.util.regex.PatternSyntaxException
 
 /**
@@ -38,6 +44,8 @@ import java.util.regex.PatternSyntaxException
 @Composable
 fun SingleValueCard(
     config: SingleValueConfig,
+    projConfig: ProjectConfiguration,
+    id: UUID,
     dataScheme: DataScheme,
     onDelete: () -> Unit,
     reorderState: ReorderableState<*>,
@@ -61,7 +69,7 @@ fun SingleValueCard(
         ) {
             ReorderHandle(reorderState)
 
-            SingleValueCardContent(config, dataScheme)
+            SingleValueCardContent(config, projConfig, id, dataScheme)
 
             IconButton(onClick = onDelete) {
                 Icon(Icons.Default.Delete, null)
@@ -71,7 +79,10 @@ fun SingleValueCard(
 }
 
 @Composable
-private fun RowScope.SingleValueCardContent(config: SingleValueConfig, dataScheme: DataScheme) {
+private fun RowScope.SingleValueCardContent(config: SingleValueConfig,
+                                            projConfig: ProjectConfiguration,
+                                            id: UUID,
+                                            dataScheme: DataScheme) {
     var unit by config.unit
     var columnScheme by config.columnScheme
 
@@ -96,6 +107,8 @@ private fun RowScope.SingleValueCardContent(config: SingleValueConfig, dataSchem
         })
 
         SingleValueIconCard(config.icon)
+
+        ColumnButton(projConfig, id)
     }
 }
 
@@ -163,5 +176,69 @@ fun SchemeMatchPopup(scheme: String, dataScheme: DataScheme) {
             }
         }
     }
+}
 
+@Composable
+fun ColumnButton(projConfig: ProjectConfiguration, id: UUID){
+    var dropdownExpanded by remember { mutableStateOf(false) }
+    Column(
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Box {
+            Button({ dropdownExpanded = true }) {
+                Icon(Icons.Default.ViewWeek, contentDescription = null)
+                Label(Labels.SINGLE_VALUE_SET_ALL_COLUMNS)
+            }
+
+            DropdownMenu(dropdownExpanded, { dropdownExpanded = false }) {
+
+                @Composable
+                fun ColumnsMenuItem(
+                    nameLabel: String,
+                    descriptionLabel: String,
+                    theColumn: () -> SingleValueColumn
+                ) {
+                    DropdownMenuItem(onClick = {
+                        projConfig.setAllSituationColumns(theColumn(),id)
+                        dropdownExpanded = false
+                    }) {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(4.dp),
+                            modifier = Modifier.padding(
+                                top = 10.dp,
+                                bottom = 10.dp,
+                                start = 4.dp,
+                                end = 4.dp
+                            )
+                        ) {
+                            Label(nameLabel)
+                            Label(
+                                descriptionLabel,
+                                style = MaterialTheme.typography.subtitle1,
+                                modifier = Modifier.alpha(0.75F)
+                            )
+                        }
+                    }
+                }
+
+                @Composable
+                fun ColumnsMenuItem(
+                    column: SingleValueColumn
+                ) {
+                    ColumnsMenuItem(
+                        column.nameLabel,
+                        column.descriptionLabel
+                    ) { column }
+                }
+
+
+                ColumnsMenuItem(SchemeColumns)
+                ColumnsMenuItem(ZeroColumn)
+                ColumnsMenuItem(TimelineColumns)
+                ColumnsMenuItem(ListColumns.nameLabel, ListColumns.descLabel) {
+                    ListColumns()
+                }
+            }
+        }
+    }
 }

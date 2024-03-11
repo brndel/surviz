@@ -5,6 +5,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import data.generator.resources.ImageConfig
 import data.project.config.columns.SchemeColumns
+import data.project.config.columns.SingleValueColumn
 import java.util.UUID
 
 /**
@@ -86,5 +87,16 @@ data class ProjectConfiguration(
      */
     fun getSingleValueConfigOrder(): SnapshotStateList<UUID> {
         return singleValueConfigOrder
+    }
+
+    /**
+     * Sets the specified SingleValueColumn to the SingleValue with the given id for all situations
+     * @param column the specified SingleValueColumn
+     * @param id the UUID of the SingleValue
+     */
+    fun setAllSituationColumns(column: SingleValueColumn, id: UUID){
+        for(sit in situationConfig.values){
+            sit.singleValueColumns[id] = column
+        }
     }
 }

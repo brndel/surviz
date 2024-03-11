@@ -54,6 +54,8 @@ object Labels {
     const val SELECT_COLUMN_NAME = "SELECT_COLUMN_NAME"
     const val SELECT_COLUMN_DESC = "SELECT_COLUMN_DESC"
 
+    const val SINGLE_VALUE_SET_ALL_COLUMNS = "SINGLE_VALUE_SET_ALL_COLUMNS"
+
     /*
     #########################################   EXPORT/IMPORT LABELS   #################################################
     */
@@ -292,11 +294,13 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.SELECT_COLUMN_NAME to "Select",
             Labels.SELECT_COLUMN_DESC to "Select columns by hand",
 
-            Labels.EXPORTER to "Exporter",
+            Labels.SINGLE_VALUE_SET_ALL_COLUMNS to " Set Single value columns for all Situations",
 
             /*
             #########################################   EXPORT/IMPORT LABELS   #########################################
              */
+
+            Labels.EXPORTER to "Exporter",
 
             Labels.EXPORT_SELECT_ALL_BLOCKS to "Select all blocks",
             Labels.EXPORT_SELECT_ALL_SITUATIONS to "Select all situations",
@@ -509,6 +513,9 @@ enum class Language(private val code: String, val label: String, private val str
 
             Labels.SELECT_COLUMN_NAME to "Auswählen",
             Labels.SELECT_COLUMN_DESC to "Wähle die Spalten von Hand aus",
+
+            Labels.SINGLE_VALUE_SET_ALL_COLUMNS to " Einzelwert-Spalten für alle Situationen setzen",
+
 
             /*
             #########################################   EXPORT/IMPORT LABELS   #########################################

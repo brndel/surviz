@@ -63,7 +63,7 @@ fun SingleValuePage(projectConfig: ProjectConfiguration, dataScheme: DataScheme)
         ) {
             items(projectConfig.getSingleValueConfigOrder(), key = { it }) { id ->
                 ReorderableItem(reorderState, key = id) { dragging ->
-                    SingleValueCard(projectConfig.getSingleValues()[id]!!, dataScheme, onDelete = {
+                    SingleValueCard(projectConfig.getSingleValues()[id]!!, projectConfig, id, dataScheme, onDelete = {
                         projectConfig.removeSingleValue(id)
                     }, reorderState, dragging = dragging)
                 }
