@@ -422,7 +422,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.OPEN_HElP_INFO_BOX to "Klick here to find out more (or press F1).",
 
             Labels.SINGLE_VALUE_SCHEME_INFO_TITLE to "Scheme for automatic column matching",
-            Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION to "By adding a Regular expression (Regex), SurViz can automatically\ndetermine the Ngene file columns for this Single Value.",
+            Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION to "By adding a Regular expression (Regex), SurViz can automatically determine\nthe Ngene file columns for this Single Value by checking if the Regex\ncontains the name of the column\n\nThe automatic Column matching will be used if 'Scheme' is selected at the\nSingle Value columns option of a Situation\n\nIf the Scheme Regex is left empty but the 'Scheme' option is selected,\nall columns of this Situation will be chosen",
 
             Labels.SINGLE_VALUE_LEVEL_INFO_TITLE to "Icon-Levels",
             Labels.SINGLE_VALUE_LEVEL_INFO_DESCRIPTION to "By adding a level the icon of this single value changes, depending\n on the specified lower threshold, to the selected icon of this level.",
@@ -642,7 +642,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.OPEN_HElP_INFO_BOX to "Hier klicken um mehr zu erfahren (oder F1 drücken).",
 
             Labels.SINGLE_VALUE_SCHEME_INFO_TITLE to "Schema für eine automatische Spaltenauswahl",
-            Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION to "Durch hinzufügen eines Regulären Ausdrucks (Regex) kann SurViz\nautomatisch Spalten der Ngene Datei, diesem Einzelwert zuweisen.",
+            Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION to "Durch hinzufügen eines Regulären Ausdrucks (Regex) kann SurViz automatisch\nSpalten der Ngene Datei, deren namen durch den Regex beschrieben werden,\ndiesem Einzelwert zuweisen.\n\nFür die automatische Auswahl der Spalten muss bei der jeweiligen Situation\nunter 'Einzelwert-Spalten' die Wahlmöglichkeit 'Schema' ausgewählt sein.\n\nIst kein Schema angegeben, jedoch 'Schema' ausgewählt, so werden alle\nmöglichen Spalten dieser Situation gewählt.",
 
             Labels.SINGLE_VALUE_LEVEL_INFO_TITLE to "Mehrstufige Icons",
             Labels.SINGLE_VALUE_LEVEL_INFO_DESCRIPTION to "Durch Hinzufügen einer Stufe wechselt das Icon dieses Einzelwerts,\nab der angegebenen Untergrenze, auf das gewählte Icon dieser Stufe.",
