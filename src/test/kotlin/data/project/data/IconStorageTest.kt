@@ -27,7 +27,7 @@ class IconStorageTest {
 
     @Test
     fun storeIconSvg() {
-        val imagePath = "src/main/resources/icons/car.svg"
+        val imagePath = "src/main/resources/icons/15_car.svg"
         iconStorage.storeIcon(imagePath)
         assert(iconStorage.getUserIconNames().isNotEmpty())
 
