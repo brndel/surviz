@@ -26,6 +26,7 @@ import kotlinx.coroutines.launch
 import ui.Label
 import ui.Labels
 import ui.LocalLanguage
+import ui.util.NestedSurface
 import ui.window.help.UserGuide.entries
 
 
@@ -65,41 +66,48 @@ fun HelpWindowContent(focusedEntry: HelpEntry?) {
 
     val state = rememberLazyListState(startIndex)
 
-    Row(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(
-            modifier = Modifier.fillMaxHeight().width(256.dp)
-        ) {
-            items(entries) {
-                TextButton({
-                    scrollScope.launch {
-                        state.animateScrollToItem(getIndex(it))
+    Row(modifier = Modifier.fillMaxSize().padding(10.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        NestedSurface {
+            LazyColumn(
+                modifier = Modifier.fillMaxHeight().width(256.dp)
+            ) {
+                items(entries) {
+                    TextButton({
+                        scrollScope.launch {
+                            state.animateScrollToItem(getIndex(it))
+                        }
+                    }, modifier = Modifier.fillMaxWidth()) {
+                        val textStyle = if (it is HelpSection) {
+                            TextStyle(
+                                fontWeight = FontWeight.Bold,
+                                textDecoration = TextDecoration.Underline
+                            )
+                        } else {
+                            TextStyle()
+                        }.copy(textAlign = TextAlign.Center)
+
+
+                        Label(it.headingLabel, style = textStyle)
                     }
-                }, modifier = Modifier.fillMaxWidth()) {
-                    val textStyle = if (it is HelpSection) {
-                        TextStyle(fontWeight = FontWeight.Bold, textDecoration = TextDecoration.Underline)
-                    } else {
-                        TextStyle()
-                    }.copy(textAlign = TextAlign.Center)
-
-
-                    Label(it.headingLabel, style = textStyle)
                 }
             }
         }
-        LazyColumn(
-            state = state,
-            modifier = Modifier.fillMaxHeight().weight(1F)
-        ) {
-            item {
-                HighlightedHeading(
-                    Labels.USER_GUIDE,
-                    style = MaterialTheme.typography.h4,
-                    modifier = Modifier.padding(top = 10.dp)
-                )
-            }
+        NestedSurface {
+            LazyColumn(
+                state = state,
+                modifier = Modifier.fillMaxHeight().weight(1F).padding(horizontal = 10.dp)
+            ) {
+                item {
+                    HighlightedHeading(
+                        Labels.USER_GUIDE,
+                        style = MaterialTheme.typography.h4,
+                        modifier = Modifier.padding(top = 10.dp)
+                    )
+                }
 
-            for (entry in entries) {
-                entry.display(this)
+                for (entry in entries) {
+                    entry.display(this)
+                }
             }
         }
     }
