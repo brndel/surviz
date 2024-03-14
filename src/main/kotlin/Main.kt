@@ -16,8 +16,12 @@ import data.project.ProjectData
 import data.resources.exceptions.CorruptFileException
 import data.resources.exceptions.FileTypeException
 import data.resources.exceptions.InvalidVersionException
+import kotlinx.coroutines.delay
 import ui.*
 import ui.util.ErrorDialog
+import ui.util.LocalStatusLabel
+import ui.util.StatusMessage
+import ui.util.StatusMessageType
 import ui.window.help.HelpEntry
 import ui.window.help.HelpWindow
 import ui.window.save.ProjectFilePicker
@@ -43,11 +47,23 @@ fun main() = application {
     var currentProject by remember { mutableStateOf<Project?>(null) }
     var currentProjectPath by remember { mutableStateOf<String?>(null) }
 
+    var statusMessage by remember { mutableStateOf<StatusMessage?>(null) }
+
+    LaunchedEffect(statusMessage) {
+        val msg = statusMessage ?: return@LaunchedEffect
+
+        delay(msg.type.duration)
+        statusMessage = null
+    }
+
     val mainWindowState = rememberWindowState(
         width = WINDOW_WIDTH.dp,
         height = WINDOW_HEIGHT.dp,
         placement = WindowPlacement.Floating,
-        position = WindowPosition((screenSize.width.dp - WINDOW_WIDTH.dp) / 2, (screenSize.height.dp - WINDOW_HEIGHT.dp) / 2)
+        position = WindowPosition(
+            (screenSize.width.dp - WINDOW_WIDTH.dp) / 2,
+            (screenSize.height.dp - WINDOW_HEIGHT.dp) / 2
+        )
     )
 
     fun onProjectLoad() {
@@ -85,6 +101,7 @@ fun main() = application {
                         currentProject = project
                         currentProjectPath = filePath
                         onProjectLoad()
+                        setStatusLabel(Labels.STATUS_MSG_PROJECT_LOADED)
                     }
                 }
 
@@ -98,6 +115,7 @@ fun main() = application {
                         val data = DataManager.loadData(File(filePath))
                         currentProject = Project.newProjectWithData(data)
                         onProjectLoad()
+                        setStatusLabel(Labels.STATUS_MSG_PROJECT_CREATED)
                     }
                 }
             }
@@ -110,6 +128,7 @@ fun main() = application {
                 if (currentProjectPath != null) {
                     catchLabelExceptions {
                         currentProject?.saveProjectData(currentProjectPath!!)
+                        setStatusLabel(Labels.STATUS_MSG_PROJECT_SAVED)
                     }
                 } else {
                     filePickerTarget = ProjectFilePickerTarget.SaveProjectFile
@@ -124,6 +143,7 @@ fun main() = application {
                 currentProject = null
                 currentProjectPath = null
                 onProjectClose()
+                setStatusLabel(Labels.STATUS_MSG_PROJECT_CLOSED)
             }
 
             override fun openSettings() {
@@ -148,6 +168,8 @@ fun main() = application {
                         val success = currentProject!!.loadProjectData(data!!)
                         if (!success) {
                             return data
+                        } else {
+                            setStatusLabel(Labels.STATUS_MSG_SIMULATION_DATA_LOADED)
                         }
                     }
                 }
@@ -156,6 +178,10 @@ fun main() = application {
 
             override fun forceLoadData(projectData: ProjectData) {
                 currentProject?.loadProjectData(projectData, true)
+            }
+
+            override fun setStatusLabel(label: String, type: StatusMessageType) {
+                statusMessage = StatusMessage(label, type)
             }
         }
     }
@@ -186,6 +212,7 @@ fun main() = application {
         secondaryVariant = Color(50, 70, 133),
         onSecondary = Color.White,
         error = Color(160, 55, 49),
+        onError = Color(255, 255, 255),
     )
     val darkColors = darkColors(
         background = Color(18, 18, 18),
@@ -199,6 +226,7 @@ fun main() = application {
         onSurface = Color.White,
         onBackground = Color.White,
         error = Color(197, 74, 68),
+        onError = Color(255, 255, 255),
     )
 
     val isDarkTheme = remember { mutableStateOf(false) }
@@ -218,7 +246,8 @@ fun main() = application {
 
     CompositionLocalProvider(
         LocalLanguage provides language.value,
-        LocalGlobalCallbacks provides callbacks
+        LocalGlobalCallbacks provides callbacks,
+        LocalStatusLabel provides statusMessage
     ) {
         MaterialTheme(
             colors = colors
@@ -317,6 +346,7 @@ interface GlobalCallbacks {
     fun openHelp(focusedEntry: HelpEntry? = null)
     fun loadData(filePath: String? = null): ProjectData?
     fun forceLoadData(projectData: ProjectData)
+    fun setStatusLabel(label: String, type: StatusMessageType = StatusMessageType.Info)
 }
 
 val LocalGlobalCallbacks = compositionLocalOf<GlobalCallbacks?> { null }

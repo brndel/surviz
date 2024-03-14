@@ -3,20 +3,16 @@ package ui
 import LocalGlobalCallbacks
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import ui.util.StatusLabel
 
 
 @Composable
@@ -25,10 +21,14 @@ fun AppBar() {
         color = MaterialTheme.colors.surface,
         modifier = Modifier.fillMaxWidth()
     ) {
-        Row {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             for (group in actionsManager.groups) {
                 AppBarButton(group)
             }
+            Box(Modifier.weight(1F))
+            StatusLabel()
         }
     }
 }

@@ -128,6 +128,17 @@ object Labels {
 
     const val FORBIDDEN_CHARACTERS = "FORBIDDEN_CHARACTERS"
 
+
+    /*
+    #######################################   Status Message Labels   ##################################################
+    */
+
+    const val STATUS_MSG_PROJECT_SAVED = "STATUS_MSG_SAVED"
+    const val STATUS_MSG_PROJECT_LOADED = "STATUS_MSG_PROJECT_LOADED"
+    const val STATUS_MSG_PROJECT_CREATED = "STATUS_MSG_PROJECT_CREATED"
+    const val STATUS_MSG_PROJECT_CLOSED = "STATUS_MSG_PROJECT_CLOSED"
+    const val STATUS_MSG_SIMULATION_DATA_LOADED = "STATUS_MSG_DATA_LOADED"
+
     /*
     #########################################   USER GUIDE LABELS   ####################################################
     */
@@ -371,6 +382,16 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.FORBIDDEN_CHARACTERS to "Forbidden characters",
 
             /*
+            #######################################   Status Message Labels   ##########################################
+            */
+
+            Labels.STATUS_MSG_PROJECT_SAVED to "Project saved",
+            Labels.STATUS_MSG_PROJECT_LOADED to "Project loaded",
+            Labels.STATUS_MSG_PROJECT_CREATED to "Project created",
+            Labels.STATUS_MSG_PROJECT_CLOSED to "Project closed",
+            Labels.STATUS_MSG_SIMULATION_DATA_LOADED to "Simulation data loaded",
+
+            /*
             #########################################   USER GUIDE LABELS   ############################################
             */
 
@@ -592,6 +613,16 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.SITUATION_SINGLE_VALUE_COLUMNS to "Einzelwert-Spalten",
 
             Labels.FORBIDDEN_CHARACTERS to "Verbotene Zeichen",
+
+            /*
+            #######################################   Status Message Labels   ##########################################
+            */
+
+            Labels.STATUS_MSG_PROJECT_SAVED to "Projekt gespeichert",
+            Labels.STATUS_MSG_PROJECT_LOADED to "Projekt geladen",
+            Labels.STATUS_MSG_PROJECT_CREATED to "Projekt erstellt",
+            Labels.STATUS_MSG_PROJECT_CLOSED to "Projekt geschlossen",
+            Labels.STATUS_MSG_SIMULATION_DATA_LOADED to "Simulationsdatei geladen",
 
             /*
             #########################################   USER GUIDE LABELS   ############################################

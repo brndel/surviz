@@ -9,8 +9,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
@@ -23,6 +21,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import data.project.Project
+import ui.util.StatusLabel
 import java.io.File
 import kotlin.io.path.Path
 import kotlin.io.path.name
@@ -37,6 +36,7 @@ fun WelcomeScreen() {
     val globalCallbacks = LocalGlobalCallbacks.current!!
 
     Box(Modifier.fillMaxSize()) {
+        StatusLabel(modifier = Modifier.align(Alignment.TopEnd))
         Column(
             Modifier.align(Alignment.Center),
             verticalArrangement = Arrangement.spacedBy(16.dp),
