@@ -185,7 +185,7 @@ object UserGuide {
         val add = HelpParagraph(
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD,
             listOf(
-                ParagraphContent.Image("userguide/Single_Value.png"),
+                ParagraphContent.Image("userguide/USER_GUIDE_PNG_SINGLE_VALUES_DE.png"),
                 ParagraphContent.Text(Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD_DESCRIPTION)
             )
         )
@@ -198,7 +198,6 @@ object UserGuide {
         val section = HelpSection(
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE,
             content = listOf(
-                ParagraphContent.Image("userguide/Single_Values_Tab.png"),
                 ParagraphContent.Text(Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_DESCRIPTION)
             ),
             paragraphs = listOf(add, scheme)
@@ -214,7 +213,7 @@ object UserGuide {
         val section = HelpSection(
             Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION,
             content = listOf(
-                ParagraphContent.Image("userguide/Situations_Tab.png"),
+                ParagraphContent.Image("userguide/USER_GUIDE_PNG_SITUATIONS_DE.png"),
                 ParagraphContent.Text(Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION_DESCRIPTION)
             ),
             paragraphs = listOf(edit)
@@ -225,7 +224,7 @@ object UserGuide {
         val scheme = HelpParagraph(
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME,
             listOf(
-                ParagraphContent.Image("userguide/Filename_Scheme.png"),
+                ParagraphContent.Image("userguide/USER_GUIDE_PNG_SCHEME_FILE_NAMES_DE.png"),
                 ParagraphContent.Text(Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION)
             )
         )
@@ -233,7 +232,7 @@ object UserGuide {
         val section = HelpSection(
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT,
             content = listOf(
-                ParagraphContent.Image("userguide/Export_Tab.png"),
+                ParagraphContent.Image("userguide/USER_GUIDE_PNG_EXPORT_DE.png"),
                 ParagraphContent.Text(Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_DESCRIPTION)
             ),
             paragraphs = listOf(scheme)
