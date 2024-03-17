@@ -76,12 +76,14 @@ fun List<ParagraphContent>.display() {
 
 object UserGuide {
     internal val sections = listOf(
+        SurViz.section,
         StartScreen.section,
         ProjectScreen.section,
         AppBar.section,
         SingleValue.section,
         Situations.section,
-        Export.section
+        Export.section,
+        Hotkeys.section
     )
 
     internal val entries by lazy {
@@ -95,6 +97,15 @@ object UserGuide {
         entries
     }
 
+    object SurViz {
+        val section = HelpSection(
+            Labels.USER_GUIDE_SURVIZ,
+            content = listOf(
+                ParagraphContent.Text(Labels.USER_GUIDE_SURVIZ_DESCRIPTION)
+            ),
+            paragraphs = listOf()
+        )
+    }
     object StartScreen {
         val lastProject =
             HelpParagraph(
@@ -120,7 +131,7 @@ object UserGuide {
         val section = HelpSection(
             Labels.USER_GUIDE_START_SCREEN,
             listOf(
-                ParagraphContent.Image("userguide/Start_Screen.png"),
+                ParagraphContent.Image("userguide/USER_GUIDE_PNG_START_SCREEN_DE.png"),
                 ParagraphContent.Text(Labels.USER_GUIDE_START_SCREEN_DESCRIPTION)
             ),
             listOf(
@@ -154,14 +165,19 @@ object UserGuide {
             Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE,
             Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE_DESCRIPTION
         )
+        val new = HelpParagraph(
+            Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW,
+            Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW_DESCRIPTION
+        )
+
 
         val section = HelpSection(
             Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR,
             content = listOf(
-                ParagraphContent.Image("userguide/File_Tab.png"),
+                ParagraphContent.Image(Labels.USER_GUIDE_PNG_FILE_MENU),
                 ParagraphContent.Text(Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_DESCRIPTION)
             ),
-            paragraphs = listOf(save, close)
+            paragraphs = listOf(save, close, new)
         )
     }
 
@@ -221,6 +237,16 @@ object UserGuide {
                 ParagraphContent.Text(Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_DESCRIPTION)
             ),
             paragraphs = listOf(scheme)
+        )
+    }
+
+    object Hotkeys {
+        val section = HelpSection(
+            Labels.USER_GUIDE_HOTKEYS,
+            content = listOf(
+                ParagraphContent.Text(Labels.USER_GUIDE_HOTKEYS_DESCRIPTION)
+            ),
+            paragraphs = listOf()
         )
     }
 }

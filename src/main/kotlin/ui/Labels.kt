@@ -144,6 +144,10 @@ object Labels {
     */
 
     const val USER_GUIDE = "USER_GUIDE"
+
+    const val USER_GUIDE_SURVIZ = "USER_GUIDE_SURVIZ"
+    const val USER_GUIDE_SURVIZ_DESCRIPTION = "USER_GUIDE_SURVIZ_DESCRIPTION"
+
     const val USER_GUIDE_START_SCREEN = "USER_GUIDE_START_SCREEN"
     const val USER_GUIDE_START_SCREEN_DESCRIPTION = "USER_GUIDE_START_SCREEN_DESCRIPTION"
     const val USER_GUIDE_START_SCREEN_LAST_PROJECT = "USER_GUIDE_START_SCREEN_LAST_PROJECT"
@@ -174,6 +178,8 @@ object Labels {
         "USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE"
     const val USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE_DESCRIPTION =
         "USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE_DESCRIPTION"
+    const val USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW = "USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW"
+    const val USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW_DESCRIPTION = "USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW_DESCRIPTION"
     const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE = "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE"
     const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_DESCRIPTION =
         "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_DESCRIPTION"
@@ -198,9 +204,21 @@ object Labels {
     const val USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION =
         "USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION"
 
-    /*
-    #########################################   SETTINGS LABELS   ######################################################
-    */
+    const val USER_GUIDE_HOTKEYS = "USER_GUIDE_HOTKEYS"
+    const val USER_GUIDE_HOTKEYS_DESCRIPTION = "USER_GUIDE_HOTKEYS_DESCRIPTION"
+
+    const val USER_GUIDE_PNG_START_SCREEN = "USER_GUIDE_PNG_START_SCREEN"
+    const val USER_GUIDE_PNG_FILE_MENU= "USER_GUIDE_PNG_FILE_MENU"
+    const val USER_GUIDE_PNG_SINGLE_VALUES = "USER_GUIDE_PNG_SINGLE_VALUES"
+    const val USER_GUIDE_PNG_SITUATIONS = "USER_GUIDE_PNG_SITUATIONS"
+    const val USER_GUIDE_PNG_EXPORT = "USER_GUIDE_PNG_EXPORT"
+    const val USER_GUIDE_PNG_SCHEME_FILE_NAMES = "USER_GUIDE_PNG_SCHEME_FILE_NAMES"
+    const val USER_GUIDE_PNG_ICON_LEVELS = "USER_GUIDE_PNG_ICON_LEVELS"
+    const val USER_GUIDE_PNG_ICON_LEVELS_EXAMPLE = "USER_GUIDE_PNG_ICON_LEVELS_EXAMPLE"
+
+        /*
+        #########################################   SETTINGS LABELS   ######################################################
+        */
 
     const val SETTINGS_CHANGE_LANGUAGE = "SETTINGS_CHANGE_LANGUAGE"
     const val SETTINGS_CHANGE_DARK_MODE = "SETTINGS_CHANGE_DARK_MODE"
@@ -396,6 +414,10 @@ enum class Language(private val code: String, val label: String, private val str
             */
 
             Labels.USER_GUIDE to "SurViz user guide",
+
+            Labels.USER_GUIDE_SURVIZ to "SurViz",
+            Labels.USER_GUIDE_SURVIZ_DESCRIPTION to "SurViz is a configuration tool for creating visual stated-preference surveys in the field of transportation research. A SurViz project is based on an Ngene file generated using the software tool Ngene.",
+
             Labels.USER_GUIDE_START_SCREEN to "Home screen",
             Labels.USER_GUIDE_START_SCREEN_DESCRIPTION to "On the start screen, you can load the last project, create a new project, load an existing project file, or open the settings.\n",
             Labels.USER_GUIDE_START_SCREEN_LAST_PROJECT to "Load last project",
@@ -411,7 +433,9 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.USER_GUIDE_PROJECT_SCREEN_PREVIEW to "Display preview of a block's situation",
             Labels.USER_GUIDE_PROJECT_SCREEN_PREVIEW_DESCRIPTION to "In each of the tabs, in the text fields located at the top right, the desired \$situation\$ of a \$block\$ can be specified to display it in the preview.",
             Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR to "File menu",
-            Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_DESCRIPTION to "Through the file menu, the currently opened project file can be saved or closed.\n" + "Additionally, settings can be opened from here.",
+            Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_DESCRIPTION to "Through the file menu, the currently opened project file can be saved or closed.\n" + "Additionally, a new Ngene File can be imported here.",
+            Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW to "Load new simulation data",
+            Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW_DESCRIPTION to "by loading a new simulation data, the old Ngene File will be overwritten and the new one will be used. If the new Data has the same structure as the old one, no settings will be lost",
             Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_SAVE to "Save Project",
             Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_SAVE_DESCRIPTION to "After opening the file menu, the current project configuration can be saved by clicking on \$Save File\$.\n" + "When saving a project for the first time, the file path must be specified.",
             Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE to "Close Project",
@@ -430,6 +454,18 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_DESCRIPTION to "In the \$Export\$ tab, the project can be exported as \$PNG\$ or \$HTML\$. For exporting the project, the \$size\$ and \$scaling\$ of the timeline can be specified. Additionally, a \$file path\$ and a \$file name scheme\$ for the file name can be specified.",
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME to "Scheme for file names",
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION to "In the scheme for the file names, the following placeholders can be used:\n" + ENUMERATION_SIGN + " \$block\$\n" + ENUMERATION_SIGN + " \$situation\$\n" + ENUMERATION_SIGN + " \$option\$\n" + "\n" + "\$block\$ is replaced with the number of the block when creating the file name.\n" + "\n" + "\$situation\$ is replaced with the number of the situation when creating the file name.\n" + "\n" + "\$option\$ is replaced with the number of the selection option when creating the file name. However, the replacement of \$option\$ only occurs when 'Export all options separately' is activated.",
+
+            Labels.USER_GUIDE_HOTKEYS to "Hotkeys",
+            Labels.USER_GUIDE_HOTKEYS_DESCRIPTION to "The Following Hotkeys can be used:\n\n" + ENUMERATION_SIGN + "\$'F1'\$ to open Help Tab\n"+ ENUMERATION_SIGN + "\$'ctrl + shift + P'\$ to open Settings\n"+ ENUMERATION_SIGN + "\$'ctrl + L'\$ to load new simulation data\n"+ ENUMERATION_SIGN + "\$'ctrl + shift + S'\$ to save Project as ...\n"+ ENUMERATION_SIGN + "\$'ctrl + S'\$ to save Project\n"+ ENUMERATION_SIGN + "\$'ctrl + Z'\$ to undo Action. Only works in Text fields and color picker.\n",
+
+            Labels.USER_GUIDE_PNG_START_SCREEN to "userguide/USER_GUIDE_PNG_START_SCREEN_EN.png",
+            Labels.USER_GUIDE_PNG_FILE_MENU to "userguide/USER_GUIDE_PNG_FILE_MENU_EN.png",
+            Labels.USER_GUIDE_PNG_SINGLE_VALUES to "userguide/USER_GUIDE_PNG_SINGLE_VALUES_EN.png",
+            Labels.USER_GUIDE_PNG_SITUATIONS to "userguide/USER_GUIDE_PNG_SITUATIONS_EN.png",
+            Labels.USER_GUIDE_PNG_EXPORT to "userguide/USER_GUIDE_PNG_EXPORT_EN.png",
+            Labels. USER_GUIDE_PNG_SCHEME_FILE_NAMES to "userguide/USER_GUIDE_PNG_SCHEME_FILE_NAMES_EN.png",
+            Labels.USER_GUIDE_PNG_ICON_LEVELS to "userguide/USER_GUIDE_PNG_ICON_LEVELS_EN.png",
+            Labels. USER_GUIDE_PNG_ICON_LEVELS_EXAMPLE to "userguide/USER_GUIDE_PNG_ICON_LEVELS_EXAMPLE.png",
 
             /*
             #########################################   SETTINGS LABELS   ##############################################
@@ -629,6 +665,10 @@ enum class Language(private val code: String, val label: String, private val str
             */
 
             Labels.USER_GUIDE to "SurViz Benutzerhandbuch",
+
+            Labels.USER_GUIDE_SURVIZ to "SurViz",
+            Labels.USER_GUIDE_SURVIZ_DESCRIPTION to "SurViz ist ein Konfigurationstool für die Erstellung von visuellen stated-preference Befragungen im Bereich der Verkehrsforschung. Ein SurViz Projekt basiert auf einer Ngene-Datei, die mittels des Softwaretools Ngene erzeugt wird..",
+
             Labels.USER_GUIDE_START_SCREEN to "Startbildschirm",
             Labels.USER_GUIDE_START_SCREEN_DESCRIPTION to "Auf dem Startbildschirm lässt sich das letzte Projekt laden, ein neues Projekt erstellen, eine bereits angelegte Projektdatei laden oder die Einstellungen öffnen.\n",
             Labels.USER_GUIDE_START_SCREEN_LAST_PROJECT to "Letztes Projekt laden",
@@ -644,10 +684,12 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.USER_GUIDE_PROJECT_SCREEN_PREVIEW to "Situation eines Blocks in Vorschau anzeigen",
             Labels.USER_GUIDE_PROJECT_SCREEN_PREVIEW_DESCRIPTION to "In jedem der Reiter kann rechts oben in den Textfeldern \$Block\$ und \$Situation\$ die gewünschte Situation eines Blocks angegeben werden, um diese in der Vorschau anzuzeigen.",
             Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR to "Dateimenü",
-            Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_DESCRIPTION to "Über das Dateimenü lässt sich die gerade geöffnete Projektdatei speichern oder schließen.\n" + "Außerdem können hier die Einstellungen geöffnet werden.",
+            Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_DESCRIPTION to "Über das Dateimenü lässt sich die gerade geöffnete Projektdatei speichern oder schließen.\n" + "Außerdem kann hier eine neue Ngene File importiert werden.",
             Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_SAVE to "Projekt Speichern",
             Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_SAVE_DESCRIPTION to "Nach dem Öffnen des Dateimenüs kann die derzeitige Projektkonfiguration, durch Klicken auf \$Datei speichern\$, gespeichert werden.\n" + "Beim erstmaligen Speichern eines Projekts muss der Speicherpfad der Datei festgelegt werden.",
             Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE to "Projekt schließen",
+            Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW to "Neue Simulationsdatei laden",
+            Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW_DESCRIPTION to "Durch das laden einer neuer Simulationsdatei wird die alte Ngene Datei mit der neu ausgewählten überschrieben. Wenn die neue Datei die selbe Struktur wie die alte besitzt, gehen keine Einstellungen verloren",
             Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE_DESCRIPTION to "Nach dem Öffnen des Dateimenüs kann durch Klicken auf \$Datei schließen\$, das Projekt geschlossen werden, um zum Startbildschirm zurückzukehren.",
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE to "Einzelwerte Reiter",
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_DESCRIPTION to "Im Reiter \$Einzelwerte\$ können Einzelwerte konfiguriert werden.",
@@ -664,6 +706,18 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME to "Schema für Dateinamen",
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION to "Im Schema für die Dateinamen der Dateien können folgende Platzhalter benutzt werden:\n" + ENUMERATION_SIGN + " \$block\$\n" + ENUMERATION_SIGN + " \$situation\$\n" + ENUMERATION_SIGN + " \$option\$\n" + "\n" + "\$block\$ wird beim Erstellen des Dateinamens mit der Nummer des Blocks ersetzt.\n" + "\n" + "\$situation\$ wird beim Erstellen des Dateinamens mit der Nummer der Situation ersetzt.\n" + "\n" + "\$option\$ wird beim Erstellen des Dateinamens mit der Nummer der Auswahloption ersetzt. Die Ersetzung von \$option\$ erfolgt jedoch nur, wenn 'Alle Optionen separat exportieren' aktiviert ist.",
 
+            Labels.USER_GUIDE_HOTKEYS to "Hotkeys",
+            Labels.USER_GUIDE_HOTKEYS_DESCRIPTION to "Folgende Hotkeys können verwendet werden:\n\n" + ENUMERATION_SIGN + "\$'F1'\$ öffnet das Hilfefenster\n"+ ENUMERATION_SIGN + "\$'ctrl + shift + P'\$ öffnet die Einstellungen\n"+ ENUMERATION_SIGN + "\$'ctrl + L'\$ um eine neue Simulationsdatei zu laden\n"+ ENUMERATION_SIGN + "\$'ctrl + shift + S'\$ Projekt speichern unter ...\n"+ ENUMERATION_SIGN + "\$'ctrl + S'\$ Projekt speichern\n"+ ENUMERATION_SIGN + "\$'ctrl + Z'\$ Macht die letzte Aktion rückgängig. Funktioniert nur bei Textfeldern und der Farbauswahl.\n",
+
+
+            Labels.USER_GUIDE_PNG_START_SCREEN to "userguide/USER_GUIDE_PNG_START_SCREEN_DE.png",
+            Labels.USER_GUIDE_PNG_FILE_MENU to "userguide/USER_GUIDE_PNG_FILE_MENU_DE.png",
+            Labels.USER_GUIDE_PNG_SINGLE_VALUES to "userguide/USER_GUIDE_PNG_SINGLE_VALUES_DE.png",
+            Labels.USER_GUIDE_PNG_SITUATIONS to "userguide/USER_GUIDE_PNG_SITUATIONS_DE.png",
+            Labels.USER_GUIDE_PNG_EXPORT to "userguide/USER_GUIDE_PNG_EXPORT_DE.png",
+            Labels. USER_GUIDE_PNG_SCHEME_FILE_NAMES to "userguide/USER_GUIDE_PNG_SCHEME_FILE_NAMES_DE.png",
+            Labels.USER_GUIDE_PNG_ICON_LEVELS to "userguide/USER_GUIDE_PNG_ICON_LEVELS_DE.png",
+            Labels. USER_GUIDE_PNG_ICON_LEVELS_EXAMPLE to "userguide/USER_GUIDE_PNG_ICON_LEVELS_EXAMPLE.png",
             /*
             #########################################   SETTINGS LABELS   ##############################################
             */
