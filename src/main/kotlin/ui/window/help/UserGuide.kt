@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import ui.Labels
+import ui.LocalLanguage
 
 
 sealed class HelpEntry(val headingLabel: String) {
@@ -60,6 +61,13 @@ sealed class ParagraphContent {
         @Composable
         override fun Content() {
             Image(painterResource(path), null)
+        }
+    }
+
+    class LocalizedImage(val pathLabel: String) : ParagraphContent() {
+        @Composable
+        override fun Content() {
+            Image(painterResource(LocalLanguage.current.getString(pathLabel)), null)
         }
     }
 
@@ -174,7 +182,7 @@ object UserGuide {
         val section = HelpSection(
             Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR,
             content = listOf(
-                ParagraphContent.Image(Labels.USER_GUIDE_PNG_FILE_MENU),
+                ParagraphContent.LocalizedImage(Labels.USER_GUIDE_PNG_FILE_MENU),
                 ParagraphContent.Text(Labels.USER_GUIDE_PROJECT_SCREEN_APPBAR_DESCRIPTION)
             ),
             paragraphs = listOf(save, close, new)
