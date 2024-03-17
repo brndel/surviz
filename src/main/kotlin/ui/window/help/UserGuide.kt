@@ -139,7 +139,7 @@ object UserGuide {
         val section = HelpSection(
             Labels.USER_GUIDE_START_SCREEN,
             listOf(
-                ParagraphContent.Image("userguide/USER_GUIDE_PNG_START_SCREEN_DE.png"),
+                ParagraphContent.LocalizedImage(Labels.USER_GUIDE_PNG_START_SCREEN),
                 ParagraphContent.Text(Labels.USER_GUIDE_START_SCREEN_DESCRIPTION)
             ),
             listOf(
@@ -193,7 +193,7 @@ object UserGuide {
         val add = HelpParagraph(
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD,
             listOf(
-                ParagraphContent.Image("userguide/USER_GUIDE_PNG_SINGLE_VALUES_DE.png"),
+                ParagraphContent.LocalizedImage(Labels.USER_GUIDE_PNG_SINGLE_VALUES),
                 ParagraphContent.Text(Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD_DESCRIPTION)
             )
         )
@@ -221,7 +221,7 @@ object UserGuide {
         val section = HelpSection(
             Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION,
             content = listOf(
-                ParagraphContent.Image("userguide/USER_GUIDE_PNG_SITUATIONS_DE.png"),
+                ParagraphContent.LocalizedImage(Labels.USER_GUIDE_PNG_SITUATIONS),
                 ParagraphContent.Text(Labels.USER_GUIDE_PROJECT_SCREEN_SITUATION_DESCRIPTION)
             ),
             paragraphs = listOf(edit)
@@ -232,7 +232,7 @@ object UserGuide {
         val scheme = HelpParagraph(
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME,
             listOf(
-                ParagraphContent.Image("userguide/USER_GUIDE_PNG_SCHEME_FILE_NAMES_DE.png"),
+                ParagraphContent.LocalizedImage(Labels.USER_GUIDE_PNG_SCHEME_FILE_NAMES),
                 ParagraphContent.Text(Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION)
             )
         )
@@ -240,7 +240,7 @@ object UserGuide {
         val section = HelpSection(
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT,
             content = listOf(
-                ParagraphContent.Image("userguide/USER_GUIDE_PNG_EXPORT_DE.png"),
+                ParagraphContent.LocalizedImage(Labels.USER_GUIDE_PNG_EXPORT),
                 ParagraphContent.Text(Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_DESCRIPTION)
             ),
             paragraphs = listOf(scheme)
