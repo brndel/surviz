@@ -75,7 +75,7 @@ fun SingleValueIconCard(icon: SingleValueIcon) {
                     Icon(Icons.Default.Add, null)
                     Label(Labels.ADD_SINGLE_VALUE_ICON_LEVEL)
                 }
-                InfoIconBox(Labels.SINGLE_VALUE_LEVEL_INFO_TITLE, Labels.SINGLE_VALUE_LEVEL_INFO_DESCRIPTION, UserGuide.SingleValue.add)
+                InfoIconBox(Labels.SINGLE_VALUE_LEVEL_INFO_TITLE, Labels.SINGLE_VALUE_LEVEL_INFO_DESCRIPTION, UserGuide.SingleValue.levels)
             }
         }
     }

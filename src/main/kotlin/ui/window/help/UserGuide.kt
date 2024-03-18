@@ -203,6 +203,15 @@ object UserGuide {
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME_DESCRIPTION
         )
 
+        val levels = HelpParagraph(
+            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_LEVELS,
+            listOf(
+                ParagraphContent.LocalizedImage(Labels.USER_GUIDE_PNG_ICON_LEVELS),
+                ParagraphContent.LocalizedImage(Labels.USER_GUIDE_PNG_ICON_LEVELS_EXAMPLE),
+                ParagraphContent.Text(Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_LEVELS_DESCRIPTION)
+            )
+        )
+
         val setAllColumns = HelpParagraph(
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SET_ALL_COLUMNS,
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SET_ALL_COLUMNS_DESCRIPTION
@@ -213,7 +222,7 @@ object UserGuide {
             content = listOf(
                 ParagraphContent.Text(Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_DESCRIPTION)
             ),
-            paragraphs = listOf(add, scheme, setAllColumns)
+            paragraphs = listOf(add, scheme, levels, setAllColumns)
         )
     }
 
