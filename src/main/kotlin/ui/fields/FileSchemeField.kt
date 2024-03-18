@@ -1,5 +1,6 @@
 package ui.fields
 
+import LocalGlobalCallbacks
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,6 +23,7 @@ import data.io.exporter.Exporter
 import data.resources.fields.FileSchemeFieldData
 import ui.Label
 import ui.Labels
+import ui.window.help.UserGuide
 
 @Composable
 fun FileSchemeField(
@@ -30,6 +33,7 @@ fun FileSchemeField(
     modifier: Modifier = Modifier,
     label: @Composable (() -> Unit)? = null
 ) {
+    val globalCallbacks = LocalGlobalCallbacks.current!!
     val filename =
         Exporter.getNameFromScheme(value, *placeholders.map { it to it.uppercase() }.toTypedArray())
 
@@ -65,6 +69,10 @@ fun FileSchemeField(
                                 )
                                 for (placeholder in placeholders) {
                                     Text("- " + "$" + placeholder + "$")
+                                }
+                                Button({ globalCallbacks.openHelp(UserGuide.Export.scheme) }) {
+                                    Icon(Icons.Default.Help, null)
+                                    Label(Labels.OPEN_HElP_INFO_BOX, Modifier.padding(8.dp))
                                 }
                             }
                         }

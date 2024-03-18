@@ -24,6 +24,7 @@ import ui.fields.DoubleField
 import ui.fields.IconField
 import ui.util.InfoIconBox
 import ui.util.NestedSurface
+import ui.window.help.UserGuide
 
 /**
  * In this card the user can edit a [SingleValueIcon].
@@ -74,7 +75,7 @@ fun SingleValueIconCard(icon: SingleValueIcon) {
                     Icon(Icons.Default.Add, null)
                     Label(Labels.ADD_SINGLE_VALUE_ICON_LEVEL)
                 }
-                InfoIconBox(Labels.SINGLE_VALUE_LEVEL_INFO_TITLE, Labels.SINGLE_VALUE_LEVEL_INFO_DESCRIPTION, null)
+                InfoIconBox(Labels.SINGLE_VALUE_LEVEL_INFO_TITLE, Labels.SINGLE_VALUE_LEVEL_INFO_DESCRIPTION, UserGuide.SingleValue.add)
             }
         }
     }

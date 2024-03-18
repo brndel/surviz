@@ -37,6 +37,7 @@ import ui.fields.DoubleField
 import ui.fields.IntField
 import ui.util.InfoIconBox
 import ui.util.NestedSurface
+import ui.window.help.UserGuide
 import kotlin.math.roundToInt
 
 @Composable
@@ -69,7 +70,7 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
                     text = "${LocalLanguage.current.getString(Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING)}: ${timelineScaling.roundToInt()}",
                     fontWeight = FontWeight.Bold
                 )
-                InfoIconBox (Labels.TIMELINE_SCALING_INFO_TITLE, Labels.TIMELINE_SCALING_INFO_DESCRIPTION, null)
+                InfoIconBox (Labels.TIMELINE_SCALING_INFO_TITLE, Labels.TIMELINE_SCALING_INFO_DESCRIPTION, UserGuide.Export.section)
             }
             var sliderPosition by remember { mutableStateOf(timelineScaling.toFloat()) }
 
