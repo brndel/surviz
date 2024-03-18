@@ -203,12 +203,17 @@ object UserGuide {
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME_DESCRIPTION
         )
 
+        val setAllColumns = HelpParagraph(
+            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SET_ALL_COLUMNS,
+            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SET_ALL_COLUMNS_DESCRIPTION
+        )
+
         val section = HelpSection(
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE,
             content = listOf(
                 ParagraphContent.Text(Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_DESCRIPTION)
             ),
-            paragraphs = listOf(add, scheme)
+            paragraphs = listOf(add, scheme, setAllColumns)
         )
     }
 
