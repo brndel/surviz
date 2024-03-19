@@ -22,6 +22,9 @@ data class ProjectConfiguration(
     private val situationConfig: SnapshotStateMap<String, SituationConfig> = mutableStateMapOf(),
     val imageConfig: ImageConfig = ImageConfig.loadFromProperties()
 ) {
+    init {
+        addSingleValue()
+    }
 
     /**
      * This method adds a single value to the project.
@@ -94,8 +97,8 @@ data class ProjectConfiguration(
      * @param column the specified SingleValueColumn
      * @param id the UUID of the SingleValue
      */
-    fun setAllSituationColumns(column: SingleValueColumn, id: UUID){
-        for(sit in situationConfig.values){
+    fun setAllSituationColumns(column: SingleValueColumn, id: UUID) {
+        for (sit in situationConfig.values) {
             sit.singleValueColumns[id] = column
         }
     }
