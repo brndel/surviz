@@ -62,6 +62,9 @@ fun TimelineCard(
             ) {
                 it
             }
+            if (columns.size == 1) {
+                column = columns.first()
+            }
 
             OptionsField(
                 lineType,
