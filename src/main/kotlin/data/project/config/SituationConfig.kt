@@ -28,7 +28,12 @@ data class SituationConfig(
     val color: MutableState<Color> = mutableStateOf(Color.Black),
     val singleValueColumns: SnapshotStateMap<UUID, SingleValueColumn> = mutableStateMapOf(),
     private val timeline: SnapshotStateList<TimelineEntry> = mutableStateListOf()
+
+
 ) {
+    init {
+        addTimelineEntry()
+    }
 
 
     /**
@@ -57,7 +62,7 @@ data class SituationConfig(
      * @param indexB the index of the second timeline entry to be swapped
      */
     fun swapTimelineOrder(indexA: Int, indexB: Int) {
-        if(indexA >= 0 && indexB >= 0 && indexA < timeline.size && indexB < timeline.size) {
+        if (indexA >= 0 && indexB >= 0 && indexA < timeline.size && indexB < timeline.size) {
             val temp = timeline[indexA]
             timeline[indexA] = timeline[indexB]
             timeline[indexB] = temp
