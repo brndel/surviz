@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.res.useResource
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextPainter
 import androidx.compose.ui.text.TextStyle
@@ -55,7 +56,9 @@ class ImageGenerator(
     private val padding: Int
 
     init {
-        properties.load(FileInputStream("src/main/resources/config/image_generator.properties"))
+        useResource("config/image_generator.properties") {
+            properties.load(it)
+        }
         height = properties.getProperty("situation_height").toInt()
         padding = properties.getProperty("border_padding").toInt()
         imageConfig = config.imageConfig

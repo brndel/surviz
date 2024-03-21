@@ -9,7 +9,9 @@ import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.res.ResourceLoader
 import androidx.compose.ui.res.loadImageBitmap
+import androidx.compose.ui.res.useResource
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializer
@@ -20,9 +22,12 @@ import org.jetbrains.skia.svg.*
 import java.awt.image.BufferedImage
 import java.io.File
 import java.io.FileInputStream
+import java.io.InputStream
 import java.util.Base64
 import java.util.UUID
 import javax.imageio.ImageIO
+import kotlin.io.path.Path
+import kotlin.io.path.extension
 
 
 /**
@@ -66,12 +71,10 @@ data class IconStorage(
         userIcons[id] = userIcon
     }
 
-    private fun storeInternalIcon(imagePath: String) {
-        val cleanImagePath = imagePath.replace('\\', '/')
-        val file = File(cleanImagePath)
-        val icon = createIcon(file.readBytes(), file.extension)
+    private fun storeInternalIcon(imagePath: String, inputStream: InputStream) {
+        val icon = createIcon(inputStream.readBytes(), Path(imagePath).extension)
 
-        internalIcons[cleanImagePath] = icon
+        internalIcons[imagePath] = icon
     }
 
     /**
@@ -95,9 +98,9 @@ data class IconStorage(
 
     private fun loadInternalIcons() {
         val walker = File("src/main/resources/icons").walk(FileWalkDirection.TOP_DOWN)
-        for (entry in walker) {
-            if (entry.isFile) {
-                storeInternalIcon(entry.path)
+        for (resourcePath in builtinResourceIcons) {
+            useResource(resourcePath) {
+                storeInternalIcon(resourcePath, it)
             }
         }
     }
@@ -238,5 +241,35 @@ data class IconStorage(
             return image
 
         }
+
+        val builtinResourceIcons = listOf(
+            "icons/0_timeline Icons/13_walk.svg",
+            "icons/0_timeline Icons/14_bike.svg",
+            "icons/0_timeline Icons/15_car.svg",
+            "icons/0_timeline Icons/autonomous_shuttle.svg",
+            "icons/0_timeline Icons/autonomous_shuttle_on_demand.png",
+            "icons/0_timeline Icons/autonomous_shuttle_scheduled.svg",
+            "icons/0_timeline Icons/bikesharing.svg",
+            "icons/0_timeline Icons/carpool.svg",
+            "icons/0_timeline Icons/carsharing.svg",
+            "icons/0_timeline Icons/e_scooter.svg",
+            "icons/0_timeline Icons/minibus.svg",
+            "icons/0_timeline Icons/public_transport.svg",
+            "icons/0_timeline Icons/shuttle_on_demand.svg",
+            "icons/0_timeline Icons/taxi.svg",
+            "icons/1_single value icons/01_cost.svg",
+            "icons/1_single value icons/02_moneybills.svg",
+            "icons/1_single value icons/03_euro.svg",
+            "icons/1_single value icons/04_travel_time.svg",
+            "icons/1_single value icons/05_hourglass.svg",
+            "icons/1_single value icons/06_repetition.svg",
+            "icons/1_single value icons/07_pre_booking.svg",
+            "icons/1_single value icons/07_transfer.svg",
+            "icons/1_single value icons/08_pendingactions.svg",
+            "icons/1_single value icons/09_timetable.svg",
+            "icons/1_single value icons/10_happysmiley.svg",
+            "icons/1_single value icons/11_neutralsmiley.svg",
+            "icons/1_single value icons/12_sadsmiley.svg",
+        )
     }
 }

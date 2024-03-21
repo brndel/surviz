@@ -2,6 +2,7 @@ package data.generator.resources
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.useResource
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializer
@@ -18,7 +19,9 @@ data class ImageConfig(
     companion object {
         fun loadFromProperties(): ImageConfig {
             val properties = Properties()
-            properties.load(FileInputStream("src/main/resources/config/image_generator.properties"))
+            useResource("config/image_generator.properties") {
+                properties.load(it)
+            }
             val width = mutableIntStateOf(properties.getProperty("situation_default_width").toInt())
             val timelineScaling =
                 mutableDoubleStateOf(properties.getProperty("timeline_default_scaling").toDouble())
