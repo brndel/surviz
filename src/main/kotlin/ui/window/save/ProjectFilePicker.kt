@@ -54,7 +54,7 @@ fun ProjectFilePicker(
                 if (it == null) {
                     onCloseRequest()
                 } else {
-                    val data = callbacks.loadData()
+                    val data = callbacks.loadData(it.path)
 
                     if (data != null) {
                         projectData = data

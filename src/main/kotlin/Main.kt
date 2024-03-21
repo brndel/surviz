@@ -178,6 +178,7 @@ fun main() = application {
 
             override fun forceLoadData(projectData: ProjectData) {
                 currentProject?.loadProjectData(projectData, true)
+                setStatusLabel(Labels.STATUS_MSG_SIMULATION_DATA_LOADED)
             }
 
             override fun setStatusLabel(label: String, type: StatusMessageType) {
