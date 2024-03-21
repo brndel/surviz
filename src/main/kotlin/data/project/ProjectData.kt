@@ -26,6 +26,26 @@ class ProjectData(
         return blocks[id]
     }
 
+    fun getMaxBlockID(): Int{
+        var max: Int = 0
+        for(block in blocks){
+            if(block.value.id > max){
+                max = block.value.id
+            }
+        }
+        return max
+    }
+    fun getMaxSituationID(id: Int): Int{
+        var max: Int = 0
+        for(sit in blocks[id]?.getSituations()!!){
+            if(sit.id > max){
+                max = sit.id
+            }
+        }
+        return max
+    }
+
+
     /**
      * This function returns a situation from a block.
      * @param block the block id

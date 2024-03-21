@@ -44,6 +44,27 @@ data class Project(
         return data.value.getBlocks()
     }
 
+    fun getMaxBlockID(): Int{
+        return data.value.getMaxBlockID()
+    }
+
+    fun getMaxSituationID(id : Int): Int{
+        return data.value.getMaxSituationID(id)
+    }
+
+    fun isValidBlockID(blockId : Int): Boolean{
+        return data.value.getBlock(blockId) != null
+    }
+    fun isValidSituationID(blockId : Int, situationId : Int): Boolean{
+        return data.value.getBlock(blockId)?.getSituation(situationId) != null
+    }
+    fun hasReachedMax(blockId : Int, situationId : Int): Boolean{
+        return blockId == getMaxBlockID() && situationId == getMaxSituationID(blockId)
+    }
+    fun hasReachedMin(blockId : Int, situationId : Int): Boolean{
+        return blockId == 1 && situationId == 1
+    }
+
     fun getBlock(id: Int): Block? {
         return data.value.getBlock(id)
     }

@@ -6,11 +6,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowLeft
+import androidx.compose.material.icons.filled.ArrowRight
+import androidx.compose.material.icons.filled.ForkLeft
 import androidx.compose.material.icons.filled.Preview
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,6 +21,7 @@ import data.generator.ImageGenerator
 import data.project.Project
 import ui.fields.IntField
 import ui.fields.OptionsField
+import kotlin.math.absoluteValue
 
 /**
  * This view shows a preview of the current [Project]
@@ -62,14 +63,52 @@ fun Preview(project: Project) {
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
+                            Button(onClick = {
+                                if(project.isValidBlockID(blockId)&&
+                                    project.isValidSituationID(blockId, situationId)&&
+                                    !project.hasReachedMin(blockId, situationId)){
+                                    if(situationId == 1){
+                                        blockId--
+                                        situationId = project.getMaxSituationID(blockId)
+                                    } else {
+                                        situationId--
+                                    }
+                                } else {
+                                    blockId = 1
+                                    situationId = 1
+                                }
+                            }){
+                                Icon(Icons.Default.ArrowLeft,null)
+                            }
+
                             IntField(
                                 blockId,
                                 { blockId = it },
-                                label = { Label(Labels.BLOCK) })
+                                label = { Label(Labels.BLOCK) },
+                                modifier = Modifier.width(200.dp))
                             IntField(
                                 situationId,
                                 { situationId = it },
-                                label = { Label(Labels.SITUATION) })
+                                label = { Label(Labels.SITUATION) },
+                                modifier = Modifier.width(200.dp))
+
+                            Button(onClick = {
+                                if(project.isValidBlockID(blockId) &&
+                                    project.isValidSituationID(blockId, situationId) &&
+                                    !project.hasReachedMax(blockId, situationId)){
+                                    if(situationId == project.getMaxSituationID(blockId)){
+                                        blockId++
+                                        situationId = 1
+                                    } else {
+                                        situationId++
+                                    }
+                                } else {
+                                    blockId = project.getMaxBlockID()
+                                    situationId = project.getMaxSituationID(blockId)
+                                }
+                            }){
+                                Icon(Icons.Default.ArrowRight,null)
+                            }
                         }
                     }
                 }
