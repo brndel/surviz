@@ -31,11 +31,6 @@ data class SituationConfig(
 
 
 ) {
-    init {
-        addTimelineEntry()
-    }
-
-
     /**
      * this method adds a new timeline entry.
      */

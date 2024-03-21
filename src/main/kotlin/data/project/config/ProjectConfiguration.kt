@@ -26,10 +26,6 @@ data class ProjectConfiguration(
     private val situationConfig: SnapshotStateMap<String, SituationConfig> = mutableStateMapOf(),
     val imageConfig: ImageConfig = ImageConfig.loadFromProperties()
 ) {
-    init {
-        addSingleValue()
-    }
-
     /**
      * This method adds a single value to the project.
      */
@@ -85,7 +81,12 @@ data class ProjectConfiguration(
      * @return the situation configuration with the given key
      */
     fun getSituationConfig(name: String): SituationConfig {
-        return situationConfig.getOrPut(name) { SituationConfig() }
+        return situationConfig.getOrPut(name) {
+            val config = SituationConfig()
+            config.addTimelineEntry()
+
+            config
+        }
     }
 
     /**

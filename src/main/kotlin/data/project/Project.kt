@@ -162,7 +162,9 @@ data class Project(
          * @param data The project data to load.
          */
         fun newProjectWithData(data: ProjectData): Project {
-            return Project(mutableStateOf(data), mutableStateOf(data.dataScheme), ProjectConfiguration(), IconStorage())
+            val config = ProjectConfiguration()
+            config.addSingleValue()
+            return Project(mutableStateOf(data), mutableStateOf(data.dataScheme), config, IconStorage())
         }
 
         /**
