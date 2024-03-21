@@ -137,7 +137,7 @@ fun SchemeMatchPopup(scheme: String, dataScheme: DataScheme) {
                     modifier = Modifier.padding(8.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    for (option in dataScheme.options.values) {
+                    for (option in dataScheme.options) {
                         for (fieldName in option.fieldsList) {
                             val match = regex.matchAt(fieldName, 0)
 
@@ -186,9 +186,14 @@ fun ColumnButton(projConfig: ProjectConfiguration, id: UUID){
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         Box {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+
             Button({ dropdownExpanded = true }) {
                 Icon(Icons.Default.ViewWeek, contentDescription = null)
                 Label(Labels.SINGLE_VALUE_SET_ALL_COLUMNS)
+            }
                 InfoIconBox(Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE, Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION, UserGuide.SingleValue.setAllColumns)
             }
 
