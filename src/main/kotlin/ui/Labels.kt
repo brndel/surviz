@@ -16,6 +16,7 @@ object Labels {
 
     const val PAGE_SINGLE_VALUE = "PAGE_SINGLE_VALUE"
     const val PAGE_SITUATION = "PAGE_SITUATION"
+    const val PAGE_IMAGE = "PAGE_IMAGE"
     const val PAGE_EXPORT = "PAGE_EXPORT"
     const val NEW = "NEW"
     const val SELECT = "SELECT"
@@ -76,6 +77,7 @@ object Labels {
 
     const val EXPORT_IMAGE_CONFIG_WIDTH = "EXPORT_IMAGE_CONFIG_WIDTH"
     const val EXPORT_IMAGE_CONFIG_TIMELINE_SCALING = "EXPORT_IMAGE_CONFIG_TIMELINE_SCALING"
+    const val EXPORT_IMAGE_CONFIG_BACKGROUND_COLOR = "EXPORT_IMAGE_CONFIG_BACKGROUND_COLOR"
 
     const val PLACEHOLDERS = "PLACEHOLDERS"
 
@@ -292,6 +294,7 @@ enum class Language(private val code: String, val label: String, private val str
 
             Labels.PAGE_SINGLE_VALUE to "Single Values",
             Labels.PAGE_SITUATION to "Situations",
+            Labels.PAGE_IMAGE to "Image",
             Labels.PAGE_EXPORT to "Export",
 
             Labels.NEW to "New",
@@ -352,6 +355,7 @@ enum class Language(private val code: String, val label: String, private val str
 
             Labels.EXPORT_IMAGE_CONFIG_WIDTH to "Width",
             Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING to "Timeline scaling",
+            Labels.EXPORT_IMAGE_CONFIG_BACKGROUND_COLOR to "Background color",
 
             Labels.PLACEHOLDERS to "Placeholders",
 
@@ -548,6 +552,7 @@ enum class Language(private val code: String, val label: String, private val str
 
             Labels.PAGE_SINGLE_VALUE to "Einzelwerte",
             Labels.PAGE_SITUATION to "Situationen",
+            Labels.PAGE_IMAGE to "Bild",
             Labels.PAGE_EXPORT to "Exportieren",
 
             Labels.NEW to "Neu",
@@ -609,6 +614,7 @@ enum class Language(private val code: String, val label: String, private val str
 
             Labels.EXPORT_IMAGE_CONFIG_WIDTH to "Breite",
             Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING to "Skalierung des Zeitstrahls",
+            Labels.EXPORT_IMAGE_CONFIG_BACKGROUND_COLOR to "Hintergrundfarbe",
 
             Labels.PLACEHOLDERS to "Platzhalter",
 

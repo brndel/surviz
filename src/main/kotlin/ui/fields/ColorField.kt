@@ -51,7 +51,7 @@ fun ColorField(
         onValueChange = {
             hexColor = it
             val col = Color.fromHex(it)
-            isError = col != null
+            isError = col == null
 
             if (col != null) {
                 onColorChange(col)
@@ -109,6 +109,7 @@ fun ColorField(
                                     ColorSlider({ it.red }, { copy(red = it) }, Color.Red)
                                     ColorSlider({ it.green }, { copy(green = it) }, Color.Green)
                                     ColorSlider({ it.blue }, { copy(blue = it) }, Color.Blue)
+                                    ColorSlider({ it.alpha }, { copy(alpha = it) }, Color.Gray)
                                 }
                             }
                         }
@@ -125,7 +126,7 @@ private val hexFormat = HexFormat {
 }
 
 @OptIn(ExperimentalStdlibApi::class)
-private fun Color.Companion.fromHex(hex: String): Color? {
+fun Color.Companion.fromHex(hex: String): Color? {
     return try {
         val value = hex.uppercase().hexToInt(hexFormat)
         Color(value)
@@ -136,6 +137,6 @@ private fun Color.Companion.fromHex(hex: String): Color? {
 
 
 @OptIn(ExperimentalStdlibApi::class)
-private fun Color.toHex(): String {
+fun Color.toHex(): String {
     return toArgb().toHexString(hexFormat)
 }

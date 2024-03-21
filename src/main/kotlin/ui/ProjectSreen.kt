@@ -21,6 +21,7 @@ import data.project.Project
 import data.project.config.ProjectConfiguration
 import data.project.data.IconStorage
 import ui.page.export.ExportPage
+import ui.page.image.ImageConfigPage
 import ui.page.singleValue.SingleValuePage
 import ui.page.situation.SituationPage
 
@@ -52,6 +53,7 @@ fun ProjectScreen(project: Project) {
                     when (currentPage) {
                         Page.SingleValue -> SingleValuePage(project.configuration, project.getDataScheme())
                         Page.Situation -> SituationPage(project.configuration, project.getDataScheme())
+                        Page.Image -> ImageConfigPage(project.configuration.imageConfig)
                         Page.Export -> ExportPage(project)
                     }
                 }
@@ -118,6 +120,8 @@ enum class Page(val label: String) {
      * Will show the [SituationPage]
      */
     Situation(Labels.PAGE_SITUATION),
+
+    Image(Labels.PAGE_IMAGE),
 
     /**
      * Will show the [ExportPage]

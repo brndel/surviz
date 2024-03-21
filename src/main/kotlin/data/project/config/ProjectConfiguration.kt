@@ -1,12 +1,16 @@
 package data.project.config
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.snapshots.SnapshotStateMap
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializer
 import data.generator.resources.ImageConfig
-import data.project.config.columns.SchemeColumns
 import data.project.config.columns.SingleValueColumn
-import java.util.UUID
+import java.util.*
 
 /**
  * This class represents the configuration of a project.
@@ -100,6 +104,53 @@ data class ProjectConfiguration(
     fun setAllSituationColumns(column: SingleValueColumn, id: UUID) {
         for (sit in situationConfig.values) {
             sit.singleValueColumns[id] = column
+        }
+    }
+
+    companion object {
+        val serializer = JsonSerializer<ProjectConfiguration> { value, _, ctx ->
+            val obj = JsonObject()
+
+            obj.add("singleValueConfigOrder", ctx.serialize(value.singleValueConfigOrder))
+            obj.add("singleValueConfig", ctx.serialize(value.singleValueConfig))
+            obj.add("situationConfig", ctx.serialize(value.situationConfig))
+            obj.add("imageConfig", ctx.serialize(value.imageConfig))
+
+            obj
+        }
+
+        val deserializer = JsonDeserializer { element, _, ctx ->
+            val obj = element.asJsonObject
+
+            val singleValueConfigOrder = mutableStateListOf<UUID>()
+            for (elem in obj.get("singleValueConfigOrder").asJsonArray) {
+                singleValueConfigOrder.add(ctx.deserialize(elem, UUID::class.java))
+            }
+
+            val singleValueConfig = mutableStateMapOf<UUID, SingleValueConfig>()
+            for ((keyElem, entryElem) in obj.get("singleValueConfig").asJsonObject.entrySet()) {
+                val key = ctx.deserialize<UUID>(JsonPrimitive(keyElem), UUID::class.java)
+                val entry = ctx.deserialize<SingleValueConfig>(entryElem, SingleValueConfig::class.java)
+
+                singleValueConfig[key] = entry
+            }
+
+            val situationConfig = mutableStateMapOf<String, SituationConfig>()
+            for ((key, entryElem) in obj.get("situationConfig").asJsonObject.entrySet()) {
+                val entry = ctx.deserialize<SituationConfig>(entryElem, SituationConfig::class.java)
+
+                situationConfig[key] = entry
+            }
+
+            val imageConfig = ctx.deserialize<ImageConfig>(obj.get("imageConfig"), ImageConfig::class.java)
+
+
+            ProjectConfiguration(
+                singleValueConfigOrder,
+                singleValueConfig,
+                situationConfig,
+                imageConfig
+            )
         }
     }
 }

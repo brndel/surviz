@@ -61,8 +61,6 @@ fun ExportPage(project: Project) {
             Label(Labels.PAGE_EXPORT, style = MaterialTheme.typography.h4)
             Icon(Icons.Default.Send, contentDescription = null, tint = MaterialTheme.colors.onBackground)
         }
-        ImageConfigCard(project.configuration.imageConfig, Modifier.fillMaxWidth())
-
 
         NestedSurface {
             Column(Modifier.padding(10.dp)) {

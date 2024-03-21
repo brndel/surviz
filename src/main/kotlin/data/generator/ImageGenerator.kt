@@ -134,7 +134,7 @@ class ImageGenerator(
 
         //fill background
         val backgroundColor = Paint()
-        backgroundColor.color = Color(properties.getProperty("background_color").toLong(16))
+        backgroundColor.color = imageConfig.backgroundColor.value;
         canvas.drawRect(0F, 0F, width.toFloat(), height.toFloat(), backgroundColor)
 
         //draw option title

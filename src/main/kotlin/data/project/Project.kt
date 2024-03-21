@@ -187,6 +187,8 @@ data class Project(
                 .registerTypeAdapter(IconStorage::class.java, IconStorage.serializer)
                 .registerTypeAdapter(IconStorage::class.java, IconStorage.deserializer)
                 // Project Config
+                .registerTypeAdapter(ProjectConfiguration::class.java, ProjectConfiguration.serializer)
+                .registerTypeAdapter(ProjectConfiguration::class.java, ProjectConfiguration.deserializer)
                 .registerTypeAdapter(SingleValueConfig::class.java, SingleValueConfig.serializer)
                 .registerTypeAdapter(SingleValueConfig::class.java, SingleValueConfig.deserializer)
                 .registerTypeAdapter(SingleValueIcon::class.java, SingleValueIcon.serializer)
