@@ -41,9 +41,10 @@ compose.desktop {
         mainClass = "MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "surviz"
+            targetFormats(TargetFormat.Dmg, TargetFormat.Exe, TargetFormat.Deb)
+            packageName = "SurViz"
             packageVersion = "1.0.0"
+            modules("java.compiler", "java.instrument" , "java.sql", "jdk.unsupported")
         }
     }
 }
