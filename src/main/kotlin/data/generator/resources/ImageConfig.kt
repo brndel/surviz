@@ -8,7 +8,6 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonSerializer
 import ui.fields.fromHex
 import ui.fields.toHex
-import java.io.FileInputStream
 import java.util.Properties
 
 data class ImageConfig(
@@ -48,7 +47,6 @@ data class ImageConfig(
             val timelineScaling = obj.get("timelineScaling").asDouble
             val colorHex = obj.get("backgroundColor").asString
             val color = Color.fromHex(colorHex)!!
-            println("loaded color $color")
 
             ImageConfig(
                 mutableIntStateOf(width),
