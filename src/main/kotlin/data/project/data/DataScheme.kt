@@ -1,6 +1,7 @@
 package data.project.data
 
 import java.util.SortedMap
+import javax.xml.crypto.Data
 
 /**
  * This class represents a data scheme.
@@ -9,8 +10,7 @@ import java.util.SortedMap
  *
  * @property options The list of data scheme options.
  */
-class DataScheme(options: List<DataSchemeOption>) {
-    val options: SortedMap<String, DataSchemeOption> = options.associateBy { it.name }.toSortedMap()
+class DataScheme(val options: List<DataSchemeOption>) {
 
     /**
      * This method compares two data schemes for compatibility.
@@ -22,8 +22,11 @@ class DataScheme(options: List<DataSchemeOption>) {
      *
      */
     fun compareTo(scheme: DataScheme): Boolean {
-        for (name in options.keys) {
-            if (this.options[name] != scheme.options[name]) return false
+        for (option in options) {
+            val otherOption = scheme.options.firstOrNull {
+                it.name == option.name
+            }
+            if (option != otherOption) return false
         }
         return true
     }

@@ -53,7 +53,7 @@ fun SituationPage(projectConfiguration: ProjectConfiguration, dataScheme: DataSc
         }
         NestedSurface {
             Column {
-                val dataSchemeOptions = dataScheme.options.values.toList()
+                val dataSchemeOptions = dataScheme.options
 
                 TabRow(selectedTabIndex = selectedTab, modifier = Modifier.height(42.dp), backgroundColor = MaterialTheme.colors.primary) {
                     dataSchemeOptions.forEachIndexed { index, option ->

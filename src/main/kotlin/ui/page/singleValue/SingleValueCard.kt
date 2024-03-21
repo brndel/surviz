@@ -137,7 +137,7 @@ fun SchemeMatchPopup(scheme: String, dataScheme: DataScheme) {
                     modifier = Modifier.padding(8.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    for (option in dataScheme.options.values) {
+                    for (option in dataScheme.options) {
                         for (fieldName in option.fieldsList) {
                             val match = regex.matchAt(fieldName, 0)
 
