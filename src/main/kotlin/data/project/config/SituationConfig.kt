@@ -14,6 +14,8 @@ import data.generator.resources.LineType
 import data.project.config.columns.SchemeColumns
 
 import data.project.config.columns.SingleValueColumn
+import ui.fields.fromHex
+import ui.fields.toHex
 import java.util.UUID
 
 /**
@@ -87,7 +89,7 @@ data class SituationConfig(
             val obj = JsonObject()
 
             obj.addProperty("name", value.name.value)
-            obj.add("color", ctx.serialize(value.color.value))
+            obj.add("color", ctx.serialize(value.color.value.toHex()))
             obj.add("singleValueColumns", ctx.serialize(value.singleValueColumns))
             obj.add("timeline", ctx.serialize(value.timeline))
 
@@ -98,7 +100,7 @@ data class SituationConfig(
             val obj = element.asJsonObject
 
             val name = obj.get("name").asString
-            val color = ctx.deserialize<Color>(obj.get("color"), Color::class.java)
+            val color = Color.fromHex(obj.get("color").asString)!!
 
             val jsonSingleValueColumns = obj.get("singleValueColumns").asJsonObject
 
