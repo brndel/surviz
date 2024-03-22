@@ -27,7 +27,7 @@ class IconStorageTest {
 
     @Test
     fun storeIconSvg() {
-        val imagePath = "src/main/resources/icons/15_car.svg"
+        val imagePath = "src/main/resources/icons/0_timeline Icons/15_car.svg"
         iconStorage.storeIcon(imagePath)
         assert(iconStorage.getUserIconNames().isNotEmpty())
 
@@ -48,7 +48,7 @@ class IconStorageTest {
 
     @Test
     fun storeIconPng() {
-        val imagePath = "src/main/resources/icons/autonomous_shuttle_on_demand.png"
+        val imagePath = "src/main/resources/icons/0_timeline Icons/autonomous_shuttle_on_demand.png"
         iconStorage.storeIcon(imagePath)
         assert(iconStorage.getUserIconNames().isNotEmpty())
 
@@ -66,7 +66,7 @@ class IconStorageTest {
 
     @Test
     fun getIcon() {
-        val imagePath = "src/main/resources/icons/autonomous_shuttle_on_demand.png"
+        val imagePath = "src/main/resources/icons/0_timeline Icons/autonomous_shuttle_on_demand.png"
         iconStorage.storeIcon(imagePath)
         val key = iconStorage.getUserIconNames().first()
         val map = iconStorage.getIcon(key)
@@ -83,7 +83,7 @@ class IconStorageTest {
 
     @Test
     fun getInternalIconNames() {
-        val imagePath = "src/main/resources/icons/autonomous_shuttle_on_demand.png"
+        val imagePath = "src/main/resources/icons/0_timeline Icons/autonomous_shuttle_on_demand.png"
         iconStorage.storeIcon(imagePath)
         val iconNames = iconStorage.getInternalIconNames()
         assert(iconNames.isNotEmpty())
