@@ -51,6 +51,9 @@ compose.desktop {
                 iconFile.set(File("src/main/resources/logo.ico"))
                 menuGroup = ""
             }
+            linux {
+                iconFile.set(File("src/main/resources/logo.png"))
+            }
         }
     }
 }
