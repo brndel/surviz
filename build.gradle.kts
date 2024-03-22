@@ -44,7 +44,13 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Exe, TargetFormat.Deb)
             packageName = "SurViz"
             packageVersion = "1.0.0"
+            vendor = "com.surviz"
             modules("java.compiler", "java.instrument" , "java.sql", "jdk.unsupported")
+
+            windows{
+                iconFile.set(File("src/main/resources/logo.ico"))
+                menuGroup = ""
+            }
         }
     }
 }
