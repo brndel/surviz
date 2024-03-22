@@ -2,34 +2,21 @@ package ui.fields
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.AddAPhoto
-import androidx.compose.material.icons.filled.NewLabel
-import androidx.compose.material.icons.filled.Texture
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
+import androidx.compose.material.icons.filled.AddPhotoAlternate
+import androidx.compose.material.icons.filled.Block
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindow
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
@@ -53,7 +40,7 @@ fun IconField(icon: String?, onIconChange: (String?) -> Unit) {
     var dialogOpen by remember { mutableStateOf(false) }
 
     Button({ dialogOpen = true }, modifier = Modifier.size(64.dp)) {
-        IconStorageImage(icon)
+        IconStorageImage(icon, nullIcon = Icons.Default.AddPhotoAlternate)
     }
 
     if (dialogOpen) {
@@ -168,7 +155,8 @@ fun IconStorageImage(
     iconPath: String?,
     modifier: Modifier = Modifier,
     iconStorage: IconStorage? = LocalIconStorage.current,
-    color: Color = LocalContentColor.current
+    color: Color = LocalContentColor.current,
+    nullIcon: ImageVector = Icons.Default.Block,
 ) {
     val colorFilter = ColorFilter.colorMatrix(
         ColorMatrix(
@@ -181,20 +169,12 @@ fun IconStorageImage(
         )
     )
 
-    if (iconPath == null) {
-        Image(Icons.Default.AddAPhoto, null, colorFilter = colorFilter)
-        return
-    }
-
-    val image = iconStorage?.getIcon(iconPath)
-
+    val image = iconPath?.let { iconStorage?.getIcon(it) }
 
     if (image == null) {
-        Box(modifier.size(64.dp)) {
-            Text("-", modifier = Modifier.align(Alignment.Center))
-        }
+        Image(nullIcon, null, modifier = modifier.size(64.dp), alpha = 0.4F, colorFilter = colorFilter)
         return
+    } else {
+        Image(image, null, modifier = modifier.size(64.dp), colorFilter =  colorFilter)
     }
-
-    Image(image, null, modifier = modifier.size(64.dp), colorFilter =  colorFilter)
 }
