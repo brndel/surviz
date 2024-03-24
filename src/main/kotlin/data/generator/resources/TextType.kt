@@ -1,8 +1,6 @@
 package data.generator.resources
 
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.sp
 
 /**
  * Enum describing all different text types

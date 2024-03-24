@@ -9,7 +9,6 @@ import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.res.ResourceLoader
 import androidx.compose.ui.res.loadImageBitmap
 import androidx.compose.ui.res.useResource
 import com.google.gson.JsonDeserializer
@@ -18,7 +17,11 @@ import com.google.gson.JsonSerializer
 import data.resources.exceptions.CorruptFileException
 import data.resources.exceptions.FileTypeException
 import org.jetbrains.skia.Data
-import org.jetbrains.skia.svg.*
+import org.jetbrains.skia.svg.SVGDOM
+import org.jetbrains.skia.svg.SVGLength
+import org.jetbrains.skia.svg.SVGLengthUnit
+import org.jetbrains.skia.svg.SVGPreserveAspectRatio
+import org.jetbrains.skia.svg.SVGPreserveAspectRatioAlign
 import java.awt.image.BufferedImage
 import java.io.File
 import java.io.FileInputStream

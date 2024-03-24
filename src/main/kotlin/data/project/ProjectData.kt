@@ -62,9 +62,7 @@ class ProjectData(
         other as ProjectData
 
         if (dataScheme != other.dataScheme) return false
-        if (blocks != other.blocks) return false
-
-        return true
+        return blocks == other.blocks
     }
 
     override fun hashCode(): Int {

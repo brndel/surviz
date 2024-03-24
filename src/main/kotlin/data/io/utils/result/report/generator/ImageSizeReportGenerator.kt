@@ -1,6 +1,5 @@
 package data.io.utils.result.report.generator
 
-import data.io.utils.OptionId
 import data.io.utils.result.report.ExportReport
 import data.io.utils.result.report.ImageSizeExportReport
 import data.io.utils.result.warnings.ExportWarning

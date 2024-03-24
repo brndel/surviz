@@ -1,7 +1,6 @@
 package ui.page.situation
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +12,6 @@ import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CarCrash
 import androidx.compose.material.icons.filled.ModeOfTravel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue

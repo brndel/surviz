@@ -1,14 +1,32 @@
 package ui.page.singleValue
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.LocalContentColor
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.ViewWeek
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -21,8 +39,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import data.project.config.ProjectConfiguration
 import data.project.config.SingleValueConfig
-import data.project.config.SituationConfig
-import data.project.config.columns.*
+import data.project.config.columns.ListColumns
+import data.project.config.columns.SchemeColumns
+import data.project.config.columns.SingleValueColumn
+import data.project.config.columns.TimelineColumns
+import data.project.config.columns.ZeroColumn
 import data.project.data.DataScheme
 import org.burnoutcrew.reorderable.ReorderableState
 import ui.Label
@@ -31,7 +52,7 @@ import ui.util.InfoIconBox
 import ui.util.NestedSurface
 import ui.util.ReorderHandle
 import ui.window.help.UserGuide
-import java.util.*
+import java.util.UUID
 import java.util.regex.PatternSyntaxException
 
 /**

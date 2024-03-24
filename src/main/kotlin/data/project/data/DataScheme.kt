@@ -1,8 +1,5 @@
 package data.project.data
 
-import java.util.SortedMap
-import javax.xml.crypto.Data
-
 /**
  * This class represents a data scheme.
  * A data scheme of a project describes the structure of a nGene file.

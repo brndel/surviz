@@ -13,11 +13,11 @@ import androidx.compose.ui.res.useResource
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextPainter
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.createFontFamilyResolver
+import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
@@ -35,7 +35,6 @@ import data.project.config.columns.ZeroColumn
 import data.project.data.IconStorage
 import data.project.data.Situation
 import data.project.data.SituationOption
-import java.io.FileInputStream
 import java.util.Properties
 
 /**
@@ -137,7 +136,7 @@ class ImageGenerator(
 
         //fill background
         val backgroundColor = Paint()
-        backgroundColor.color = imageConfig.backgroundColor.value;
+        backgroundColor.color = imageConfig.backgroundColor.value
         canvas.drawRect(0F, 0F, width.toFloat(), height.toFloat(), backgroundColor)
 
         //draw option title
