@@ -5,7 +5,7 @@ SurViz is a tool for better visualizing stated choice surveys.
 ## Usage
 
 >[!tip]
->See `src/notes/User_guide` or *Help*-Tab in *Settings* window for detailed explanation
+>See `notes/User_guide` or *Help* window for detailed explanation
 
 ## Supported file types
 
