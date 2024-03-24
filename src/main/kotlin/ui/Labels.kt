@@ -251,6 +251,10 @@ object Labels {
 
     const val SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE = "SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE"
     const val SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION = "SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION"
+
+    const val PREVIEW_WARNING_TITLE = "PREVIEW_WARNING_TITLE"
+    const val PREVIEW_WARNING_DESCRIPTION = "PREVIEW_WARNING_DESCRIPTION"
+    const val PREVIEW_WARNING_FIX = "PREVIEW_WARNING_FIX"
     /*
     #########################################   MISC/ERROR LABELS   ####################################################
     */
@@ -510,6 +514,10 @@ enum class Language(private val code: String, val label: String, private val str
 
             Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE to "Setting the Single value columns option for all situations",
             Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION to "Here, the 'Single value columns' option from the Situations window\ncan be set for all situations simultaneously.\n\nCaution: This will overwrite all previous settings in the 'Single value columns' option\nfor this single value in all situations!",
+
+            Labels.PREVIEW_WARNING_TITLE to "Image not wide enough",
+            Labels.PREVIEW_WARNING_DESCRIPTION to "The image is not wide enough to fit all content.\nWidth needed:",
+            Labels.PREVIEW_WARNING_FIX to "Change image configuration to fix this.",
 
             /*
             #########################################   MISC/ERROR LABELS   ############################################
@@ -775,6 +783,9 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE to "Einzelwert-Spalten für alle Situationen setzen",
             Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION to "Hier kann die 'Einzelwert-Spalten' option aus dem Situationen Fenster,\nfür diesen Einzelwert und für alle Situationen gleichzeitig festgelegt werden.\n\nAchtung: Hierbei werden die bisherigen Einstellungen dieses Einzelwerts\nin der 'Einzelwert Spalten' Option in allen Situationen überschrieben!",
 
+            Labels.PREVIEW_WARNING_TITLE to "Bild zu schmal",
+            Labels.PREVIEW_WARNING_DESCRIPTION to "Das bild ist zu schmal um alle Inhalte korrekt wiederzugeben.\nDas Bild müsste:",
+            Labels.PREVIEW_WARNING_FIX to "breit sein.\nÄndern der Bildeinstellungen kann dieses Problem beheben.",
             /*
             #########################################   MISC/ERROR LABELS   ############################################
             */
