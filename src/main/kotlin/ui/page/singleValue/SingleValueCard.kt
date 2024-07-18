@@ -30,6 +30,7 @@ import ui.Labels
 import ui.util.InfoIconBox
 import ui.util.NestedSurface
 import ui.util.ReorderHandle
+import ui.util.TextSwitch
 import ui.window.help.UserGuide
 import java.util.*
 import java.util.regex.PatternSyntaxException
@@ -81,10 +82,7 @@ fun SingleValueCard(
 
 @Composable
 private fun RowScope.SingleValueCardContent(
-    config: SingleValueConfig,
-    projConfig: ProjectConfiguration,
-    id: UUID,
-    dataScheme: DataScheme
+    config: SingleValueConfig, projConfig: ProjectConfiguration, id: UUID, dataScheme: DataScheme
 ) {
     var unit by config.unit
     var columnScheme by config.columnScheme
@@ -113,27 +111,11 @@ private fun RowScope.SingleValueCardContent(
             )
         })
 
-        TextSwitch(Labels.SINGLE_VALUE_FORCE_DECIMAL, config.showDecimal)
+        TextSwitch(Labels.SINGLE_VALUE_FORCE_DECIMAL, config.showDecimal, Labels.SINGLE_VALUE_DECIMAL_INFO_TITLE, Labels.SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION, null)
 
         SingleValueIconCard(config.icon)
 
         ColumnButton(projConfig, id)
-    }
-}
-
-@Composable
-fun TextSwitch(label: String, state: MutableState<Boolean>) {
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy((10.dp))) {
-        Label(label)
-        Switch(
-            state.value, onCheckedChange = {
-                state.value = it
-            },
-            colors = SwitchDefaults.colors(
-                checkedThumbColor = MaterialTheme.colors.primary,
-                uncheckedThumbColor = MaterialTheme.colors.primary,
-            )
-        )
     }
 }
 
@@ -151,15 +133,13 @@ fun SchemeMatchPopup(scheme: String, dataScheme: DataScheme) {
         focusManager.clearFocus()
     }, alignment = Alignment.TopStart) {
         Surface(
-            elevation = 8.dp,
-            shape = RoundedCornerShape(8.dp)
+            elevation = 8.dp, shape = RoundedCornerShape(8.dp)
         ) {
             if (regex != null) {
 
                 val textColor = LocalContentColor.current
                 Column(
-                    modifier = Modifier.padding(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                    modifier = Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     for (option in dataScheme.options) {
                         for (fieldName in option.fieldsList) {
@@ -229,21 +209,15 @@ fun ColumnButton(projConfig: ProjectConfiguration, id: UUID) {
 
                 @Composable
                 fun ColumnsMenuItem(
-                    nameLabel: String,
-                    descriptionLabel: String,
-                    theColumn: () -> SingleValueColumn
+                    nameLabel: String, descriptionLabel: String, theColumn: () -> SingleValueColumn
                 ) {
                     DropdownMenuItem(onClick = {
                         projConfig.setAllSituationColumns(theColumn(), id)
                         dropdownExpanded = false
                     }) {
                         Column(
-                            verticalArrangement = Arrangement.spacedBy(4.dp),
-                            modifier = Modifier.padding(
-                                top = 10.dp,
-                                bottom = 10.dp,
-                                start = 4.dp,
-                                end = 4.dp
+                            verticalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.padding(
+                                top = 10.dp, bottom = 10.dp, start = 4.dp, end = 4.dp
                             )
                         ) {
                             Label(nameLabel)
@@ -261,8 +235,7 @@ fun ColumnButton(projConfig: ProjectConfiguration, id: UUID) {
                     column: SingleValueColumn
                 ) {
                     ColumnsMenuItem(
-                        column.nameLabel,
-                        column.descriptionLabel
+                        column.nameLabel, column.descriptionLabel
                     ) { column }
                 }
 

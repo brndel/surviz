@@ -182,12 +182,14 @@ object Labels {
     const val USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE_DESCRIPTION =
         "USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE_DESCRIPTION"
     const val USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW = "USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW"
-    const val USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW_DESCRIPTION = "USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW_DESCRIPTION"
+    const val USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW_DESCRIPTION =
+        "USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW_DESCRIPTION"
     const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE = "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE"
     const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_DESCRIPTION =
         "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_DESCRIPTION"
     const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_LEVELS = "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_LEVELS"
-    const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_LEVELS_DESCRIPTION = "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_LEVELS_DESCRIPTION"
+    const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_LEVELS_DESCRIPTION =
+        "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_LEVELS_DESCRIPTION"
     const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD =
         "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD"
     const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD_DESCRIPTION =
@@ -196,8 +198,10 @@ object Labels {
         "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME"
     const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME_DESCRIPTION =
         "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME_DESCRIPTION"
-    const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SET_ALL_COLUMNS = "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SET_ALL_COLUMNS"
-    const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SET_ALL_COLUMNS_DESCRIPTION = "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SET_ALL_COLUMNS_DESCRIPTION"
+    const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SET_ALL_COLUMNS =
+        "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SET_ALL_COLUMNS"
+    const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SET_ALL_COLUMNS_DESCRIPTION =
+        "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SET_ALL_COLUMNS_DESCRIPTION"
 
     const val USER_GUIDE_PROJECT_SCREEN_SITUATION = "USER_GUIDE_PROJECT_SCREEN_SITUATION"
     const val USER_GUIDE_PROJECT_SCREEN_SITUATION_DESCRIPTION =
@@ -216,7 +220,7 @@ object Labels {
     const val USER_GUIDE_HOTKEYS_DESCRIPTION = "USER_GUIDE_HOTKEYS_DESCRIPTION"
 
     const val USER_GUIDE_PNG_START_SCREEN = "USER_GUIDE_PNG_START_SCREEN"
-    const val USER_GUIDE_PNG_FILE_MENU= "USER_GUIDE_PNG_FILE_MENU"
+    const val USER_GUIDE_PNG_FILE_MENU = "USER_GUIDE_PNG_FILE_MENU"
     const val USER_GUIDE_PNG_SINGLE_VALUES = "USER_GUIDE_PNG_SINGLE_VALUES"
     const val USER_GUIDE_PNG_SITUATIONS = "USER_GUIDE_PNG_SITUATIONS"
     const val USER_GUIDE_PNG_EXPORT = "USER_GUIDE_PNG_EXPORT"
@@ -224,9 +228,9 @@ object Labels {
     const val USER_GUIDE_PNG_ICON_LEVELS = "USER_GUIDE_PNG_ICON_LEVELS"
     const val USER_GUIDE_PNG_ICON_LEVELS_EXAMPLE = "USER_GUIDE_PNG_ICON_LEVELS_EXAMPLE"
 
-        /*
-        #########################################   SETTINGS LABELS   ######################################################
-        */
+    /*
+    #########################################   SETTINGS LABELS   ######################################################
+    */
 
     const val SETTINGS_CHANGE_LANGUAGE = "SETTINGS_CHANGE_LANGUAGE"
     const val SETTINGS_CHANGE_DARK_MODE = "SETTINGS_CHANGE_DARK_MODE"
@@ -250,6 +254,8 @@ object Labels {
     const val TIMELINE_SCALING_INFO_TITLE = "TIMELINE_SCALING_INFO_TITLE"
     const val TIMELINE_SCALING_INFO_DESCRIPTION = "TIMELINE_SCALING_INFO_DESCRIPTION"
 
+    const val SINGLE_VALUE_DECIMAL_INFO_TITLE = "SINGLE_VALUE_DECIMAL_INFO_TITLE"
+    const val SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION = "SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION"
     const val SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE = "SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE"
     const val SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION = "SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION"
     /*
@@ -454,9 +460,9 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE to "Single Values tab",
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_DESCRIPTION to "In the \$Single Values\$ tab, single  values can be configured.",
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD to "Add and configure single  value",
-            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD_DESCRIPTION to "By clicking on the \$+ New\$ button, a new single value can be added.\n" + "\n" + "A unit can be assigned to the single value in the \$Unit\$ text field.\n" + "\n" + "A column scheme can be assigned to the single value in the \$Column Scheme\$ text field. Further information can be found in the user manual under \$single Value Column Scheme\$.\n" + "\n" + "By clicking the button below the Column Scheme text field, an icon for the single value can be selected.\n\n" + "The Button \$+Add level\$ adds a new icon level. the specified icon of this level will be displayed, if the single value reaches the given threshold. Find out more about icon levels in the \$Icon level\$ section of this user guide.\n\n"+"The Button \$Set Single value columns for all situations\$ can be used to set the single value columns option for all situations at the same time. Find out more in the \$Set Single value columns for all situations\$ section of this User Guide.\n\n" +"The three dashes button can be used to change the order of the single values.",
+            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD_DESCRIPTION to "By clicking on the \$+ New\$ button, a new single value can be added.\n" + "\n" + "A unit can be assigned to the single value in the \$Unit\$ text field.\n" + "\n" + "A column scheme can be assigned to the single value in the \$Column Scheme\$ text field. Further information can be found in the user manual under \$single Value Column Scheme\$.\n" + "\n" + "By clicking the button below the Column Scheme text field, an icon for the single value can be selected.\n\n" + "The Button \$+Add level\$ adds a new icon level. the specified icon of this level will be displayed, if the single value reaches the given threshold. Find out more about icon levels in the \$Icon level\$ section of this user guide.\n\n" + "The Button \$Set Single value columns for all situations\$ can be used to set the single value columns option for all situations at the same time. Find out more in the \$Set Single value columns for all situations\$ section of this User Guide.\n\n" + "The three dashes button can be used to change the order of the single values.",
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME to "Single Value Column Scheme",
-            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME_DESCRIPTION to "By specifying a column scheme, SurViz can automatically create a list of columns from each situation's columns, which, when summed, indicate the value of this single value.\n" + "The scheme consists of a Regular Expression (Regex)." +"\n"+ "\n" + "Example:\n" + "There are the columns:\n" + "\n" + ENUMERATION_SIGN + "\$ car.cost_toll\$\n" + ENUMERATION_SIGN + "\$ car.cost_gasoline\$\n" + ENUMERATION_SIGN + "\$ car.time\$\n" + ENUMERATION_SIGN + "\$ car.access\$\n" + ENUMERATION_SIGN + "\$ car.exit\$\n\n" + "for the situation \$car\$.\n" + "\n" + "By the scheme \$cost\$, the following columns are selected in the situation \$car\$:\n" + ENUMERATION_SIGN + "\$ car.cost_toll\$\n" + ENUMERATION_SIGN + "\$ car.cost_gasoline\$\n" + "However, in this example, the scheme \$c\$ would be sufficient to select the columns listed above.\n" + "\n" + "By the scheme \$time\$, the following columns are selected in the situation \$car\$:\n" + ENUMERATION_SIGN + "\$ car.time\$\n" + "By the scheme \$(time|access|exit)\$, the following columns are selected in the situation \$car\$:\n" + ENUMERATION_SIGN + "\$ car.time\$\n"+ ENUMERATION_SIGN + "\$ car.access\$\n" + ENUMERATION_SIGN + "\$ car.exit\$\n",
+            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME_DESCRIPTION to "By specifying a column scheme, SurViz can automatically create a list of columns from each situation's columns, which, when summed, indicate the value of this single value.\n" + "The scheme consists of a Regular Expression (Regex)." + "\n" + "\n" + "Example:\n" + "There are the columns:\n" + "\n" + ENUMERATION_SIGN + "\$ car.cost_toll\$\n" + ENUMERATION_SIGN + "\$ car.cost_gasoline\$\n" + ENUMERATION_SIGN + "\$ car.time\$\n" + ENUMERATION_SIGN + "\$ car.access\$\n" + ENUMERATION_SIGN + "\$ car.exit\$\n\n" + "for the situation \$car\$.\n" + "\n" + "By the scheme \$cost\$, the following columns are selected in the situation \$car\$:\n" + ENUMERATION_SIGN + "\$ car.cost_toll\$\n" + ENUMERATION_SIGN + "\$ car.cost_gasoline\$\n" + "However, in this example, the scheme \$c\$ would be sufficient to select the columns listed above.\n" + "\n" + "By the scheme \$time\$, the following columns are selected in the situation \$car\$:\n" + ENUMERATION_SIGN + "\$ car.time\$\n" + "By the scheme \$(time|access|exit)\$, the following columns are selected in the situation \$car\$:\n" + ENUMERATION_SIGN + "\$ car.time\$\n" + ENUMERATION_SIGN + "\$ car.access\$\n" + ENUMERATION_SIGN + "\$ car.exit\$\n",
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SET_ALL_COLUMNS to "Set Single value columns for all situations",
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SET_ALL_COLUMNS_DESCRIPTION to "With the \$Set Single value columns for all situations\$ button, the 'Single value columns' option from the Situations window can be set for all situations simultaneously. The Button only changes the Single value columns option for this Single value. \$Caution:\$ This will overwrite all previous settings in the 'Single value columns' option for this single value in all situations! Changes to the 'Single value columns' option can still be made after the usage of \$Set single value columns for all situations\$",
 
@@ -473,16 +479,16 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION to "In the text field for the File names, placeholders should be used to specify the scheme for naming the file. Each placeholder should start and end with a '\$'. The following placeholders can be used:\n" + ENUMERATION_SIGN + " \$block\$\n" + ENUMERATION_SIGN + " \$situation\$\n" + ENUMERATION_SIGN + " \$option\$\n" + "\n" + "\$block\$ is replaced with the number of the block when creating the file name.\n" + "\n" + "\$situation\$ is replaced with the number of the situation when creating the file name.\n" + "\n" + "\$option\$ is replaced with the number of the selection option when creating the file name. However, the replacement of \$option\$ only occurs when 'Export all options separately' is activated.",
 
             Labels.USER_GUIDE_HOTKEYS to "Hotkeys",
-            Labels.USER_GUIDE_HOTKEYS_DESCRIPTION to "The Following Hotkeys can be used:\n\n" + ENUMERATION_SIGN + "\$'F1'\$ to open Help Tab\n"+ ENUMERATION_SIGN + "\$'ctrl + shift + P'\$ to open Settings\n"+ ENUMERATION_SIGN + "\$'ctrl + L'\$ to load new simulation data\n"+ ENUMERATION_SIGN + "\$'ctrl + shift + S'\$ to save Project as ...\n"+ ENUMERATION_SIGN + "\$'ctrl + S'\$ to save Project\n"+ ENUMERATION_SIGN + "\$'ctrl + Z'\$ to undo Action. Only works in Text fields and color picker.\n",
+            Labels.USER_GUIDE_HOTKEYS_DESCRIPTION to "The Following Hotkeys can be used:\n\n" + ENUMERATION_SIGN + "\$'F1'\$ to open Help Tab\n" + ENUMERATION_SIGN + "\$'ctrl + shift + P'\$ to open Settings\n" + ENUMERATION_SIGN + "\$'ctrl + L'\$ to load new simulation data\n" + ENUMERATION_SIGN + "\$'ctrl + shift + S'\$ to save Project as ...\n" + ENUMERATION_SIGN + "\$'ctrl + S'\$ to save Project\n" + ENUMERATION_SIGN + "\$'ctrl + Z'\$ to undo Action. Only works in Text fields and color picker.\n",
 
             Labels.USER_GUIDE_PNG_START_SCREEN to "userguide/USER_GUIDE_PNG_START_SCREEN_EN.png",
             Labels.USER_GUIDE_PNG_FILE_MENU to "userguide/USER_GUIDE_PNG_FILE_MENU_EN.png",
             Labels.USER_GUIDE_PNG_SINGLE_VALUES to "userguide/USER_GUIDE_PNG_SINGLE_VALUES_EN.png",
             Labels.USER_GUIDE_PNG_SITUATIONS to "userguide/USER_GUIDE_PNG_SITUATIONS_EN.png",
             Labels.USER_GUIDE_PNG_EXPORT to "userguide/USER_GUIDE_PNG_EXPORT_EN.png",
-            Labels. USER_GUIDE_PNG_SCHEME_FILE_NAMES to "userguide/USER_GUIDE_PNG_SCHEME_FILE_NAMES_EN.png",
+            Labels.USER_GUIDE_PNG_SCHEME_FILE_NAMES to "userguide/USER_GUIDE_PNG_SCHEME_FILE_NAMES_EN.png",
             Labels.USER_GUIDE_PNG_ICON_LEVELS to "userguide/USER_GUIDE_PNG_ICON_LEVELS_EN.png",
-            Labels. USER_GUIDE_PNG_ICON_LEVELS_EXAMPLE to "userguide/USER_GUIDE_PNG_ICON_LEVELS_EXAMPLE.png",
+            Labels.USER_GUIDE_PNG_ICON_LEVELS_EXAMPLE to "userguide/USER_GUIDE_PNG_ICON_LEVELS_EXAMPLE.png",
 
             /*
             #########################################   SETTINGS LABELS   ##############################################
@@ -510,6 +516,8 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.TIMELINE_SCALING_INFO_TITLE to "Recommended scaling based on minimum section length",
             Labels.TIMELINE_SCALING_INFO_DESCRIPTION to "- 1: ~45 min\n" + "- 5: ~10 min\n" + "- 10: ~5 min\n" + "- 15: ~3 min\n" + "- 20: ~2 min",
 
+            Labels.SINGLE_VALUE_DECIMAL_INFO_TITLE to "Forces all decimal points to be shown",
+            Labels.SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION to "If checked, decimal points will be printed even when they don't hold any information (\".0\")",
             Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE to "Setting the Single value columns option for all situations",
             Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION to "Here, the 'Single value columns' option from the Situations window\ncan be set for all situations simultaneously.\n\nCaution: This will overwrite all previous settings in the 'Single value columns' option\nfor this single value in all situations!",
 
@@ -716,7 +724,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD to "Einzelwert hinzufügen und konfigurieren",
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD_DESCRIPTION to "Durch Klicken auf die Schaltfläche \$+ Neu\$ kann ein neuer Einzelwert hinzugefügt werden.\n" + "\n" + "Dem Einzelwert kann im Textfeld \$Einheit\$ eine Einheit zugewiesen werden.\n" + "\n" + "Dem Einzelwert kann im Textfeld \$Spaltenschema\$ ein Spaltenschema zugewiesen werden. Weitere Informationen hierzu sind im Benutzerhandbuch unter \$Einzelwert Spaltenschema\$ zu finden.\n" + "\n" + "Durch Klicken der \$Icon-Schaltfläche\$ unter dem Textfeld Spaltenschema kann ein Icon für den Einzelwert ausgewählt werden.\n" + "\n" + "Durch Klicken der Schaltfläche \$+Stufe hinzufügen\$, kann ein eine Iconstufe hinzugefügt werden.\n" + "\n" + "Einer Iconstufe kann ein eigenes Icon hinzugefügt werden. Außerdem kann im Textfeld neben der Schaltfläche für das Icon der Stufe eine untere Schwelle festgelegt werden. Weitere Informationen hierzu sind im Benutzerhandbuch unter \$Mehrstufige Icons\$ zu finden.\n" + "Diese gibt an, ab welchem Wert des Einzelwerts das Icon wechselt.\n" + "\n" + "Mit der Schaltfläche \$Einzelwert-Spalten für alle Situationen setzen\$ kann der Wert der Einzelwert-Spalten Option für alle Situationen gleichzeitig gesetzt werden. Weitere Informationen hierzu sind im Benutzerhandbuch unter \$Einzelwert-Spalten für alle Situationen setzen\$ zu finden.\n\n" + "Die Reihenfolge der Einzelwerte kann durch Anklicken der \$Schaltfläche mit den drei übereinanderliegenden Strichen\$, mittels Drag and Drop, angepasst werden.",
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME to "Einzelwert Spaltenschema",
-            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME_DESCRIPTION to "Durch die Angabe eines Spaltenschemas kann SurViz aus den Spalten jeder Situation automatisch eine Liste der Spalten erstellen, die durch Aufsummieren der Werte, den Wert dieses Einzelwerts angibt.\n" + "Das Schema kann in Form eines Regulären Ausdrucks (Regex) angegeben werden.\n" + "\n" + "Beispiel:\n" + "Es existieren die Spalten\n" + ENUMERATION_SIGN + " \$car.cost_maut\$\n" + ENUMERATION_SIGN + " \$car.cost_benzin\$\n" + ENUMERATION_SIGN + " \$car.fz\$\n" + ENUMERATION_SIGN + " \$car.abgang\$\n" + ENUMERATION_SIGN + " \$car.zugang\$\n" + "zu der Situation \$car\$.\n" + "\n" + "Durch das Schema \$cost\$ werden die folgenden Spalten in der Situation \$car\$ ausgewählt:\n" + ENUMERATION_SIGN + " \$car.cost_maut\$\n" + ENUMERATION_SIGN + " \$car.cost_benzin\$\n" + "Jedoch würde in diesem Beispiel bereits das Schema \$c\$ reichen, um die oben aufgeführten Spalten auszuwählen.\n" + "\n" + "Durch das Schema \$fz\$ werden die folgenden Spalten in der Situation \$car\$ ausgewählt:\n" + ENUMERATION_SIGN + " \$car.fz\$\n" + "Durch das Schema \$(fz|abgang|zugang)\$ werden die folgenden Spalten in der Situation \$car\$ ausgewählt:\n" + ENUMERATION_SIGN + " \$car.fz\$\n"+ ENUMERATION_SIGN + " \$car.abgang\$\n" + ENUMERATION_SIGN + " \$car.zugang\$\n",
+            Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SCHEME_DESCRIPTION to "Durch die Angabe eines Spaltenschemas kann SurViz aus den Spalten jeder Situation automatisch eine Liste der Spalten erstellen, die durch Aufsummieren der Werte, den Wert dieses Einzelwerts angibt.\n" + "Das Schema kann in Form eines Regulären Ausdrucks (Regex) angegeben werden.\n" + "\n" + "Beispiel:\n" + "Es existieren die Spalten\n" + ENUMERATION_SIGN + " \$car.cost_maut\$\n" + ENUMERATION_SIGN + " \$car.cost_benzin\$\n" + ENUMERATION_SIGN + " \$car.fz\$\n" + ENUMERATION_SIGN + " \$car.abgang\$\n" + ENUMERATION_SIGN + " \$car.zugang\$\n" + "zu der Situation \$car\$.\n" + "\n" + "Durch das Schema \$cost\$ werden die folgenden Spalten in der Situation \$car\$ ausgewählt:\n" + ENUMERATION_SIGN + " \$car.cost_maut\$\n" + ENUMERATION_SIGN + " \$car.cost_benzin\$\n" + "Jedoch würde in diesem Beispiel bereits das Schema \$c\$ reichen, um die oben aufgeführten Spalten auszuwählen.\n" + "\n" + "Durch das Schema \$fz\$ werden die folgenden Spalten in der Situation \$car\$ ausgewählt:\n" + ENUMERATION_SIGN + " \$car.fz\$\n" + "Durch das Schema \$(fz|abgang|zugang)\$ werden die folgenden Spalten in der Situation \$car\$ ausgewählt:\n" + ENUMERATION_SIGN + " \$car.fz\$\n" + ENUMERATION_SIGN + " \$car.abgang\$\n" + ENUMERATION_SIGN + " \$car.zugang\$\n",
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SET_ALL_COLUMNS to "Einzelwert-Spalten für alle Situationen setzen",
             Labels.USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_SET_ALL_COLUMNS_DESCRIPTION to "Mit der Schaltfläche \$Einzelwert-Spalten für alle Situationen setztn\$ kann die 'Einzelwert-Spalten' option aus dem Situationen Fenster, " +
                     "für diesen Einzelwert und für alle Situationen gleichzeitig festgelegt werden. " +
@@ -736,7 +744,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.USER_GUIDE_PROJECT_SCREEN_EXPORT_SCHEME_DESCRIPTION to "Im Textfeld für die Dateinamen der Dateien sollten Platzhalter benutzt werden, um ein Schema für die Dateinamen anzugeben. Jeder Platzhalter muss mit einem '\$'-Zeichen beginnen und enden. Folgende Platzhalter können benutzt werden:\n" + ENUMERATION_SIGN + " \$block\$\n" + ENUMERATION_SIGN + " \$situation\$\n" + ENUMERATION_SIGN + " \$option\$\n" + "\n" + "\$block\$ wird beim Erstellen des Dateinamens mit der Nummer des Blocks ersetzt.\n" + "\n" + "\$situation\$ wird beim Erstellen des Dateinamens mit der Nummer der Situation ersetzt.\n" + "\n" + "\$option\$ wird beim Erstellen des Dateinamens mit der Nummer der Auswahloption ersetzt. Die Ersetzung von \$option\$ erfolgt jedoch nur, wenn 'Alle Optionen separat exportieren' aktiviert ist.",
 
             Labels.USER_GUIDE_HOTKEYS to "Hotkeys",
-            Labels.USER_GUIDE_HOTKEYS_DESCRIPTION to "Folgende Hotkeys können verwendet werden:\n\n" + ENUMERATION_SIGN + "\$'F1'\$ öffnet das Hilfefenster\n"+ ENUMERATION_SIGN + "\$'Strg + Umschalt + P'\$ öffnet die Einstellungen\n"+ ENUMERATION_SIGN + "\$'Strg + L'\$ um eine neue Simulationsdatei zu laden\n"+ ENUMERATION_SIGN + "\$'Strg + Umschalt + S'\$ Projekt speichern unter ...\n"+ ENUMERATION_SIGN + "\$'Strg + S'\$ Projekt speichern\n"+ ENUMERATION_SIGN + "\$'Strg + Z'\$ Macht die letzte Aktion rückgängig. Funktioniert nur bei Textfeldern und der Farbauswahl.\n",
+            Labels.USER_GUIDE_HOTKEYS_DESCRIPTION to "Folgende Hotkeys können verwendet werden:\n\n" + ENUMERATION_SIGN + "\$'F1'\$ öffnet das Hilfefenster\n" + ENUMERATION_SIGN + "\$'Strg + Umschalt + P'\$ öffnet die Einstellungen\n" + ENUMERATION_SIGN + "\$'Strg + L'\$ um eine neue Simulationsdatei zu laden\n" + ENUMERATION_SIGN + "\$'Strg + Umschalt + S'\$ Projekt speichern unter ...\n" + ENUMERATION_SIGN + "\$'Strg + S'\$ Projekt speichern\n" + ENUMERATION_SIGN + "\$'Strg + Z'\$ Macht die letzte Aktion rückgängig. Funktioniert nur bei Textfeldern und der Farbauswahl.\n",
 
 
             Labels.USER_GUIDE_PNG_START_SCREEN to "userguide/USER_GUIDE_PNG_START_SCREEN_DE.png",
@@ -744,9 +752,9 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.USER_GUIDE_PNG_SINGLE_VALUES to "userguide/USER_GUIDE_PNG_SINGLE_VALUES_DE.png",
             Labels.USER_GUIDE_PNG_SITUATIONS to "userguide/USER_GUIDE_PNG_SITUATIONS_DE.png",
             Labels.USER_GUIDE_PNG_EXPORT to "userguide/USER_GUIDE_PNG_EXPORT_DE.png",
-            Labels. USER_GUIDE_PNG_SCHEME_FILE_NAMES to "userguide/USER_GUIDE_PNG_SCHEME_FILE_NAMES_DE.png",
+            Labels.USER_GUIDE_PNG_SCHEME_FILE_NAMES to "userguide/USER_GUIDE_PNG_SCHEME_FILE_NAMES_DE.png",
             Labels.USER_GUIDE_PNG_ICON_LEVELS to "userguide/USER_GUIDE_PNG_ICON_LEVELS_DE.png",
-            Labels. USER_GUIDE_PNG_ICON_LEVELS_EXAMPLE to "userguide/USER_GUIDE_PNG_ICON_LEVELS_EXAMPLE.png",
+            Labels.USER_GUIDE_PNG_ICON_LEVELS_EXAMPLE to "userguide/USER_GUIDE_PNG_ICON_LEVELS_EXAMPLE.png",
             /*
             #########################################   SETTINGS LABELS   ##############################################
             */
@@ -775,6 +783,8 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.TIMELINE_SCALING_INFO_TITLE to "Empfohlene Skalierung basierend auf kleinstem Zeitabschnitt",
             Labels.TIMELINE_SCALING_INFO_DESCRIPTION to "- 1: ~45 min\n" + "- 5: ~10 min\n" + "- 10: ~5 min\n" + "- 15: ~3 min\n" + "- 20: ~2 min",
 
+            Labels.SINGLE_VALUE_DECIMAL_INFO_TITLE to "Erzwingt das darstellen aller Dezimalstellen",
+            Labels.SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION to "Ist diese Einstellung aktiviert, werden alle Dezimalstellen dargestellt, auch wenn sie keine neue Information bereitstellen",
             Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE to "Einzelwert-Spalten für alle Situationen setzen",
             Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION to "Hier kann die 'Einzelwert-Spalten' option aus dem Situationen Fenster,\nfür diesen Einzelwert und für alle Situationen gleichzeitig festgelegt werden.\n\nAchtung: Hierbei werden die bisherigen Einstellungen dieses Einzelwerts\nin der 'Einzelwert Spalten' Option in allen Situationen überschrieben!",
 
