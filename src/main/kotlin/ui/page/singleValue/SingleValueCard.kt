@@ -84,12 +84,17 @@ fun SingleValueCard(
 private fun RowScope.SingleValueCardContent(
     config: SingleValueConfig, projConfig: ProjectConfiguration, id: UUID, dataScheme: DataScheme
 ) {
+    var prefix by config.prefix
     var unit by config.unit
     var columnScheme by config.columnScheme
 
     var showSchemeTooltip by remember { mutableStateOf(false) }
 
     Column(Modifier.weight(1F), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        OutlinedTextField(prefix, {prefix = it}, label = {
+            Label(Labels.FIELD_PREFIX)
+        })
+
         OutlinedTextField(unit, { unit = it }, label = {
             Label(Labels.FIELD_UNIT)
         })

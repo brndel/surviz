@@ -26,6 +26,7 @@ object Labels {
     const val ENUMERATION_SIGN: Char = 0x25CF.toChar()
 
     const val FIELD_UNIT = "FIELD_UNIT"
+    const val FIELD_PREFIX = "FIELD_PREFIX"
     const val FIELD_COLUMN_SCHEME = "FIELD_COLUMN_SCHEME"
     const val SCHEME_NO_RESULT_FOUND = "SCHEME_NO_RESULT_FOUND"
 
@@ -310,6 +311,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.ERROR to "Error",
             Labels.CANCEL to "Cancel",
 
+            Labels.FIELD_PREFIX to "Prefix",
             Labels.FIELD_UNIT to "Unit",
             Labels.FIELD_COLUMN_SCHEME to "Column scheme",
             Labels.SCHEME_NO_RESULT_FOUND to "No columns found",
@@ -571,6 +573,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.ERROR to "Fehler",
             Labels.CANCEL to "Abbrechen",
 
+            Labels.FIELD_PREFIX to "Präfix",
             Labels.FIELD_UNIT to "Einheit",
             Labels.FIELD_COLUMN_SCHEME to "Spaltenschema",
             Labels.SCHEME_NO_RESULT_FOUND to "Keine Spalten gefunden",

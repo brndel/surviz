@@ -14,6 +14,7 @@ import com.google.gson.JsonSerializer
  * @param icon The icon that is displayed for this single value
  */
 data class SingleValueConfig(
+    val prefix:  MutableState<String> = mutableStateOf(""),
     val unit: MutableState<String> = mutableStateOf(""),
     val columnScheme: MutableState<String> = mutableStateOf(""),
     val icon: SingleValueIcon = SingleValueIcon(),
@@ -23,6 +24,7 @@ data class SingleValueConfig(
         val serializer = JsonSerializer<SingleValueConfig> { value, _, ctx ->
             val obj = JsonObject()
 
+            obj.addProperty("prefix", value.prefix.value)
             obj.addProperty("unit", value.unit.value)
             obj.addProperty("columnScheme", value.columnScheme.value)
             obj.add("icon", ctx.serialize(value.icon))
@@ -34,6 +36,7 @@ data class SingleValueConfig(
         val deserializer = JsonDeserializer { element, _, ctx ->
             val obj = element.asJsonObject
 
+            val prefix = obj.get("prefix").asString
             val unit = obj.get("unit").asString
             val columnScheme = obj.get("columnScheme").asString
             val icon =
@@ -41,6 +44,7 @@ data class SingleValueConfig(
             val showDecimal = obj.get("showDecimal").asBoolean
 
             SingleValueConfig(
+                mutableStateOf(prefix),
                 mutableStateOf(unit),
                 mutableStateOf(columnScheme),
                 icon,

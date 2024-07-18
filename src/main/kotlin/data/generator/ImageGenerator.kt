@@ -314,6 +314,9 @@ class ImageGenerator(
                 printedValue = value.toInt().toString()
             }
 
+            // get prefix
+            val prefix = singleValueConfig.prefix.value.takeIf { it.isNotEmpty() }?.let { "$it " } ?: ""
+
             val unit = singleValueConfig.unit.value
 
             // change alpha if value == 0 and not ZeroColumn
@@ -329,7 +332,7 @@ class ImageGenerator(
 
             val x = padding.toFloat() + (size * count) - (size / 2)
             drawText(
-                canvas, "$printedValue $unit",
+                canvas, "$prefix$printedValue $unit",
                 newColor,
                 Offset(
                     x,
