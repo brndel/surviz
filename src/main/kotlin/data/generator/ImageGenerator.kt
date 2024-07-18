@@ -306,7 +306,14 @@ class ImageGenerator(
             val singleValueConfig = config.getSingleValues()[id] ?: continue
             val column = optionConfig.getColumns(id)
 
+            // get and possibly modify value
             val value = column.getValue(singleValueConfig, optionConfig, option)
+            var printedValue = value.toString()
+
+            if (!singleValueConfig.showDecimal.value && value % 1 == 0.0) {
+                printedValue = value.toInt().toString()
+            }
+
             val unit = singleValueConfig.unit.value
 
             // change alpha if value == 0 and not ZeroColumn
@@ -322,7 +329,7 @@ class ImageGenerator(
 
             val x = padding.toFloat() + (size * count) - (size / 2)
             drawText(
-                canvas, "$value $unit",
+                canvas, "$printedValue $unit",
                 newColor,
                 Offset(
                     x,

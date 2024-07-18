@@ -56,6 +56,7 @@ object Labels {
     const val SELECT_COLUMN_DESC = "SELECT_COLUMN_DESC"
 
     const val SINGLE_VALUE_SET_ALL_COLUMNS = "SINGLE_VALUE_SET_ALL_COLUMNS"
+    const val SINGLE_VALUE_FORCE_DECIMAL = "SINGLE_VALUE_FORCE_DECIMAL"
 
     /*
     #########################################   EXPORT/IMPORT LABELS   #################################################
@@ -334,6 +335,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.SELECT_COLUMN_DESC to "Select columns by hand",
 
             Labels.SINGLE_VALUE_SET_ALL_COLUMNS to " Set Single value columns for all situations",
+            Labels.SINGLE_VALUE_FORCE_DECIMAL to "Force Decimal",
 
             /*
             #########################################   EXPORT/IMPORT LABELS   #########################################
@@ -592,6 +594,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.SELECT_COLUMN_DESC to "Wähle die Spalten von Hand aus",
 
             Labels.SINGLE_VALUE_SET_ALL_COLUMNS to " Einzelwert-Spalten für alle Situationen setzen",
+            Labels.SINGLE_VALUE_FORCE_DECIMAL to "Dezimalstellen erzwingen",
 
 
             /*

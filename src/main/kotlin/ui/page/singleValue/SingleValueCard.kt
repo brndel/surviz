@@ -80,10 +80,12 @@ fun SingleValueCard(
 }
 
 @Composable
-private fun RowScope.SingleValueCardContent(config: SingleValueConfig,
-                                            projConfig: ProjectConfiguration,
-                                            id: UUID,
-                                            dataScheme: DataScheme) {
+private fun RowScope.SingleValueCardContent(
+    config: SingleValueConfig,
+    projConfig: ProjectConfiguration,
+    id: UUID,
+    dataScheme: DataScheme
+) {
     var unit by config.unit
     var columnScheme by config.columnScheme
 
@@ -104,12 +106,34 @@ private fun RowScope.SingleValueCardContent(config: SingleValueConfig,
                     SchemeMatchPopup(columnScheme, dataScheme)
                 }
             }
-            InfoIconBox(Labels.SINGLE_VALUE_SCHEME_INFO_TITLE, Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION, UserGuide.SingleValue.scheme)
+            InfoIconBox(
+                Labels.SINGLE_VALUE_SCHEME_INFO_TITLE,
+                Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION,
+                UserGuide.SingleValue.scheme
+            )
         })
+
+        TextSwitch(Labels.SINGLE_VALUE_FORCE_DECIMAL, config.showDecimal)
 
         SingleValueIconCard(config.icon)
 
         ColumnButton(projConfig, id)
+    }
+}
+
+@Composable
+fun TextSwitch(label: String, state: MutableState<Boolean>) {
+    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy((10.dp))) {
+        Label(label)
+        Switch(
+            state.value, onCheckedChange = {
+                state.value = it
+            },
+            colors = SwitchDefaults.colors(
+                checkedThumbColor = MaterialTheme.colors.primary,
+                uncheckedThumbColor = MaterialTheme.colors.primary,
+            )
+        )
     }
 }
 
@@ -180,7 +204,7 @@ fun SchemeMatchPopup(scheme: String, dataScheme: DataScheme) {
 }
 
 @Composable
-fun ColumnButton(projConfig: ProjectConfiguration, id: UUID){
+fun ColumnButton(projConfig: ProjectConfiguration, id: UUID) {
     var dropdownExpanded by remember { mutableStateOf(false) }
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp)
@@ -190,11 +214,15 @@ fun ColumnButton(projConfig: ProjectConfiguration, id: UUID){
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
 
-            Button({ dropdownExpanded = true }) {
-                Icon(Icons.Default.ViewWeek, contentDescription = null)
-                Label(Labels.SINGLE_VALUE_SET_ALL_COLUMNS)
-            }
-                InfoIconBox(Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE, Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION, UserGuide.SingleValue.setAllColumns)
+                Button({ dropdownExpanded = true }) {
+                    Icon(Icons.Default.ViewWeek, contentDescription = null)
+                    Label(Labels.SINGLE_VALUE_SET_ALL_COLUMNS)
+                }
+                InfoIconBox(
+                    Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE,
+                    Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION,
+                    UserGuide.SingleValue.setAllColumns
+                )
             }
 
             DropdownMenu(dropdownExpanded, { dropdownExpanded = false }) {
@@ -206,7 +234,7 @@ fun ColumnButton(projConfig: ProjectConfiguration, id: UUID){
                     theColumn: () -> SingleValueColumn
                 ) {
                     DropdownMenuItem(onClick = {
-                        projConfig.setAllSituationColumns(theColumn(),id)
+                        projConfig.setAllSituationColumns(theColumn(), id)
                         dropdownExpanded = false
                     }) {
                         Column(

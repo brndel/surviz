@@ -16,7 +16,8 @@ import com.google.gson.JsonSerializer
 data class SingleValueConfig(
     val unit: MutableState<String> = mutableStateOf(""),
     val columnScheme: MutableState<String> = mutableStateOf(""),
-    val icon: SingleValueIcon = SingleValueIcon()
+    val icon: SingleValueIcon = SingleValueIcon(),
+    val showDecimal: MutableState<Boolean> = mutableStateOf(false),
 ) {
     companion object {
         val serializer = JsonSerializer<SingleValueConfig> { value, _, ctx ->
@@ -25,6 +26,7 @@ data class SingleValueConfig(
             obj.addProperty("unit", value.unit.value)
             obj.addProperty("columnScheme", value.columnScheme.value)
             obj.add("icon", ctx.serialize(value.icon))
+            obj.addProperty("showDecimal", value.showDecimal.value)
 
             obj
         }
@@ -36,11 +38,13 @@ data class SingleValueConfig(
             val columnScheme = obj.get("columnScheme").asString
             val icon =
                 ctx.deserialize<SingleValueIcon>(obj.get("icon"), SingleValueIcon::class.java)
+            val showDecimal = obj.get("showDecimal").asBoolean
 
             SingleValueConfig(
                 mutableStateOf(unit),
                 mutableStateOf(columnScheme),
-                icon
+                icon,
+                mutableStateOf(showDecimal)
             )
         }
     }
