@@ -1,26 +1,22 @@
 package ui.window.settings
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Switch
 import androidx.compose.material.SwitchDefaults
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DarkMode
-import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import ui.Label
 import ui.Labels
 import ui.Language
 import ui.LocalLanguage
+import ui.fields.IntField
 import ui.fields.OptionsField
 import ui.util.NestedSurface
 import ui.window.help.HighlightedHeading
@@ -29,6 +25,8 @@ import ui.window.help.HighlightedHeading
 fun SettingsWindowContent(
     language: MutableState<Language>,
     isDarkMode: MutableState<Boolean>,
+    has999: MutableState<Boolean>,
+    value999: MutableState<Int>,
     onSettingChanged: () -> Unit
 ) {
     LazyColumn(
@@ -66,6 +64,7 @@ fun SettingsWindowContent(
                         }
                     }
                 }
+                // darkmode
                 NestedSurface(modifier = Modifier.fillMaxWidth()) {
                     Row(
                         modifier = Modifier.padding(10.dp),
@@ -79,14 +78,50 @@ fun SettingsWindowContent(
                                 Labels.SETTINGS_CHANGE_DARK_MODE,
                                 style = MaterialTheme.typography.h6
                             )
-                            Switch(isDarkMode.value, onCheckedChange = {
-                                isDarkMode.value = it
-                                onSettingChanged()
-                            },
+                            Switch(
+                                isDarkMode.value, onCheckedChange = {
+                                    isDarkMode.value = it
+                                    onSettingChanged()
+                                },
                                 colors = SwitchDefaults.colors(
                                     checkedThumbColor = MaterialTheme.colors.primary,
                                     uncheckedThumbColor = MaterialTheme.colors.primary,
-                                ))
+                                )
+                            )
+                        }
+                    }
+                }
+                // 999 values
+                NestedSurface(modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        modifier = Modifier.padding(10.dp),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        Icon(Icons.Default.MoreHoriz, null, tint = MaterialTheme.colors.primary)
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            HighlightedHeading(
+                                Labels.SETTINGS_999_TITLE,
+                                style = MaterialTheme.typography.h6
+                            )
+                            Switch(
+                                has999.value, onCheckedChange = {
+                                    has999.value = it
+                                    onSettingChanged()
+                                },
+                                colors = SwitchDefaults.colors(
+                                    checkedThumbColor = MaterialTheme.colors.primary,
+                                    uncheckedThumbColor = MaterialTheme.colors.primary,
+                                )
+                            )
+                            if (has999.value) {
+                                IntField(value999.value, onValueChange = {
+                                    value999.value = it
+                                }, label = { Label(Labels.VALUE) },
+                                    modifier = Modifier.width(200.dp)
+                                )
+                            }
                         }
                     }
                 }

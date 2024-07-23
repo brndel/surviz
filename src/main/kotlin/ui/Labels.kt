@@ -241,6 +241,8 @@ object Labels {
 
     const val PREVIEW = "PREVIEW"
 
+    const val SETTINGS_999_TITLE = "SETTINGS_999_TITLE"
+
     /*
     #########################################   INFO LABELS   ##########################################################
     */
@@ -284,6 +286,7 @@ object Labels {
     const val LOWER_THRESHOLD = "LOWER_THRESHOLD"
 
     const val COLOR = "COLOR"
+    const val VALUE = "VALUE"
 }
 
 enum class Language(private val code: String, val label: String, private val strings: Map<String, String>) {
@@ -504,6 +507,8 @@ enum class Language(private val code: String, val label: String, private val str
 
             Labels.PREVIEW to "Preview",
 
+            Labels.SETTINGS_999_TITLE to "999 Values",
+
             /*
             #########################################   INFO LABELS   ##################################################
             */
@@ -547,6 +552,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.LOWER_THRESHOLD to "Lower threshold",
 
             Labels.COLOR to "Color",
+            Labels.VALUE to "Value",
         )
     ),
     German(
@@ -770,6 +776,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.SETTINGS_CHANGE_DARK_MODE to "Dunkel-Modus",
 
             Labels.PREVIEW to "Vorschau",
+            Labels.SETTINGS_999_TITLE to "999 Werte",
 
             /*
             #########################################   INFO LABELS   ##################################################
@@ -817,6 +824,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.LOWER_THRESHOLD to "Untergrenze",
 
             Labels.COLOR to "Farbe",
+            Labels.VALUE to "Wert",
         )
     );
 

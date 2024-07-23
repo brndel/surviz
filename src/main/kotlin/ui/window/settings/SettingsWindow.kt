@@ -28,6 +28,8 @@ fun SettingsWindow(
     settingsFilePath: String,
     language: MutableState<Language>,
     isDarkMode: MutableState<Boolean>,
+    has999: MutableState<Boolean>,
+    value999: MutableState<Int>,
 ) {
     Window(
         title = LocalLanguage.current.getString(Labels.SETTINGS),
@@ -40,11 +42,15 @@ fun SettingsWindow(
                     SettingsWindowContent(
                         language,
                         isDarkMode,
+                        has999,
+                        value999,
                         onSettingChanged = {
                             saveSettings(
                                 settingsFilePath,
                                 language.value,
-                                isDarkMode.value
+                                isDarkMode.value,
+                                has999.value,
+                                value999.value,
                             )
                         })
                 }
@@ -53,7 +59,7 @@ fun SettingsWindow(
     }
 }
 
-fun saveSettings(path: String, language: Language, darkMode: Boolean) {
+fun saveSettings(path: String, language: Language, darkMode: Boolean, has999: Boolean, value999: Int) {
     val file = File(path)
 
     if (!file.exists()) {
@@ -65,6 +71,8 @@ fun saveSettings(path: String, language: Language, darkMode: Boolean) {
 
     prop.setProperty("lang", language.toCode())
     prop.setProperty("dark_mode", darkMode.toString())
+    prop.setProperty("has999", has999.toString())
+    prop.setProperty("value999", value999.toString())
 
     FileOutputStream(file).use { output ->
         prop.forEach { (key, value) ->

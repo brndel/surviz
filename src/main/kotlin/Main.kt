@@ -232,11 +232,17 @@ fun main() = application {
 
     val isDarkTheme = remember { mutableStateOf(false) }
 
+    //999 values
+    val has999 = remember { mutableStateOf(false) }
+    val value999 = remember { mutableStateOf(999) }
+
 
     // load settings
     loadSettings(
         setLanguage = { language.value = it },
-        setDarkMode = { isDarkTheme.value = it }
+        setDarkMode = { isDarkTheme.value = it },
+        setHas999 = {has999.value = it},
+        set999Value = {value999.value = it},
     )
 
     val colors = if (isDarkTheme.value) {
@@ -271,7 +277,9 @@ fun main() = application {
                     },
                     SettingsFile,
                     language,
-                    isDarkTheme
+                    isDarkTheme,
+                    has999,
+                    value999
                 )
             }
 
@@ -362,7 +370,12 @@ val SettingsFile: String by lazy {
     })
 }
 
-private fun loadSettings(setLanguage: (Language) -> Unit, setDarkMode: (Boolean) -> Unit) {
+private fun loadSettings(
+    setLanguage: (Language) -> Unit,
+    setDarkMode: (Boolean) -> Unit,
+    setHas999: (Boolean) -> Unit,
+    set999Value: (Int) -> Unit
+) {
     val file = File(SettingsFile)
 
     if (file.exists()) {
@@ -377,6 +390,16 @@ private fun loadSettings(setLanguage: (Language) -> Unit, setDarkMode: (Boolean)
         val isDarkMode = prop.getProperty("dark_mode")
         if (isDarkMode != null) {
             setDarkMode(isDarkMode.toBoolean())
+        }
+
+        val has999 = prop.getProperty("has999")
+        if (has999 != null){
+            setHas999(has999.toBoolean())
+        }
+
+        val value999 = prop.getProperty("value999")
+        if (value999 != null) {
+            set999Value(value999.toInt())
         }
     }
 }
