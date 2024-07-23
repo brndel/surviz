@@ -27,7 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
-import data.project.config.SingleValueConfig
+import data.project.config.single_value.SingleValueConfig
 import data.project.config.SituationConfig
 import data.project.config.columns.ListColumns
 import data.project.config.columns.SchemeColumns

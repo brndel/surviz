@@ -17,7 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import data.project.config.SingleValueIcon
+import data.project.config.single_value.SingleValueIcon
 import ui.Label
 import ui.Labels
 import ui.fields.DoubleField
@@ -28,7 +28,7 @@ import ui.window.help.UserGuide
 
 /**
  * In this card the user can edit a [SingleValueIcon].
- * This card is used by [SingleValueCard].
+ * This card is used by [SingleValueItemCard].
  *
  * @param icon the icon configuration that can be edited on this card
  * @ui IconField this card shows a [IconField] for every icon in the given [SingleValueIcon].

@@ -3,14 +3,10 @@ package data.project.config
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import data.io.DataManager
-import org.junit.jupiter.api.Assertions
+import data.project.config.single_value.SingleValueIcon
+import data.project.config.single_value.SingleValueIconLevel
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.io.File
-import java.util.*
-import kotlin.test.BeforeTest
 
 /**
  * Test class for SingleValueIcon

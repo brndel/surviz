@@ -72,7 +72,7 @@ fun SituationPage(projectConfiguration: ProjectConfiguration, dataScheme: DataSc
                         selectedSituation,
                         selectedOption,
                         projectConfiguration.getSingleValueConfigOrder(),
-                        projectConfiguration.getSingleValues(), modifier = Modifier.weight(1F)
+                        projectConfiguration.getFilteredSingleValues(), modifier = Modifier.weight(1F)
                     )
                 }
             }

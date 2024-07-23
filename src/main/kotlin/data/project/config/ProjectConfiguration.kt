@@ -1,5 +1,6 @@
 package data.project.config
 
+import androidx.compose.material.Divider
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -10,19 +11,22 @@ import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializer
 import data.generator.resources.ImageConfig
 import data.project.config.columns.SingleValueColumn
+import data.project.config.single_value.Divider
+import data.project.config.single_value.SingleValueConfig
+import data.project.config.single_value.SingleValueItem
 import java.util.*
 
 /**
  * This class represents the configuration of a project.
  * A project configuration consists of the specific configurations and sequence of single values,
  * as well as the configuration details related to the situations of the project.
- * @param singleValueConfig the configuration of a single value. Each SingleValueConfig is assigned a UUID. The Order of UUID's is stored in a list.
+ * @param singleValueItems the configuration of a single value. Each SingleValueConfig is assigned a UUID. The Order of UUID's is stored in a list.
  * @param singleValueConfigOrder the list of UUID's that stores the order.
  * @param situationConfig the configuration of situations. Each situation is assigned a name.
  */
 data class ProjectConfiguration(
     private val singleValueConfigOrder: SnapshotStateList<UUID> = mutableStateListOf(),
-    private val singleValueConfig: SnapshotStateMap<UUID, SingleValueConfig> = mutableStateMapOf(),
+    private val singleValueItems: SnapshotStateMap<UUID, SingleValueItem> = mutableStateMapOf(),
     private val situationConfig: SnapshotStateMap<String, SituationConfig> = mutableStateMapOf(),
     val imageConfig: ImageConfig = ImageConfig.loadFromProperties()
 ) {
@@ -32,7 +36,14 @@ data class ProjectConfiguration(
     fun addSingleValue() {
         val newSingleValue = SingleValueConfig()
         val newUUID = UUID.randomUUID()
-        singleValueConfig[newUUID] = newSingleValue
+        singleValueItems[newUUID] = newSingleValue
+        singleValueConfigOrder.add(newUUID)
+    }
+
+    fun addDivider() {
+        val newDivider = Divider()
+        val newUUID = UUID.randomUUID()
+        singleValueItems[newUUID] = newDivider
         singleValueConfigOrder.add(newUUID)
     }
 
@@ -41,7 +52,7 @@ data class ProjectConfiguration(
      * @param id the UUID of the single value to be removed
      */
     fun removeSingleValue(id: UUID) {
-        singleValueConfig.remove(id)
+        singleValueItems.remove(id)
         singleValueConfigOrder.remove(id)
     }
 
@@ -62,8 +73,18 @@ data class ProjectConfiguration(
      * This method returns the single value configuration.
      * @return the single value configuration of this project
      */
-    fun getSingleValues(): SnapshotStateMap<UUID, SingleValueConfig> {
-        return singleValueConfig
+    fun getSingleValues(): SnapshotStateMap<UUID, SingleValueItem> {
+        return singleValueItems
+    }
+
+    fun getFilteredSingleValues(): SnapshotStateMap<UUID, SingleValueConfig> {
+        val map = SnapshotStateMap<UUID, SingleValueConfig>()
+        for (item in singleValueItems) {
+            if(item.value is SingleValueConfig) {
+                map[item.key] = item.value as SingleValueConfig
+            }
+        }
+        return map
     }
 
     /**
@@ -113,7 +134,7 @@ data class ProjectConfiguration(
             val obj = JsonObject()
 
             obj.add("singleValueConfigOrder", ctx.serialize(value.singleValueConfigOrder))
-            obj.add("singleValueConfig", ctx.serialize(value.singleValueConfig))
+            obj.add("singleValueConfig", ctx.serialize(value.singleValueItems))
             obj.add("situationConfig", ctx.serialize(value.situationConfig))
             obj.add("imageConfig", ctx.serialize(value.imageConfig))
 
@@ -128,12 +149,12 @@ data class ProjectConfiguration(
                 singleValueConfigOrder.add(ctx.deserialize(elem, UUID::class.java))
             }
 
-            val singleValueConfig = mutableStateMapOf<UUID, SingleValueConfig>()
+            val singleValueItems = mutableStateMapOf<UUID, SingleValueItem>()
             for ((keyElem, entryElem) in obj.get("singleValueConfig").asJsonObject.entrySet()) {
                 val key = ctx.deserialize<UUID>(JsonPrimitive(keyElem), UUID::class.java)
                 val entry = ctx.deserialize<SingleValueConfig>(entryElem, SingleValueConfig::class.java)
 
-                singleValueConfig[key] = entry
+                singleValueItems[key] = entry
             }
 
             val situationConfig = mutableStateMapOf<String, SituationConfig>()
@@ -148,7 +169,7 @@ data class ProjectConfiguration(
 
             ProjectConfiguration(
                 singleValueConfigOrder,
-                singleValueConfig,
+                singleValueItems,
                 situationConfig,
                 imageConfig
             )

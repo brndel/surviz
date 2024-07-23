@@ -1,4 +1,4 @@
-package data.project.config
+package data.project.config.single_value
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -14,12 +14,12 @@ import com.google.gson.JsonSerializer
  * @param icon The icon that is displayed for this single value
  */
 data class SingleValueConfig(
-    val prefix:  MutableState<String> = mutableStateOf(""),
+    val prefix: MutableState<String> = mutableStateOf(""),
     val unit: MutableState<String> = mutableStateOf(""),
     val columnScheme: MutableState<String> = mutableStateOf(""),
     val icon: SingleValueIcon = SingleValueIcon(),
     val showDecimal: MutableState<Boolean> = mutableStateOf(false),
-) {
+) : SingleValueItem() {
     companion object {
         val serializer = JsonSerializer<SingleValueConfig> { value, _, ctx ->
             val obj = JsonObject()
@@ -51,5 +51,9 @@ data class SingleValueConfig(
                 mutableStateOf(showDecimal)
             )
         }
+    }
+
+    override fun getWidthScale(): Float {
+        return 1f
     }
 }

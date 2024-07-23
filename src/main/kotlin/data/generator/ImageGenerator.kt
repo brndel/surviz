@@ -30,12 +30,13 @@ import data.generator.resources.ImageResult
 import data.generator.resources.LineType
 import data.generator.resources.TextType
 import data.project.config.ProjectConfiguration
+import data.project.config.single_value.SingleValueConfig
 import data.project.config.SituationConfig
 import data.project.config.columns.ZeroColumn
+import data.project.config.single_value.Divider
 import data.project.data.IconStorage
 import data.project.data.Situation
 import data.project.data.SituationOption
-import java.io.FileInputStream
 import java.util.Properties
 
 /**
@@ -122,11 +123,7 @@ class ImageGenerator(
             config.getSituationConfig(option.name)
 
         // scale image dynamically based on count of single values
-        val singleValueCount = config.getSingleValues().size
-        val singleValueSectionSize = kotlin.math.max(
-            singleValueCount * properties.getProperty("single_value_size").toInt(),
-            properties.getProperty("single_value_min_width").toInt()
-        )
+        val singleValueSectionSize = calculateSingleSectionSize()
 
 
         val width = imageConfig.width.value
@@ -153,26 +150,24 @@ class ImageGenerator(
             false
         )
 
-        // draw single values
-        val centerLine = height / 2F
-        drawSingleValues(canvas, color, optionConfig, option, centerLine)
-
-        // draw divider line
-        val dividerLength = properties.getProperty("divider_length").toFloat()
-        val dividerX =
-            padding + singleValueSectionSize + properties.getProperty("column_padding").toFloat()
-
         val linePaint = Paint().apply {
             style = PaintingStyle.Stroke
             strokeWidth = properties.getProperty("divider_weight").toFloat()
             this.color = Color(properties.getProperty("divider_color").toLong(16))
         }
 
-        canvas.drawLine(
-            Offset(dividerX, centerLine - dividerLength / 2),
-            Offset(dividerX, centerLine + dividerLength / 2),
-            linePaint
-        )
+        // draw single values
+        val centerLine = height / 2F
+        drawSingleValues(canvas, color, optionConfig, option, centerLine, linePaint)
+
+        // draw divider line
+        val dividerLength = properties.getProperty("divider_length").toFloat()
+        val dividerX =
+            padding + singleValueSectionSize + properties.getProperty("column_padding").toFloat()
+
+
+
+        drawDivider(dividerX, canvas, centerLine, dividerLength, linePaint)
 
         // draw timeline
         val timelineWidth =
@@ -297,70 +292,86 @@ class ImageGenerator(
         color: Color,
         optionConfig: SituationConfig,
         option: SituationOption,
-        centerLine: Float
+        centerLine: Float,
+        paint: Paint,
     ) {
         for ((index, id) in config.getSingleValueConfigOrder().withIndex()) {
+            val size = properties.getProperty("single_value_size").toFloat()
+            var x = padding.toFloat()
+
             val yOffset = properties.getProperty("single_value_y_offset").toFloat()
 
             // don't draw if wrong config
             val singleValueConfig = config.getSingleValues()[id] ?: continue
-            val column = optionConfig.getColumns(id)
+            if (singleValueConfig is SingleValueConfig) {
+                var localX = x + size / 2
+                x += size
 
-            // get and possibly modify value
-            val value = column.getValue(singleValueConfig, optionConfig, option)
-            var printedValue = value.toString()
+                val column = optionConfig.getColumns(id)
 
-            if (!singleValueConfig.showDecimal.value && value % 1 == 0.0) {
-                printedValue = value.toInt().toString()
-            }
+                // get and possibly modify value
+                val value = column.getValue(singleValueConfig, optionConfig, option)
+                var printedValue = value.toString()
 
-            // get prefix
-            val prefix = singleValueConfig.prefix.value.takeIf { it.isNotEmpty() }?.let { "$it " } ?: ""
+                if (!singleValueConfig.showDecimal.value && value % 1 == 0.0) {
+                    printedValue = value.toInt().toString()
+                }
 
-            val unit = singleValueConfig.unit.value
+                // get prefix
+                val prefix = singleValueConfig.prefix.value.takeIf { it.isNotEmpty() }?.let { "$it " } ?: ""
 
-            // change alpha if value == 0 and not ZeroColumn
-            var newColor = color.copy()
-            if (value == 0.0 && column !is ZeroColumn) {
-                val alpha = properties.getProperty("single_value_alpha").toFloat()
-                newColor = color.copy(alpha = alpha)
-            }
+                val unit = singleValueConfig.unit.value
 
-            // draw text
-            val count = index + 1
-            val size = properties.getProperty("single_value_size").toFloat()
+                // change alpha if value == 0 and not ZeroColumn
+                var newColor = color.copy()
+                if (value == 0.0 && column !is ZeroColumn) {
+                    val alpha = properties.getProperty("single_value_alpha").toFloat()
+                    newColor = color.copy(alpha = alpha)
+                }
 
-            val x = padding.toFloat() + (size * count) - (size / 2)
-            drawText(
-                canvas, "$prefix$printedValue $unit",
-                newColor,
-                Offset(
-                    x,
-                    centerLine + properties.getProperty("single_value_text_padding")
-                        .toFloat() + yOffset
-                ),
-                TextType.Label,
-                true
-            )
-
-            // draw icon
-            val iconPath = singleValueConfig.icon.getIcon(value)
-            if (iconPath != null) {
-                val icon = getIcon(iconPath)
-                val iconHeight = icon?.height ?: 0
-                drawIcon(
-                    canvas,
-                    icon,
+                // draw text
+                drawText(
+                    canvas, "$prefix$printedValue $unit",
                     newColor,
                     Offset(
-                        x,
-                        centerLine - properties.getProperty("single_value_icon_padding")
-                            .toFloat() - (iconHeight / 2) + yOffset
-                    )
+                        localX,
+                        centerLine + properties.getProperty("single_value_text_padding")
+                            .toFloat() + yOffset
+                    ),
+                    TextType.Label,
+                    true
                 )
-            }
 
+                // draw icon
+                val iconPath = singleValueConfig.icon.getIcon(value)
+                if (iconPath != null) {
+                    val icon = getIcon(iconPath)
+                    val iconHeight = icon?.height ?: 0
+                    drawIcon(
+                        canvas,
+                        icon,
+                        newColor,
+                        Offset(
+                            localX,
+                            centerLine - properties.getProperty("single_value_icon_padding")
+                                .toFloat() - (iconHeight / 2) + yOffset
+                        )
+                    )
+                }
+            } else if (singleValueConfig is Divider) {
+                val width = singleValueConfig.widthScale.value * size
+                drawDivider(x + width / 2, canvas, centerLine, singleValueConfig.height.value, paint)
+                x += width
+            }
         }
+    }
+
+    private fun drawDivider(x: Float, canvas: Canvas, centerLine: Float, dividerLength: Float, linePaint: Paint) {
+        canvas.drawLine(
+            Offset(x, centerLine - dividerLength / 2),
+            Offset(x, centerLine + dividerLength / 2),
+            linePaint
+        )
     }
 
     /**
@@ -538,5 +549,16 @@ class ImageGenerator(
         val icon = iconStorage.getIcon(key) ?: return null
         cachedIcons[key] = icon
         return icon
+    }
+
+    private fun calculateSingleSectionSize(): Int {
+        val itemList = config.getSingleValues().values
+        val singleWidth = properties.getProperty("single_value_size").toFloat()
+        var x = 0
+
+        for (item in itemList) {
+            x += (item.getWidthScale() * singleWidth).toInt()
+        }
+        return x
     }
 }

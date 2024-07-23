@@ -6,7 +6,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.ViewWeek
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,9 +19,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import data.project.config.ProjectConfiguration
-import data.project.config.SingleValueConfig
-import data.project.config.SituationConfig
+import data.project.config.single_value.SingleValueConfig
 import data.project.config.columns.*
+import data.project.config.single_value.Divider
+import data.project.config.single_value.SingleValueItem
 import data.project.data.DataScheme
 import org.burnoutcrew.reorderable.ReorderableState
 import ui.Label
@@ -38,14 +38,14 @@ import java.util.regex.PatternSyntaxException
 /**
  * In this card the user can edit a [SingleValueConfig]
  *
- * @param config the configuration that can be edited on this card
+ * @param item the configuration that can be edited on this card
  * @param onDelete get called when the delete button on this card gets pressed
  * @ui TextField for the unit and the colorScheme of the given [SingleValueConfig]
  * @ui SingleValueIconCard for the icons of the given [SingleValueConfig]
  */
 @Composable
-fun SingleValueCard(
-    config: SingleValueConfig,
+fun SingleValueItemCard(
+    item: SingleValueItem?,
     projConfig: ProjectConfiguration,
     id: UUID,
     dataScheme: DataScheme,
@@ -71,12 +71,22 @@ fun SingleValueCard(
         ) {
             ReorderHandle(reorderState)
 
-            SingleValueCardContent(config, projConfig, id, dataScheme)
-
+            if (item is SingleValueConfig) {
+                SingleValueCardContent(item, projConfig, id, dataScheme)
+            } else if (item is Divider) {
+                DividerCardContent()
+            }
             IconButton(onClick = onDelete) {
                 Icon(Icons.Default.Delete, null)
             }
         }
+    }
+}
+
+@Composable
+private fun RowScope.DividerCardContent() {
+    Column(Modifier.weight(1F), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Label("Divider")
     }
 }
 
@@ -91,7 +101,7 @@ private fun RowScope.SingleValueCardContent(
     var showSchemeTooltip by remember { mutableStateOf(false) }
 
     Column(Modifier.weight(1F), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        OutlinedTextField(prefix, {prefix = it}, label = {
+        OutlinedTextField(prefix, { prefix = it }, label = {
             Label(Labels.FIELD_PREFIX)
         })
 
@@ -116,7 +126,13 @@ private fun RowScope.SingleValueCardContent(
             )
         })
 
-        TextSwitch(Labels.SINGLE_VALUE_FORCE_DECIMAL, config.showDecimal, Labels.SINGLE_VALUE_DECIMAL_INFO_TITLE, Labels.SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION, null)
+        TextSwitch(
+            Labels.SINGLE_VALUE_FORCE_DECIMAL,
+            config.showDecimal,
+            Labels.SINGLE_VALUE_DECIMAL_INFO_TITLE,
+            Labels.SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION,
+            null
+        )
 
         SingleValueIconCard(config.icon)
 

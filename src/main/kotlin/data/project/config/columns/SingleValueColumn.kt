@@ -5,7 +5,7 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonObject
 import com.google.gson.JsonParseException
 import com.google.gson.JsonSerializer
-import data.project.config.SingleValueConfig
+import data.project.config.single_value.SingleValueConfig
 import data.project.config.SituationConfig
 import data.project.data.SituationOption
 

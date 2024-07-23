@@ -1,4 +1,4 @@
-package data.project.config
+package data.project.config.single_value
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf

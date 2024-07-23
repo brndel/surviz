@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import data.project.config.ProjectConfiguration
+import data.project.config.single_value.SingleValueConfig
 import data.project.data.DataScheme
 import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
@@ -26,8 +27,8 @@ import ui.Labels
  * On this page the user can edit the single values of a [ProjectConfiguration]
  *
  * @param projectConfig the [ProjectConfiguration] this page should edit
- * @ui SingleValueCard for each single value in the given [ProjectConfiguration] a [SingleValueCard] will be shown.
- * The order of the single values can be edited by dragging and dropping the [SingleValueCard]
+ * @ui SingleValueCard for each single value in the given [ProjectConfiguration] a [SingleValueItemCard] will be shown.
+ * The order of the single values can be edited by dragging and dropping the [SingleValueItemCard]
  */
 @Composable
 fun SingleValuePage(projectConfig: ProjectConfiguration, dataScheme: DataScheme) {
@@ -48,14 +49,22 @@ fun SingleValuePage(projectConfig: ProjectConfiguration, dataScheme: DataScheme)
             Label(Labels.PAGE_SINGLE_VALUE, style = MaterialTheme.typography.h4)
             Icon(Icons.Default.ViewWeek, contentDescription = null, tint = MaterialTheme.colors.onBackground)
         }
-        Button(onClick = {
-            projectConfig.addSingleValue()
-        }
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            Button(onClick = {
+                projectConfig.addSingleValue()
+            }
             ) {
-            Icon(Icons.Default.Add, null)
-            Label(Labels.NEW)
+                Icon(Icons.Default.Add, null)
+                Label(Labels.NEW)
+            }
+            Button(onClick = {
+                projectConfig.addDivider()
+            }
+            ) {
+                Icon(Icons.Default.Add, null)
+                Label("")
+            }
         }
-
         LazyColumn(
             state = reorderState.listState,
             modifier = Modifier.reorderable(reorderState).weight(1F),
@@ -63,9 +72,19 @@ fun SingleValuePage(projectConfig: ProjectConfiguration, dataScheme: DataScheme)
         ) {
             items(projectConfig.getSingleValueConfigOrder(), key = { it }) { id ->
                 ReorderableItem(reorderState, key = id) { dragging ->
-                    SingleValueCard(projectConfig.getSingleValues()[id]!!, projectConfig, id, dataScheme, onDelete = {
-                        projectConfig.removeSingleValue(id)
-                    }, reorderState, dragging = dragging)
+                    val singleValueItem = projectConfig.getSingleValues()[id]
+                    SingleValueItemCard(
+                        singleValueItem,
+                        projectConfig,
+                        id,
+                        dataScheme,
+                        onDelete = {
+                            projectConfig.removeSingleValue(id)
+                        },
+                        reorderState,
+                        dragging = dragging
+                    )
+
                 }
             }
         }

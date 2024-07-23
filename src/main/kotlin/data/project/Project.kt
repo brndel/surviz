@@ -7,6 +7,9 @@ import com.google.gson.*
 import data.generator.resources.ImageConfig
 import data.project.config.*
 import data.project.config.columns.*
+import data.project.config.single_value.SingleValueConfig
+import data.project.config.single_value.SingleValueIcon
+import data.project.config.single_value.SingleValueIconLevel
 import data.project.data.Block
 import data.project.data.DataScheme
 import data.project.data.IconStorage
@@ -254,7 +257,7 @@ data class Project(
             )
         }
 
-        private const val VERSION = "1.4"
+        private const val VERSION = "1.5"
     }
 }
 
