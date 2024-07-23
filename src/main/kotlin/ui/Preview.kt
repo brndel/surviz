@@ -2,9 +2,11 @@ package ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -12,11 +14,16 @@ import androidx.compose.material.icons.filled.ArrowLeft
 import androidx.compose.material.icons.filled.ArrowRight
 import androidx.compose.material.icons.filled.ForkLeft
 import androidx.compose.material.icons.filled.Preview
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Popup
 import data.generator.ImageGenerator
 import data.project.Project
 import ui.fields.IntField
@@ -42,7 +49,8 @@ fun Preview(project: Project) {
             project.getSituation(blockId, situationId)
         }
 
-        LazyColumn(Modifier.fillMaxSize().padding(bottom = 10.dp, end = 10.dp)) {
+        val state = rememberLazyListState()
+        LazyColumn(Modifier.fillMaxSize().padding(bottom = 10.dp, end = 10.dp), state = state) {
             stickyHeader {
                 Surface(
                     Modifier.fillMaxWidth(),
@@ -64,10 +72,11 @@ fun Preview(project: Project) {
                             horizontalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             Button(onClick = {
-                                if(project.isValidBlockID(blockId)&&
-                                    project.isValidSituationID(blockId, situationId)&&
-                                    !project.hasReachedMin(blockId, situationId)){
-                                    if(situationId == 1){
+                                if (project.isValidBlockID(blockId) &&
+                                    project.isValidSituationID(blockId, situationId) &&
+                                    !project.hasReachedMin(blockId, situationId)
+                                ) {
+                                    if (situationId == 1) {
                                         blockId--
                                         situationId = project.getMaxSituationID(blockId)
                                     } else {
@@ -77,26 +86,29 @@ fun Preview(project: Project) {
                                     blockId = 1
                                     situationId = 1
                                 }
-                            }){
-                                Icon(Icons.Default.ArrowLeft,null)
+                            }) {
+                                Icon(Icons.Default.ArrowLeft, null)
                             }
 
                             IntField(
                                 blockId,
                                 { blockId = it },
                                 label = { Label(Labels.BLOCK) },
-                                modifier = Modifier.width(200.dp))
+                                modifier = Modifier.width(200.dp)
+                            )
                             IntField(
                                 situationId,
                                 { situationId = it },
                                 label = { Label(Labels.SITUATION) },
-                                modifier = Modifier.width(200.dp))
+                                modifier = Modifier.width(200.dp)
+                            )
 
                             Button(onClick = {
-                                if(project.isValidBlockID(blockId) &&
+                                if (project.isValidBlockID(blockId) &&
                                     project.isValidSituationID(blockId, situationId) &&
-                                    !project.hasReachedMax(blockId, situationId)){
-                                    if(situationId == project.getMaxSituationID(blockId)){
+                                    !project.hasReachedMax(blockId, situationId)
+                                ) {
+                                    if (situationId == project.getMaxSituationID(blockId)) {
                                         blockId++
                                         situationId = 1
                                     } else {
@@ -106,8 +118,8 @@ fun Preview(project: Project) {
                                     blockId = project.getMaxBlockID()
                                     situationId = project.getMaxSituationID(blockId)
                                 }
-                            }){
-                                Icon(Icons.Default.ArrowRight,null)
+                            }) {
+                                Icon(Icons.Default.ArrowRight, null)
                             }
                         }
                     }
@@ -125,7 +137,24 @@ fun Preview(project: Project) {
 
                     Column(Modifier.padding(vertical = 5.dp)) { // Add vertical padding between items
                         if (image != null) {
-                            Image(image.image, null, modifier = Modifier.clip(RoundedCornerShape(10.dp)))
+                            Box(modifier = Modifier.clip(RoundedCornerShape(10.dp))) {
+                                Image(
+                                    image.image,
+                                    null,
+                                    modifier = Modifier.fillMaxSize()
+                                )
+                                if (!image.checkWidth()) {
+                                    PreviewWarning(
+                                        modifier = Modifier.align(Alignment.TopEnd),
+                                        image.neededWidth
+                                    ) {
+                                        if (state.isScrollInProgress) {
+                                            it()
+                                        }
+                                    }
+
+                                }
+                            }
                         } else {
                             Row {
                                 Label(Labels.IMAGE_CREATE_ERROR)
@@ -140,6 +169,39 @@ fun Preview(project: Project) {
                     Label(Labels.SITUATION_NOT_FOUND)
                 }
 
+            }
+        }
+    }
+}
+
+@Composable
+private fun PreviewWarning(modifier: Modifier = Modifier, neededWidth : Int, onScrollStateChange : (()->Unit) -> Unit) {
+    var showPopUp by remember { mutableStateOf(false) }
+    onScrollStateChange { showPopUp = false }
+    Box(modifier) {
+        IconButton({ showPopUp = true }) {
+            Icon(Icons.Default.Warning, null, tint = MaterialTheme.colors.error)
+        }
+        if (showPopUp) {
+            Popup(
+                alignment = Alignment.CenterEnd,
+                onDismissRequest = { showPopUp = false }
+            ) {
+                Surface(
+                    color = MaterialTheme.colors.surface,
+                    shape = RoundedCornerShape(4.dp),
+                    elevation = 8.dp
+                ) {
+                    Column(
+                        modifier = Modifier.padding(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Label(Labels.PREVIEW_WARNING_TITLE, style = TextStyle(fontWeight = FontWeight.Bold, color = MaterialTheme.colors.error))
+                        Label(Labels.PREVIEW_WARNING_DESCRIPTION)
+                        Text("$neededWidth px", style = TextStyle(fontWeight = FontWeight.Bold))
+                        Label(Labels.PREVIEW_WARNING_FIX)
+                    }
+                }
             }
         }
     }
