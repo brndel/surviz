@@ -19,6 +19,7 @@ data class SingleValueConfig(
     val columnScheme: MutableState<String> = mutableStateOf(""),
     val icon: SingleValueIcon = SingleValueIcon(),
     val showDecimal: MutableState<Boolean> = mutableStateOf(false),
+    val isDummy: MutableState<Boolean> = mutableStateOf(false),
 ) {
     companion object {
         val serializer = JsonSerializer<SingleValueConfig> { value, _, ctx ->
@@ -29,6 +30,7 @@ data class SingleValueConfig(
             obj.addProperty("columnScheme", value.columnScheme.value)
             obj.add("icon", ctx.serialize(value.icon))
             obj.addProperty("showDecimal", value.showDecimal.value)
+            obj.addProperty("isDummy", value.isDummy.value)
 
             obj
         }
@@ -42,13 +44,15 @@ data class SingleValueConfig(
             val icon =
                 ctx.deserialize<SingleValueIcon>(obj.get("icon"), SingleValueIcon::class.java)
             val showDecimal = obj.get("showDecimal").asBoolean
+            val isDummy = obj.get("isDummy").asBoolean
 
             SingleValueConfig(
                 mutableStateOf(prefix),
                 mutableStateOf(unit),
                 mutableStateOf(columnScheme),
                 icon,
-                mutableStateOf(showDecimal)
+                mutableStateOf(showDecimal),
+                mutableStateOf(isDummy),
             )
         }
     }
