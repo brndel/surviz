@@ -65,7 +65,9 @@ object PngExporter : Exporter {
         val allSituations: Boolean,
         val blocks: ArrayList<Block>,
         val situationId: Int,
-        val separateOptions: Boolean
+        val separateOptions: Boolean,
+        val has999: Boolean,
+        val value999: Double,
     )
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -156,6 +158,9 @@ object PngExporter : Exporter {
 
         val separateOptions = exportConfig[SEPARATE_OPTION_KEY] as Boolean
 
+        val has999 = exportConfig["has999"] as Boolean
+        val value999 = exportConfig["value999"] as Double
+
         val config = Config(
             scheme,
             path,
@@ -163,7 +168,9 @@ object PngExporter : Exporter {
             allSituations,
             blocks,
             situationId,
-            separateOptions
+            separateOptions,
+            has999,
+            value999
         )
 
         val errorList = ArrayList<ExportWarning?>()
@@ -234,6 +241,7 @@ object PngExporter : Exporter {
                 "block" to blockId.toString(),
                 "situation" to situation.id.toString()
             )
+
             saveBitmap(imageResult.image, config.path, fileName)
             if (!imageResult.checkWidth()) {
                 return arrayListOf(
@@ -250,11 +258,13 @@ object PngExporter : Exporter {
         val errorList = coroutineScope {
             situation.options.values.map { option ->
                 async {
-                    saveOption(option, situation.id, blockId, config)
+                    if (config.has999 && !option.containsValue(config.value999)) {
+                        saveOption(option, situation.id, blockId, config)
+                    }
                 }
             }.awaitAll()
         }
-        return errorList
+        return errorList.filterIsInstance<ExportWarning>()
     }
 
     private fun saveOption(

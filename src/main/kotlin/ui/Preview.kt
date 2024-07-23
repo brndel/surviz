@@ -1,8 +1,7 @@
 package ui
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.hoverable
+import LocalGlobalCallbacks
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,11 +9,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowLeft
-import androidx.compose.material.icons.filled.ArrowRight
-import androidx.compose.material.icons.filled.ForkLeft
-import androidx.compose.material.icons.filled.Preview
-import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,6 +43,8 @@ fun Preview(project: Project) {
         val situation by derivedStateOf {
             project.getSituation(blockId, situationId)
         }
+
+        val callbacks = LocalGlobalCallbacks.current!!
 
         val state = rememberLazyListState()
         LazyColumn(Modifier.fillMaxSize().padding(bottom = 10.dp, end = 10.dp), state = state) {
@@ -143,6 +140,17 @@ fun Preview(project: Project) {
                                     null,
                                     modifier = Modifier.fillMaxSize()
                                 )
+
+                                if (callbacks.has999Value()) {
+                                    if (option.containsValue(callbacks.get999Value())) {
+                                        Value999Warning(modifier = Modifier.align(Alignment.TopStart).padding(4.dp)) {
+                                            if (state.isScrollInProgress) {
+                                                it()
+                                            }
+                                        }
+                                    }
+                                }
+
                                 if (!image.checkWidth()) {
                                     PreviewWarning(
                                         modifier = Modifier.align(Alignment.TopEnd),
@@ -175,7 +183,7 @@ fun Preview(project: Project) {
 }
 
 @Composable
-private fun PreviewWarning(modifier: Modifier = Modifier, neededWidth : Int, onScrollStateChange : (()->Unit) -> Unit) {
+private fun PreviewWarning(modifier: Modifier = Modifier, neededWidth: Int, onScrollStateChange: (() -> Unit) -> Unit) {
     var showPopUp by remember { mutableStateOf(false) }
     onScrollStateChange { showPopUp = false }
     Box(modifier) {
@@ -196,7 +204,10 @@ private fun PreviewWarning(modifier: Modifier = Modifier, neededWidth : Int, onS
                         modifier = Modifier.padding(10.dp),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        Label(Labels.PREVIEW_WARNING_TITLE, style = TextStyle(fontWeight = FontWeight.Bold, color = MaterialTheme.colors.error))
+                        Label(
+                            Labels.PREVIEW_WARNING_TITLE,
+                            style = TextStyle(fontWeight = FontWeight.Bold, color = MaterialTheme.colors.error)
+                        )
                         Label(Labels.PREVIEW_WARNING_DESCRIPTION)
                         Text("$neededWidth px", style = TextStyle(fontWeight = FontWeight.Bold))
                         Label(Labels.PREVIEW_WARNING_FIX)
@@ -204,5 +215,12 @@ private fun PreviewWarning(modifier: Modifier = Modifier, neededWidth : Int, onS
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun Value999Warning(modifier: Modifier = Modifier, onScrollStateChange: (() -> Unit) -> Unit) {
+    Box(modifier) {
+        Icon(Icons.Default.FileDownloadOff, null, tint = MaterialTheme.colors.secondary)
     }
 }

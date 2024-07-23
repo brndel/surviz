@@ -18,6 +18,7 @@ import java.io.File
 import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlin.io.path.pathString
+import kotlin.math.exp
 
 /**
  * This class implements the [Exporter] interface and exports the project to an HTML file.
@@ -78,7 +79,9 @@ ul {
         val allBlocks: Boolean,
         val allSituations: Boolean,
         val blocks: ArrayList<Block>,
-        val situationId: Int
+        val situationId: Int,
+        val has999: Boolean,
+        val value999: Double,
     )
 
     /**
@@ -160,13 +163,18 @@ ul {
 
         val situationId = exportConfig[SITUATION_KEY] as Int
 
+        val has999 = exportConfig["has999"] as Boolean
+        val value999 = exportConfig["value999"] as Double
+
         val config = Config(
             scheme,
             path,
             allBlocks,
             allSituations,
             blocks,
-            situationId
+            situationId,
+            has999,
+            value999,
         )
 
         // Generate Images with Selection
@@ -244,7 +252,7 @@ ul {
                 ul {
                     +lineSeparator
                     +lineSeparator
-                    getOption(situation, blockId)
+                    getOption(situation, blockId, config)
                 }
                 +lineSeparator
             }
@@ -270,32 +278,34 @@ ul {
         return listOfNotNull()
     }
 
-    private fun UL.getOption(situation: Situation, blockId: Int) {
+    private fun UL.getOption(situation: Situation, blockId: Int, config: Config) {
         val lineSeparator = System.lineSeparator()
 
         for (option in situation.options.values) {
-            li {
-                +lineSeparator
-                input(InputType.radio) {
-                    this.id = option.name
-                    this.name = "PLACEHOLDER"
-                    this.value = option.name
-                    this.classes = setOf("input-hidden")
-                    this.onClick = "change('${option.name}')"
-                }
-                +lineSeparator
-                label {
-                    this.htmlFor = option.name
-                    this.id = "${option.name}-label"
-                    img {
-                        this.src = getImgSrc(blockId, situation.id, option.name)
-                        this.alt = "Travel by ${option.name}"
+            if (config.has999 && !option.containsValue(config.value999)) {
+                li {
+                    +lineSeparator
+                    input(InputType.radio) {
+                        this.id = option.name
+                        this.name = "PLACEHOLDER"
+                        this.value = option.name
+                        this.classes = setOf("input-hidden")
+                        this.onClick = "change('${option.name}')"
                     }
+                    +lineSeparator
+                    label {
+                        this.htmlFor = option.name
+                        this.id = "${option.name}-label"
+                        img {
+                            this.src = getImgSrc(blockId, situation.id, option.name)
+                            this.alt = "Travel by ${option.name}"
+                        }
+                    }
+                    +lineSeparator
                 }
+                +lineSeparator
                 +lineSeparator
             }
-            +lineSeparator
-            +lineSeparator
         }
     }
 

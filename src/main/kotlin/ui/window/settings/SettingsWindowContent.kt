@@ -12,13 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import sun.jvm.hotspot.oops.DoubleField
 import ui.Label
 import ui.Labels
 import ui.Language
 import ui.LocalLanguage
 import ui.fields.DoubleField
-import ui.fields.IntField
 import ui.fields.OptionsField
 import ui.util.NestedSurface
 import ui.window.help.HighlightedHeading

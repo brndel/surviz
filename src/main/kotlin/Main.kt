@@ -49,6 +49,11 @@ fun main() = application {
 
     var statusMessage by remember { mutableStateOf<StatusMessage?>(null) }
 
+    //999 values
+    val has999 = remember { mutableStateOf(false) }
+    val value999 = remember { mutableStateOf(999.0) }
+
+
     LaunchedEffect(statusMessage) {
         val msg = statusMessage ?: return@LaunchedEffect
 
@@ -184,6 +189,14 @@ fun main() = application {
             override fun setStatusLabel(label: String, type: StatusMessageType) {
                 statusMessage = StatusMessage(label, type)
             }
+
+            override fun has999Value(): Boolean {
+                return has999.value
+            }
+
+            override fun get999Value(): Double {
+                return value999.value
+            }
         }
     }
 
@@ -231,11 +244,6 @@ fun main() = application {
     )
 
     val isDarkTheme = remember { mutableStateOf(false) }
-
-    //999 values
-    val has999 = remember { mutableStateOf(false) }
-    val value999 = remember { mutableStateOf(999.0) }
-
 
     // load settings
     loadSettings(
@@ -356,6 +364,8 @@ interface GlobalCallbacks {
     fun loadData(filePath: String? = null): ProjectData?
     fun forceLoadData(projectData: ProjectData)
     fun setStatusLabel(label: String, type: StatusMessageType = StatusMessageType.Info)
+    fun has999Value(): Boolean
+    fun get999Value(): Double
 }
 
 val LocalGlobalCallbacks = compositionLocalOf<GlobalCallbacks?> { null }

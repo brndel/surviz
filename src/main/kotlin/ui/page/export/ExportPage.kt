@@ -1,5 +1,6 @@
 package ui.page.export
 
+import LocalGlobalCallbacks
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -96,6 +97,8 @@ private fun ExporterConfigCard(
 ) {
     val fields = remember(exporter) { exporter.getExporter().getFields() }
 
+    val callbacks = LocalGlobalCallbacks.current!!
+
     fun getExporterConfig() =
         fields.associate {
             it.name to it.field.getValue()
@@ -121,7 +124,9 @@ private fun ExporterConfigCard(
             horizontalArrangement = Arrangement.Center
         ) {
             Button(onClick = {
-                val config = getExporterConfig()
+                val config = getExporterConfig().toMutableMap()
+                config["has999"] = callbacks.has999Value()
+                config["value999"] = callbacks.get999Value()
                 isExporting = true
                 DataManager.saveData(project, exporter, config, onPathSelected = {exportPath = it}) {
                     exportResult = it
