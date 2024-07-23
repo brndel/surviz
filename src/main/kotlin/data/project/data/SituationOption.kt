@@ -10,4 +10,8 @@ package data.project.data
 data class SituationOption(
     val name: String,
     val values: Map<String, Double>
-)
+) {
+    fun containsValue(value: Double): Boolean {
+        return values.containsValue(value)
+    }
+}

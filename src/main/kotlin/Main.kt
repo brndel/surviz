@@ -234,7 +234,7 @@ fun main() = application {
 
     //999 values
     val has999 = remember { mutableStateOf(false) }
-    val value999 = remember { mutableStateOf(999) }
+    val value999 = remember { mutableStateOf(999.0) }
 
 
     // load settings
@@ -374,7 +374,7 @@ private fun loadSettings(
     setLanguage: (Language) -> Unit,
     setDarkMode: (Boolean) -> Unit,
     setHas999: (Boolean) -> Unit,
-    set999Value: (Int) -> Unit
+    set999Value: (Double) -> Unit
 ) {
     val file = File(SettingsFile)
 
@@ -399,7 +399,7 @@ private fun loadSettings(
 
         val value999 = prop.getProperty("value999")
         if (value999 != null) {
-            set999Value(value999.toInt())
+            set999Value(value999.toDouble())
         }
     }
 }

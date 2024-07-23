@@ -29,7 +29,7 @@ fun SettingsWindow(
     language: MutableState<Language>,
     isDarkMode: MutableState<Boolean>,
     has999: MutableState<Boolean>,
-    value999: MutableState<Int>,
+    value999: MutableState<Double>,
 ) {
     Window(
         title = LocalLanguage.current.getString(Labels.SETTINGS),
@@ -59,7 +59,7 @@ fun SettingsWindow(
     }
 }
 
-fun saveSettings(path: String, language: Language, darkMode: Boolean, has999: Boolean, value999: Int) {
+fun saveSettings(path: String, language: Language, darkMode: Boolean, has999: Boolean, value999: Double) {
     val file = File(path)
 
     if (!file.exists()) {

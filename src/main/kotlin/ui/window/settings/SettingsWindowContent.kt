@@ -12,10 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import sun.jvm.hotspot.oops.DoubleField
 import ui.Label
 import ui.Labels
 import ui.Language
 import ui.LocalLanguage
+import ui.fields.DoubleField
 import ui.fields.IntField
 import ui.fields.OptionsField
 import ui.util.NestedSurface
@@ -26,7 +28,7 @@ fun SettingsWindowContent(
     language: MutableState<Language>,
     isDarkMode: MutableState<Boolean>,
     has999: MutableState<Boolean>,
-    value999: MutableState<Int>,
+    value999: MutableState<Double>,
     onSettingChanged: () -> Unit
 ) {
     LazyColumn(
@@ -116,7 +118,7 @@ fun SettingsWindowContent(
                                 )
                             )
                             if (has999.value) {
-                                IntField(value999.value, onValueChange = {
+                                DoubleField(value999.value, onValueChange = {
                                     value999.value = it
                                 }, label = { Label(Labels.VALUE) },
                                     modifier = Modifier.width(200.dp)
