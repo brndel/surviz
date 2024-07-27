@@ -23,7 +23,7 @@ import ui.Labels
 import ui.window.help.HelpEntry
 
 @Composable
-fun InfoIconBox(title : String, desc : String, helpEntry: HelpEntry?) {
+fun InfoIconBox(title: String, desc: String, helpEntry: HelpEntry?) {
     val globalCallbacks = LocalGlobalCallbacks.current!!
     var showTimelineInfoPopup by remember { mutableStateOf(false) }
     Box {
@@ -33,22 +33,29 @@ fun InfoIconBox(title : String, desc : String, helpEntry: HelpEntry?) {
         if (showTimelineInfoPopup) {
             Popup(
                 alignment = Alignment.CenterEnd,
-                onDismissRequest = {showTimelineInfoPopup = false}
+                onDismissRequest = { showTimelineInfoPopup = false }
             ) {
                 Surface(
                     color = MaterialTheme.colors.background,
                     shape = RoundedCornerShape(4.dp),
                     elevation = 8.dp
                 ) {
-                    Column(Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Column(
+                        Modifier.padding(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
                         Label(
                             title,
                             style = TextStyle(fontWeight = FontWeight.Bold)
                         )
                         Label(desc)
-                        Button({ globalCallbacks.openHelp(helpEntry) }) {
-                            Icon(Icons.Default.Help, null)
-                            Label(Labels.OPEN_HElP_INFO_BOX, Modifier.padding(8.dp))
+                        if (helpEntry != null) {
+                            Button(
+                                { globalCallbacks.openHelp(helpEntry) }
+                            ) {
+                                Icon(Icons.Default.Help, null)
+                                Label(Labels.OPEN_HElP_INFO_BOX, Modifier.padding(8.dp))
+                            }
                         }
                     }
                 }

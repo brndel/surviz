@@ -81,6 +81,8 @@ object Labels {
     const val EXPORT_IMAGE_CONFIG_TIMELINE_SCALING = "EXPORT_IMAGE_CONFIG_TIMELINE_SCALING"
     const val EXPORT_IMAGE_CONFIG_BACKGROUND_COLOR = "EXPORT_IMAGE_CONFIG_BACKGROUND_COLOR"
 
+    const val EXPORT_IMAGE_CONFIG_ALPHA = "EXPORT_IMAGE_CONFIG_ALPHA"
+
     const val PLACEHOLDERS = "PLACEHOLDERS"
 
     const val EXPORT_BUTTON = "EXPORT_BUTTON"
@@ -182,13 +184,15 @@ object Labels {
         "USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE"
     const val USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE_DESCRIPTION =
         "USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_CLOSE_DESCRIPTION"
-    const val USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW = "USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW"
+    const val USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW =
+        "USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW"
     const val USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW_DESCRIPTION =
         "USER_GUIDE_PROJECT_SCREEN_APPBAR_PROJECT_NEW_DESCRIPTION"
     const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE = "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE"
     const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_DESCRIPTION =
         "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_DESCRIPTION"
-    const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_LEVELS = "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_LEVELS"
+    const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_LEVELS =
+        "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_LEVELS"
     const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_LEVELS_DESCRIPTION =
         "USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_LEVELS_DESCRIPTION"
     const val USER_GUIDE_PROJECT_SCREEN_SINGLE_VALUE_ADD =
@@ -260,7 +264,10 @@ object Labels {
     const val SINGLE_VALUE_DECIMAL_INFO_TITLE = "SINGLE_VALUE_DECIMAL_INFO_TITLE"
     const val SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION = "SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION"
     const val SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE = "SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE"
-    const val SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION = "SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION"
+    const val SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION =
+        "SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION"
+    const val SINGLE_VALUE_ALPHA_INFO_TITLE = "SINGLE_VALUE_ALPHA_INFO_TITLE"
+    const val SINGLE_VALUE_ALPHA_INFO_DESCRIPTION = "SINGLE_VALUE_ALPHA_INFO_DESCRIPTION"
 
     const val PREVIEW_WARNING_TITLE = "PREVIEW_WARNING_TITLE"
     const val PREVIEW_WARNING_DESCRIPTION = "PREVIEW_WARNING_DESCRIPTION"
@@ -293,7 +300,11 @@ object Labels {
     const val VALUE = "VALUE"
 }
 
-enum class Language(private val code: String, val label: String, private val strings: Map<String, String>) {
+enum class Language(
+    private val code: String,
+    val label: String,
+    private val strings: Map<String, String>
+) {
     English(
         "en",
         Labels.LANGUAGE_ENGLISH,
@@ -373,6 +384,8 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.EXPORT_IMAGE_CONFIG_WIDTH to "Width",
             Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING to "Timeline scaling",
             Labels.EXPORT_IMAGE_CONFIG_BACKGROUND_COLOR to "Background color",
+
+            Labels.EXPORT_IMAGE_CONFIG_ALPHA to "Single Value alpha",
 
             Labels.PLACEHOLDERS to "Placeholders",
 
@@ -531,6 +544,8 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION to "If checked, decimal points will be printed even when they don't hold any information (\".0\")",
             Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE to "Setting the Single value columns option for all situations",
             Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION to "Here, the 'Single value columns' option from the Situations window\ncan be set for all situations simultaneously.\n\nCaution: This will overwrite all previous settings in the 'Single value columns' option\nfor this single value in all situations!",
+            Labels.SINGLE_VALUE_ALPHA_INFO_TITLE to "Sets the alpha value of \"0\" single values",
+            Labels.SINGLE_VALUE_ALPHA_INFO_DESCRIPTION to "If the single value has numeric value of \"0\" and \"Zero\" column is not selected,\n" + "icon and text of single value will be printed with this alpha value",
 
             Labels.PREVIEW_WARNING_TITLE to "Image not wide enough",
             Labels.PREVIEW_WARNING_DESCRIPTION to "The image is not wide enough to fit all content.\nWidth needed:",
@@ -643,6 +658,7 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.EXPORT_IMAGE_CONFIG_WIDTH to "Breite",
             Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING to "Skalierung des Zeitstrahls",
             Labels.EXPORT_IMAGE_CONFIG_BACKGROUND_COLOR to "Hintergrundfarbe",
+            Labels.EXPORT_IMAGE_CONFIG_ALPHA to "Einzelwert Alpha",
 
             Labels.PLACEHOLDERS to "Platzhalter",
 
@@ -805,6 +821,8 @@ enum class Language(private val code: String, val label: String, private val str
             Labels.SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION to "Ist diese Einstellung aktiviert, werden alle Dezimalstellen dargestellt, auch wenn sie keine neue Information bereitstellen",
             Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE to "Einzelwert-Spalten für alle Situationen setzen",
             Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION to "Hier kann die 'Einzelwert-Spalten' option aus dem Situationen Fenster,\nfür diesen Einzelwert und für alle Situationen gleichzeitig festgelegt werden.\n\nAchtung: Hierbei werden die bisherigen Einstellungen dieses Einzelwerts\nin der 'Einzelwert Spalten' Option in allen Situationen überschrieben!",
+            Labels.SINGLE_VALUE_ALPHA_INFO_TITLE to "Legt die Transparenz von \"0\" Einzelwerten fest",
+            Labels.SINGLE_VALUE_ALPHA_INFO_DESCRIPTION to "Ist der numerische Wert eines Einzelwerts \"0\" und \"Null\"-Spalte ist nicht ausgewählt,\n" + "so wird die Transparent des Texts und des Icons hierdurch festgelegt",
 
             Labels.PREVIEW_WARNING_TITLE to "Bild zu schmal",
             Labels.PREVIEW_WARNING_DESCRIPTION to "Das bild ist zu schmal um alle Inhalte korrekt wiederzugeben.\nDas Bild müsste:",

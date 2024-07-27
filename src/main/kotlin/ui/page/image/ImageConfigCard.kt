@@ -36,6 +36,7 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
     var width by imageConfig.width
     var timelineScaling by imageConfig.timelineScaling
     var backgroundColor by imageConfig.backgroundColor
+    var alpha by imageConfig.alpha
 
     NestedSurface(modifier) {
         Column(
@@ -62,14 +63,18 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
                     text = "${LocalLanguage.current.getString(Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING)}: ${timelineScaling.roundToInt()}",
                     fontWeight = FontWeight.Bold
                 )
-                InfoIconBox (Labels.TIMELINE_SCALING_INFO_TITLE, Labels.TIMELINE_SCALING_INFO_DESCRIPTION, UserGuide.Export.section)
+                InfoIconBox(
+                    Labels.TIMELINE_SCALING_INFO_TITLE,
+                    Labels.TIMELINE_SCALING_INFO_DESCRIPTION,
+                    UserGuide.Export.section
+                )
             }
-            var sliderPosition by remember { mutableStateOf(timelineScaling.toFloat()) }
+            var scalingSliderPosition by remember { mutableStateOf(timelineScaling.toFloat()) }
 
             Slider(
-                value = sliderPosition,
+                value = scalingSliderPosition,
                 onValueChange = {
-                    sliderPosition = it
+                    scalingSliderPosition = it
                     timelineScaling = it.roundToInt().toDouble()
                 },
                 valueRange = 1f..25f,
@@ -84,6 +89,33 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
             }, label = {
                 Label(Labels.EXPORT_IMAGE_CONFIG_BACKGROUND_COLOR)
             })
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "${LocalLanguage.current.getString(Labels.EXPORT_IMAGE_CONFIG_ALPHA)}: ${String.format("%.2f", alpha)}",
+                    fontWeight = FontWeight.Bold
+                )
+                InfoIconBox(
+                    Labels.SINGLE_VALUE_ALPHA_INFO_TITLE,
+                    Labels.SINGLE_VALUE_ALPHA_INFO_DESCRIPTION,
+                    null
+                )
+            }
+
+            var alphaSliderPosition by remember { mutableStateOf(alpha) }
+
+            Slider(
+                value = alphaSliderPosition,
+                onValueChange = {
+                    alphaSliderPosition = it
+                    alpha = it
+                },
+                valueRange = 0f..1f,
+                steps = 19,
+                modifier = Modifier.pointerInput(Unit) {}
+            )
         }
     }
 }

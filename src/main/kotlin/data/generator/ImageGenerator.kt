@@ -322,8 +322,7 @@ class ImageGenerator(
             // change alpha if value == 0 and not ZeroColumn
             var newColor = color.copy()
             if (value == 0.0 && column !is ZeroColumn) {
-                val alpha = properties.getProperty("single_value_alpha").toFloat()
-                newColor = color.copy(alpha = alpha)
+                newColor = color.copy(alpha = imageConfig.alpha.value)
             }
 
             // draw text
