@@ -91,32 +91,48 @@ private fun RowScope.SingleValueCardContent(
     var showSchemeTooltip by remember { mutableStateOf(false) }
 
     Column(Modifier.weight(1F), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        OutlinedTextField(prefix, {prefix = it}, label = {
-            Label(Labels.FIELD_PREFIX)
-        })
 
-        OutlinedTextField(unit, { unit = it }, label = {
-            Label(Labels.FIELD_UNIT)
-        })
+        TextSwitch("", config.isDummy, "", "", null)
 
-        OutlinedTextField(columnScheme, { columnScheme = it }, singleLine = true, label = {
-            Label(Labels.FIELD_COLUMN_SCHEME)
-        }, modifier = Modifier.onFocusChanged {
-            showSchemeTooltip = it.isFocused
-        }, trailingIcon = {
-            Box {
-                if (showSchemeTooltip) {
-                    SchemeMatchPopup(columnScheme, dataScheme)
+        if (!config.isDummy.value) {
+            OutlinedTextField(prefix, { prefix = it }, label = {
+                Label(Labels.FIELD_PREFIX)
+            })
+
+            OutlinedTextField(unit, { unit = it }, label = {
+                Label(Labels.FIELD_UNIT)
+            })
+
+            OutlinedTextField(columnScheme, { columnScheme = it }, singleLine = true, label = {
+                Label(Labels.FIELD_COLUMN_SCHEME)
+            }, modifier = Modifier.onFocusChanged {
+                showSchemeTooltip = it.isFocused
+            }, trailingIcon = {
+                Box {
+                    if (showSchemeTooltip) {
+                        SchemeMatchPopup(columnScheme, dataScheme)
+                    }
                 }
-            }
-            InfoIconBox(
-                Labels.SINGLE_VALUE_SCHEME_INFO_TITLE,
-                Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION,
-                UserGuide.SingleValue.scheme
-            )
-        })
+                InfoIconBox(
+                    Labels.SINGLE_VALUE_SCHEME_INFO_TITLE,
+                    Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION,
+                    UserGuide.SingleValue.scheme
+                )
+            })
 
-        TextSwitch(Labels.SINGLE_VALUE_FORCE_DECIMAL, config.showDecimal, Labels.SINGLE_VALUE_DECIMAL_INFO_TITLE, Labels.SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION, null)
+            TextSwitch(
+                Labels.SINGLE_VALUE_FORCE_DECIMAL,
+                config.showDecimal,
+                Labels.SINGLE_VALUE_DECIMAL_INFO_TITLE,
+                Labels.SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION,
+                null
+            )
+        } else {
+            OutlinedTextField(prefix, { prefix = it }, label = {
+                Label("")
+            })
+        }
+
 
         SingleValueIconCard(config.icon)
 
