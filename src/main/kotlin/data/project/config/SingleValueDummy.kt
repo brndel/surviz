@@ -9,23 +9,18 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializer
 
-data class SingleValueDummy(val key: MutableState<Int>, val value: MutableState<String>) {
-
-    constructor() : this(mutableStateOf(0), mutableStateOf(""))
+data class SingleValueDummy(val key: MutableState<Int> = mutableStateOf(0), val value: MutableState<String> = mutableStateOf("")) {
 
     companion object {
         val serializer = JsonSerializer<SingleValueDummy> { value, _, _ ->
-           val obj = JsonObject()
-
+            val obj = JsonObject()
             obj.addProperty("key", value.key.value)
             obj.addProperty("value", value.value.value)
-
             obj
-       }
+        }
 
         val deserializer = JsonDeserializer { json, _, _ ->
             val obj = json.asJsonObject
-
             SingleValueDummy(
                 mutableStateOf(obj.get("key").asInt),
                 mutableStateOf(obj.get("value").asString)

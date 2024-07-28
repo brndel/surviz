@@ -30,24 +30,18 @@ data class SingleValueDummyMap(val dummies: SnapshotStateList<SingleValueDummy> 
     companion object {
         val serializer = JsonSerializer<SingleValueDummyMap> { value, _, ctx ->
             val obj = JsonObject()
-
             obj.add("dummies", ctx.serialize(value.dummies))
-
             obj
         }
 
         val deserializer = JsonDeserializer { element, _, ctx ->
             val obj = element.asJsonObject
-
             val dummies = mutableStateListOf<SingleValueDummy>()
-
             for (dummy in obj.get("dummies").asJsonArray) {
                 val dummyEntry = ctx.deserialize<SingleValueDummy>(dummy, SingleValueDummy::class.java)
                 dummies.add(dummyEntry)
             }
-
             SingleValueDummyMap(dummies)
         }
-
     }
 }

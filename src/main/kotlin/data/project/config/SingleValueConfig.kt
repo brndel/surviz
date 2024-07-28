@@ -48,7 +48,7 @@ data class SingleValueConfig(
             val showDecimal = obj.get("showDecimal").asBoolean
             val isDummy = obj.get("isDummy").asBoolean
             val dummies = ctx.deserialize<SingleValueDummyMap>(
-                obj.get("dummies"),
+                obj.get("dummyMap"),
                 SingleValueDummyMap::class.java
             )
 
