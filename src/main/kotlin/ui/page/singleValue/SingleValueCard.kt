@@ -27,6 +27,8 @@ import data.project.data.DataScheme
 import org.burnoutcrew.reorderable.ReorderableState
 import ui.Label
 import ui.Labels
+import ui.fields.DoubleField
+import ui.fields.IntField
 import ui.util.InfoIconBox
 import ui.util.NestedSurface
 import ui.util.ReorderHandle
@@ -127,6 +129,30 @@ private fun RowScope.SingleValueCardContent(
                 Labels.SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION,
                 null
             )
+            NestedSurface {
+                Column(
+                    Modifier.padding(10.dp).fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    TextSwitch(
+                        Labels.SINGLE_VALUE_DIVIDER,
+                        config.hasDivider,
+                        Labels.SINGLE_VALUE_DIVIDER_TITLE,
+                        null,
+                        null
+                    )
+                    if (config.hasDivider.value) {
+                       IntField(
+                           config.dividerLength.value.toInt(),
+                           onValueChange = {
+                               config.dividerLength.value = it.toFloat()
+                           }
+                       ) {
+                           Label(Labels.SINGLE_VALUE_DIVIDER_LENGTH)
+                       }
+                    }
+                }
+            }
         } else {
             OutlinedTextField(prefix, { prefix = it }, label = {
                 Label("")
@@ -160,7 +186,8 @@ fun SchemeMatchPopup(scheme: String, dataScheme: DataScheme) {
 
                 val textColor = LocalContentColor.current
                 Column(
-                    modifier = Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)
+                    modifier = Modifier.padding(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     for (option in dataScheme.options) {
                         for (fieldName in option.fieldsList) {
@@ -168,15 +195,18 @@ fun SchemeMatchPopup(scheme: String, dataScheme: DataScheme) {
 
                             if (match != null) {
                                 val string = buildAnnotatedString {
-                                    val veryLightSpanStyle = SpanStyle(color = textColor.copy(alpha = 0.25F))
-                                    val lightSpanStyle = SpanStyle(color = textColor.copy(alpha = 0.5F))
+                                    val veryLightSpanStyle =
+                                        SpanStyle(color = textColor.copy(alpha = 0.25F))
+                                    val lightSpanStyle =
+                                        SpanStyle(color = textColor.copy(alpha = 0.5F))
                                     val spanStyle = SpanStyle(color = textColor.copy(alpha = 1F))
                                     withStyle(veryLightSpanStyle) {
                                         append(option.name)
                                         append(".")
                                     }
 
-                                    val beforeMatch = fieldName.substring(IntRange(0, match.range.first - 1))
+                                    val beforeMatch =
+                                        fieldName.substring(IntRange(0, match.range.first - 1))
                                     val inMatch = fieldName.substring(match.range)
                                     val afterMatch = fieldName.substring(match.range.last + 1)
 
@@ -237,7 +267,8 @@ fun ColumnButton(projConfig: ProjectConfiguration, id: UUID) {
                         dropdownExpanded = false
                     }) {
                         Column(
-                            verticalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.padding(
+                            verticalArrangement = Arrangement.spacedBy(4.dp),
+                            modifier = Modifier.padding(
                                 top = 10.dp, bottom = 10.dp, start = 4.dp, end = 4.dp
                             )
                         ) {

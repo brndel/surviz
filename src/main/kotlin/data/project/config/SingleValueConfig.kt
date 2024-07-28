@@ -20,6 +20,8 @@ data class SingleValueConfig(
     val icon: SingleValueIcon = SingleValueIcon(),
     val showDecimal: MutableState<Boolean> = mutableStateOf(false),
     val isDummy: MutableState<Boolean> = mutableStateOf(false),
+    val hasDivider: MutableState<Boolean> = mutableStateOf(false),
+    val dividerLength: MutableState<Float> = mutableStateOf(80f),
 ) {
     companion object {
         val serializer = JsonSerializer<SingleValueConfig> { value, _, ctx ->
@@ -31,6 +33,8 @@ data class SingleValueConfig(
             obj.add("icon", ctx.serialize(value.icon))
             obj.addProperty("showDecimal", value.showDecimal.value)
             obj.addProperty("isDummy", value.isDummy.value)
+            obj.addProperty("hasDivider", value.hasDivider.value)
+            obj.addProperty("dividerLength", value.dividerLength.value)
 
             obj
         }
@@ -45,6 +49,8 @@ data class SingleValueConfig(
                 ctx.deserialize<SingleValueIcon>(obj.get("icon"), SingleValueIcon::class.java)
             val showDecimal = obj.get("showDecimal").asBoolean
             val isDummy = obj.get("isDummy").asBoolean
+            val hasDivider = obj.get("hasDivider").asBoolean
+            val dividerLength = obj.get("dividerLength").asFloat
 
             SingleValueConfig(
                 mutableStateOf(prefix),
@@ -53,6 +59,8 @@ data class SingleValueConfig(
                 icon,
                 mutableStateOf(showDecimal),
                 mutableStateOf(isDummy),
+                mutableStateOf(hasDivider),
+                mutableStateOf(dividerLength)
             )
         }
     }

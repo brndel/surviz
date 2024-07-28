@@ -58,6 +58,8 @@ object Labels {
 
     const val SINGLE_VALUE_SET_ALL_COLUMNS = "SINGLE_VALUE_SET_ALL_COLUMNS"
     const val SINGLE_VALUE_FORCE_DECIMAL = "SINGLE_VALUE_FORCE_DECIMAL"
+    const val SINGLE_VALUE_DIVIDER = "SINGLE_VALUE_DIVIDER"
+    const val SINGLE_VALUE_DIVIDER_LENGTH = "SINGLE_VALUE_DIVIDER_LENGTH"
 
     /*
     #########################################   EXPORT/IMPORT LABELS   #################################################
@@ -268,6 +270,7 @@ object Labels {
         "SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION"
     const val SINGLE_VALUE_ALPHA_INFO_TITLE = "SINGLE_VALUE_ALPHA_INFO_TITLE"
     const val SINGLE_VALUE_ALPHA_INFO_DESCRIPTION = "SINGLE_VALUE_ALPHA_INFO_DESCRIPTION"
+    const val SINGLE_VALUE_DIVIDER_TITLE = "SINGLE_VALUE_DIVIDER_TITLE"
 
     const val PREVIEW_WARNING_TITLE = "PREVIEW_WARNING_TITLE"
     const val PREVIEW_WARNING_DESCRIPTION = "PREVIEW_WARNING_DESCRIPTION"
@@ -362,6 +365,8 @@ enum class Language(
 
             Labels.SINGLE_VALUE_SET_ALL_COLUMNS to " Set Single value columns for all situations",
             Labels.SINGLE_VALUE_FORCE_DECIMAL to "Force Decimal",
+            Labels.SINGLE_VALUE_DIVIDER to "Add Divider",
+            Labels.SINGLE_VALUE_DIVIDER_LENGTH to "Length",
 
             /*
             #########################################   EXPORT/IMPORT LABELS   #########################################
@@ -546,6 +551,7 @@ enum class Language(
             Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION to "Here, the 'Single value columns' option from the Situations window\ncan be set for all situations simultaneously.\n\nCaution: This will overwrite all previous settings in the 'Single value columns' option\nfor this single value in all situations!",
             Labels.SINGLE_VALUE_ALPHA_INFO_TITLE to "Sets the alpha value of \"0\" single values",
             Labels.SINGLE_VALUE_ALPHA_INFO_DESCRIPTION to "If the single value has numeric value of \"0\" and \"Zero\" column is not selected,\n" + "icon and text of single value will be printed with this alpha value",
+            Labels.SINGLE_VALUE_DIVIDER_TITLE to "Add Divider at end of single value",
 
             Labels.PREVIEW_WARNING_TITLE to "Image not wide enough",
             Labels.PREVIEW_WARNING_DESCRIPTION to "The image is not wide enough to fit all content.\nWidth needed:",
@@ -635,7 +641,8 @@ enum class Language(
 
             Labels.SINGLE_VALUE_SET_ALL_COLUMNS to " Einzelwert-Spalten für alle Situationen setzen",
             Labels.SINGLE_VALUE_FORCE_DECIMAL to "Dezimalstellen erzwingen",
-
+            Labels.SINGLE_VALUE_DIVIDER to "Trennstrich hinzufügen",
+            Labels.SINGLE_VALUE_DIVIDER_LENGTH to "Länge",
 
             /*
             #########################################   EXPORT/IMPORT LABELS   #########################################
@@ -823,6 +830,7 @@ enum class Language(
             Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_DESCRIPTION to "Hier kann die 'Einzelwert-Spalten' option aus dem Situationen Fenster,\nfür diesen Einzelwert und für alle Situationen gleichzeitig festgelegt werden.\n\nAchtung: Hierbei werden die bisherigen Einstellungen dieses Einzelwerts\nin der 'Einzelwert Spalten' Option in allen Situationen überschrieben!",
             Labels.SINGLE_VALUE_ALPHA_INFO_TITLE to "Legt die Transparenz von \"0\" Einzelwerten fest",
             Labels.SINGLE_VALUE_ALPHA_INFO_DESCRIPTION to "Ist der numerische Wert eines Einzelwerts \"0\" und \"Null\"-Spalte ist nicht ausgewählt,\n" + "so wird die Transparent des Texts und des Icons hierdurch festgelegt",
+            Labels.SINGLE_VALUE_DIVIDER_TITLE to "Fügt einen Trennstrich am Ende des Einzelwerts hinzu",
 
             Labels.PREVIEW_WARNING_TITLE to "Bild zu schmal",
             Labels.PREVIEW_WARNING_DESCRIPTION to "Das bild ist zu schmal um alle Inhalte korrekt wiederzugeben.\nDas Bild müsste:",

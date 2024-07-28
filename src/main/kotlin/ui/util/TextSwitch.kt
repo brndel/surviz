@@ -17,7 +17,7 @@ public fun TextSwitch(
     label: String,
     state: MutableState<Boolean>,
     infoTitleLabel: String,
-    infoDescriptionLabel: String,
+    infoDescriptionLabel: String?,
     helpEntry: HelpEntry?
 ) {
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy((10.dp))) {

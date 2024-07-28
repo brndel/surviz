@@ -168,11 +168,8 @@ class ImageGenerator(
             this.color = Color(properties.getProperty("divider_color").toLong(16))
         }
 
-        canvas.drawLine(
-            Offset(dividerX, centerLine - dividerLength / 2),
-            Offset(dividerX, centerLine + dividerLength / 2),
-            linePaint
-        )
+        drawDivider(canvas, dividerX, centerLine, dividerLength, linePaint)
+
 
         // draw timeline
         val timelineWidth =
@@ -315,7 +312,8 @@ class ImageGenerator(
             }
 
             // get prefix
-            val prefix = singleValueConfig.prefix.value.takeIf { it.isNotEmpty() }?.let { "$it " } ?: ""
+            val prefix =
+                singleValueConfig.prefix.value.takeIf { it.isNotEmpty() }?.let { "$it " } ?: ""
 
             val unit = singleValueConfig.unit.value
 
@@ -356,6 +354,22 @@ class ImageGenerator(
                         centerLine - properties.getProperty("single_value_icon_padding")
                             .toFloat() - (iconHeight / 2) + yOffset
                     )
+                )
+            }
+
+            if (singleValueConfig.hasDivider.value) {
+                val paint = Paint().apply {
+                    style = PaintingStyle.Stroke
+                    strokeWidth = properties.getProperty("divider_weight").toFloat()
+                    this.color = Color(properties.getProperty("divider_color").toLong(16))
+                }
+
+                drawDivider(
+                    canvas,
+                    x + (size / 2),
+                    centerLine,
+                    singleValueConfig.dividerLength.value,
+                    paint
                 )
             }
 
@@ -537,5 +551,13 @@ class ImageGenerator(
         val icon = iconStorage.getIcon(key) ?: return null
         cachedIcons[key] = icon
         return icon
+    }
+
+    private fun drawDivider(canvas: Canvas, x: Float, centerY: Float, length: Float, paint: Paint) {
+        canvas.drawLine(
+            Offset(x, centerY - length / 2),
+            Offset(x, centerY + length / 2),
+            paint
+        )
     }
 }

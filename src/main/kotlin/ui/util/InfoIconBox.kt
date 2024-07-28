@@ -23,7 +23,7 @@ import ui.Labels
 import ui.window.help.HelpEntry
 
 @Composable
-fun InfoIconBox(title: String, desc: String, helpEntry: HelpEntry?) {
+fun InfoIconBox(title: String, desc: String?, helpEntry: HelpEntry?) {
     val globalCallbacks = LocalGlobalCallbacks.current!!
     var showTimelineInfoPopup by remember { mutableStateOf(false) }
     Box {
@@ -48,7 +48,9 @@ fun InfoIconBox(title: String, desc: String, helpEntry: HelpEntry?) {
                             title,
                             style = TextStyle(fontWeight = FontWeight.Bold)
                         )
-                        Label(desc)
+                        if (desc != null) {
+                            Label(desc)
+                        }
                         if (helpEntry != null) {
                             Button(
                                 { globalCallbacks.openHelp(helpEntry) }
