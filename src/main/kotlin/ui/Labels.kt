@@ -25,6 +25,8 @@ object Labels {
     const val CANCEL = "CANCEL"
     const val ENUMERATION_SIGN: Char = 0x25CF.toChar()
 
+    const val ADD = "ADD"
+
     const val FIELD_UNIT = "FIELD_UNIT"
     const val FIELD_PREFIX = "FIELD_PREFIX"
     const val FIELD_COLUMN_SCHEME = "FIELD_COLUMN_SCHEME"
@@ -58,6 +60,9 @@ object Labels {
 
     const val SINGLE_VALUE_SET_ALL_COLUMNS = "SINGLE_VALUE_SET_ALL_COLUMNS"
     const val SINGLE_VALUE_FORCE_DECIMAL = "SINGLE_VALUE_FORCE_DECIMAL"
+    const val SINGLE_VALUE_DUMMY_SWITCH = "SINGLE_VALUE_DUMMY_SWITCH"
+    const val SINGLE_VALUE_DUMMY_KEY = "SINGLE_VALUE_DUMMY_KEY"
+    const val SINGLE_VALUE_DUMMY_VALUE = "SINGLE_VALUE_DUMMY_VALUE"
 
     /*
     #########################################   EXPORT/IMPORT LABELS   #################################################
@@ -328,6 +333,7 @@ enum class Language(
             Labels.OK to "Ok",
             Labels.ERROR to "Error",
             Labels.CANCEL to "Cancel",
+            Labels.ADD to "Add",
 
             Labels.FIELD_PREFIX to "Prefix",
             Labels.FIELD_UNIT to "Unit",
@@ -362,6 +368,9 @@ enum class Language(
 
             Labels.SINGLE_VALUE_SET_ALL_COLUMNS to " Set Single value columns for all situations",
             Labels.SINGLE_VALUE_FORCE_DECIMAL to "Force Decimal",
+            Labels.SINGLE_VALUE_DUMMY_SWITCH to "Dummy encoding",
+            Labels.SINGLE_VALUE_DUMMY_KEY to "Key",
+            Labels.SINGLE_VALUE_DUMMY_VALUE to "Value",
 
             /*
             #########################################   EXPORT/IMPORT LABELS   #########################################
@@ -601,6 +610,7 @@ enum class Language(
             Labels.OK to "Ok",
             Labels.ERROR to "Fehler",
             Labels.CANCEL to "Abbrechen",
+            Labels.ADD to "Hinzufügen",
 
             Labels.FIELD_PREFIX to "Präfix",
             Labels.FIELD_UNIT to "Einheit",
@@ -635,7 +645,9 @@ enum class Language(
 
             Labels.SINGLE_VALUE_SET_ALL_COLUMNS to " Einzelwert-Spalten für alle Situationen setzen",
             Labels.SINGLE_VALUE_FORCE_DECIMAL to "Dezimalstellen erzwingen",
-
+            Labels.SINGLE_VALUE_DUMMY_SWITCH to "Dummy Codierung",
+            Labels.SINGLE_VALUE_DUMMY_KEY to "Key",
+            Labels.SINGLE_VALUE_DUMMY_VALUE to "Value",
 
             /*
             #########################################   EXPORT/IMPORT LABELS   #########################################

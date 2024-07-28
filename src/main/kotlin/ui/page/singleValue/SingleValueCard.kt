@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowRight
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.ViewWeek
@@ -21,12 +23,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import data.project.config.ProjectConfiguration
 import data.project.config.SingleValueConfig
+import data.project.config.SingleValueDummyMap
 import data.project.config.SituationConfig
 import data.project.config.columns.*
 import data.project.data.DataScheme
+import data.resources.fields.IntFieldData
 import org.burnoutcrew.reorderable.ReorderableState
 import ui.Label
 import ui.Labels
+import ui.fields.DoubleField
+import ui.fields.IntField
 import ui.util.InfoIconBox
 import ui.util.NestedSurface
 import ui.util.ReorderHandle
@@ -84,59 +90,100 @@ fun SingleValueCard(
 private fun RowScope.SingleValueCardContent(
     config: SingleValueConfig, projConfig: ProjectConfiguration, id: UUID, dataScheme: DataScheme
 ) {
+    Column(Modifier.weight(1F), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+
+        TextSwitch(Labels.SINGLE_VALUE_DUMMY_SWITCH, config.isDummy, "", "", null)
+
+        if (!config.isDummy.value) {
+            NormalSingleValueContent(config, dataScheme)
+        } else {
+            DummyContent(config.dummies)
+        }
+
+        SingleValueIconCard(config.icon)
+
+        ColumnButton(projConfig, id)
+    }
+}
+
+@Composable
+private fun NormalSingleValueContent(config: SingleValueConfig, dataScheme: DataScheme) {
     var prefix by config.prefix
     var unit by config.unit
     var columnScheme by config.columnScheme
 
     var showSchemeTooltip by remember { mutableStateOf(false) }
 
-    Column(Modifier.weight(1F), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+    OutlinedTextField(prefix, { prefix = it }, label = {
+        Label(Labels.FIELD_PREFIX)
+    })
 
-        TextSwitch("", config.isDummy, "", "", null)
+    OutlinedTextField(unit, { unit = it }, label = {
+        Label(Labels.FIELD_UNIT)
+    })
 
-        if (!config.isDummy.value) {
-            OutlinedTextField(prefix, { prefix = it }, label = {
-                Label(Labels.FIELD_PREFIX)
-            })
+    OutlinedTextField(columnScheme, { columnScheme = it }, singleLine = true, label = {
+        Label(Labels.FIELD_COLUMN_SCHEME)
+    }, modifier = Modifier.onFocusChanged {
+        showSchemeTooltip = it.isFocused
+    }, trailingIcon = {
+        Box {
+            if (showSchemeTooltip) {
+                SchemeMatchPopup(columnScheme, dataScheme)
+            }
+        }
+        InfoIconBox(
+            Labels.SINGLE_VALUE_SCHEME_INFO_TITLE,
+            Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION,
+            UserGuide.SingleValue.scheme
+        )
+    })
 
-            OutlinedTextField(unit, { unit = it }, label = {
-                Label(Labels.FIELD_UNIT)
-            })
+    TextSwitch(
+        Labels.SINGLE_VALUE_FORCE_DECIMAL,
+        config.showDecimal,
+        Labels.SINGLE_VALUE_DECIMAL_INFO_TITLE,
+        Labels.SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION,
+        null
+    )
+}
 
-            OutlinedTextField(columnScheme, { columnScheme = it }, singleLine = true, label = {
-                Label(Labels.FIELD_COLUMN_SCHEME)
-            }, modifier = Modifier.onFocusChanged {
-                showSchemeTooltip = it.isFocused
-            }, trailingIcon = {
-                Box {
-                    if (showSchemeTooltip) {
-                        SchemeMatchPopup(columnScheme, dataScheme)
+@Composable
+private fun DummyContent(map: SingleValueDummyMap) {
+    NestedSurface {
+        Column(
+            Modifier.padding(10.dp).fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            for (dummy in map.dummies) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    IntField(
+                        dummy.key.value,
+                        { dummy.key.value = it },
+                        label = { Label(Labels.SINGLE_VALUE_DUMMY_KEY) }
+                    )
+                    Icon(Icons.Default.ArrowRight, null)
+                    OutlinedTextField(
+                        value = dummy.value.value,
+                        onValueChange = { dummy.value.value = it },
+                        label = { Label(Labels.SINGLE_VALUE_DUMMY_VALUE) }
+                    )
+                    IconButton({ map.remove(dummy) }) {
+                        Icon(Icons.Default.Delete, null)
                     }
                 }
-                InfoIconBox(
-                    Labels.SINGLE_VALUE_SCHEME_INFO_TITLE,
-                    Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION,
-                    UserGuide.SingleValue.scheme
-                )
-            })
+            }
 
-            TextSwitch(
-                Labels.SINGLE_VALUE_FORCE_DECIMAL,
-                config.showDecimal,
-                Labels.SINGLE_VALUE_DECIMAL_INFO_TITLE,
-                Labels.SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION,
-                null
-            )
-        } else {
-            OutlinedTextField(prefix, { prefix = it }, label = {
-                Label("")
-            })
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                Button(onClick = { map.add() }) {
+                    Icon(Icons.Default.Add, null)
+                    Label(Labels.ADD)
+                }
+            }
         }
-
-
-        SingleValueIconCard(config.icon)
-
-        ColumnButton(projConfig, id)
     }
 }
 
@@ -160,7 +207,8 @@ fun SchemeMatchPopup(scheme: String, dataScheme: DataScheme) {
 
                 val textColor = LocalContentColor.current
                 Column(
-                    modifier = Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)
+                    modifier = Modifier.padding(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     for (option in dataScheme.options) {
                         for (fieldName in option.fieldsList) {
@@ -168,15 +216,18 @@ fun SchemeMatchPopup(scheme: String, dataScheme: DataScheme) {
 
                             if (match != null) {
                                 val string = buildAnnotatedString {
-                                    val veryLightSpanStyle = SpanStyle(color = textColor.copy(alpha = 0.25F))
-                                    val lightSpanStyle = SpanStyle(color = textColor.copy(alpha = 0.5F))
+                                    val veryLightSpanStyle =
+                                        SpanStyle(color = textColor.copy(alpha = 0.25F))
+                                    val lightSpanStyle =
+                                        SpanStyle(color = textColor.copy(alpha = 0.5F))
                                     val spanStyle = SpanStyle(color = textColor.copy(alpha = 1F))
                                     withStyle(veryLightSpanStyle) {
                                         append(option.name)
                                         append(".")
                                     }
 
-                                    val beforeMatch = fieldName.substring(IntRange(0, match.range.first - 1))
+                                    val beforeMatch =
+                                        fieldName.substring(IntRange(0, match.range.first - 1))
                                     val inMatch = fieldName.substring(match.range)
                                     val afterMatch = fieldName.substring(match.range.last + 1)
 
@@ -237,7 +288,8 @@ fun ColumnButton(projConfig: ProjectConfiguration, id: UUID) {
                         dropdownExpanded = false
                     }) {
                         Column(
-                            verticalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.padding(
+                            verticalArrangement = Arrangement.spacedBy(4.dp),
+                            modifier = Modifier.padding(
                                 top = 10.dp, bottom = 10.dp, start = 4.dp, end = 4.dp
                             )
                         ) {

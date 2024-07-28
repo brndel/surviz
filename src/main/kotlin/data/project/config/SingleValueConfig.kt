@@ -14,12 +14,13 @@ import com.google.gson.JsonSerializer
  * @param icon The icon that is displayed for this single value
  */
 data class SingleValueConfig(
-    val prefix:  MutableState<String> = mutableStateOf(""),
+    val prefix: MutableState<String> = mutableStateOf(""),
     val unit: MutableState<String> = mutableStateOf(""),
     val columnScheme: MutableState<String> = mutableStateOf(""),
     val icon: SingleValueIcon = SingleValueIcon(),
     val showDecimal: MutableState<Boolean> = mutableStateOf(false),
     val isDummy: MutableState<Boolean> = mutableStateOf(false),
+    val dummies: SingleValueDummyMap = SingleValueDummyMap(),
 ) {
     companion object {
         val serializer = JsonSerializer<SingleValueConfig> { value, _, ctx ->
@@ -31,6 +32,7 @@ data class SingleValueConfig(
             obj.add("icon", ctx.serialize(value.icon))
             obj.addProperty("showDecimal", value.showDecimal.value)
             obj.addProperty("isDummy", value.isDummy.value)
+            obj.add("dummyMap", ctx.serialize(value.dummies))
 
             obj
         }
@@ -45,6 +47,10 @@ data class SingleValueConfig(
                 ctx.deserialize<SingleValueIcon>(obj.get("icon"), SingleValueIcon::class.java)
             val showDecimal = obj.get("showDecimal").asBoolean
             val isDummy = obj.get("isDummy").asBoolean
+            val dummies = ctx.deserialize<SingleValueDummyMap>(
+                obj.get("dummies"),
+                SingleValueDummyMap::class.java
+            )
 
             SingleValueConfig(
                 mutableStateOf(prefix),
@@ -53,6 +59,7 @@ data class SingleValueConfig(
                 icon,
                 mutableStateOf(showDecimal),
                 mutableStateOf(isDummy),
+                dummies,
             )
         }
     }
