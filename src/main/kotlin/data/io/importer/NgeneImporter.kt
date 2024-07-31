@@ -1,5 +1,6 @@
 package data.io.importer
 
+import androidx.compose.ui.text.toLowerCase
 import data.project.ProjectData
 import data.project.data.Block
 import data.project.data.DataScheme
@@ -165,7 +166,7 @@ object NgeneImporter : Importer {
         for (option in options) {
             val fields = HashSet<String>()
             for (key in keys) {
-                if (key.startsWith(option)) {
+                if (key.startsWith(option.lowercase())) {
                     fields.add(key.split(".")[1])
                 }
             }
