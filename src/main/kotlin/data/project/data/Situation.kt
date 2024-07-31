@@ -20,9 +20,7 @@ class Situation(
         other as Situation
 
         if (id != other.id) return false
-        if (options != other.options) return false
-
-        return true
+        return options == other.options
     }
 
     override fun hashCode(): Int {

@@ -22,6 +22,14 @@ import ui.Label
 import ui.Labels
 import ui.window.help.HelpEntry
 
+/**
+ * Info icon box
+ * Clickable info icon that shows a popup with title, description and a button to open help entry
+ *
+ * @param title title of the info box
+ * @param desc description of the info box
+ * @param helpEntry link to help entry
+ */
 @Composable
 fun InfoIconBox(title: String, desc: String?, helpEntry: HelpEntry?) {
     val globalCallbacks = LocalGlobalCallbacks.current!!
@@ -48,6 +56,8 @@ fun InfoIconBox(title: String, desc: String?, helpEntry: HelpEntry?) {
                             title,
                             style = TextStyle(fontWeight = FontWeight.Bold)
                         )
+                        // not showing description and button to help entry if values are null
+                        // some info icons don't need description
                         if (desc != null) {
                             Label(desc)
                         }

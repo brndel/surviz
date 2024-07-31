@@ -12,8 +12,19 @@ import androidx.compose.ui.unit.dp
 import ui.Label
 import ui.window.help.HelpEntry
 
+/**
+ * Text switch
+ *
+ * Switch with a label and an info icon. guarantees consistent layout
+ *
+ * @param label main label for switch
+ * @param state state to be modified by switch
+ * @param infoTitleLabel title of info icon
+ * @param infoDescriptionLabel description of info icon
+ * @param helpEntry link to help entry
+ */
 @Composable
-public fun TextSwitch(
+fun TextSwitch(
     label: String,
     state: MutableState<Boolean>,
     infoTitleLabel: String,

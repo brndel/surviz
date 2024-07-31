@@ -12,6 +12,10 @@ import com.google.gson.JsonSerializer
  * @param unit the defined unit of the single value
  * @param columnScheme the defined column scheme that is used for finding the right Ngene columns of the single value in the class SchemeColumns.
  * @param icon The icon that is displayed for this single value
+ * @param showDecimal defines if decimal places should be shown regardless of the value
+ * @param isDummy defines if the single value contains dummy values
+ * @param hasDivider defines if a divider should be shown
+ * @param dividerLength defines the length of the divider
  */
 data class SingleValueConfig(
     val prefix:  MutableState<String> = mutableStateOf(""),

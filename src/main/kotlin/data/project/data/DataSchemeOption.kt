@@ -26,9 +26,7 @@ class DataSchemeOption(
         other as DataSchemeOption
 
         if (name != other.name) return false
-        if (fields != other.fields) return false
-
-        return true
+        return fields == other.fields
     }
 
     override fun hashCode(): Int {

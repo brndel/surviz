@@ -22,6 +22,17 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.Properties
 
+/**
+ * Settings window
+ *
+ * @param onCloseRequest close request callback
+ * @param settingsFilePath path to settings file
+ * @param language current language
+ * @param isDarkMode current theme state
+ * @param has999 current state of 999 mode
+ * @param value999 current value of 999 mode
+ * @receiver
+ */
 @Composable
 fun SettingsWindow(
     onCloseRequest: () -> Unit,
@@ -59,6 +70,16 @@ fun SettingsWindow(
     }
 }
 
+/**
+ * Save settings
+ * write all program settings to given file
+ *
+ * @param path file path
+ * @param language current language
+ * @param darkMode
+ * @param has999
+ * @param value999
+ */
 fun saveSettings(path: String, language: Language, darkMode: Boolean, has999: Boolean, value999: Double) {
     val file = File(path)
 

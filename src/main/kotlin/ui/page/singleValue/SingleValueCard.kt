@@ -94,6 +94,7 @@ private fun RowScope.SingleValueCardContent(
 
     Column(Modifier.weight(1F), verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
+        // ********** switch for dummy values **********
         TextSwitch("", config.isDummy, "", "", null)
 
         if (!config.isDummy.value) {
@@ -158,7 +159,6 @@ private fun RowScope.SingleValueCardContent(
                 Label("")
             })
         }
-
 
         SingleValueIconCard(config.icon)
 

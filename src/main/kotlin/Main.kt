@@ -354,15 +354,65 @@ fun ApplicationScope.MainWindow(
 }
 
 interface GlobalCallbacks {
+    /**
+     * Load project from file
+     *
+     * @param filePath path to file
+     */
     fun loadProject(filePath: String? = null)
+
+    /**
+     * Create project from file
+     *
+     * @param filePath path to file
+     */
     fun createProject(filePath: String? = null)
+
+    /**
+     * Save project to file
+     *
+     * @param filePath path to file
+     */
     fun saveProject(filePath: String? = null)
     fun saveProjectAs()
     fun closeProject()
+
+    /**
+     * Open settings window
+     *
+     */
     fun openSettings()
+
+    /**
+     * Open help window
+     *
+     * @param focusedEntry entry to show when opened
+     */
     fun openHelp(focusedEntry: HelpEntry? = null)
+
+    /**
+     * Load data
+     * tries to loads new data from file to current project
+     *
+     * @param filePath path to file
+     * @return data if it was able to load
+     */
     fun loadData(filePath: String? = null): ProjectData?
+
+    /**
+     * Force load data
+     * like [loadData] but does not check for compatibility
+     *
+     * @param projectData data to load
+     */
     fun forceLoadData(projectData: ProjectData)
+
+    /**
+     * Set status label
+     *
+     * @param label
+     * @param type
+     */
     fun setStatusLabel(label: String, type: StatusMessageType = StatusMessageType.Info)
     fun has999Value(): Boolean
     fun get999Value(): Double

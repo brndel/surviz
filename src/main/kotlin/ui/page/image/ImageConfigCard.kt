@@ -44,6 +44,7 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                // ********** Header **********
                 Icon(Icons.Default.Tune, contentDescription = null)
                 Label(
                     Labels.EXPORT_IMAGE_SETTINGS,
@@ -52,9 +53,12 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
                 )
             }
 
+            // ********** Image Width **********
             IntField(width, { width = it }, maxValue = 5000) {
                 Text(LocalLanguage.current.getString(Labels.EXPORT_IMAGE_CONFIG_WIDTH))
             }
+
+            // ********** Timeline scale **********
             Row(
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -84,11 +88,14 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
                 }
             )
 
+            // ********** Background Color **********
             ColorField(backgroundColor, {
                 backgroundColor = it
             }, label = {
                 Label(Labels.EXPORT_IMAGE_CONFIG_BACKGROUND_COLOR)
             })
+
+            // ********** Alpha for single values **********
             Row(
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalAlignment = Alignment.CenterVertically

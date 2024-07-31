@@ -43,9 +43,7 @@ class Block(
         other as Block
 
         if (id != other.id) return false
-        if (situations != other.situations) return false
-
-        return true
+        return situations == other.situations
     }
 
     override fun hashCode(): Int {
