@@ -97,7 +97,7 @@ fun SettingsWindowContent(
                         modifier = Modifier.padding(10.dp),
                         horizontalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
-                        Icon(Icons.Default.MoreHoriz, null, tint = MaterialTheme.colors.primary)
+                        Icon(Icons.Default.FileDownloadOff, null, tint = MaterialTheme.colors.primary)
                         Column(
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
