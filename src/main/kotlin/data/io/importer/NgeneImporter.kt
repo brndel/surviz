@@ -191,7 +191,7 @@ object NgeneImporter : Importer {
             // get all indices for the alternative
             val indices = ArrayList<LinkedHashMap<String, Int>>()
             for (key in keys) {
-                if (key.startsWith(alternative)) {
+                if (key.startsWith(alternative.lowercase())) {
                     val index = LinkedHashMap<String, Int>()
                     index[key] = keys.indexOf(key)
                     indices.add(index)
