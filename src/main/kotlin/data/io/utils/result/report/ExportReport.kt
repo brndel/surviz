@@ -27,6 +27,13 @@ abstract class ExportReport(
      * @param project the project the fix should be made in
      */
     open fun applyFix(project: Project) {}
+
+    /**
+     * Has fix
+     *
+     * @return if the report has a fix
+     */
+    open fun hasFix(): Boolean = false
 }
 
 

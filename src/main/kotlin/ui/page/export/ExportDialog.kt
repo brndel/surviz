@@ -1,7 +1,11 @@
 package ui.page.export
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
@@ -12,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,6 +28,7 @@ import ui.Label
 import ui.Labels
 import ui.Language
 import ui.LocalLanguage
+import ui.util.NestedSurface
 import java.awt.Desktop
 import java.nio.file.Path
 
@@ -66,6 +72,7 @@ fun ExportDialog(
         onDismissRequest = onDismissRequest,
         title = {
             Row(
+                modifier = Modifier.padding(10.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
@@ -103,19 +110,19 @@ fun ExportDialog(
                 },
                 enabled = confirmClickable
             ) {
-                Label(Labels.EXPORT_DIALOG_APPLY_FIX)
+                Label(Labels.EXPORT_DIALOG_FIX_ALL)
             }
         },
         text = {
             for (report in reportList) {
-                ShowReport(report)
+                ShowReport(report, project)
             }
         },
     )
 }
 
 @Composable
-fun ShowReport(report: ExportReport) {
+fun ShowReport(report: ExportReport, project: Project) {
     val language: Language = LocalLanguage.current
 
     val blockId: Int? = report.id?.block
@@ -126,15 +133,33 @@ fun ShowReport(report: ExportReport) {
     val info = report.info
     val unit = report.unit
 
-    Text(
-        buildString {
-            append(blockId?.let { "${language.getString(Labels.BLOCK)} $it" } ?: "")
-            append(situationId?.let { ", ${language.getString(Labels.SITUATION)} $it" } ?: "")
-            append(optionId?.let { ", ${language.getString(Labels.OPTION)} $it" } ?: "")
-            append(if (blockId != null) ": " else "")
-            append(label)
-            append(if (info != null) ": $info" else " ")
-            append(unit)
+    NestedSurface(modifier = Modifier.padding(10.dp).fillMaxWidth()) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                buildString {
+                    append(blockId?.let { "${language.getString(Labels.BLOCK)} $it" } ?: "")
+                    append(situationId?.let { ", ${language.getString(Labels.SITUATION)} $it" }
+                        ?: "")
+                    append(optionId?.let { ", ${language.getString(Labels.OPTION)} $it" } ?: "")
+                    append(if (blockId != null) ": " else "")
+                    append(label)
+                    append(if (info != null) ": $info" else " ")
+                    append(unit)
+                }
+            )
+            if (report.hasFix()) {
+                Button(
+                    onClick = {
+                        report.applyFix(project)
+                    },
+                ) {
+                    Label(Labels.EXPORT_DIALOG_APPLY_FIX)
+                }
+            }
         }
-    )
+    }
 }

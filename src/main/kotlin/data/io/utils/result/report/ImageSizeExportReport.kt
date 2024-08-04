@@ -23,4 +23,6 @@ class ImageSizeExportReport(id: OptionId, info: Int) :
     override fun applyFix(project: Project) {
         project.configuration.imageConfig.width.value = info.toString().toInt()
     }
+
+    override fun hasFix(): Boolean = true
 }

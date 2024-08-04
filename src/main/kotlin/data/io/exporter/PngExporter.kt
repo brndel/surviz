@@ -260,7 +260,8 @@ object PngExporter : Exporter {
                 async {
                     if (config.has999 && !option.containsValue(config.value999)) {
                         saveOption(option, situation.id, blockId, config)
-                    }
+                    } else
+                        null
                 }
             }.awaitAll()
         }
