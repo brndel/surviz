@@ -326,9 +326,15 @@ class ImageGenerator(
             val count = index + 1
             val size = properties.getProperty("single_value_size").toFloat()
 
+            val text = if (singleValueConfig.isDummy.value) {
+                singleValueConfig.dummies.get(value.toInt())
+            } else {
+                "$prefix$printedValue $unit"
+            }
+
             val x = padding.toFloat() + (size * count) - (size / 2)
             drawText(
-                canvas, "$prefix$printedValue $unit",
+                canvas, text,
                 newColor,
                 Offset(
                     x,

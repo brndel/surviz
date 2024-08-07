@@ -18,12 +18,13 @@ import com.google.gson.JsonSerializer
  * @param dividerLength defines the length of the divider
  */
 data class SingleValueConfig(
-    val prefix:  MutableState<String> = mutableStateOf(""),
+    val prefix: MutableState<String> = mutableStateOf(""),
     val unit: MutableState<String> = mutableStateOf(""),
     val columnScheme: MutableState<String> = mutableStateOf(""),
     val icon: SingleValueIcon = SingleValueIcon(),
     val showDecimal: MutableState<Boolean> = mutableStateOf(false),
     val isDummy: MutableState<Boolean> = mutableStateOf(false),
+    val dummies: SingleValueDummyMap = SingleValueDummyMap(),
     val hasDivider: MutableState<Boolean> = mutableStateOf(false),
     val dividerLength: MutableState<Float> = mutableStateOf(80f),
 ) {
@@ -39,6 +40,7 @@ data class SingleValueConfig(
             obj.addProperty("isDummy", value.isDummy.value)
             obj.addProperty("hasDivider", value.hasDivider.value)
             obj.addProperty("dividerLength", value.dividerLength.value)
+            obj.add("dummyMap", ctx.serialize(value.dummies))
 
             obj
         }
@@ -55,6 +57,10 @@ data class SingleValueConfig(
             val isDummy = obj.get("isDummy").asBoolean
             val hasDivider = obj.get("hasDivider").asBoolean
             val dividerLength = obj.get("dividerLength").asFloat
+            val dummies = ctx.deserialize<SingleValueDummyMap>(
+                obj.get("dummyMap"),
+                SingleValueDummyMap::class.java
+            )
 
             SingleValueConfig(
                 mutableStateOf(prefix),
@@ -63,8 +69,9 @@ data class SingleValueConfig(
                 icon,
                 mutableStateOf(showDecimal),
                 mutableStateOf(isDummy),
+                dummies,
                 mutableStateOf(hasDivider),
-                mutableStateOf(dividerLength)
+                mutableStateOf(dividerLength),
             )
         }
     }

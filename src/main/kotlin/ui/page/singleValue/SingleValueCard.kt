@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowRight
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.ViewWeek
@@ -21,9 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import data.project.config.ProjectConfiguration
 import data.project.config.SingleValueConfig
+import data.project.config.SingleValueDummyMap
 import data.project.config.SituationConfig
 import data.project.config.columns.*
 import data.project.data.DataScheme
+import data.resources.fields.IntFieldData
 import org.burnoutcrew.reorderable.ReorderableState
 import ui.Label
 import ui.Labels
@@ -86,83 +90,126 @@ fun SingleValueCard(
 private fun RowScope.SingleValueCardContent(
     config: SingleValueConfig, projConfig: ProjectConfiguration, id: UUID, dataScheme: DataScheme
 ) {
-    var prefix by config.prefix
-    var unit by config.unit
     var columnScheme by config.columnScheme
 
     var showSchemeTooltip by remember { mutableStateOf(false) }
 
     Column(Modifier.weight(1F), verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
-        // ********** switch for dummy values **********
-        TextSwitch("", config.isDummy, "", "", null)
+        TextSwitch(Labels.SINGLE_VALUE_DUMMY_SWITCH, config.isDummy, "", "", null)
 
-        if (!config.isDummy.value) {
-            OutlinedTextField(prefix, { prefix = it }, label = {
-                Label(Labels.FIELD_PREFIX)
-            })
-
-            OutlinedTextField(unit, { unit = it }, label = {
-                Label(Labels.FIELD_UNIT)
-            })
-
-            OutlinedTextField(columnScheme, { columnScheme = it }, singleLine = true, label = {
-                Label(Labels.FIELD_COLUMN_SCHEME)
-            }, modifier = Modifier.onFocusChanged {
-                showSchemeTooltip = it.isFocused
-            }, trailingIcon = {
-                Box {
-                    if (showSchemeTooltip) {
-                        SchemeMatchPopup(columnScheme, dataScheme)
-                    }
-                }
-                InfoIconBox(
-                    Labels.SINGLE_VALUE_SCHEME_INFO_TITLE,
-                    Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION,
-                    UserGuide.SingleValue.scheme
-                )
-            })
-
-            TextSwitch(
-                Labels.SINGLE_VALUE_FORCE_DECIMAL,
-                config.showDecimal,
-                Labels.SINGLE_VALUE_DECIMAL_INFO_TITLE,
-                Labels.SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION,
-                null
-            )
-            NestedSurface {
-                Column(
-                    Modifier.padding(10.dp).fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    TextSwitch(
-                        Labels.SINGLE_VALUE_DIVIDER,
-                        config.hasDivider,
-                        Labels.SINGLE_VALUE_DIVIDER_TITLE,
-                        null,
-                        null
-                    )
-                    if (config.hasDivider.value) {
-                       IntField(
-                           config.dividerLength.value.toInt(),
-                           onValueChange = {
-                               config.dividerLength.value = it.toFloat()
-                           }
-                       ) {
-                           Label(Labels.SINGLE_VALUE_DIVIDER_LENGTH)
-                       }
-                    }
+        OutlinedTextField(columnScheme, { columnScheme = it }, singleLine = true, label = {
+            Label(Labels.FIELD_COLUMN_SCHEME)
+        }, modifier = Modifier.onFocusChanged {
+            showSchemeTooltip = it.isFocused
+        }, trailingIcon = {
+            Box {
+                if (showSchemeTooltip) {
+                    SchemeMatchPopup(columnScheme, dataScheme)
                 }
             }
+            InfoIconBox(
+                Labels.SINGLE_VALUE_SCHEME_INFO_TITLE,
+                Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION,
+                UserGuide.SingleValue.scheme
+            )
+        })
+
+        if (!config.isDummy.value) {
+            NormalSingleValueContent(config, dataScheme)
         } else {
-            OutlinedTextField(prefix, { prefix = it }, label = {
-                Label("")
-            })
+            DummyContent(config.dummies)
         }
 
         SingleValueIconCard(config.icon)
 
         ColumnButton(projConfig, id)
+    }
+}
+
+@Composable
+private fun NormalSingleValueContent(config: SingleValueConfig, dataScheme: DataScheme) {
+    var prefix by config.prefix
+    var unit by config.unit
+
+    OutlinedTextField(prefix, { prefix = it }, label = {
+        Label(Labels.FIELD_PREFIX)
+    })
+
+    OutlinedTextField(unit, { unit = it }, label = {
+        Label(Labels.FIELD_UNIT)
+    })
+
+    TextSwitch(
+        Labels.SINGLE_VALUE_FORCE_DECIMAL,
+        config.showDecimal,
+        Labels.SINGLE_VALUE_DECIMAL_INFO_TITLE,
+        Labels.SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION,
+        null
+    )
+
+    NestedSurface {
+        Column(
+            Modifier.padding(10.dp).fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            TextSwitch(
+                Labels.SINGLE_VALUE_DIVIDER,
+                config.hasDivider,
+                Labels.SINGLE_VALUE_DIVIDER_TITLE,
+                null,
+                null
+            )
+            if (config.hasDivider.value) {
+                IntField(
+                    config.dividerLength.value.toInt(),
+                    onValueChange = {
+                        config.dividerLength.value = it.toFloat()
+                    }
+                ) {
+                    Label(Labels.SINGLE_VALUE_DIVIDER_LENGTH)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun DummyContent(map: SingleValueDummyMap) {
+    NestedSurface {
+        Column(
+            Modifier.padding(10.dp).fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            for (dummy in map.dummies) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    IntField(
+                        dummy.key.value,
+                        { dummy.key.value = it },
+                        label = { Label(Labels.SINGLE_VALUE_DUMMY_KEY) }
+                    )
+                    Icon(Icons.Default.ArrowRight, null)
+                    OutlinedTextField(
+                        value = dummy.value.value,
+                        onValueChange = { dummy.value.value = it },
+                        label = { Label(Labels.SINGLE_VALUE_DUMMY_VALUE) }
+                    )
+                    IconButton({ map.remove(dummy) }) {
+                        Icon(Icons.Default.Delete, null)
+                    }
+                }
+            }
+
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                Button(onClick = { map.add() }) {
+                    Icon(Icons.Default.Add, null)
+                    Label(Labels.ADD)
+                }
+            }
+        }
     }
 }
 

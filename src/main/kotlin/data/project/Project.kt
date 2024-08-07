@@ -44,24 +44,27 @@ data class Project(
         return data.value.getBlocks()
     }
 
-    fun getMaxBlockID(): Int{
+    fun getMaxBlockID(): Int {
         return data.value.getMaxBlockID()
     }
 
-    fun getMaxSituationID(id : Int): Int{
+    fun getMaxSituationID(id: Int): Int {
         return data.value.getMaxSituationID(id)
     }
 
-    fun isValidBlockID(blockId : Int): Boolean{
+    fun isValidBlockID(blockId: Int): Boolean {
         return data.value.getBlock(blockId) != null
     }
-    fun isValidSituationID(blockId : Int, situationId : Int): Boolean{
+
+    fun isValidSituationID(blockId: Int, situationId: Int): Boolean {
         return data.value.getBlock(blockId)?.getSituation(situationId) != null
     }
-    fun hasReachedMax(blockId : Int, situationId : Int): Boolean{
+
+    fun hasReachedMax(blockId: Int, situationId: Int): Boolean {
         return blockId == getMaxBlockID() && situationId == getMaxSituationID(blockId)
     }
-    fun hasReachedMin(blockId : Int, situationId : Int): Boolean{
+
+    fun hasReachedMin(blockId: Int, situationId: Int): Boolean {
         return blockId == 1 && situationId == 1
     }
 
@@ -164,7 +167,12 @@ data class Project(
         fun newProjectWithData(data: ProjectData): Project {
             val config = ProjectConfiguration()
             config.addSingleValue()
-            return Project(mutableStateOf(data), mutableStateOf(data.dataScheme), config, IconStorage())
+            return Project(
+                mutableStateOf(data),
+                mutableStateOf(data.dataScheme),
+                config,
+                IconStorage()
+            )
         }
 
         /**
@@ -189,8 +197,14 @@ data class Project(
                 .registerTypeAdapter(IconStorage::class.java, IconStorage.serializer)
                 .registerTypeAdapter(IconStorage::class.java, IconStorage.deserializer)
                 // Project Config
-                .registerTypeAdapter(ProjectConfiguration::class.java, ProjectConfiguration.serializer)
-                .registerTypeAdapter(ProjectConfiguration::class.java, ProjectConfiguration.deserializer)
+                .registerTypeAdapter(
+                    ProjectConfiguration::class.java,
+                    ProjectConfiguration.serializer
+                )
+                .registerTypeAdapter(
+                    ProjectConfiguration::class.java,
+                    ProjectConfiguration.deserializer
+                )
                 .registerTypeAdapter(SingleValueConfig::class.java, SingleValueConfig.serializer)
                 .registerTypeAdapter(SingleValueConfig::class.java, SingleValueConfig.deserializer)
                 .registerTypeAdapter(SingleValueIcon::class.java, SingleValueIcon.serializer)
@@ -203,6 +217,16 @@ data class Project(
                     SingleValueIconLevel::class.java,
                     SingleValueIconLevel.deserializer
                 )
+                .registerTypeAdapter(
+                    SingleValueDummyMap::class.java,
+                    SingleValueDummyMap.serializer
+                )
+                .registerTypeAdapter(
+                    SingleValueDummyMap::class.java,
+                    SingleValueDummyMap.deserializer
+                )
+                .registerTypeAdapter(SingleValueDummy::class.java, SingleValueDummy.serializer)
+                .registerTypeAdapter(SingleValueDummy::class.java, SingleValueDummy.deserializer)
                 .registerTypeAdapter(ImageConfig::class.java, ImageConfig.serializer)
                 .registerTypeAdapter(ImageConfig::class.java, ImageConfig.deserializer)
                 .registerTypeAdapter(SituationConfig::class.java, SituationConfig.serializer)
@@ -235,15 +259,20 @@ data class Project(
         private val deserializer = JsonDeserializer<Project> { element, _, ctx ->
             val obj = element.asJsonObject ?: throw CorruptFileException()
 
-            val version = if(obj.has("version")) obj.get("version").asString else null
+            val version = if (obj.has("version")) obj.get("version").asString else null
             if (version == null || version != VERSION) {
                 throw InvalidVersionException(version ?: "null", VERSION)
             }
 
             val configuration =
-                ctx.deserialize<ProjectConfiguration>(obj.get("configuration"), ProjectConfiguration::class.java)
-            val dataScheme = ctx.deserialize<DataScheme>(obj.get("dataScheme"), DataScheme::class.java)
-            val iconStorage = ctx.deserialize<IconStorage>(obj.get("iconStorage"), IconStorage::class.java)
+                ctx.deserialize<ProjectConfiguration>(
+                    obj.get("configuration"),
+                    ProjectConfiguration::class.java
+                )
+            val dataScheme =
+                ctx.deserialize<DataScheme>(obj.get("dataScheme"), DataScheme::class.java)
+            val iconStorage =
+                ctx.deserialize<IconStorage>(obj.get("iconStorage"), IconStorage::class.java)
             val data = ctx.deserialize<ProjectData>(obj.get("data"), ProjectData::class.java)
 
             Project(
