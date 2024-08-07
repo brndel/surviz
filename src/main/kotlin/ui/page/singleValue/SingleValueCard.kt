@@ -98,6 +98,7 @@ private fun RowScope.SingleValueCardContent(
 
         TextSwitch(Labels.SINGLE_VALUE_DUMMY_SWITCH, config.isDummy, "", "", null)
 
+
         OutlinedTextField(columnScheme, { columnScheme = it }, singleLine = true, label = {
             Label(Labels.FIELD_COLUMN_SCHEME)
         }, modifier = Modifier.onFocusChanged {
@@ -147,6 +148,7 @@ private fun NormalSingleValueContent(config: SingleValueConfig, dataScheme: Data
         Labels.SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION,
         null
     )
+
 
     NestedSurface {
         Column(

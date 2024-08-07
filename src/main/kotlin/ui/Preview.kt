@@ -143,11 +143,7 @@ fun Preview(project: Project) {
 
                                 if (callbacks.has999Value()) {
                                     if (option.containsValue(callbacks.get999Value())) {
-                                        Value999Warning(modifier = Modifier.align(Alignment.TopStart).padding(4.dp)) {
-                                            if (state.isScrollInProgress) {
-                                                it()
-                                            }
-                                        }
+                                        Value999Warning(modifier = Modifier.align(Alignment.TopStart).padding(10.dp))
                                     }
                                 }
 
@@ -219,7 +215,7 @@ private fun PreviewWarning(modifier: Modifier = Modifier, neededWidth: Int, onSc
 }
 
 @Composable
-private fun Value999Warning(modifier: Modifier = Modifier, onScrollStateChange: (() -> Unit) -> Unit) {
+private fun Value999Warning(modifier: Modifier = Modifier) {
     Box(modifier) {
         Icon(Icons.Default.FileDownloadOff, null, tint = MaterialTheme.colors.secondary)
     }

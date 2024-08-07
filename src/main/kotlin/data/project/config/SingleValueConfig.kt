@@ -14,6 +14,7 @@ import com.google.gson.JsonSerializer
  * @param icon The icon that is displayed for this single value
  * @param showDecimal defines if decimal places should be shown regardless of the value
  * @param isDummy defines if the single value contains dummy values
+ * @param dummies stores all [SingleValueDummy]s
  * @param hasDivider defines if a divider should be shown
  * @param dividerLength defines the length of the divider
  */

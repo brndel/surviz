@@ -9,11 +9,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.FolderOpen
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -90,14 +94,27 @@ fun ExportDialog(
                     },
                     enabled = desktop.isSupported(Desktop.Action.OPEN)
                 ) {
-                    Label(Labels.EXPORT_DIALOG_OPEN_FOLDER)
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Label(Labels.EXPORT_DIALOG_OPEN_FOLDER)
+                        Icon(Icons.Default.FolderOpen, null)
+                    }
+
                 }
             }
             Button(
                 onClick = {
                     onDismissRequest()
                 }) {
-                Label(Labels.OK)
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Label(Labels.OK)
+                    Icon(Icons.Default.Check, null)
+                }
             }
         },
         confirmButton = {
@@ -110,12 +127,23 @@ fun ExportDialog(
                 },
                 enabled = confirmClickable
             ) {
-                Label(Labels.EXPORT_DIALOG_FIX_ALL)
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Label(Labels.EXPORT_DIALOG_FIX_ALL)
+                    Icon(Icons.Default.Build, null)
+                }
             }
         },
         text = {
-            for (report in reportList) {
-                ShowReport(report, project)
+            Column {
+                reportList.forEachIndexed { index, report ->
+                    if (index > 0) {
+                        Divider(modifier = Modifier.padding(vertical = 8.dp))
+                    }
+                    ShowReport(report, project)
+                }
             }
         },
     )
@@ -133,31 +161,37 @@ fun ShowReport(report: ExportReport, project: Project) {
     val info = report.info
     val unit = report.unit
 
-    NestedSurface(modifier = Modifier.padding(10.dp).fillMaxWidth()) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                buildString {
-                    append(blockId?.let { "${language.getString(Labels.BLOCK)} $it" } ?: "")
-                    append(situationId?.let { ", ${language.getString(Labels.SITUATION)} $it" }
-                        ?: "")
-                    append(optionId?.let { ", ${language.getString(Labels.OPTION)} $it" } ?: "")
-                    append(if (blockId != null) ": " else "")
-                    append(label)
-                    append(if (info != null) ": $info" else " ")
-                    append(unit)
-                }
-            )
-            if (report.hasFix()) {
-                Button(
-                    onClick = {
-                        report.applyFix(project)
-                    },
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = buildString {
+                append(blockId?.let { "${language.getString(Labels.BLOCK)} $it" } ?: "")
+                append(situationId?.let { ", ${language.getString(Labels.SITUATION)} $it" }
+                    ?: "")
+                append(optionId?.let { ", ${language.getString(Labels.OPTION)} $it" } ?: "")
+                append(if (blockId != null) ": " else "")
+                append(label)
+                append(if (info != null) ": $info" else " ")
+                append(unit)
+            },
+            color = MaterialTheme.colors.onBackground
+        )
+        if (report.hasFix()) {
+            Button(
+                onClick = {
+                    report.applyFix(project)
+                },
+                modifier = Modifier.padding(4.dp)
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Label(Labels.EXPORT_DIALOG_APPLY_FIX)
+                    Icon(Icons.Default.Build, null)
                 }
             }
         }
