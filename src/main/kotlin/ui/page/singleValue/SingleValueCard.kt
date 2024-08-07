@@ -90,9 +90,30 @@ fun SingleValueCard(
 private fun RowScope.SingleValueCardContent(
     config: SingleValueConfig, projConfig: ProjectConfiguration, id: UUID, dataScheme: DataScheme
 ) {
+    var columnScheme by config.columnScheme
+
+    var showSchemeTooltip by remember { mutableStateOf(false) }
+
     Column(Modifier.weight(1F), verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
         TextSwitch(Labels.SINGLE_VALUE_DUMMY_SWITCH, config.isDummy, "", "", null)
+
+        OutlinedTextField(columnScheme, { columnScheme = it }, singleLine = true, label = {
+            Label(Labels.FIELD_COLUMN_SCHEME)
+        }, modifier = Modifier.onFocusChanged {
+            showSchemeTooltip = it.isFocused
+        }, trailingIcon = {
+            Box {
+                if (showSchemeTooltip) {
+                    SchemeMatchPopup(columnScheme, dataScheme)
+                }
+            }
+            InfoIconBox(
+                Labels.SINGLE_VALUE_SCHEME_INFO_TITLE,
+                Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION,
+                UserGuide.SingleValue.scheme
+            )
+        })
 
         if (!config.isDummy.value) {
             NormalSingleValueContent(config, dataScheme)
@@ -110,9 +131,6 @@ private fun RowScope.SingleValueCardContent(
 private fun NormalSingleValueContent(config: SingleValueConfig, dataScheme: DataScheme) {
     var prefix by config.prefix
     var unit by config.unit
-    var columnScheme by config.columnScheme
-
-    var showSchemeTooltip by remember { mutableStateOf(false) }
 
     OutlinedTextField(prefix, { prefix = it }, label = {
         Label(Labels.FIELD_PREFIX)
@@ -120,23 +138,6 @@ private fun NormalSingleValueContent(config: SingleValueConfig, dataScheme: Data
 
     OutlinedTextField(unit, { unit = it }, label = {
         Label(Labels.FIELD_UNIT)
-    })
-
-    OutlinedTextField(columnScheme, { columnScheme = it }, singleLine = true, label = {
-        Label(Labels.FIELD_COLUMN_SCHEME)
-    }, modifier = Modifier.onFocusChanged {
-        showSchemeTooltip = it.isFocused
-    }, trailingIcon = {
-        Box {
-            if (showSchemeTooltip) {
-                SchemeMatchPopup(columnScheme, dataScheme)
-            }
-        }
-        InfoIconBox(
-            Labels.SINGLE_VALUE_SCHEME_INFO_TITLE,
-            Labels.SINGLE_VALUE_SCHEME_INFO_DESCRIPTION,
-            UserGuide.SingleValue.scheme
-        )
     })
 
     TextSwitch(
