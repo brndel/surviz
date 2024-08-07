@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -143,7 +144,13 @@ fun Preview(project: Project) {
 
                                 if (callbacks.has999Value()) {
                                     if (option.containsValue(callbacks.get999Value())) {
-                                        Value999Warning(modifier = Modifier.align(Alignment.TopStart).padding(10.dp))
+                                        Value999Warning(
+                                            modifier = Modifier.align(Alignment.TopStart)
+                                        ) {
+                                            if (state.isScrollInProgress) {
+                                                it()
+                                            }
+                                        }
                                     }
                                 }
 
@@ -179,18 +186,67 @@ fun Preview(project: Project) {
 }
 
 @Composable
-private fun PreviewWarning(modifier: Modifier = Modifier, neededWidth: Int, onScrollStateChange: (() -> Unit) -> Unit) {
+private fun PreviewWarning(
+    modifier: Modifier = Modifier,
+    neededWidth: Int,
+    onScrollStateChange: (() -> Unit) -> Unit
+) {
+    IconPopUp(
+        modifier = modifier,
+        icon = { Icon(Icons.Default.Warning, null, tint = MaterialTheme.colors.error) },
+        onScrollStateChange,
+        Alignment.CenterEnd
+    ) {
+        Label(
+            Labels.PREVIEW_WARNING_TITLE,
+            style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colors.error
+            )
+        )
+        Label(Labels.PREVIEW_WARNING_DESCRIPTION)
+        Text("$neededWidth px", style = TextStyle(fontWeight = FontWeight.Bold))
+        Label(Labels.PREVIEW_WARNING_FIX)
+    }
+}
+
+@Composable
+private fun Value999Warning(
+    modifier: Modifier = Modifier,
+    onScrollStateChange: (() -> Unit) -> Unit
+) {
+    IconPopUp(
+        modifier = modifier,
+        icon = { Icon(Icons.Default.FileDownloadOff, null, tint = MaterialTheme.colors.secondary) },
+        onScrollStateChange,
+        Alignment.CenterStart
+    ) {
+        Label(
+            Labels.PREVIEW_999_TITLE,
+            style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colors.secondaryVariant
+            )
+        )
+        Label(Labels.PREVIEW_999_DESCRIPTION)
+    }
+}
+
+@Composable
+private fun IconPopUp(
+    modifier: Modifier,
+    icon: @Composable () -> Unit,
+    onScrollStateChange: (() -> Unit) -> Unit,
+    popUpAlignment: Alignment,
+    content: @Composable () -> Unit
+) {
     var showPopUp by remember { mutableStateOf(false) }
     onScrollStateChange { showPopUp = false }
     Box(modifier) {
-        IconButton({ showPopUp = true }) {
-            Icon(Icons.Default.Warning, null, tint = MaterialTheme.colors.error)
-        }
+        IconButton({ showPopUp = true }) { icon() }
         if (showPopUp) {
-            Popup(
-                alignment = Alignment.CenterEnd,
-                onDismissRequest = { showPopUp = false }
-            ) {
+            Popup(alignment = popUpAlignment,
+                onDismissRequest = { showPopUp = false }) {
                 Surface(
                     color = MaterialTheme.colors.surface,
                     shape = RoundedCornerShape(4.dp),
@@ -200,23 +256,10 @@ private fun PreviewWarning(modifier: Modifier = Modifier, neededWidth: Int, onSc
                         modifier = Modifier.padding(10.dp),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        Label(
-                            Labels.PREVIEW_WARNING_TITLE,
-                            style = TextStyle(fontWeight = FontWeight.Bold, color = MaterialTheme.colors.error)
-                        )
-                        Label(Labels.PREVIEW_WARNING_DESCRIPTION)
-                        Text("$neededWidth px", style = TextStyle(fontWeight = FontWeight.Bold))
-                        Label(Labels.PREVIEW_WARNING_FIX)
+                        content()
                     }
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun Value999Warning(modifier: Modifier = Modifier) {
-    Box(modifier) {
-        Icon(Icons.Default.FileDownloadOff, null, tint = MaterialTheme.colors.secondary)
     }
 }

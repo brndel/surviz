@@ -96,7 +96,7 @@ private fun RowScope.SingleValueCardContent(
 
     Column(Modifier.weight(1F), verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
-        TextSwitch(Labels.SINGLE_VALUE_DUMMY_SWITCH, config.isDummy, "", "", null)
+        TextSwitch(Labels.SINGLE_VALUE_DUMMY_SWITCH, config.isDummy, Labels.SINGLE_VALUE_DUMMY_INFO_TITLE, Labels.SINGLE_VALUE_DUMMY_INFO_DESCRIPTION, null)
 
 
         OutlinedTextField(columnScheme, { columnScheme = it }, singleLine = true, label = {
@@ -117,7 +117,7 @@ private fun RowScope.SingleValueCardContent(
         })
 
         if (!config.isDummy.value) {
-            NormalSingleValueContent(config, dataScheme)
+            NormalSingleValueContent(config)
         } else {
             DummyContent(config.dummies)
         }
@@ -129,7 +129,7 @@ private fun RowScope.SingleValueCardContent(
 }
 
 @Composable
-private fun NormalSingleValueContent(config: SingleValueConfig, dataScheme: DataScheme) {
+private fun NormalSingleValueContent(config: SingleValueConfig) {
     var prefix by config.prefix
     var unit by config.unit
 

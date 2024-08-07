@@ -280,6 +280,12 @@ object Labels {
     const val PREVIEW_WARNING_TITLE = "PREVIEW_WARNING_TITLE"
     const val PREVIEW_WARNING_DESCRIPTION = "PREVIEW_WARNING_DESCRIPTION"
     const val PREVIEW_WARNING_FIX = "PREVIEW_WARNING_FIX"
+
+    const val PREVIEW_999_TITLE = "PREVIEW_999_TITLE"
+    const val PREVIEW_999_DESCRIPTION = "PREVIEW_999_DESCRIPTION"
+
+    const val SINGLE_VALUE_DUMMY_INFO_TITLE = "SINGLE_VALUE_DUMMY_INFO_TITLE"
+    const val SINGLE_VALUE_DUMMY_INFO_DESCRIPTION = "SINGLE_VALUE_DUMMY_INFO_DESCRIPTION"
     /*
     #########################################   MISC/ERROR LABELS   ####################################################
     */
@@ -567,6 +573,12 @@ enum class Language(
             Labels.PREVIEW_WARNING_DESCRIPTION to "The image is not wide enough to fit all content.\nWidth needed:",
             Labels.PREVIEW_WARNING_FIX to "Change image configuration to fix this.",
 
+            Labels.PREVIEW_999_TITLE to "Option contains \"999 Value\"",
+            Labels.PREVIEW_999_DESCRIPTION to "This option contains the configured \"999 Value\" \nand will therefore not be exported",
+
+            Labels.SINGLE_VALUE_DUMMY_INFO_TITLE to "Sets this Single Value as a dummy",
+            Labels.SINGLE_VALUE_DUMMY_INFO_DESCRIPTION to "Single Values in dummy mode allow the user\nto map the contained values to text\ninstead of printing the value itself",
+
             /*
             #########################################   MISC/ERROR LABELS   ############################################
             */
@@ -850,6 +862,12 @@ enum class Language(
             Labels.PREVIEW_WARNING_TITLE to "Bild zu schmal",
             Labels.PREVIEW_WARNING_DESCRIPTION to "Das bild ist zu schmal um alle Inhalte korrekt wiederzugeben.\nDas Bild müsste:",
             Labels.PREVIEW_WARNING_FIX to "breit sein.\nÄndern der Bildeinstellungen kann dieses Problem beheben.",
+
+            Labels.PREVIEW_999_TITLE to "Option enthält \"999-Wert\"",
+            Labels.PREVIEW_999_DESCRIPTION to "Diese Option enthält den festgelegten \"999-Wert\"\nund wird deshalb nicht exportiert",
+
+            Labels.SINGLE_VALUE_DUMMY_INFO_TITLE to "Setzt den Einzelwert in den Dummy Modus",
+            Labels.SINGLE_VALUE_DUMMY_INFO_DESCRIPTION to "Einzelwerte im Dummy Modus erlauben es dem Nutzer den\nWert des Einzelwerts einem oder mehreren\nTexten zuzuweisen, die anstatt des Werts ansich dargestellt werden",
             /*
             #########################################   MISC/ERROR LABELS   ############################################
             */
