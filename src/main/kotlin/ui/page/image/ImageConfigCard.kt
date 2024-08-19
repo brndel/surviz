@@ -37,6 +37,7 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
     var timelineScaling by imageConfig.timelineScaling
     var backgroundColor by imageConfig.backgroundColor
     var alpha by imageConfig.alpha
+    var singleValueSize by imageConfig.singleValueSize
 
     NestedSurface(modifier) {
         Column(
@@ -101,7 +102,12 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "${LocalLanguage.current.getString(Labels.EXPORT_IMAGE_CONFIG_ALPHA)}: ${String.format("%.2f", alpha)}",
+                    text = "${LocalLanguage.current.getString(Labels.EXPORT_IMAGE_CONFIG_ALPHA)}: ${
+                        String.format(
+                            "%.2f",
+                            alpha
+                        )
+                    }",
                     fontWeight = FontWeight.Bold
                 )
                 InfoIconBox(
@@ -121,6 +127,35 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
                 },
                 valueRange = 0f..1f,
                 steps = 19,
+                modifier = Modifier.pointerInput(Unit) {}
+            )
+
+            // ********** Size for single values **********
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "${LocalLanguage.current.getString(Labels.EXPORT_IMAGE_CONFIG_SINGLE_VALUE_SIZE)}: $singleValueSize",
+                    fontWeight = FontWeight.Bold
+                )
+                InfoIconBox(
+                    Labels.SINGLE_VALUE_SIZE_TITLE,
+                    null,
+                    null
+                )
+            }
+
+            var singleValueSizeSliderPosition by remember { mutableStateOf(singleValueSize.toFloat()) }
+
+            Slider(
+                value = singleValueSizeSliderPosition,
+                onValueChange = {
+                    singleValueSizeSliderPosition = it
+                    singleValueSize = it.toInt()
+                },
+                valueRange = 70f .. 150f,
+                steps = 15,
                 modifier = Modifier.pointerInput(Unit) {}
             )
         }

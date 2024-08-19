@@ -123,7 +123,7 @@ class ImageGenerator(
         // scale image dynamically based on count of single values
         val singleValueCount = config.getSingleValues().size
         val singleValueSectionSize = kotlin.math.max(
-            singleValueCount * properties.getProperty("single_value_size").toInt(),
+            singleValueCount * imageConfig.singleValueSize.value,
             properties.getProperty("single_value_min_width").toInt()
         )
 
@@ -324,7 +324,7 @@ class ImageGenerator(
 
             // draw text
             val count = index + 1
-            val size = properties.getProperty("single_value_size").toFloat()
+            val size = imageConfig.singleValueSize.value.toFloat()
 
             val text = if (singleValueConfig.isDummy.value) {
                 singleValueConfig.dummies.get(value.toInt())

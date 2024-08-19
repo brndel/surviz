@@ -87,6 +87,7 @@ object Labels {
     const val EXPORT_IMAGE_CONFIG_WIDTH = "EXPORT_IMAGE_CONFIG_WIDTH"
     const val EXPORT_IMAGE_CONFIG_TIMELINE_SCALING = "EXPORT_IMAGE_CONFIG_TIMELINE_SCALING"
     const val EXPORT_IMAGE_CONFIG_BACKGROUND_COLOR = "EXPORT_IMAGE_CONFIG_BACKGROUND_COLOR"
+    const val EXPORT_IMAGE_CONFIG_SINGLE_VALUE_SIZE = "EXPORT_IMAGE_CONFIG_SINGLE_VALUE_SIZE"
 
     const val EXPORT_IMAGE_CONFIG_ALPHA = "EXPORT_IMAGE_CONFIG_ALPHA"
 
@@ -277,6 +278,8 @@ object Labels {
     const val SINGLE_VALUE_ALPHA_INFO_DESCRIPTION = "SINGLE_VALUE_ALPHA_INFO_DESCRIPTION"
     const val SINGLE_VALUE_DIVIDER_TITLE = "SINGLE_VALUE_DIVIDER_TITLE"
 
+    const val SINGLE_VALUE_SIZE_TITLE = "SINGLE_VALUE_SIZE_TITLE"
+
     const val PREVIEW_WARNING_TITLE = "PREVIEW_WARNING_TITLE"
     const val PREVIEW_WARNING_DESCRIPTION = "PREVIEW_WARNING_DESCRIPTION"
     const val PREVIEW_WARNING_FIX = "PREVIEW_WARNING_FIX"
@@ -405,6 +408,7 @@ enum class Language(
             Labels.EXPORT_IMAGE_CONFIG_WIDTH to "Width",
             Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING to "Timeline scaling",
             Labels.EXPORT_IMAGE_CONFIG_BACKGROUND_COLOR to "Background color",
+            Labels.EXPORT_IMAGE_CONFIG_SINGLE_VALUE_SIZE to "Single value width",
 
             Labels.EXPORT_IMAGE_CONFIG_ALPHA to "Single Value alpha",
 
@@ -569,6 +573,8 @@ enum class Language(
             Labels.SINGLE_VALUE_ALPHA_INFO_DESCRIPTION to "If the single value has numeric value of \"0\" and \"Zero\" column is not selected,\n" + "icon and text of single value will be printed with this alpha value",
             Labels.SINGLE_VALUE_DIVIDER_TITLE to "Add Divider at end of single value",
 
+            Labels.SINGLE_VALUE_SIZE_TITLE to "Change the width of the single values",
+
             Labels.PREVIEW_WARNING_TITLE to "Image not wide enough",
             Labels.PREVIEW_WARNING_DESCRIPTION to "The image is not wide enough to fit all content.\nWidth needed:",
             Labels.PREVIEW_WARNING_FIX to "Change image configuration to fix this.",
@@ -693,6 +699,7 @@ enum class Language(
             Labels.EXPORT_IMAGE_CONFIG_TIMELINE_SCALING to "Skalierung des Zeitstrahls",
             Labels.EXPORT_IMAGE_CONFIG_BACKGROUND_COLOR to "Hintergrundfarbe",
             Labels.EXPORT_IMAGE_CONFIG_ALPHA to "Einzelwert Alpha",
+            Labels.EXPORT_IMAGE_CONFIG_SINGLE_VALUE_SIZE to "Breite der Einzelwerte",
 
             Labels.PLACEHOLDERS to "Platzhalter",
 
@@ -858,6 +865,8 @@ enum class Language(
             Labels.SINGLE_VALUE_ALPHA_INFO_TITLE to "Legt die Transparenz von \"0\" Einzelwerten fest",
             Labels.SINGLE_VALUE_ALPHA_INFO_DESCRIPTION to "Ist der numerische Wert eines Einzelwerts \"0\" und \"Null\"-Spalte ist nicht ausgewählt,\n" + "so wird die Transparent des Texts und des Icons hierdurch festgelegt",
             Labels.SINGLE_VALUE_DIVIDER_TITLE to "Fügt einen Trennstrich am Ende des Einzelwerts hinzu",
+
+            Labels.SINGLE_VALUE_SIZE_TITLE to "Ändert die Breite der Einzelwerte",
 
             Labels.PREVIEW_WARNING_TITLE to "Bild zu schmal",
             Labels.PREVIEW_WARNING_DESCRIPTION to "Das bild ist zu schmal um alle Inhalte korrekt wiederzugeben.\nDas Bild müsste:",

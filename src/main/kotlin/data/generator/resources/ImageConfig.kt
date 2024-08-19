@@ -15,6 +15,7 @@ data class ImageConfig(
     val timelineScaling: MutableDoubleState,
     val backgroundColor: MutableState<Color>,
     val alpha: MutableFloatState,
+    val singleValueSize: MutableIntState,
 ) {
     companion object {
         fun loadFromProperties(): ImageConfig {
@@ -28,8 +29,9 @@ data class ImageConfig(
             val colorHex = properties.getProperty("background_color")
             val color = mutableStateOf(Color.fromHex(colorHex)!!)
             val alpha = mutableFloatStateOf(properties.getProperty("single_value_alpha").toFloat())
+            val singleValueSize = mutableIntStateOf(properties.getProperty("single_value_size").toInt())
 
-            return ImageConfig(width, timelineScaling, color, alpha)
+            return ImageConfig(width, timelineScaling, color, alpha, singleValueSize)
         }
 
         val serializer = JsonSerializer<ImageConfig> { value, _, _ ->
@@ -39,6 +41,7 @@ data class ImageConfig(
             obj.addProperty("timelineScaling", value.timelineScaling.value)
             obj.addProperty("backgroundColor", value.backgroundColor.value.toHex())
             obj.addProperty("alpha", value.alpha.value)
+            obj.addProperty("singleValueSize", value.singleValueSize.value)
 
             obj
         }
@@ -51,12 +54,14 @@ data class ImageConfig(
             val colorHex = obj.get("backgroundColor").asString
             val color = Color.fromHex(colorHex)!!
             val alpha = obj.get("alpha").asFloat
+            val singleValueSize = obj.get("singleValueSize").asInt
 
             ImageConfig(
                 mutableIntStateOf(width),
                 mutableDoubleStateOf(timelineScaling),
                 mutableStateOf(color),
-                mutableFloatStateOf(alpha)
+                mutableFloatStateOf(alpha),
+                mutableIntStateOf(singleValueSize)
             )
         }
     }
