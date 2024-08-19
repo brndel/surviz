@@ -283,7 +283,7 @@ data class Project(
             )
         }
 
-        private const val VERSION = "1.5"
+        private const val VERSION = "1.6"
     }
 }
 
