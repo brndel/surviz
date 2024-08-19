@@ -289,6 +289,9 @@ object Labels {
 
     const val SINGLE_VALUE_DUMMY_INFO_TITLE = "SINGLE_VALUE_DUMMY_INFO_TITLE"
     const val SINGLE_VALUE_DUMMY_INFO_DESCRIPTION = "SINGLE_VALUE_DUMMY_INFO_DESCRIPTION"
+
+    const val RANGED_FIELD_INFO_TITLE = "RANGED_FIELD_INFO_TITLE"
+    const val RANGED_FIELD_INFO_DESCRIPTION = "RANGED_FIELD_INFO_DESCRIPTION"
     /*
     #########################################   MISC/ERROR LABELS   ####################################################
     */
@@ -296,6 +299,8 @@ object Labels {
     const val IMAGE_CREATE_ERROR = "IMAGE_CREATE_ERROR"
     const val SITUATION_NOT_FOUND = "SITUATION_NOT_FOUND"
     const val BLOCK_NOT_FOUND = "BLOCK_NOT_FOUND"
+
+    const val INVALID_SEGMENT = "INVALID_SEGMENT"
 
     const val IMPORT_ICON = "IMPORT_ICON"
 
@@ -585,12 +590,17 @@ enum class Language(
             Labels.SINGLE_VALUE_DUMMY_INFO_TITLE to "Sets this Single Value as a dummy",
             Labels.SINGLE_VALUE_DUMMY_INFO_DESCRIPTION to "Single Values in dummy mode allow the user\nto map the contained values to text\ninstead of printing the value itself",
 
+            Labels.RANGED_FIELD_INFO_TITLE to "Ranged Field",
+            Labels.RANGED_FIELD_INFO_DESCRIPTION to "Ranged fields allow the user to specify multiple Segments.\nEach segment is either a single number or two numbers\nseparated by \"-\".\nMultiple segments are separated by \",\".\n\nExample: 1,2-4,8-10\nwould result in the values 1,2,3,4,8,9,10",
+
             /*
             #########################################   MISC/ERROR LABELS   ############################################
             */
             Labels.IMAGE_CREATE_ERROR to "Error while creating image",
             Labels.SITUATION_NOT_FOUND to "Situation not found",
             Labels.BLOCK_NOT_FOUND to "Block not found",
+
+            Labels.INVALID_SEGMENT to "Invalid segment",
 
             Labels.IMPORT_ICON to "Import icon",
 
@@ -877,6 +887,12 @@ enum class Language(
 
             Labels.SINGLE_VALUE_DUMMY_INFO_TITLE to "Setzt den Einzelwert in den Dummy Modus",
             Labels.SINGLE_VALUE_DUMMY_INFO_DESCRIPTION to "Einzelwerte im Dummy Modus erlauben es dem Nutzer den\nWert des Einzelwerts einem oder mehreren\nTexten zuzuweisen, die anstatt des Werts ansich dargestellt werden",
+
+            Labels.RANGED_FIELD_INFO_TITLE to "Bereichsfeld",
+            Labels.RANGED_FIELD_INFO_DESCRIPTION to "Bereichsfeld erlaubt die Eingabe von Zahlen oder\nZahlenbereichen, getrennt durch ein Komma.\nEin Zahlenbereich wird durch zwei Zahlen\ndargestellt, die durch ein '-' getrennt sind.\n" +
+                    "\n" +
+                    "Beispiel: 1,2-4,8-10\n" +
+                    "resultiert in den folgenden Werten: 1,2,3,4,8,9,10",
             /*
             #########################################   MISC/ERROR LABELS   ############################################
             */
@@ -898,6 +914,8 @@ enum class Language(
             Labels.CLOSE_DIALOG_CONFIRM to "Schließen",
 
             Labels.BLOCK_NOT_FOUND to "Block konnte nicht gefunden werden",
+
+            Labels.INVALID_SEGMENT to "Ungültiger Bereich",
 
             Labels.ILLEGAL_CHAR to "Verbotenes Zeichen in Dateiname",
 

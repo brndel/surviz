@@ -68,5 +68,10 @@ fun GenericField(field: FieldData, modifier: Modifier = Modifier) {
                     ) { Label(field.getLabel()) }
                 }
             }
+        is RangedIntFieldData -> RangedIntField(
+            field.value.value,
+            { field.value.value = it },
+            modifier
+        ) { Label(field.getLabel()) }
     }
 }

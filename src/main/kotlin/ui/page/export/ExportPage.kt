@@ -30,7 +30,10 @@ import androidx.compose.ui.unit.dp
 import data.io.DataManager
 import data.io.exporter.ExporterVariant
 import data.io.utils.result.ExportResult
+import data.io.utils.result.warnings.ExportWarning
+import data.io.utils.result.warnings.InvalidSegmentWarning
 import data.project.Project
+import data.resources.exceptions.InvalidSegmentException
 import ui.Label
 import ui.Labels
 import ui.fields.GenericField
@@ -124,13 +127,21 @@ private fun ExporterConfigCard(
             horizontalArrangement = Arrangement.Center
         ) {
             Button(onClick = {
-                val config = getExporterConfig().toMutableMap()
-                config["has999"] = callbacks.has999Value()
-                config["value999"] = callbacks.get999Value()
-                isExporting = true
-                DataManager.saveData(project, exporter, config, onPathSelected = {exportPath = it}) {
-                    exportResult = it
-                    isExporting = false
+                try {
+                    val config = getExporterConfig().toMutableMap()
+                    config["has999"] = callbacks.has999Value()
+                    config["value999"] = callbacks.get999Value()
+                    isExporting = true
+                    DataManager.saveData(
+                        project,
+                        exporter,
+                        config,
+                        onPathSelected = { exportPath = it }) {
+                        exportResult = it
+                        isExporting = false
+                    }
+                } catch (e: InvalidSegmentException){
+                    exportResult = ExportResult(arrayListOf(InvalidSegmentWarning(e.segment)))
                 }
             }, enabled = !isExporting) {
                 if (isExporting) {

@@ -4,10 +4,12 @@ import data.io.exporter.Exporter.Companion.getNameFromScheme
 import data.io.utils.result.ExportResult
 import data.io.utils.result.warnings.ExportWarning
 import data.io.utils.result.warnings.InvalidBlockWarning
+import data.io.utils.result.warnings.InvalidSegmentWarning
 import data.io.utils.result.warnings.InvalidSituationWarning
 import data.project.Project
 import data.project.data.Block
 import data.project.data.Situation
+import data.resources.exceptions.InvalidSegmentException
 import data.resources.fields.*
 import kotlinx.coroutines.*
 import kotlinx.html.*
@@ -79,7 +81,7 @@ ul {
         val allBlocks: Boolean,
         val allSituations: Boolean,
         val blocks: ArrayList<Block>,
-        val situationId: Int,
+        val situationIds: List<*>,
         val has999: Boolean,
         val value999: Double,
     )
@@ -98,7 +100,7 @@ ul {
             )
         )
 
-        fields.add(NamedField(BLOCK_KEY, IntFieldData(1, label = Labels.BLOCK)))
+        fields.add(NamedField(BLOCK_KEY, RangedIntFieldData("1", label = Labels.BLOCK)))
 
         fields.add(
             NamedField(
@@ -107,7 +109,7 @@ ul {
             )
         )
 
-        fields.add(NamedField(SITUATION_KEY, IntFieldData(1, Labels.SITUATION, 1, Int.MAX_VALUE)))
+        fields.add(NamedField(SITUATION_KEY, RangedIntFieldData("1", Labels.SITUATION)))
 
         fields.add(
             NamedField(
@@ -141,6 +143,8 @@ ul {
         exportConfig: Map<String, Any>,
         onPathSelected: ((Path) -> Unit)?
     ): ExportResult {
+        val errorList = ArrayList<ExportWarning?>()
+
         // Configure Export Selection
         val scheme = exportConfig[SCHEME_KEY] as String
         val path = exportConfig[PATH_KEY] as String
@@ -152,16 +156,26 @@ ul {
         if (allBlocks) {
             blocks.addAll(project.getAllBlocks())
         } else {
-            val blockId = exportConfig[BLOCK_KEY] as Int
-            val block = project.getBlock(blockId)
-            if (block != null) {
-                project.getBlock(blockId)?.let { blocks.add(it) }
-            } else {
-                return ExportResult(arrayListOf(InvalidBlockWarning(blockId)))
+            try {
+                val blockList = exportConfig[BLOCK_KEY] as List<*>
+                for (blockId in blockList) {
+                    if (blockId is Int) {
+                        val block = project.getBlock(blockId)
+                        if (block != null) {
+                            blocks.add(block)
+                        } else {
+                            errorList.add(InvalidBlockWarning(blockId))
+                        }
+                    }
+                }
+            } catch (e: InvalidSegmentException) {
+                return ExportResult(
+                    arrayListOf(InvalidSegmentWarning(e.segment))
+                )
             }
         }
 
-        val situationId = exportConfig[SITUATION_KEY] as Int
+        val situationIds = exportConfig[SITUATION_KEY] as List<*>
 
         val has999 = exportConfig["has999"] as Boolean
         val value999 = exportConfig["value999"] as Double
@@ -172,7 +186,7 @@ ul {
             allBlocks,
             allSituations,
             blocks,
-            situationId,
+            situationIds,
             has999,
             value999,
         )
@@ -185,7 +199,6 @@ ul {
 
         val pngWarnings = PngExporter.export(project, pngExportConfig, null)
 
-        val errorList = ArrayList<ExportWarning?>()
 
         CoroutineScope(Dispatchers.IO).launch {
             val widthList = coroutineScope {
@@ -208,27 +221,37 @@ ul {
         config: Config,
         block: Block
     ): List<ExportWarning?> {
+        val resultList = ArrayList<ExportWarning?>()
         val situations = ArrayList<Situation>()
 
-        if (config.allSituations) {
-            situations.addAll(block.getSituations())
-        } else {
-            val situation = block.getSituation(config.situationId)
-            if (situation != null) {
-                situations.add(situation)
+        try {
+            if (config.allSituations) {
+                situations.addAll(block.getSituations())
             } else {
-                return arrayListOf(InvalidSituationWarning(block.id, config.situationId))
+                for (situationId in config.situationIds) {
+                    if (situationId is Int) {
+                        val situation = block.getSituation(situationId)
+                        if (situation != null) {
+                            situations.add(situation)
+                        } else {
+                            resultList.add(InvalidSituationWarning(block.id, situationId))
+                        }
+                    }
+                }
             }
+        } catch (e: InvalidSegmentException) {
+            return arrayListOf(InvalidSegmentWarning(e.segment))
         }
 
-        val resultList = coroutineScope {
+        val asyncResultList = coroutineScope {
             situations.map { situation ->
                 async {
                     saveSituation(config, situation, block.id)
                 }
             }.awaitAll()
         }
-        return resultList.flatten()
+        resultList.addAll(asyncResultList.flatten())
+        return resultList
     }
 
     private fun saveSituation(

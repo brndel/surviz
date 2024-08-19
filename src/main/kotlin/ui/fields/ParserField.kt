@@ -16,7 +16,8 @@ fun <T> ParserField(
     parse: (String) -> T?,
     toString: (T) -> String,
     modifier: Modifier = Modifier,
-    label: @Composable (() -> Unit)? = null
+    label: @Composable (() -> Unit)? = null,
+    tailingIcon: @Composable (() -> Unit)? = null
 ) {
     var isFocused by remember { mutableStateOf(false) }
 
@@ -38,5 +39,5 @@ fun <T> ParserField(
         if (!isFocused) {
             isError = false
         }
-    }, singleLine = true, isError = isError, label = label)
+    }, singleLine = true, isError = isError, label = label, trailingIcon = tailingIcon)
 }

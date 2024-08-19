@@ -9,11 +9,13 @@ import data.io.utils.result.warnings.ExportWarning
 import data.io.utils.result.warnings.IllegalCharacterWarning
 import data.io.utils.result.warnings.ImageSizeExportWarning
 import data.io.utils.result.warnings.InvalidBlockWarning
+import data.io.utils.result.warnings.InvalidSegmentWarning
 import data.io.utils.result.warnings.InvalidSituationWarning
 import data.project.Project
 import data.project.data.Block
 import data.project.data.Situation
 import data.project.data.SituationOption
+import data.resources.exceptions.InvalidSegmentException
 import data.resources.fields.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -64,7 +66,7 @@ object PngExporter : Exporter {
         val allBlocks: Boolean,
         val allSituations: Boolean,
         val blocks: ArrayList<Block>,
-        val situationId: Int,
+        val situationIds: List<*>,
         val separateOptions: Boolean,
         val has999: Boolean,
         val value999: Double,
@@ -89,7 +91,7 @@ object PngExporter : Exporter {
         )
 
         // configure situations to export
-        fields.add(NamedField(BLOCK_KEY, IntFieldData(1, Labels.BLOCK)))
+        fields.add(NamedField(BLOCK_KEY, RangedIntFieldData("1", Labels.BLOCK)))
 
         fields.add(
             NamedField(
@@ -98,7 +100,7 @@ object PngExporter : Exporter {
             )
         )
 
-        fields.add(NamedField(SITUATION_KEY, IntFieldData(1, Labels.SITUATION, 1, Int.MAX_VALUE)))
+        fields.add(NamedField(SITUATION_KEY, RangedIntFieldData("1", Labels.SITUATION)))
 
         fields.add(
             NamedField(
@@ -132,6 +134,8 @@ object PngExporter : Exporter {
         exportConfig: Map<String, Any>,
         onPathSelected: ((Path) -> Unit)?
     ): ExportResult {
+        val errorList = ArrayList<ExportWarning?>()
+
         imageGenerator = ImageGenerator(project.configuration, project.iconStorage)
 
         val scheme = exportConfig[SCHEME_KEY] as String
@@ -144,17 +148,28 @@ object PngExporter : Exporter {
         if (allBlocks) {
             blocks.addAll(project.getAllBlocks())
         } else {
-            val blockId = exportConfig[BLOCK_KEY] as Int
-            val block = project.getBlock(blockId)
-            if (block != null) {
-                blocks.add(block)
-            } else {
-                return ExportResult(arrayListOf(InvalidBlockWarning(blockId)))
+            try {
+                val blockList = exportConfig[BLOCK_KEY] as List<*>
+                for (blockId in blockList) {
+                    if (blockId is Int) {
+                        val block = project.getBlock(blockId)
+                        if (block != null) {
+                            blocks.add(block)
+                        } else {
+                            errorList.add(InvalidBlockWarning(blockId))
+                        }
+                    }
+                }
+            } catch (e: InvalidSegmentException) {
+                return ExportResult(
+                    arrayListOf(InvalidSegmentWarning(e.segment))
+                )
             }
         }
 
         val allSituations = exportConfig[ALL_SITUATION_KEY] as Boolean
-        val situationId = exportConfig[SITUATION_KEY] as Int
+
+        val situationIds = exportConfig[SITUATION_KEY] as List<*>
 
         val separateOptions = exportConfig[SEPARATE_OPTION_KEY] as Boolean
 
@@ -167,13 +182,11 @@ object PngExporter : Exporter {
             allBlocks,
             allSituations,
             blocks,
-            situationId,
+            situationIds,
             separateOptions,
             has999,
             value999
         )
-
-        val errorList = ArrayList<ExportWarning?>()
 
 
         val coroutine = CoroutineScope(Dispatchers.IO).launch {
@@ -204,27 +217,37 @@ object PngExporter : Exporter {
         config: Config,
         block: Block
     ): List<ExportWarning?> {
+        val resultList = ArrayList<ExportWarning?>()
         val situations = ArrayList<Situation>()
-
-        if (config.allSituations) {
-            situations.addAll(block.getSituations())
-        } else {
-            val situation = block.getSituation(config.situationId)
-            if (situation != null) {
-                situations.add(situation)
+        try {
+            if (config.allSituations) {
+                situations.addAll(block.getSituations())
             } else {
-                return arrayListOf(InvalidSituationWarning(block.id, config.situationId))
+                for (situationId in config.situationIds) {
+                    if (situationId is Int) {
+                        val situation = block.getSituation(situationId)
+                        if (situation != null) {
+                            situations.add(situation)
+                        } else {
+                            resultList.add(InvalidSituationWarning(block.id, situationId))
+                        }
+                    }
+                }
             }
+        } catch (e: InvalidSegmentException) {
+            return arrayListOf(InvalidSegmentWarning(e.segment))
         }
 
-        val resultList = coroutineScope {
+
+        val asyncResultList = coroutineScope {
             situations.map { situation ->
                 async {
                     saveSituation(config, situation, block.id)
                 }
             }.awaitAll()
         }
-        return resultList.flatten()
+        resultList.addAll(asyncResultList.flatten())
+        return resultList
     }
 
     private suspend fun saveSituation(
@@ -282,11 +305,16 @@ object PngExporter : Exporter {
             "option" to option.name
         )
         val saveResult = saveBitmap(imageResult.image, config.path, fileName)
-        if(saveResult != null) {
+        if (saveResult != null) {
             return saveResult
         }
         if (!imageResult.checkWidth()) {
-            return ImageSizeExportWarning(imageResult.neededWidth, blockId, situationId, option.name)
+            return ImageSizeExportWarning(
+                imageResult.neededWidth,
+                blockId,
+                situationId,
+                option.name
+            )
         }
         return null
     }
@@ -299,8 +327,7 @@ object PngExporter : Exporter {
             val outputPath = Path(path, name)
             bufferedImage = bitmap.toAwtImage()
             file = outputPath.toFile()
-        }
-        catch (e: InvalidPathException) {
+        } catch (e: InvalidPathException) {
             return IllegalCharacterWarning(e.input[e.index].toString())
         }
         file.parentFile.mkdirs()
@@ -309,7 +336,7 @@ object PngExporter : Exporter {
             file.createNewFile()
         }
 
-            ImageIO.write(bufferedImage, "png", file)
+        ImageIO.write(bufferedImage, "png", file)
         return null
     }
 }
