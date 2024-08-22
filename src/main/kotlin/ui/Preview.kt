@@ -24,6 +24,7 @@ import data.generator.ImageGenerator
 import data.project.Project
 import ui.fields.IntField
 import ui.fields.OptionsField
+import ui.page.situations.SituationConfig
 import kotlin.math.absoluteValue
 
 /**
@@ -43,6 +44,10 @@ fun Preview(project: Project) {
 
         val situation by derivedStateOf {
             project.getSituation(blockId, situationId)
+        }
+
+        val situationConfig by derivedStateOf {
+            situation?.let { project.getSituationConfig(it) }
         }
 
         val callbacks = LocalGlobalCallbacks.current!!
@@ -119,6 +124,18 @@ fun Preview(project: Project) {
                             }) {
                                 Icon(Icons.Default.ArrowRight, null)
                             }
+                            if (situationConfig!!.overrides()) {
+                                IconPopUp(
+                                    modifier = Modifier,
+                                    icon = {
+                                        Icon(Icons.Default.Tune, null, tint = MaterialTheme.colors.secondaryVariant)
+                                    },
+                                    onScrollStateChange = {}
+                                ) {
+                                    Label(Labels.PREVIEW_SITUATION_OVERRIDE_INFO_TITLE, style = TextStyle(fontWeight = FontWeight.Bold))
+                                }
+                            }
+
                         }
                     }
                 }
@@ -127,7 +144,7 @@ fun Preview(project: Project) {
                 items(situation!!.options.values.toList()) { option ->
                     var errorText: String? = null
                     val image = try {
-                        imageGenerator.generateOption(option)
+                        situationConfig?.let { imageGenerator.generateOption(option, it) }
                     } catch (e: Throwable) {
                         errorText = e.toString() + " at " + e.stackTrace[0].toString()
                         null
@@ -237,7 +254,7 @@ private fun IconPopUp(
     modifier: Modifier,
     icon: @Composable () -> Unit,
     onScrollStateChange: (() -> Unit) -> Unit,
-    popUpAlignment: Alignment,
+    popUpAlignment: Alignment = Alignment.Center,
     content: @Composable () -> Unit
 ) {
     var showPopUp by remember { mutableStateOf(false) }

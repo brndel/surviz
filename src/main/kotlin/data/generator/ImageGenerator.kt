@@ -30,12 +30,12 @@ import data.generator.resources.ImageResult
 import data.generator.resources.LineType
 import data.generator.resources.TextType
 import data.project.config.ProjectConfiguration
+import data.project.config.OptionConfig
 import data.project.config.SituationConfig
 import data.project.config.columns.ZeroColumn
 import data.project.data.IconStorage
 import data.project.data.Situation
 import data.project.data.SituationOption
-import java.io.FileInputStream
 import java.util.Properties
 
 /**
@@ -75,14 +75,14 @@ class ImageGenerator(
      *
      * @throws NoSuchFieldException if no configuration was found for on of the options
      */
-    fun generateSituation(situation: Situation): ImageResult {
+    fun generateSituation(situation: Situation, situationConfig: SituationConfig): ImageResult {
         var maxWidth = 0
         var maxNeededWidth = 0
         val imageList = ArrayList<ImageBitmap>()
         val optionCount = situation.options.size
 
         for (option in situation.options.values) {
-            val imageResult = generateOption(option)
+            val imageResult = generateOption(option, situationConfig)
 
             imageList.add(imageResult.image)
 
@@ -114,11 +114,11 @@ class ImageGenerator(
      *
      * @throws NoSuchFieldException if no configuration was found for the option
      */
-    fun generateOption(option: SituationOption): ImageResult {
+    fun generateOption(option: SituationOption, situationConfig: SituationConfig): ImageResult {
         // initialize values
         var neededWidth = 0
         val optionConfig =
-            config.getSituationConfig(option.name)
+            config.getOptionConfig(option.name)
 
         // scale image dynamically based on count of single values
         val singleValueCount = config.getSingleValues().size
@@ -172,7 +172,7 @@ class ImageGenerator(
 
         // draw timeline
         val timelineWidth =
-            drawTimeline(canvas, color, option, optionConfig, dividerX, centerLine, neededWidth)
+            drawTimeline(canvas, color, option, optionConfig, dividerX, centerLine, neededWidth, situationConfig)
 
         // calculate needed width
         neededWidth += singleValueSectionSize
@@ -291,7 +291,7 @@ class ImageGenerator(
     private fun drawSingleValues(
         canvas: Canvas,
         color: Color,
-        optionConfig: SituationConfig,
+        optionConfig: OptionConfig,
         option: SituationOption,
         centerLine: Float
     ) {
@@ -395,10 +395,11 @@ class ImageGenerator(
         canvas: Canvas,
         color: Color,
         option: SituationOption,
-        optionConfig: SituationConfig,
+        optionConfig: OptionConfig,
         dividerX: Float,
         centerLine: Float,
-        neededWidth: Int
+        neededWidth: Int,
+        situationConfig: SituationConfig
     ): Int {
         var startX = dividerX + properties.getProperty("column_padding").toFloat()
         val timelinePadding = properties.getProperty("timeline_padding").toFloat()
@@ -415,9 +416,14 @@ class ImageGenerator(
             if (timeValue == 0F) continue
 
             // calculate length of section
-            val timelineLength = timeValue * imageConfig.timelineScaling.value.toFloat()
-            width += timelineLength.toInt()
-
+            var timelineLength = 0f
+            if (situationConfig.overrideScale.value){
+                timelineLength = timeValue * situationConfig.scale.value.toFloat()
+                width += timelineLength.toInt()
+            } else {
+                timelineLength = timeValue * imageConfig.timelineScaling.value.toFloat()
+                width += timelineLength.toInt()
+            }
             val endX: Float = startX + timelineLength
 
             drawTimelineSectionLine(

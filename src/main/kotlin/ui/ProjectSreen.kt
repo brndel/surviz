@@ -22,8 +22,9 @@ import data.project.config.ProjectConfiguration
 import data.project.data.IconStorage
 import ui.page.export.ExportPage
 import ui.page.image.ImageConfigPage
+import ui.page.situations.SituationsPage
 import ui.page.singleValue.SingleValuePage
-import ui.page.situation.SituationPage
+import ui.page.modes.ModePage
 
 /**
  * This screen is visible when a valid [Project] is loaded.
@@ -52,8 +53,9 @@ fun ProjectScreen(project: Project) {
                 Box(Modifier.weight(1F)) {
                     when (currentPage) {
                         Page.SingleValue -> SingleValuePage(project.configuration, project.getDataScheme())
-                        Page.Situation -> SituationPage(project.configuration, project.getDataScheme())
+                        Page.Mode -> ModePage(project.configuration, project.getDataScheme())
                         Page.Image -> ImageConfigPage(project.configuration.imageConfig)
+                        Page.Situations -> SituationsPage(project.configuration.blockConfigs!!)
                         Page.Export -> ExportPage(project)
                     }
                 }
@@ -117,9 +119,11 @@ enum class Page(val label: String) {
     SingleValue(Labels.PAGE_SINGLE_VALUE),
 
     /**
-     * Will show the [SituationPage]
+     * Will show the [ModePage]
      */
-    Situation(Labels.PAGE_SITUATION),
+    Mode(Labels.PAGE_MODES),
+
+    Situations(Labels.PAGE_OVERRIDE_OPTIONS),
 
     Image(Labels.PAGE_IMAGE),
 

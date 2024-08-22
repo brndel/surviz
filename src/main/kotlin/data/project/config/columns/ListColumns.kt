@@ -3,7 +3,7 @@ package data.project.config.columns
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import data.project.config.SingleValueConfig
-import data.project.config.SituationConfig
+import data.project.config.OptionConfig
 import data.project.data.SituationOption
 import ui.Labels
 
@@ -25,7 +25,7 @@ class ListColumns(
      */
     override fun getValue(
         singleValueConfig: SingleValueConfig,
-        situationConfig: SituationConfig,
+        optionConfig: OptionConfig,
         situationOption: SituationOption
     ): Double {
         var sum = 0.0

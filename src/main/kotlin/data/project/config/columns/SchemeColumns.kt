@@ -1,7 +1,7 @@
 package data.project.config.columns
 
 import data.project.config.SingleValueConfig
-import data.project.config.SituationConfig
+import data.project.config.OptionConfig
 import data.project.data.SituationOption
 import ui.Labels
 import java.util.regex.PatternSyntaxException
@@ -21,7 +21,7 @@ data object SchemeColumns : SingleValueColumn(
      */
     override fun getValue(
         singleValueConfig: SingleValueConfig,
-        situationConfig: SituationConfig,
+        optionConfig: OptionConfig,
         situationOption: SituationOption
     ): Double {
         val sum: Double

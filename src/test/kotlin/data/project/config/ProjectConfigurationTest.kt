@@ -1,15 +1,9 @@
 package data.project.config
 
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import data.io.DataManager
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.io.File
 import java.util.*
-import kotlin.test.BeforeTest
 
 /**
  * Test class for ProjectConfiguration
@@ -96,12 +90,12 @@ class ProjectConfigurationTest {
 
     @Test
     fun testGetSituationConfig() {
-        projectConfig.getSituationConfig("Test1")
-        assertTrue(projectConfig.getSituationConfig().size == 1)
-        projectConfig.getSituationConfig("Test2")
-        assertTrue(projectConfig.getSituationConfig().size == 2)
-        projectConfig.getSituationConfig("Test2")
-        assertTrue(projectConfig.getSituationConfig().size == 2)
-        assertEquals(projectConfig.getSituationConfig()["Test2"], projectConfig.getSituationConfig("Test2"))
+        projectConfig.getOptionConfig("Test1")
+        assertTrue(projectConfig.getOptionConfig().size == 1)
+        projectConfig.getOptionConfig("Test2")
+        assertTrue(projectConfig.getOptionConfig().size == 2)
+        projectConfig.getOptionConfig("Test2")
+        assertTrue(projectConfig.getOptionConfig().size == 2)
+        assertEquals(projectConfig.getOptionConfig()["Test2"], projectConfig.getOptionConfig("Test2"))
     }
 }

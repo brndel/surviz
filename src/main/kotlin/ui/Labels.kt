@@ -15,9 +15,10 @@ object Labels {
     const val SETTINGS = "SETTINGS"
 
     const val PAGE_SINGLE_VALUE = "PAGE_SINGLE_VALUE"
-    const val PAGE_SITUATION = "PAGE_SITUATION"
+    const val PAGE_MODES = "PAGE_MODES"
     const val PAGE_IMAGE = "PAGE_IMAGE"
     const val PAGE_EXPORT = "PAGE_EXPORT"
+    const val PAGE_OVERRIDE_OPTIONS = "PAGE_OVERRIDE_OPTIONS"
     const val NEW = "NEW"
     const val SELECT = "SELECT"
     const val OK = "OK"
@@ -65,6 +66,8 @@ object Labels {
     const val SINGLE_VALUE_DUMMY_SWITCH = "SINGLE_VALUE_DUMMY_SWITCH"
     const val SINGLE_VALUE_DUMMY_KEY = "SINGLE_VALUE_DUMMY_KEY"
     const val SINGLE_VALUE_DUMMY_VALUE = "SINGLE_VALUE_DUMMY_VALUE"
+
+    const val SITUATION_OVERRIDE_SCALE = "SITUATION_OVERRIDE_SCALE"
 
     /*
     #########################################   EXPORT/IMPORT LABELS   #################################################
@@ -289,6 +292,10 @@ object Labels {
 
     const val SINGLE_VALUE_DUMMY_INFO_TITLE = "SINGLE_VALUE_DUMMY_INFO_TITLE"
     const val SINGLE_VALUE_DUMMY_INFO_DESCRIPTION = "SINGLE_VALUE_DUMMY_INFO_DESCRIPTION"
+
+    const val SITUATION_OVERRIDE_SCALE_INFO_TITLE = "SITUATION_OVERRIDE_SCALE_INFO_TITLE"
+
+    const val PREVIEW_SITUATION_OVERRIDE_INFO_TITLE = "PREVIEW_SITUATION_OVERRIDE_INFO_TITLE"
     /*
     #########################################   MISC/ERROR LABELS   ####################################################
     */
@@ -337,9 +344,10 @@ enum class Language(
             Labels.SETTINGS to "Settings",
 
             Labels.PAGE_SINGLE_VALUE to "Single Values",
-            Labels.PAGE_SITUATION to "Situations",
+            Labels.PAGE_MODES to "Modes",
             Labels.PAGE_IMAGE to "Image",
             Labels.PAGE_EXPORT to "Export",
+            Labels.PAGE_OVERRIDE_OPTIONS to "Override Situations",
 
             Labels.NEW to "New",
             Labels.SELECT to "Select",
@@ -386,6 +394,8 @@ enum class Language(
             Labels.SINGLE_VALUE_DUMMY_SWITCH to "Dummy encoding",
             Labels.SINGLE_VALUE_DUMMY_KEY to "Key",
             Labels.SINGLE_VALUE_DUMMY_VALUE to "Value",
+
+            Labels.SITUATION_OVERRIDE_SCALE to "Override scale",
 
             /*
             #########################################   EXPORT/IMPORT LABELS   #########################################
@@ -585,6 +595,10 @@ enum class Language(
             Labels.SINGLE_VALUE_DUMMY_INFO_TITLE to "Sets this Single Value as a dummy",
             Labels.SINGLE_VALUE_DUMMY_INFO_DESCRIPTION to "Single Values in dummy mode allow the user\nto map the contained values to text\ninstead of printing the value itself",
 
+            Labels.SITUATION_OVERRIDE_SCALE_INFO_TITLE to "Allows the user to specify\na scaling factor for the situation",
+
+            Labels.PREVIEW_SITUATION_OVERRIDE_INFO_TITLE to "This situation overrides general image settings",
+
             /*
             #########################################   MISC/ERROR LABELS   ############################################
             */
@@ -627,9 +641,10 @@ enum class Language(
             Labels.SETTINGS to "Einstellungen",
 
             Labels.PAGE_SINGLE_VALUE to "Einzelwerte",
-            Labels.PAGE_SITUATION to "Situationen",
+            Labels.PAGE_MODES to "Verkehrsmittel",
             Labels.PAGE_IMAGE to "Bild",
             Labels.PAGE_EXPORT to "Exportieren",
+            Labels.PAGE_OVERRIDE_OPTIONS to "Situationen überschreiben",
 
             Labels.NEW to "Neu",
             Labels.SELECT to "Auswählen",
@@ -676,6 +691,8 @@ enum class Language(
             Labels.SINGLE_VALUE_DUMMY_SWITCH to "Dummy Codierung",
             Labels.SINGLE_VALUE_DUMMY_KEY to "Key",
             Labels.SINGLE_VALUE_DUMMY_VALUE to "Value",
+
+            Labels.SITUATION_OVERRIDE_SCALE to "Skalierung überschreiben",
 
             /*
             #########################################   EXPORT/IMPORT LABELS   #########################################
@@ -877,6 +894,10 @@ enum class Language(
 
             Labels.SINGLE_VALUE_DUMMY_INFO_TITLE to "Setzt den Einzelwert in den Dummy Modus",
             Labels.SINGLE_VALUE_DUMMY_INFO_DESCRIPTION to "Einzelwerte im Dummy Modus erlauben es dem Nutzer den\nWert des Einzelwerts einem oder mehreren\nTexten zuzuweisen, die anstatt des Werts ansich dargestellt werden",
+
+            Labels.SITUATION_OVERRIDE_SCALE_INFO_TITLE to "Erlaubt dem Nutzer einen\nSkalierungsfaktor für die Situation festzulegen",
+
+            Labels.PREVIEW_SITUATION_OVERRIDE_INFO_TITLE to "Diese Situation überschreibt die generellen Bildeinstellungen",
             /*
             #########################################   MISC/ERROR LABELS   ############################################
             */

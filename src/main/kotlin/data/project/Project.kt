@@ -2,6 +2,7 @@ package data.project
 
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import com.google.gson.*
 import data.generator.resources.ImageConfig
@@ -38,6 +39,20 @@ data class Project(
     val configuration: ProjectConfiguration = ProjectConfiguration(),
     val iconStorage: IconStorage = IconStorage()
 ) {
+    init {
+        val blockConfigs = mutableStateMapOf<Int, BlockConfig>()
+        for (block in data.value.getBlocks()) {
+            val blockConfig = BlockConfig()
+            for (situation in block.getSituations()) {
+                val situationConfig = SituationConfig()
+                blockConfig.situationConfigs[situation.id] = situationConfig
+            }
+            blockConfigs[block.id] = blockConfig
+        }
+        if(configuration.blockConfigs == null) {
+            configuration.blockConfigs = blockConfigs
+        }
+    }
     fun getDataScheme(): DataScheme = dataScheme.value
 
     fun getAllBlocks(): List<Block> {
@@ -74,6 +89,19 @@ data class Project(
 
     fun getSituation(block: Int, situation: Int): Situation? {
         return data.value.getSituation(block, situation)
+    }
+
+    fun getSituationConfig(block: Int, situation: Int): SituationConfig {
+        return configuration.blockConfigs!![block]?.situationConfigs?.get(situation) ?: SituationConfig()
+    }
+
+    fun getSituationConfig(situation: Situation): SituationConfig {
+        for (block in data.value.getBlocks()) {
+            if (block.getSituations().contains(situation)) {
+                return configuration.blockConfigs!![block.id]?.situationConfigs?.get(situation.id) ?: SituationConfig()
+            }
+        }
+        return SituationConfig()
     }
 
     /**
@@ -229,6 +257,10 @@ data class Project(
                 .registerTypeAdapter(SingleValueDummy::class.java, SingleValueDummy.deserializer)
                 .registerTypeAdapter(ImageConfig::class.java, ImageConfig.serializer)
                 .registerTypeAdapter(ImageConfig::class.java, ImageConfig.deserializer)
+                .registerTypeAdapter(BlockConfig::class.java, BlockConfig.serializer)
+                .registerTypeAdapter(BlockConfig::class.java, BlockConfig.deserializer)
+                .registerTypeAdapter(OptionConfig::class.java, OptionConfig.serializer)
+                .registerTypeAdapter(OptionConfig::class.java, OptionConfig.deserializer)
                 .registerTypeAdapter(SituationConfig::class.java, SituationConfig.serializer)
                 .registerTypeAdapter(SituationConfig::class.java, SituationConfig.deserializer)
                 .registerTypeAdapter(TimelineEntry::class.java, TimelineEntry.serializer)

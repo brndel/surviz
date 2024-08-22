@@ -8,7 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowRight
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.ViewWeek
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,14 +23,11 @@ import androidx.compose.ui.window.Popup
 import data.project.config.ProjectConfiguration
 import data.project.config.SingleValueConfig
 import data.project.config.SingleValueDummyMap
-import data.project.config.SituationConfig
 import data.project.config.columns.*
 import data.project.data.DataScheme
-import data.resources.fields.IntFieldData
 import org.burnoutcrew.reorderable.ReorderableState
 import ui.Label
 import ui.Labels
-import ui.fields.DoubleField
 import ui.fields.IntField
 import ui.util.InfoIconBox
 import ui.util.NestedSurface

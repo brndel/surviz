@@ -6,7 +6,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParseException
 import com.google.gson.JsonSerializer
 import data.project.config.SingleValueConfig
-import data.project.config.SituationConfig
+import data.project.config.OptionConfig
 import data.project.data.SituationOption
 
 /**
@@ -24,7 +24,7 @@ sealed class SingleValueColumn(
      */
     abstract fun getValue(
         singleValueConfig: SingleValueConfig,
-        situationConfig: SituationConfig,
+        optionConfig: OptionConfig,
         situationOption: SituationOption
     ): Double
 
