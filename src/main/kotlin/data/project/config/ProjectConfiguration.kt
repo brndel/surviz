@@ -18,13 +18,14 @@ import java.util.*
  * as well as the configuration details related to the situations of the project.
  * @param singleValueConfig the configuration of a single value. Each SingleValueConfig is assigned a UUID. The Order of UUID's is stored in a list.
  * @param singleValueConfigOrder the list of UUID's that stores the order.
- * @param situationConfig the configuration of situations. Each situation is assigned a name.
+ * @param optionConfig the configuration of situations. Each situation is assigned a name.
  */
 data class ProjectConfiguration(
     private val singleValueConfigOrder: SnapshotStateList<UUID> = mutableStateListOf(),
     private val singleValueConfig: SnapshotStateMap<UUID, SingleValueConfig> = mutableStateMapOf(),
-    private val situationConfig: SnapshotStateMap<String, SituationConfig> = mutableStateMapOf(),
-    val imageConfig: ImageConfig = ImageConfig.loadFromProperties()
+    private val optionConfig: SnapshotStateMap<String, OptionConfig> = mutableStateMapOf(),
+    val imageConfig: ImageConfig = ImageConfig.loadFromProperties(),
+    var blockConfigs: SnapshotStateMap<Int, BlockConfig>? = null,
 ) {
     /**
      * This method adds a single value to the project.
@@ -70,8 +71,8 @@ data class ProjectConfiguration(
      * This method returns the configuration of situations.
      * @return the situation configuration of this project
      */
-    fun getSituationConfig(): SnapshotStateMap<String, SituationConfig> {
-        return situationConfig
+    fun getOptionConfig(): SnapshotStateMap<String, OptionConfig> {
+        return optionConfig
     }
 
     /**
@@ -80,9 +81,9 @@ data class ProjectConfiguration(
      * @param name the key to the situation config
      * @return the situation configuration with the given key
      */
-    fun getSituationConfig(name: String): SituationConfig {
-        return situationConfig.getOrPut(name) {
-            val config = SituationConfig()
+    fun getOptionConfig(name: String): OptionConfig {
+        return optionConfig.getOrPut(name) {
+            val config = OptionConfig()
             config.addTimelineEntry()
 
             config
@@ -103,7 +104,7 @@ data class ProjectConfiguration(
      * @param id the UUID of the SingleValue
      */
     fun setAllSituationColumns(column: SingleValueColumn, id: UUID) {
-        for (sit in situationConfig.values) {
+        for (sit in optionConfig.values) {
             sit.singleValueColumns[id] = column
         }
     }
@@ -114,8 +115,9 @@ data class ProjectConfiguration(
 
             obj.add("singleValueConfigOrder", ctx.serialize(value.singleValueConfigOrder))
             obj.add("singleValueConfig", ctx.serialize(value.singleValueConfig))
-            obj.add("situationConfig", ctx.serialize(value.situationConfig))
+            obj.add("optionConfig", ctx.serialize(value.optionConfig))
             obj.add("imageConfig", ctx.serialize(value.imageConfig))
+            obj.add("blockConfigs", ctx.serialize(value.blockConfigs))
 
             obj
         }
@@ -136,21 +138,29 @@ data class ProjectConfiguration(
                 singleValueConfig[key] = entry
             }
 
-            val situationConfig = mutableStateMapOf<String, SituationConfig>()
-            for ((key, entryElem) in obj.get("situationConfig").asJsonObject.entrySet()) {
-                val entry = ctx.deserialize<SituationConfig>(entryElem, SituationConfig::class.java)
+            val optionConfig = mutableStateMapOf<String, OptionConfig>()
+            for ((key, entryElem) in obj.get("optionConfig").asJsonObject.entrySet()) {
+                val entry = ctx.deserialize<OptionConfig>(entryElem, OptionConfig::class.java)
 
-                situationConfig[key] = entry
+                optionConfig[key] = entry
             }
 
             val imageConfig = ctx.deserialize<ImageConfig>(obj.get("imageConfig"), ImageConfig::class.java)
+
+            val blockConfigs = mutableStateMapOf<Int, BlockConfig>()
+            for ((key, entryElem) in obj.get("blockConfigs").asJsonObject.entrySet()) {
+                val entry = ctx.deserialize<BlockConfig>(entryElem, BlockConfig::class.java)
+
+                blockConfigs[key.toInt()] = entry
+            }
 
 
             ProjectConfiguration(
                 singleValueConfigOrder,
                 singleValueConfig,
-                situationConfig,
-                imageConfig
+                optionConfig,
+                imageConfig,
+                blockConfigs
             )
         }
     }

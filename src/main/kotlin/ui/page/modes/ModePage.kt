@@ -1,7 +1,6 @@
-package ui.page.situation
+package ui.page.modes
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +12,6 @@ import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CarCrash
 import androidx.compose.material.icons.filled.ModeOfTravel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,7 +37,7 @@ import ui.util.NestedSurface
  * @ui SituationTab for the currently selected situation
  */
 @Composable
-fun SituationPage(projectConfiguration: ProjectConfiguration, dataScheme: DataScheme) {
+fun ModePage(projectConfiguration: ProjectConfiguration, dataScheme: DataScheme) {
     var selectedTab by remember { mutableStateOf(0) }
 
     Column(Modifier.fillMaxSize().padding(10.dp)) {
@@ -48,7 +46,7 @@ fun SituationPage(projectConfiguration: ProjectConfiguration, dataScheme: DataSc
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Label(Labels.PAGE_SITUATION, style = MaterialTheme.typography.h4)
+            Label(Labels.PAGE_MODES, style = MaterialTheme.typography.h4)
             Icon(Icons.Default.ModeOfTravel, contentDescription = null, tint = MaterialTheme.colors.onBackground)
         }
         NestedSurface {
@@ -65,10 +63,10 @@ fun SituationPage(projectConfiguration: ProjectConfiguration, dataScheme: DataSc
 
                 val selectedOption = dataSchemeOptions[selectedTab]
 
-                val selectedSituation = projectConfiguration.getSituationConfig(selectedOption.name)
+                val selectedSituation = projectConfiguration.getOptionConfig(selectedOption.name)
 
                 key(selectedTab) {
-                    SituationTab(
+                    ModeTab(
                         selectedSituation,
                         selectedOption,
                         projectConfiguration.getSingleValueConfigOrder(),

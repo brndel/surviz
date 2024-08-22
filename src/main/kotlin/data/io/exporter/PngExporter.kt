@@ -12,6 +12,7 @@ import data.io.utils.result.warnings.InvalidBlockWarning
 import data.io.utils.result.warnings.InvalidSegmentWarning
 import data.io.utils.result.warnings.InvalidSituationWarning
 import data.project.Project
+import data.project.config.SituationConfig
 import data.project.data.Block
 import data.project.data.Situation
 import data.project.data.SituationOption
@@ -195,7 +196,8 @@ object PngExporter : Exporter {
                     async {
                         saveBlock(
                             config,
-                            block
+                            block,
+                            project
                         )
                     }
                 }.awaitAll()
@@ -215,7 +217,8 @@ object PngExporter : Exporter {
 
     private suspend fun saveBlock(
         config: Config,
-        block: Block
+        block: Block,
+        project: Project
     ): List<ExportWarning?> {
         val resultList = ArrayList<ExportWarning?>()
         val situations = ArrayList<Situation>()
@@ -242,7 +245,7 @@ object PngExporter : Exporter {
         val asyncResultList = coroutineScope {
             situations.map { situation ->
                 async {
-                    saveSituation(config, situation, block.id)
+                    saveSituation(config, situation, block.id, project)
                 }
             }.awaitAll()
         }
@@ -253,12 +256,14 @@ object PngExporter : Exporter {
     private suspend fun saveSituation(
         config: Config,
         situation: Situation,
-        blockId: Int
+        blockId: Int,
+        project: Project
     ): List<ExportWarning?> {
         // check if options need to be separated
+        val situationConfig = project.getSituationConfig(blockId, situation.id)
         if (!config.separateOptions) {
             // save whole option
-            val imageResult = imageGenerator.generateSituation(situation)
+            val imageResult = imageGenerator.generateSituation(situation, situationConfig)
             val fileName = getNameFromScheme(
                 config.scheme,
                 "block" to blockId.toString(),
@@ -282,7 +287,7 @@ object PngExporter : Exporter {
             situation.options.values.map { option ->
                 async {
                     if (config.has999 && !option.containsValue(config.value999)) {
-                        saveOption(option, situation.id, blockId, config)
+                        saveOption(option, situation.id, blockId, config, situationConfig)
                     } else
                         null
                 }
@@ -295,9 +300,10 @@ object PngExporter : Exporter {
         option: SituationOption,
         situationId: Int,
         blockId: Int,
-        config: Config
+        config: Config,
+        situationConfig: SituationConfig
     ): ExportWarning? {
-        val imageResult = imageGenerator.generateOption(option)
+        val imageResult = imageGenerator.generateOption(option, situationConfig)
         val fileName = getNameFromScheme(
             config.scheme,
             "block" to blockId.toString(),

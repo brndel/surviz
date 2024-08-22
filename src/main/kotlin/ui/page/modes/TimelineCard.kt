@@ -1,4 +1,4 @@
-package ui.page.situation
+package ui.page.modes
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

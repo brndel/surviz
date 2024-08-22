@@ -1,7 +1,7 @@
 package data.project.config.columns
 
 import data.project.config.SingleValueConfig
-import data.project.config.SituationConfig
+import data.project.config.OptionConfig
 import data.project.data.SituationOption
 import ui.Labels
 
@@ -20,13 +20,13 @@ data object TimelineColumns : SingleValueColumn(
      */
     override fun getValue(
         singleValueConfig: SingleValueConfig,
-        situationConfig: SituationConfig,
+        optionConfig: OptionConfig,
         situationOption: SituationOption
     ): Double {
 
         var sum = 0.0
 
-        for (timelineEntry in situationConfig.getTimeline()) {
+        for (timelineEntry in optionConfig.getTimeline()) {
             if (timelineEntry.column.value != "") {
                 sum += situationOption.values.getValue(timelineEntry.column.value)
             }

@@ -1,4 +1,4 @@
-package ui.page.situation
+package ui.page.modes
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,7 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import data.project.config.SingleValueConfig
-import data.project.config.SituationConfig
+import data.project.config.OptionConfig
 import data.project.config.columns.ListColumns
 import data.project.config.columns.SchemeColumns
 import data.project.config.columns.SingleValueColumn
@@ -47,16 +47,16 @@ import ui.util.NestedSurface
 import java.util.UUID
 
 /**
- * This view lets the user edit a [SituationConfig]
+ * This view lets the user edit a [OptionConfig]
  *
- * @param config the [SituationConfig] that can be edited in this view
+ * @param config the [OptionConfig] that can be edited in this view
  * @ui TextField for the name of the situation
  * @ui ColorField for the color of the situation
  * @ui TimelineCard for every entry of the timeline of the situation
  */
 @Composable
-fun SituationTab(
-    config: SituationConfig,
+fun ModeTab(
+    config: OptionConfig,
     option: DataSchemeOption,
     singleValueIds: List<UUID>,
     singleValues: Map<UUID, SingleValueConfig>,

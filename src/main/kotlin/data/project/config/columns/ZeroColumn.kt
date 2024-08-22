@@ -1,7 +1,7 @@
 package data.project.config.columns
 
 import data.project.config.SingleValueConfig
-import data.project.config.SituationConfig
+import data.project.config.OptionConfig
 import data.project.data.SituationOption
 import ui.Labels
 
@@ -20,7 +20,7 @@ data object ZeroColumn : SingleValueColumn(
      */
     override fun getValue(
         singleValueConfig: SingleValueConfig,
-        situationConfig: SituationConfig,
+        optionConfig: OptionConfig,
         situationOption: SituationOption
     ): Double {
         return 0.0
