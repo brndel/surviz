@@ -27,11 +27,12 @@ class RangedIntFieldData(
     private fun getInts(segment: String): ArrayList<Int> {
         val ints = ArrayList<Int>()
         if (segment.matches(Regex("^\\d+$"))) {
-            ints.add(segment.toInt())
+            val value = segment.toIntOrNull() ?: throw InvalidSegmentException(segment)
+            ints.add(value)
         } else {
             val range = segment.split("-")
-            val start = range[0].toInt()
-            val end = range[1].toInt()
+            val start = range[0].toIntOrNull() ?: throw InvalidSegmentException(segment)
+            val end = range[1].toIntOrNull() ?: throw InvalidSegmentException(segment)
 
             if (start > end) {
                 throw InvalidSegmentException(segment)
