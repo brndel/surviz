@@ -83,7 +83,7 @@ fun ImageConfigCard(imageConfig: ImageConfig, modifier: Modifier = Modifier) {
                     timelineScaling = it.roundToInt().toDouble()
                 },
                 valueRange = 1f..25f,
-                steps = 24,
+                steps = 23,
                 modifier = Modifier.pointerInput(Unit) {
                     // Add your mouse speed adjustment logic here
                 }

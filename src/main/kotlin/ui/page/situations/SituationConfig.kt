@@ -70,7 +70,7 @@ fun SituationConfig(situationConfig: SituationConfig, situationId: Int) {
                         timelineScaling = it
                     },
                     valueRange = 1f..25f,
-                    steps = 24,
+                    steps = 23,
                     modifier = Modifier.pointerInput(Unit) {}
                 )
             }
