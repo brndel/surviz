@@ -38,10 +38,18 @@ fun RangedIntField(
     var showPopup by remember { mutableStateOf(false) }
 
     ParserField(value, onValueChange, parse = {
+        var convertError = false
         if (it.matches(Regex("^\\d+(-\\d+)?(,\\d+(-\\d+)?)*$"))) {
-            it
-        } else {
+            for(segment in it.split(",")) {
+                if(segment.toIntOrNull() == null) {
+                    convertError = true
+                }
+            }
+        }
+        if (convertError) {
             null
+        } else {
+            it
         }
 
     }, toString = { it }, modifier, label) {
