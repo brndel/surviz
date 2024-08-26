@@ -4,12 +4,26 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import data.resources.exceptions.InvalidSegmentException
 
+/**
+ * Ranged int field data hold string values that represent a range of integers
+ *
+ * @constructor
+ *
+ * @param initialValue initial value of the field
+ * @param label label of the field
+ */
 class RangedIntFieldData(
     initialValue: String,
     label: String
 ) : FieldData(label) {
 
     val value: MutableState<String> = mutableStateOf(initialValue)
+
+    /**
+     * Get value returns a list of integers from the string value
+     * @throws InvalidSegmentException if one or more segments are not a valid
+     * @return list of integers
+     */
     override fun getValue(): Any {
         val ints: ArrayList<Int> = ArrayList()
 

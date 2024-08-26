@@ -19,6 +19,8 @@ import java.util.*
  * @param singleValueConfig the configuration of a single value. Each SingleValueConfig is assigned a UUID. The Order of UUID's is stored in a list.
  * @param singleValueConfigOrder the list of UUID's that stores the order.
  * @param optionConfig the configuration of situations. Each situation is assigned a name.
+ * @param imageConfig the configuration of the images
+ * @param blockConfigs the configuration of the blocks
  */
 data class ProjectConfiguration(
     private val singleValueConfigOrder: SnapshotStateList<UUID> = mutableStateListOf(),

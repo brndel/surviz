@@ -6,7 +6,14 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializer
 
-class SituationConfig(
+/**
+ * Situation config stores all overriding configurations for a situation
+ *
+ * @property overrideScale whether the scale is overridden
+ * @property scale the overridden scale
+ * @constructor Create empty Situation config
+ */
+data class SituationConfig(
     val overrideScale: MutableState<Boolean> = mutableStateOf(false),
     val scale: MutableState<Float> = mutableStateOf(8f)
 )   {

@@ -6,7 +6,13 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializer
 
-class BlockConfig(
+/**
+ * Block config stores all individual configurations for a block
+ *
+ * @property situationConfigs list of all configurations for each situation in the block
+ * @constructor Create empty Block config
+ */
+data class BlockConfig(
     val situationConfigs: SnapshotStateMap<Int, SituationConfig> = mutableStateMapOf()
 ) {
     companion object {
