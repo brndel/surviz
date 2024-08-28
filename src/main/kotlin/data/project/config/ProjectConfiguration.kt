@@ -10,6 +10,7 @@ import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializer
 import data.generator.resources.ImageConfig
 import data.project.config.columns.SingleValueColumn
+import data.project.config.legend.Legend
 import java.util.*
 
 /**
@@ -26,6 +27,7 @@ data class ProjectConfiguration(
     private val optionConfig: SnapshotStateMap<String, OptionConfig> = mutableStateMapOf(),
     val imageConfig: ImageConfig = ImageConfig.loadFromProperties(),
     var blockConfigs: SnapshotStateMap<Int, BlockConfig>? = null,
+    var legend: Legend = Legend(),
 ) {
     /**
      * This method adds a single value to the project.
@@ -118,6 +120,7 @@ data class ProjectConfiguration(
             obj.add("optionConfig", ctx.serialize(value.optionConfig))
             obj.add("imageConfig", ctx.serialize(value.imageConfig))
             obj.add("blockConfigs", ctx.serialize(value.blockConfigs))
+            obj.add("legend", ctx.serialize(value.legend))
 
             obj
         }
@@ -154,13 +157,16 @@ data class ProjectConfiguration(
                 blockConfigs[key.toInt()] = entry
             }
 
+            val legend = ctx.deserialize<Legend>(obj.get("legend"), Legend::class.java)
+
 
             ProjectConfiguration(
                 singleValueConfigOrder,
                 singleValueConfig,
                 optionConfig,
                 imageConfig,
-                blockConfigs
+                blockConfigs,
+                legend
             )
         }
     }

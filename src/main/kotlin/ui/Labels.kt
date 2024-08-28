@@ -25,6 +25,9 @@ object Labels {
     const val ERROR = "ERROR"
     const val CANCEL = "CANCEL"
     const val ENUMERATION_SIGN: Char = 0x25CF.toChar()
+    const val PAGE_LEGEND = "LEGEND"
+    const val LEGEND_ABBREVIATION = "LEGEND_ABBREVIATION"
+    const val LEGEND_DESCRIPTION = "LEGEND_DESCRIPTION"
 
     const val ADD = "ADD"
 
@@ -68,6 +71,8 @@ object Labels {
     const val SINGLE_VALUE_DUMMY_VALUE = "SINGLE_VALUE_DUMMY_VALUE"
 
     const val SITUATION_OVERRIDE_SCALE = "SITUATION_OVERRIDE_SCALE"
+
+    const val LEGEND_SWITCH = "LEGEND_SWITCH"
 
     /*
     #########################################   EXPORT/IMPORT LABELS   #################################################
@@ -299,6 +304,8 @@ object Labels {
     const val SITUATION_OVERRIDE_SCALE_INFO_TITLE = "SITUATION_OVERRIDE_SCALE_INFO_TITLE"
 
     const val PREVIEW_SITUATION_OVERRIDE_INFO_TITLE = "PREVIEW_SITUATION_OVERRIDE_INFO_TITLE"
+
+    const val LEGEND_SWITCH_INFO_TITLE = "LEGEND_SWITCH_INFO_TITLE"
     /*
     #########################################   MISC/ERROR LABELS   ####################################################
     */
@@ -360,6 +367,9 @@ enum class Language(
             Labels.ERROR to "Error",
             Labels.CANCEL to "Cancel",
             Labels.ADD to "Add",
+            Labels.PAGE_LEGEND to "Legend",
+            Labels.LEGEND_ABBREVIATION to "Abbreviation",
+            Labels.LEGEND_DESCRIPTION to "Description",
 
             Labels.FIELD_PREFIX to "Prefix",
             Labels.FIELD_UNIT to "Unit",
@@ -401,6 +411,8 @@ enum class Language(
             Labels.SINGLE_VALUE_DUMMY_VALUE to "Value",
 
             Labels.SITUATION_OVERRIDE_SCALE to "Override scale",
+
+            Labels.LEGEND_SWITCH to "Entry with icon",
 
             /*
             #########################################   EXPORT/IMPORT LABELS   #########################################
@@ -662,6 +674,9 @@ enum class Language(
             Labels.ERROR to "Fehler",
             Labels.CANCEL to "Abbrechen",
             Labels.ADD to "Hinzufügen",
+            Labels.PAGE_LEGEND to "Legende",
+            Labels.LEGEND_ABBREVIATION to "Abkürzung",
+            Labels.LEGEND_DESCRIPTION to "Beschreibung",
 
             Labels.FIELD_PREFIX to "Präfix",
             Labels.FIELD_UNIT to "Einheit",
@@ -703,6 +718,8 @@ enum class Language(
             Labels.SINGLE_VALUE_DUMMY_VALUE to "Value",
 
             Labels.SITUATION_OVERRIDE_SCALE to "Skalierung überschreiben",
+
+            Labels.LEGEND_SWITCH to "Eintrag mit Icon",
 
             /*
             #########################################   EXPORT/IMPORT LABELS   #########################################

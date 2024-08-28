@@ -33,6 +33,7 @@ import data.project.config.ProjectConfiguration
 import data.project.config.OptionConfig
 import data.project.config.SituationConfig
 import data.project.config.columns.ZeroColumn
+import data.project.config.legend.Legend
 import data.project.data.IconStorage
 import data.project.data.Situation
 import data.project.data.SituationOption
@@ -181,6 +182,10 @@ class ImageGenerator(
         neededWidth += 2 * properties.getProperty("column_padding").toInt()
 
         return ImageResult(image, neededWidth)
+    }
+
+    fun generateLegend(legend: Legend): ImageBitmap {
+        TODO()
     }
 
     ///////////////////////////////////////////////////////////////////////////////
