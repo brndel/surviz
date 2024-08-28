@@ -19,6 +19,7 @@ import data.resources.exceptions.CorruptFileException
 import data.resources.exceptions.FileTypeException
 import org.jetbrains.skia.Data
 import org.jetbrains.skia.svg.*
+import util.platformPath
 import java.awt.image.BufferedImage
 import java.io.File
 import java.io.FileInputStream
@@ -107,6 +108,15 @@ data class IconStorage(
 
     companion object {
         private const val ICON_SIZE = 64
+        private val defaultSaveDirectory by lazy {
+            platformPath(windows = {
+                "C:\\Users\\$it\\surviz\\icons"
+            }, linux = {
+                "/home/$it/surviz/icons"
+            }, mac = {
+                "/Users/$it/surviz/icons"
+            })
+        }
 
         val serializer = JsonSerializer<IconStorage> { iconStorage, _, _ ->
             val json = JsonObject()
@@ -134,7 +144,16 @@ data class IconStorage(
 
                 val bytes = Base64.getDecoder().decode(base64content)
 
-                val file = File(filePath)
+                var file = File(filePath)
+
+                val name = file.name
+                val extension = file.extension
+
+                if(!file.exists()) {
+                    file = File("$defaultSaveDirectory$name.$extension")
+                    file.createNewFile()
+                }
+
                 file.writeBytes(bytes)
 
                 iconStorage.storeUserIcon(file, id)
