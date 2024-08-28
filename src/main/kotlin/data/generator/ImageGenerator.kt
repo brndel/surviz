@@ -318,7 +318,7 @@ class ImageGenerator(
 
             // change alpha if value == 0 and not ZeroColumn
             var newColor = color.copy()
-            if (value == 0.0 && column !is ZeroColumn) {
+            if (value == 0.0 && column !is ZeroColumn &&!singleValueConfig.isDummy.value) {
                 newColor = color.copy(alpha = imageConfig.alpha.value)
             }
 
