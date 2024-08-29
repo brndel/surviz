@@ -57,7 +57,7 @@ fun ProjectScreen(project: Project) {
                         Page.Mode -> ModePage(project.configuration, project.getDataScheme())
                         Page.Image -> ImageConfigPage(project.configuration.imageConfig)
                         Page.Situations -> SituationsPage(project.configuration.blockConfigs!!)
-                        Page.Legend -> LegendPage(project.configuration.legend)
+                        Page.Legend -> LegendPage(project.configuration.legend, project)
                         Page.Export -> ExportPage(project)
                     }
                 }

@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import data.generator.ImageGenerator
 import data.project.Project
+import ui.fields.BooleanField
 import ui.fields.IntField
 import ui.fields.OptionsField
 import ui.page.situations.SituationConfig
@@ -41,6 +42,8 @@ fun Preview(project: Project) {
         val imageGenerator = remember { ImageGenerator(project.configuration, project.iconStorage) }
         var blockId by remember { mutableIntStateOf(1) }
         var situationId by remember { mutableIntStateOf(1) }
+
+        var showLegend by remember { mutableStateOf(false) }
 
         val situation by derivedStateOf {
             project.getSituation(blockId, situationId)

@@ -46,6 +46,7 @@ object PngExporter : Exporter {
     private const val SEPARATE_OPTION_KEY = "separate_options"
     private const val PATH_KEY = "path"
     private const val SCHEME_KEY = "scheme"
+    private const val LEGEND_KEY = "legend"
 
     const val DEFAULT_SCHEME = "block_\$block\$_situation_\$situation\$_option_\$option\$.png"
 
@@ -127,6 +128,14 @@ object PngExporter : Exporter {
                 )
             )
         )
+
+        fields.add(
+            NamedField(
+                LEGEND_KEY,
+                BooleanFieldData(false, Labels.EXPORT_LEGEND)
+            )
+        )
+
         return fields
     }
 
@@ -142,6 +151,12 @@ object PngExporter : Exporter {
         val scheme = exportConfig[SCHEME_KEY] as String
         val path = exportConfig[PATH_KEY] as String
         onPathSelected?.let { it(Path.of(path)) }
+
+        if (exportConfig[LEGEND_KEY] as Boolean) {
+            val legend = project.configuration.legend
+            val legendImage = imageGenerator.generateLegend(legend)
+            saveBitmap(legendImage, path, "legend.png")
+        }
 
         val blocks = ArrayList<Block>()
         val allBlocks = exportConfig[ALL_BLOCK_KEY] as Boolean

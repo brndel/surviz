@@ -13,5 +13,6 @@ import androidx.compose.ui.unit.sp
  */
 enum class TextType(val fontSizeKey: String, val fontWeight: FontWeight) {
     Title("text_title_size", FontWeight.Normal),
-    Label("text_label_size", FontWeight.Normal);
+    Label("text_label_size", FontWeight.Normal),
+    Legend("text_legend_size", FontWeight.Normal);
 }

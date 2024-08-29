@@ -74,6 +74,7 @@ object Labels {
 
     const val LEGEND_SWITCH = "LEGEND_SWITCH"
 
+    const val PREVIEW_SHOW_LEGEND = "PREVIEW_SHOW_LEGEND"
     /*
     #########################################   EXPORT/IMPORT LABELS   #################################################
     */
@@ -85,6 +86,7 @@ object Labels {
     const val EXPORT_SEPARATE_OPTIONS = "EXPORT_SEPARATE_OPTIONS"
     const val EXPORT_OUTPUT_PATH = "EXPORT_OUTPUT_PATH"
     const val EXPORT_FILE_NAME_SCHEME = "EXPORT_FILE_NAME_SCHEME"
+    const val EXPORT_LEGEND = "EXPORT_LEGEND"
 
     const val EXPORT_HTML_INCLUDE_VERSION = "EXPORT_HTML_INCLUDE_VERSION"
     const val EXPORT_HTML_VERSION_NUMBER = "EXPORT_HTML_VERSION_NUMBER"
