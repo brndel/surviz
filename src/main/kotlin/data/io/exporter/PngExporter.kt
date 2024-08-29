@@ -286,10 +286,10 @@ object PngExporter : Exporter {
         val errorList = coroutineScope {
             situation.options.values.map { option ->
                 async {
-                    if (config.has999 && !option.containsValue(config.value999)) {
-                        saveOption(option, situation.id, blockId, config, situationConfig)
-                    } else
+                    if (config.has999 && option.containsValue(config.value999)) {
                         null
+                    } else
+                        saveOption(option, situation.id, blockId, config, situationConfig)
                 }
             }.awaitAll()
         }
