@@ -188,14 +188,32 @@ class ImageGenerator(
         return ImageResult(image, neededWidth)
     }
 
+    /**
+     * Generate legend image.
+     * Scales height of the [ImageBitmap] based on the amount of entries in the [Legend].
+     *
+     * @param legend [Legend] to generate
+     * @return [ImageBitmap] of the legend
+     */
     fun generateLegend(legend: Legend): ImageBitmap {
-        val segmentPadding = properties.getProperty("legend_segment_padding").toInt()
+        //initialize values
+        val segmentPadding = legend.segmentPadding.value
 
         val color = legend.color.value
 
         val bitmaps = ArrayList<ImageBitmap>()
 
         val width = imageConfig.width.value
+
+        val iconSize = properties.getProperty("legend_icon_size").toInt()
+
+        val dividerHeight = properties.getProperty("legend_divider_height").toFloat()
+        val dividerPaint = Paint().apply {
+            style = PaintingStyle.Stroke
+            strokeWidth = properties.getProperty("divider_weight").toFloat()
+            this.color = Color(properties.getProperty("divider_color").toLong(16))
+        }
+        val drawDivider = legend.drawDivider.value
 
         var currentBitmap = ImageBitmap(width, legendHeight)
         bitmaps.add(currentBitmap)
@@ -212,8 +230,11 @@ class ImageGenerator(
 
         val iconPadding = properties.getProperty("legend_icon_padding").toInt()
 
+        var isFirstSegment = true
+
+        //go trough all entries
         for (entry in legend.entries) {
-            val icon = entry.path.value?.let { getIcon(it) }
+            val icon = resizeBitmap(entry.path.value?.let { getIcon(it) }, iconSize, iconSize)
             val iconWidth = icon?.width ?: 0
 
             val combinedText = "${entry.abbreviation.value}: ${entry.description.value}"
@@ -225,11 +246,11 @@ class ImageGenerator(
                 segmentWidth += iconPadding
                 segmentWidth += getTextLayoutResult(
                     entry.description.value,
-                    textType = TextType.Title
+                    textType = TextType.Legend
                 ).size.width
             } else {
                 segmentWidth =
-                    getTextLayoutResult(combinedText, textType = TextType.Title).size.width
+                    getTextLayoutResult(combinedText, textType = TextType.Legend).size.width
             }
 
             if (x + segmentWidth + padding > width) {
@@ -238,6 +259,18 @@ class ImageGenerator(
                 canvas = Canvas(currentBitmap)
                 canvas.drawRect(0F, 0F, width.toFloat(), legendHeight.toFloat(), backgroundColor)
                 x = padding
+                isFirstSegment = true
+            }
+
+            //only draw divider if not first segment
+            if (!isFirstSegment && drawDivider) {
+                drawDivider(
+                    canvas,
+                    x.toFloat() - segmentPadding / 2,
+                    center.toFloat(),
+                    dividerHeight,
+                    dividerPaint
+                )
             }
 
             // draw
@@ -268,6 +301,8 @@ class ImageGenerator(
                     centerY = true
                 )
             }
+
+            isFirstSegment = false
 
             x += segmentWidth
             x += segmentPadding
@@ -309,7 +344,7 @@ class ImageGenerator(
         }
 
         var y = position.y
-        if(centerY) {
+        if (centerY) {
             y -= textLayoutResult.size.height / 2
         }
 

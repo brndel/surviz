@@ -73,8 +73,9 @@ object Labels {
     const val SITUATION_OVERRIDE_SCALE = "SITUATION_OVERRIDE_SCALE"
 
     const val LEGEND_SWITCH = "LEGEND_SWITCH"
+    const val LEGEND_DIVIDER_SWITCH = "LEGEND_DIVIDER_SWITCH"
+    const val LEGEND_SEGMENT_PADDING = "LEGEND_SEGMENT_PADDING"
 
-    const val PREVIEW_SHOW_LEGEND = "PREVIEW_SHOW_LEGEND"
     /*
     #########################################   EXPORT/IMPORT LABELS   #################################################
     */
@@ -308,6 +309,8 @@ object Labels {
     const val PREVIEW_SITUATION_OVERRIDE_INFO_TITLE = "PREVIEW_SITUATION_OVERRIDE_INFO_TITLE"
 
     const val LEGEND_SWITCH_INFO_TITLE = "LEGEND_SWITCH_INFO_TITLE"
+    const val LEGEND_DIVIDER_SWITCH_INFO_TITLE = "LEGEND_DIVIDER_SWITCH_INFO_TITLE"
+    const val LEGEND_SEGMENT_PADDING_INFO_TITLE = "LEGEND_SEGMENT_PADDING_INFO_TITLE"
     /*
     #########################################   MISC/ERROR LABELS   ####################################################
     */
@@ -415,6 +418,8 @@ enum class Language(
             Labels.SITUATION_OVERRIDE_SCALE to "Override scale",
 
             Labels.LEGEND_SWITCH to "Entry with icon",
+            Labels.LEGEND_DIVIDER_SWITCH to "Draw divider",
+            Labels.LEGEND_SEGMENT_PADDING to "Segment padding",
 
             /*
             #########################################   EXPORT/IMPORT LABELS   #########################################
@@ -427,6 +432,7 @@ enum class Language(
             Labels.EXPORT_SEPARATE_OPTIONS to "Export all options separately",
             Labels.EXPORT_OUTPUT_PATH to "Output path",
             Labels.EXPORT_FILE_NAME_SCHEME to "File name scheme",
+            Labels.EXPORT_LEGEND to "Include legend",
 
             Labels.EXPORT_HTML_INCLUDE_VERSION to "Include a version number",
             Labels.EXPORT_HTML_VERSION_NUMBER to "Version Number",
@@ -621,6 +627,10 @@ enum class Language(
 
             Labels.PREVIEW_SITUATION_OVERRIDE_INFO_TITLE to "This situation overrides general image settings",
 
+            Labels.LEGEND_SWITCH_INFO_TITLE to "Switching between describing\nan icon or abbreviation",
+            Labels.LEGEND_DIVIDER_SWITCH_INFO_TITLE to "Draws a divider between legend entries",
+            Labels.LEGEND_SEGMENT_PADDING_INFO_TITLE to "Padding between segments",
+
             /*
             #########################################   MISC/ERROR LABELS   ############################################
             */
@@ -722,6 +732,8 @@ enum class Language(
             Labels.SITUATION_OVERRIDE_SCALE to "Skalierung überschreiben",
 
             Labels.LEGEND_SWITCH to "Eintrag mit Icon",
+            Labels.LEGEND_DIVIDER_SWITCH to "Trennstrich zeichnen",
+            Labels.LEGEND_SEGMENT_PADDING to "Abstand zwischen Segmenten",
 
             /*
             #########################################   EXPORT/IMPORT LABELS   #########################################
@@ -734,6 +746,7 @@ enum class Language(
             Labels.EXPORT_SEPARATE_OPTIONS to "Alle Optionen separat exportieren",
             Labels.EXPORT_OUTPUT_PATH to "Speicherpfad",
             Labels.EXPORT_FILE_NAME_SCHEME to "Schema für Dateinamen",
+            Labels.EXPORT_LEGEND to "Legende hinzufügen",
 
             Labels.EXPORT_HTML_INCLUDE_VERSION to "Versionsnummer hinzufügen",
             Labels.EXPORT_HTML_VERSION_NUMBER to "Version",
@@ -933,6 +946,11 @@ enum class Language(
             Labels.SITUATION_OVERRIDE_SCALE_INFO_TITLE to "Erlaubt dem Nutzer einen\nSkalierungsfaktor für die Situation festzulegen",
 
             Labels.PREVIEW_SITUATION_OVERRIDE_INFO_TITLE to "Diese Situation überschreibt die generellen Bildeinstellungen",
+
+            Labels.LEGEND_SWITCH_INFO_TITLE to "Wechsel zwischen Icon und Abkürzung",
+            Labels.LEGEND_DIVIDER_SWITCH_INFO_TITLE to "Zeichnet einen Trennstrich zwischen Legendeinträgen",
+            Labels.LEGEND_SEGMENT_PADDING_INFO_TITLE to "Abstand zwischen Segmenten",
+
             /*
             #########################################   MISC/ERROR LABELS   ############################################
             */
