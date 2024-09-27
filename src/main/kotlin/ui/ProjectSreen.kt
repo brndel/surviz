@@ -22,6 +22,7 @@ import data.project.config.ProjectConfiguration
 import data.project.data.IconStorage
 import ui.page.export.ExportPage
 import ui.page.image.ImageConfigPage
+import ui.page.legend.LegendPage
 import ui.page.situations.SituationsPage
 import ui.page.singleValue.SingleValuePage
 import ui.page.modes.ModePage
@@ -56,6 +57,7 @@ fun ProjectScreen(project: Project) {
                         Page.Mode -> ModePage(project.configuration, project.getDataScheme())
                         Page.Image -> ImageConfigPage(project.configuration.imageConfig)
                         Page.Situations -> SituationsPage(project.configuration.blockConfigs!!)
+                        Page.Legend -> LegendPage(project.configuration.legend, project)
                         Page.Export -> ExportPage(project)
                     }
                 }
@@ -126,6 +128,8 @@ enum class Page(val label: String) {
     Situations(Labels.PAGE_OVERRIDE_OPTIONS),
 
     Image(Labels.PAGE_IMAGE),
+
+    Legend(Labels.PAGE_LEGEND),
 
     /**
      * Will show the [ExportPage]

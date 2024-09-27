@@ -25,6 +25,9 @@ object Labels {
     const val ERROR = "ERROR"
     const val CANCEL = "CANCEL"
     const val ENUMERATION_SIGN: Char = 0x25CF.toChar()
+    const val PAGE_LEGEND = "LEGEND"
+    const val LEGEND_ABBREVIATION = "LEGEND_ABBREVIATION"
+    const val LEGEND_DESCRIPTION = "LEGEND_DESCRIPTION"
 
     const val ADD = "ADD"
 
@@ -69,6 +72,10 @@ object Labels {
 
     const val SITUATION_OVERRIDE_SCALE = "SITUATION_OVERRIDE_SCALE"
 
+    const val LEGEND_SWITCH = "LEGEND_SWITCH"
+    const val LEGEND_DIVIDER_SWITCH = "LEGEND_DIVIDER_SWITCH"
+    const val LEGEND_SEGMENT_PADDING = "LEGEND_SEGMENT_PADDING"
+
     /*
     #########################################   EXPORT/IMPORT LABELS   #################################################
     */
@@ -80,6 +87,7 @@ object Labels {
     const val EXPORT_SEPARATE_OPTIONS = "EXPORT_SEPARATE_OPTIONS"
     const val EXPORT_OUTPUT_PATH = "EXPORT_OUTPUT_PATH"
     const val EXPORT_FILE_NAME_SCHEME = "EXPORT_FILE_NAME_SCHEME"
+    const val EXPORT_LEGEND = "EXPORT_LEGEND"
 
     const val EXPORT_HTML_INCLUDE_VERSION = "EXPORT_HTML_INCLUDE_VERSION"
     const val EXPORT_HTML_VERSION_NUMBER = "EXPORT_HTML_VERSION_NUMBER"
@@ -299,6 +307,10 @@ object Labels {
     const val SITUATION_OVERRIDE_SCALE_INFO_TITLE = "SITUATION_OVERRIDE_SCALE_INFO_TITLE"
 
     const val PREVIEW_SITUATION_OVERRIDE_INFO_TITLE = "PREVIEW_SITUATION_OVERRIDE_INFO_TITLE"
+
+    const val LEGEND_SWITCH_INFO_TITLE = "LEGEND_SWITCH_INFO_TITLE"
+    const val LEGEND_DIVIDER_SWITCH_INFO_TITLE = "LEGEND_DIVIDER_SWITCH_INFO_TITLE"
+    const val LEGEND_SEGMENT_PADDING_INFO_TITLE = "LEGEND_SEGMENT_PADDING_INFO_TITLE"
     /*
     #########################################   MISC/ERROR LABELS   ####################################################
     */
@@ -360,6 +372,9 @@ enum class Language(
             Labels.ERROR to "Error",
             Labels.CANCEL to "Cancel",
             Labels.ADD to "Add",
+            Labels.PAGE_LEGEND to "Legend",
+            Labels.LEGEND_ABBREVIATION to "Abbreviation",
+            Labels.LEGEND_DESCRIPTION to "Description",
 
             Labels.FIELD_PREFIX to "Prefix",
             Labels.FIELD_UNIT to "Unit",
@@ -402,6 +417,10 @@ enum class Language(
 
             Labels.SITUATION_OVERRIDE_SCALE to "Override scale",
 
+            Labels.LEGEND_SWITCH to "Entry with icon",
+            Labels.LEGEND_DIVIDER_SWITCH to "Draw divider",
+            Labels.LEGEND_SEGMENT_PADDING to "Segment padding",
+
             /*
             #########################################   EXPORT/IMPORT LABELS   #########################################
              */
@@ -413,6 +432,7 @@ enum class Language(
             Labels.EXPORT_SEPARATE_OPTIONS to "Export all options separately",
             Labels.EXPORT_OUTPUT_PATH to "Output path",
             Labels.EXPORT_FILE_NAME_SCHEME to "File name scheme",
+            Labels.EXPORT_LEGEND to "Include legend",
 
             Labels.EXPORT_HTML_INCLUDE_VERSION to "Include a version number",
             Labels.EXPORT_HTML_VERSION_NUMBER to "Version Number",
@@ -607,6 +627,10 @@ enum class Language(
 
             Labels.PREVIEW_SITUATION_OVERRIDE_INFO_TITLE to "This situation overrides general image settings",
 
+            Labels.LEGEND_SWITCH_INFO_TITLE to "Switching between describing\nan icon or abbreviation",
+            Labels.LEGEND_DIVIDER_SWITCH_INFO_TITLE to "Draws a divider between legend entries",
+            Labels.LEGEND_SEGMENT_PADDING_INFO_TITLE to "Padding between segments",
+
             /*
             #########################################   MISC/ERROR LABELS   ############################################
             */
@@ -662,6 +686,9 @@ enum class Language(
             Labels.ERROR to "Fehler",
             Labels.CANCEL to "Abbrechen",
             Labels.ADD to "Hinzufügen",
+            Labels.PAGE_LEGEND to "Legende",
+            Labels.LEGEND_ABBREVIATION to "Abkürzung",
+            Labels.LEGEND_DESCRIPTION to "Beschreibung",
 
             Labels.FIELD_PREFIX to "Präfix",
             Labels.FIELD_UNIT to "Einheit",
@@ -704,6 +731,10 @@ enum class Language(
 
             Labels.SITUATION_OVERRIDE_SCALE to "Skalierung überschreiben",
 
+            Labels.LEGEND_SWITCH to "Eintrag mit Icon",
+            Labels.LEGEND_DIVIDER_SWITCH to "Trennstrich zeichnen",
+            Labels.LEGEND_SEGMENT_PADDING to "Abstand zwischen Segmenten",
+
             /*
             #########################################   EXPORT/IMPORT LABELS   #########################################
             */
@@ -715,6 +746,7 @@ enum class Language(
             Labels.EXPORT_SEPARATE_OPTIONS to "Alle Optionen separat exportieren",
             Labels.EXPORT_OUTPUT_PATH to "Speicherpfad",
             Labels.EXPORT_FILE_NAME_SCHEME to "Schema für Dateinamen",
+            Labels.EXPORT_LEGEND to "Legende hinzufügen",
 
             Labels.EXPORT_HTML_INCLUDE_VERSION to "Versionsnummer hinzufügen",
             Labels.EXPORT_HTML_VERSION_NUMBER to "Version",
@@ -914,6 +946,11 @@ enum class Language(
             Labels.SITUATION_OVERRIDE_SCALE_INFO_TITLE to "Erlaubt dem Nutzer einen\nSkalierungsfaktor für die Situation festzulegen",
 
             Labels.PREVIEW_SITUATION_OVERRIDE_INFO_TITLE to "Diese Situation überschreibt die generellen Bildeinstellungen",
+
+            Labels.LEGEND_SWITCH_INFO_TITLE to "Wechsel zwischen Icon und Abkürzung",
+            Labels.LEGEND_DIVIDER_SWITCH_INFO_TITLE to "Zeichnet einen Trennstrich zwischen Legendeinträgen",
+            Labels.LEGEND_SEGMENT_PADDING_INFO_TITLE to "Abstand zwischen Segmenten",
+
             /*
             #########################################   MISC/ERROR LABELS   ############################################
             */

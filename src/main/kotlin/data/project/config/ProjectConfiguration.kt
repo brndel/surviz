@@ -10,6 +10,7 @@ import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializer
 import data.generator.resources.ImageConfig
 import data.project.config.columns.SingleValueColumn
+import data.project.config.legend.Legend
 import java.util.*
 
 /**
@@ -19,8 +20,9 @@ import java.util.*
  * @param singleValueConfig the configuration of a single value. Each SingleValueConfig is assigned a UUID. The Order of UUID's is stored in a list.
  * @param singleValueConfigOrder the list of UUID's that stores the order.
  * @param optionConfig the configuration of situations. Each situation is assigned a name.
- * @param imageConfig the configuration of the images
- * @param blockConfigs the configuration of the blocks
+ * @param imageConfig the configuration of images.
+ * @param blockConfigs the configuration of blocks.
+ * @param legend the configuration of the legend.
  */
 data class ProjectConfiguration(
     private val singleValueConfigOrder: SnapshotStateList<UUID> = mutableStateListOf(),
@@ -28,6 +30,7 @@ data class ProjectConfiguration(
     private val optionConfig: SnapshotStateMap<String, OptionConfig> = mutableStateMapOf(),
     val imageConfig: ImageConfig = ImageConfig.loadFromProperties(),
     var blockConfigs: SnapshotStateMap<Int, BlockConfig>? = null,
+    var legend: Legend = Legend.loadFromProperties(),
 ) {
     /**
      * This method adds a single value to the project.
@@ -120,6 +123,7 @@ data class ProjectConfiguration(
             obj.add("optionConfig", ctx.serialize(value.optionConfig))
             obj.add("imageConfig", ctx.serialize(value.imageConfig))
             obj.add("blockConfigs", ctx.serialize(value.blockConfigs))
+            obj.add("legend", ctx.serialize(value.legend))
 
             obj
         }
@@ -135,7 +139,8 @@ data class ProjectConfiguration(
             val singleValueConfig = mutableStateMapOf<UUID, SingleValueConfig>()
             for ((keyElem, entryElem) in obj.get("singleValueConfig").asJsonObject.entrySet()) {
                 val key = ctx.deserialize<UUID>(JsonPrimitive(keyElem), UUID::class.java)
-                val entry = ctx.deserialize<SingleValueConfig>(entryElem, SingleValueConfig::class.java)
+                val entry =
+                    ctx.deserialize<SingleValueConfig>(entryElem, SingleValueConfig::class.java)
 
                 singleValueConfig[key] = entry
             }
@@ -147,7 +152,8 @@ data class ProjectConfiguration(
                 optionConfig[key] = entry
             }
 
-            val imageConfig = ctx.deserialize<ImageConfig>(obj.get("imageConfig"), ImageConfig::class.java)
+            val imageConfig =
+                ctx.deserialize<ImageConfig>(obj.get("imageConfig"), ImageConfig::class.java)
 
             val blockConfigs = mutableStateMapOf<Int, BlockConfig>()
             for ((key, entryElem) in obj.get("blockConfigs").asJsonObject.entrySet()) {
@@ -156,13 +162,16 @@ data class ProjectConfiguration(
                 blockConfigs[key.toInt()] = entry
             }
 
+            val legend = ctx.deserialize<Legend>(obj.get("legend"), Legend::class.java)
+
 
             ProjectConfiguration(
                 singleValueConfigOrder,
                 singleValueConfig,
                 optionConfig,
                 imageConfig,
-                blockConfigs
+                blockConfigs,
+                legend
             )
         }
     }

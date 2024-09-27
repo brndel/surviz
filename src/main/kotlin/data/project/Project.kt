@@ -8,6 +8,8 @@ import com.google.gson.*
 import data.generator.resources.ImageConfig
 import data.project.config.*
 import data.project.config.columns.*
+import data.project.config.legend.Legend
+import data.project.config.legend.LegendEntry
 import data.project.data.Block
 import data.project.data.DataScheme
 import data.project.data.IconStorage
@@ -261,6 +263,10 @@ data class Project(
                 .registerTypeAdapter(BlockConfig::class.java, BlockConfig.deserializer)
                 .registerTypeAdapter(OptionConfig::class.java, OptionConfig.serializer)
                 .registerTypeAdapter(OptionConfig::class.java, OptionConfig.deserializer)
+                .registerTypeAdapter(Legend::class.java, Legend.serializer)
+                .registerTypeAdapter(Legend::class.java, Legend.deserializer)
+                .registerTypeAdapter(LegendEntry::class.java, LegendEntry.serializer)
+                .registerTypeAdapter(LegendEntry::class.java, LegendEntry.deserializer)
                 .registerTypeAdapter(SituationConfig::class.java, SituationConfig.serializer)
                 .registerTypeAdapter(SituationConfig::class.java, SituationConfig.deserializer)
                 .registerTypeAdapter(TimelineEntry::class.java, TimelineEntry.serializer)
@@ -315,7 +321,7 @@ data class Project(
             )
         }
 
-        private const val VERSION = "1.6"
+        private const val VERSION = "1.7"
     }
 }
 

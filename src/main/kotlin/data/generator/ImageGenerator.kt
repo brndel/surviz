@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.res.useResource
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextPainter
 import androidx.compose.ui.text.TextStyle
@@ -33,6 +34,7 @@ import data.project.config.ProjectConfiguration
 import data.project.config.OptionConfig
 import data.project.config.SituationConfig
 import data.project.config.columns.ZeroColumn
+import data.project.config.legend.Legend
 import data.project.data.IconStorage
 import data.project.data.Situation
 import data.project.data.SituationOption
@@ -55,12 +57,15 @@ class ImageGenerator(
     private val height: Int
     private val padding: Int
 
+    private val legendHeight: Int
+
     init {
         useResource("config/image_generator.properties") {
             properties.load(it)
         }
         height = properties.getProperty("situation_height").toInt()
         padding = properties.getProperty("border_padding").toInt()
+        legendHeight = properties.getProperty("legend_height").toInt()
         imageConfig = config.imageConfig
     }
 
@@ -79,7 +84,6 @@ class ImageGenerator(
         var maxWidth = 0
         var maxNeededWidth = 0
         val imageList = ArrayList<ImageBitmap>()
-        val optionCount = situation.options.size
 
         for (option in situation.options.values) {
             val imageResult = generateOption(option, situationConfig)
@@ -95,15 +99,7 @@ class ImageGenerator(
             }
         }
 
-        val situationHeight = height * optionCount
-
-        val bitmap = ImageBitmap(maxWidth, situationHeight)
-        val canvas = Canvas(bitmap)
-
-        for (i in 0..<optionCount) {
-            val image = imageList[i]
-            canvas.drawImage(image, Offset(0F, i * height.toFloat()), Paint())
-        }
+        val bitmap = fuseBitmapList(imageList)
         return ImageResult(bitmap, maxNeededWidth)
     }
 
@@ -172,7 +168,16 @@ class ImageGenerator(
 
         // draw timeline
         val timelineWidth =
-            drawTimeline(canvas, color, option, optionConfig, dividerX, centerLine, neededWidth, situationConfig)
+            drawTimeline(
+                canvas,
+                color,
+                option,
+                optionConfig,
+                dividerX,
+                centerLine,
+                neededWidth,
+                situationConfig
+            )
 
         // calculate needed width
         neededWidth += singleValueSectionSize
@@ -181,6 +186,129 @@ class ImageGenerator(
         neededWidth += 2 * properties.getProperty("column_padding").toInt()
 
         return ImageResult(image, neededWidth)
+    }
+
+    /**
+     * Generate legend image.
+     * Scales height of the [ImageBitmap] based on the amount of entries in the [Legend].
+     *
+     * @param legend [Legend] to generate
+     * @return [ImageBitmap] of the legend
+     */
+    fun generateLegend(legend: Legend): ImageBitmap {
+        //initialize values
+        val segmentPadding = legend.segmentPadding.value
+
+        val color = legend.color.value
+
+        val bitmaps = ArrayList<ImageBitmap>()
+
+        val width = imageConfig.width.value
+
+        val iconSize = properties.getProperty("legend_icon_size").toInt()
+
+        val dividerHeight = properties.getProperty("legend_divider_height").toFloat()
+        val dividerPaint = Paint().apply {
+            style = PaintingStyle.Stroke
+            strokeWidth = properties.getProperty("divider_weight").toFloat()
+            this.color = Color(properties.getProperty("divider_color").toLong(16))
+        }
+        val drawDivider = legend.drawDivider.value
+
+        var currentBitmap = ImageBitmap(width, legendHeight)
+        bitmaps.add(currentBitmap)
+
+        var canvas = Canvas(currentBitmap)
+
+        //fill background
+        val backgroundColor = Paint()
+        backgroundColor.color = imageConfig.backgroundColor.value
+        canvas.drawRect(0F, 0F, width.toFloat(), legendHeight.toFloat(), backgroundColor)
+
+        var x = padding
+        val center = legendHeight / 2
+
+        val iconPadding = properties.getProperty("legend_icon_padding").toInt()
+
+        var isFirstSegment = true
+
+        //go trough all entries
+        for (entry in legend.entries) {
+            val icon = resizeBitmap(entry.path.value?.let { getIcon(it) }, iconSize, iconSize)
+            val iconWidth = icon?.width ?: 0
+
+            val combinedText = "${entry.abbreviation.value}: ${entry.description.value}"
+
+            // check if text fits on current bitmap
+            var segmentWidth = 0
+            if (entry.isIcon.value) {
+                segmentWidth += iconWidth
+                segmentWidth += iconPadding
+                segmentWidth += getTextLayoutResult(
+                    entry.description.value,
+                    textType = TextType.Legend
+                ).size.width
+            } else {
+                segmentWidth =
+                    getTextLayoutResult(combinedText, textType = TextType.Legend).size.width
+            }
+
+            if (x + segmentWidth + padding > width) {
+                currentBitmap = ImageBitmap(width, legendHeight)
+                bitmaps.add(currentBitmap)
+                canvas = Canvas(currentBitmap)
+                canvas.drawRect(0F, 0F, width.toFloat(), legendHeight.toFloat(), backgroundColor)
+                x = padding
+                isFirstSegment = true
+            }
+
+            //only draw divider if not first segment
+            if (!isFirstSegment && drawDivider) {
+                drawDivider(
+                    canvas,
+                    x.toFloat() - segmentPadding / 2,
+                    center.toFloat(),
+                    dividerHeight,
+                    dividerPaint
+                )
+            }
+
+            // draw
+            if (entry.isIcon.value) {
+                drawIcon(
+                    canvas,
+                    icon,
+                    color,
+                    Offset(x + (iconWidth / 2F), center.toFloat())
+                )
+                drawText(
+                    canvas,
+                    entry.description.value,
+                    color,
+                    Offset((x + iconWidth + iconPadding).toFloat(), center.toFloat()),
+                    TextType.Legend,
+                    centerX = false,
+                    centerY = true
+                )
+            } else {
+                drawText(
+                    canvas,
+                    combinedText,
+                    color,
+                    Offset(x.toFloat(), center.toFloat()),
+                    TextType.Legend,
+                    centerX = false,
+                    centerY = true
+                )
+            }
+
+            isFirstSegment = false
+
+            x += segmentWidth
+            x += segmentPadding
+        }
+
+        return fuseBitmapList(bitmaps)
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -205,8 +333,33 @@ class ImageGenerator(
         position: Offset,
         textType: TextType = TextType.Label,
         centerX: Boolean,
+        centerY: Boolean = false,
         width: Int? = null
     ) {
+        val textLayoutResult = getTextLayoutResult(text, textType, color, width)
+        // center  text if necessary
+        var x = position.x
+        if (centerX) {
+            x -= textLayoutResult.size.width / 2
+        }
+
+        var y = position.y
+        if (centerY) {
+            y -= textLayoutResult.size.height / 2
+        }
+
+        canvas.save()
+        canvas.translate(x, y)
+        TextPainter.paint(canvas, textLayoutResult)
+        canvas.restore()
+    }
+
+    private fun getTextLayoutResult(
+        text: String,
+        textType: TextType = TextType.Label,
+        color: Color = Color.Black,
+        width: Int? = null
+    ): TextLayoutResult {
         // configure text style
         val fontSize: TextUnit = properties.getProperty(textType.fontSizeKey).toFloat().sp
         val fontFamily = FontFamily(
@@ -229,7 +382,7 @@ class ImageGenerator(
 
         val measurer = TextMeasurer(createFontFamilyResolver(), Density(1.0F), LayoutDirection.Ltr)
 
-        val textLayoutResult = measurer.measure(
+        return measurer.measure(
             text,
             style,
             constraints = Constraints(
@@ -237,17 +390,19 @@ class ImageGenerator(
                 maxWidth = width ?: Constraints.Infinity
             )
         )
+    }
 
-        // center  text if necessary
-        var x = position.x
-        if (centerX) {
-            x -= textLayoutResult.size.width / 2
+    private fun fuseBitmapList(bitmaps: List<ImageBitmap>): ImageBitmap {
+        val width = bitmaps.maxOfOrNull { it.width } ?: 0
+        val height = bitmaps.sumOf { it.height }
+        val result = ImageBitmap(width, height)
+        val canvas = Canvas(result)
+        var y = 0
+        for (bitmap in bitmaps) {
+            canvas.drawImage(bitmap, Offset(0F, y.toFloat()), Paint())
+            y += bitmap.height
         }
-
-        canvas.save()
-        canvas.translate(x, position.y)
-        TextPainter.paint(canvas, textLayoutResult)
-        canvas.restore()
+        return result
     }
 
     /**
@@ -417,7 +572,7 @@ class ImageGenerator(
 
             // calculate length of section
             var timelineLength = 0f
-            if (situationConfig.overrideScale.value){
+            if (situationConfig.overrideScale.value) {
                 timelineLength = timeValue * situationConfig.scale.value.toFloat()
                 width += timelineLength.toInt()
             } else {
