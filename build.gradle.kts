@@ -43,7 +43,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Exe, TargetFormat.Deb)
             packageName = "SurViz"
-            packageVersion = "1.0.2"
+            packageVersion = "1.0.3"
             vendor = "com.surviz"
             modules("java.compiler", "java.instrument" , "java.sql", "jdk.unsupported")
 
