@@ -13,7 +13,7 @@ fun SituationsTab(blockConfig: BlockConfig, blockId: Int) {
         verticalArrangement = Arrangement.spacedBy(10.dp),
         contentPadding = PaddingValues(10.dp)
     ) {
-        for (situationConfig in blockConfig.situationConfigs) {
+        for (situationConfig in blockConfig.situationConfigs.toSortedMap()) {
             item {
                 SituationConfig(situationConfig.value, situationConfig.key)
             }

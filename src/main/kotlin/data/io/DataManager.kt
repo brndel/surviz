@@ -53,7 +53,7 @@ object DataManager {
         onFinished: (ExportResult) -> Unit,
     ) {
         CoroutineScope(Dispatchers.IO).launch {
-            val result =  exporter.getExporter().export(project, exportConfig, onPathSelected)
+            val result = exporter.getExporter().export(project, exportConfig, onPathSelected)
 
             onFinished(result)
         }
@@ -72,7 +72,8 @@ object DataManager {
      * @return right importer if found, null if no right importer is present
      */
     private fun getImporterByExtension(extension: String): Importer? {
-        return ImporterVariant.entries.find { it.getImporter().getFileExtension() == extension }
-            ?.getImporter()
+        return ImporterVariant.entries.map { it.getImporter() }.firstOrNull { importer ->
+            importer.extensions.any { it == extension }
+        }
     }
 }

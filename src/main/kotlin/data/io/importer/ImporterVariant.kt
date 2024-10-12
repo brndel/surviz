@@ -9,7 +9,9 @@ enum class ImporterVariant(private val importer: Importer) {
      * The importer variant for [NgeneImporter]
      *
      */
-    Ngene(NgeneImporter);
+    Ngene(NgeneImporter),
+
+    Csv(CsvImporter);
 
     /**
      * This method returns the importer for the given type.
