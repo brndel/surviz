@@ -11,7 +11,8 @@ interface TabularImporter : Importer {
 
     val separator: String
     val blockKey: String
-    override fun importFile(file: File): ProjectData {
+
+    override fun readFile(file: File): ProjectData {
         val lines = file.readLines(charset = Charsets.UTF_8)
 
         val columnKeys = ArrayList<String>()
