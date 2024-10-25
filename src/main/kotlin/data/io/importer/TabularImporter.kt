@@ -104,7 +104,7 @@ interface TabularImporter : Importer {
         for (option in options) {
             val fields = HashSet<String>()
             for (key in keys) {
-                if (key.startsWith(option.lowercase())) {
+                if (key.split(".")[0] == option.lowercase()) {
                     fields.add(key.split(".")[1])
                 }
             }

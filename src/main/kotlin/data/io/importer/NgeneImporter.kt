@@ -46,12 +46,7 @@ object NgeneImporter : TabularImporter {
         val alternatives = row.split("=")[1].split(",")
 
         // remove whitespace
-        val formattedAlternatives = ArrayList<String>()
-        for (alternative in alternatives) {
-            alternative.drop(1)
-            formattedAlternatives.add(alternative.drop(1))
-        }
-        return formattedAlternatives
+        return alternatives.map { it.replace("\\s".toRegex(), "") }
     }
 
     override fun getRowCount(lines: List<String>): Int {
