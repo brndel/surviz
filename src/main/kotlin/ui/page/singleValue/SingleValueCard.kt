@@ -2,6 +2,7 @@ package ui.page.singleValue
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -92,7 +93,13 @@ private fun RowScope.SingleValueCardContent(
 
     Column(Modifier.weight(1F), verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
-        TextSwitch(Labels.SINGLE_VALUE_DUMMY_SWITCH, config.isDummy, Labels.SINGLE_VALUE_DUMMY_INFO_TITLE, Labels.SINGLE_VALUE_DUMMY_INFO_DESCRIPTION, null)
+        TextSwitch(
+            Labels.SINGLE_VALUE_DUMMY_SWITCH,
+            config.isDummy,
+            Labels.SINGLE_VALUE_DUMMY_INFO_TITLE,
+            Labels.SINGLE_VALUE_DUMMY_INFO_DESCRIPTION,
+            null
+        )
 
 
         OutlinedTextField(columnScheme, { columnScheme = it }, singleLine = true, label = {
@@ -230,7 +237,7 @@ fun SchemeMatchPopup(scheme: String, dataScheme: DataScheme) {
             if (regex != null) {
 
                 val textColor = LocalContentColor.current
-                Column(
+                LazyColumn(
                     modifier = Modifier.padding(8.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
@@ -265,8 +272,7 @@ fun SchemeMatchPopup(scheme: String, dataScheme: DataScheme) {
                                         append(afterMatch)
                                     }
                                 }
-                                Text(string)
-
+                                item { Text(string) }
                             }
 
                         }

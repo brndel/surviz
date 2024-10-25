@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -294,21 +295,25 @@ private fun SchemeColumnsExtra(scheme: String, columns: List<String>) {
                     Label(Labels.FIELD_COLUMN_SCHEME)
                     Text("'$scheme'")
                 }
-                Row(
+                LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     val result = SchemeColumns.filterWithScheme(scheme, columns)
                     for (string in result) {
-                        Surface(
-                            color = MaterialTheme.colors.secondaryVariant,
-                            shape = RoundedCornerShape(4.dp)
-                        ) {
-                            Text(string, modifier = Modifier.padding(10.dp))
+                        item {
+                            Surface(
+                                color = MaterialTheme.colors.secondaryVariant,
+                                shape = RoundedCornerShape(4.dp)
+                            ) {
+                                Text(string, modifier = Modifier.padding(10.dp))
+                            }
                         }
                     }
 
                     if (result.isEmpty()) {
-                        Label(Labels.SCHEME_NO_RESULT_FOUND)
+                        item {
+                            Label(Labels.SCHEME_NO_RESULT_FOUND)
+                        }
                     }
                 }
             }
