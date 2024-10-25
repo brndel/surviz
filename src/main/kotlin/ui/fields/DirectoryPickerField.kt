@@ -19,7 +19,7 @@ fun DirectoryPickerField(
 ) {
     var directoryPickerOpen by remember { mutableStateOf(false) }
 
-    OutlinedTextField(value, onValueChange, modifier, label = label, trailingIcon = {
+    OutlinedTextField(value, onValueChange = { onValueChange(it.removeSuffix("\n")) }, modifier, label = label, trailingIcon = {
         IconButton({ directoryPickerOpen = true }) {
             Icon(Icons.Default.Folder, null)
         }
