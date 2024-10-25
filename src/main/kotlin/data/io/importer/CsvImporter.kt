@@ -2,6 +2,7 @@ package data.io.importer
 
 import data.project.ProjectData
 import java.io.File
+import kotlin.math.max
 
 object CsvImporter : TabularImporter {
 
@@ -27,7 +28,7 @@ object CsvImporter : TabularImporter {
         return if (blockIndex == -1) {
             1
         } else {
-            return lines.maxOf { it.split(separator)[blockIndex].toInt() }
+            return lines.maxOf { it.split(separator)[blockIndex].toIntOrNull()?: 1 }
         }
     }
 
@@ -35,7 +36,10 @@ object CsvImporter : TabularImporter {
         return line.split(separator)
     }
 
-    override fun checkValidity(entries: List<String>, columnKeys: List<String>) {}
+    override fun isValidLine(entries: List<String>, columnKeys: List<String>): Boolean {
+        return true
+    }
+
     override fun valueFromString(value: String): Double {
         return value.replace(",", ".").toDouble()
     }

@@ -66,8 +66,8 @@ object NgeneImporter : TabularImporter {
         return line.split(SEPARATOR).dropLast(1)
     }
 
-    override fun checkValidity(entries: List<String>, columnKeys: List<String>) {
-        if (entries.size != columnKeys.size) throw CorruptFileException()
+    override fun isValidLine(entries: List<String>, columnKeys: List<String>): Boolean {
+        return (entries.size == columnKeys.size)
     }
 
     override fun valueFromString(value: String): Double {

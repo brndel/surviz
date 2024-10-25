@@ -40,13 +40,13 @@ interface TabularImporter : Importer {
 
             val options = ArrayList<SituationOption>()
 
-            checkValidity(entries, columnKeys)
+            if (isValidLine(entries, columnKeys)) {
 
-            for (alternative in alternatives) {
-                val values = getValuesForAlternative(alternativeIndices[alternative], entries)
-                options.add(SituationOption(alternative, values))
+                for (alternative in alternatives) {
+                    val values = getValuesForAlternative(alternativeIndices[alternative], entries)
+                    options.add(SituationOption(alternative, values))
+                }
             }
-
             val block = if (blockIndex == -1) 0 else entries[blockIndex].toInt() - 1
             blocks[block].addSituation(options)
         }
@@ -61,7 +61,7 @@ interface TabularImporter : Importer {
 
     fun splitLine(line: String): List<String>
 
-    fun checkValidity(entries: List<String>, columnKeys: List<String>)
+    fun isValidLine(entries: List<String>, columnKeys: List<String>): Boolean
 
     fun valueFromString(value: String): Double
 
