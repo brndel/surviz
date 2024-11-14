@@ -38,9 +38,8 @@ data class OptionConfig(
      */
     fun addTimelineEntry() {
         val newTimelineEntry = TimelineEntry(
-            mutableStateOf(null), mutableStateOf(""), mutableStateOf(
-                LineType.Solid
-            )
+            mutableStateOf(null), mutableStateOf(""), mutableStateOf(LineType.Solid),
+            mutableStateOf(false), mutableStateOf("")
         )
         timeline.add(newTimelineEntry)
     }

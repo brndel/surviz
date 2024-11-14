@@ -49,6 +49,7 @@ object Labels {
     const val COLUMNS = "COLUMNS"
     const val COLUMN = "COLUMN"
     const val TIMELINE = "TIMELINE"
+    const val TIMELINE_CHANGEOVER_SWITCH = "TIMELINE_CHANGEOVER_SWITCH"
 
     const val SCHEME_COLUMN_NAME = "SCHEME_COLUMN_NAME"
     const val SCHEME_COLUMN_DESC = "SCHEME_COLUMN_DESC"
@@ -280,6 +281,8 @@ object Labels {
     const val TIMELINE_SCALING_INFO_TITLE = "TIMELINE_SCALING_INFO_TITLE"
     const val TIMELINE_SCALING_INFO_DESCRIPTION = "TIMELINE_SCALING_INFO_DESCRIPTION"
 
+    const val TIMELINE_CHANGEOVER_SWITCH_INFO = "TIMELINE_CHANGEOVER_SWITCH_INFO"
+
     const val SINGLE_VALUE_DECIMAL_INFO_TITLE = "SINGLE_VALUE_DECIMAL_INFO_TITLE"
     const val SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION = "SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION"
     const val SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE = "SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE"
@@ -394,6 +397,7 @@ enum class Language(
             Labels.COLUMNS to "Columns",
             Labels.COLUMN to "Column",
             Labels.TIMELINE to "Timeline",
+            Labels.TIMELINE_CHANGEOVER_SWITCH to "Show changeovers",
 
             Labels.SCHEME_COLUMN_NAME to "Scheme",
             Labels.SCHEME_COLUMN_DESC to "Select columns by scheme defined in the SingleValue",
@@ -600,6 +604,8 @@ enum class Language(
             Labels.TIMELINE_SCALING_INFO_TITLE to "Recommended scaling based on minimum section length",
             Labels.TIMELINE_SCALING_INFO_DESCRIPTION to "- 1: ~45 min\n" + "- 5: ~10 min\n" + "- 10: ~5 min\n" + "- 15: ~3 min\n" + "- 20: ~2 min",
 
+            Labels.TIMELINE_CHANGEOVER_SWITCH_INFO to "Show changeovers as bars in timeline",
+
             Labels.SINGLE_VALUE_DECIMAL_INFO_TITLE to "Forces all decimal points to be shown",
             Labels.SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION to "If checked, decimal points will be printed even when they don't hold any information (\".0\")",
             Labels.SINGLE_VALUE_ALL_COLUMNS_INFO_TITLE to "Setting the Single value columns option for all situations",
@@ -708,6 +714,7 @@ enum class Language(
             Labels.COLUMNS to "Spalten",
             Labels.COLUMN to "Spalte",
             Labels.TIMELINE to "Zeitstrahl",
+            Labels.TIMELINE_CHANGEOVER_SWITCH to "Wechsel anzeigen",
 
             Labels.SCHEME_COLUMN_NAME to "Schema",
             Labels.SCHEME_COLUMN_DESC to "Wählt die Spalten automatisch mit dem definierten Schema aus",
@@ -916,6 +923,7 @@ enum class Language(
 
             Labels.TIMELINE_SCALING_INFO_TITLE to "Empfohlene Skalierung basierend auf kleinstem Zeitabschnitt",
             Labels.TIMELINE_SCALING_INFO_DESCRIPTION to "- 1: ~45 min\n" + "- 5: ~10 min\n" + "- 10: ~5 min\n" + "- 15: ~3 min\n" + "- 20: ~2 min",
+            Labels.TIMELINE_CHANGEOVER_SWITCH_INFO to "Zeigt den Wechsel innerhalb eines Abschnitts an",
 
             Labels.SINGLE_VALUE_DECIMAL_INFO_TITLE to "Erzwingt das darstellen aller Dezimalstellen",
             Labels.SINGLE_VALUE_DECIMAL_INFO_DESCRIPTION to "Ist diese Einstellung aktiviert, werden alle Dezimalstellen dargestellt, auch wenn sie keine neue Information bereitstellen",
