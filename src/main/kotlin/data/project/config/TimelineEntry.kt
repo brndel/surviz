@@ -16,7 +16,9 @@ import data.generator.resources.LineType
 data class TimelineEntry(
     val icon: MutableState<String?>,
     val column: MutableState<String>,
-    val lineType: MutableState<LineType>
+    val lineType: MutableState<LineType>,
+    val showChangeOvers: MutableState<Boolean> = mutableStateOf(false),
+    val changeOverColumn: MutableState<String>
 ) {
     companion object {
         val serializer = JsonSerializer<TimelineEntry> { value, _, _ ->
@@ -25,6 +27,8 @@ data class TimelineEntry(
             obj.addProperty("icon", value.icon.value)
             obj.addProperty("column", value.column.value)
             obj.addProperty("lineType", value.lineType.value.name)
+            obj.addProperty("showChangeOvers", value.showChangeOvers.value)
+            obj.addProperty("changeOverColumn", value.changeOverColumn.value)
 
             obj
         }
@@ -35,8 +39,16 @@ data class TimelineEntry(
             val icon = if (obj.has("icon")) obj.get("icon").asString else null
             val column = obj.get("column").asString
             val lineType = LineType.valueOf(obj.get("lineType").asString)
+            val showChangeOvers = obj.get("showChangeOvers").asBoolean
+            val changeOverColumn = obj.get("changeOverColumn").asString
 
-            TimelineEntry(mutableStateOf(icon), mutableStateOf(column), mutableStateOf(lineType))
+            TimelineEntry(
+                mutableStateOf(icon),
+                mutableStateOf(column),
+                mutableStateOf(lineType),
+                mutableStateOf(showChangeOvers),
+                mutableStateOf(changeOverColumn)
+            )
         }
     }
 }

@@ -473,7 +473,7 @@ class ImageGenerator(
 
             // change alpha if value == 0 and not ZeroColumn
             var newColor = color.copy()
-            if (value == 0.0 && column !is ZeroColumn &&!singleValueConfig.isDummy.value) {
+            if (value == 0.0 && column !is ZeroColumn && !singleValueConfig.isDummy.value) {
                 newColor = color.copy(alpha = imageConfig.alpha.value)
             }
 
@@ -591,6 +591,18 @@ class ImageGenerator(
             // draw divider
             drawTimelineDivider(canvas, color, startX, centerLine + yOffset)
             drawTimelineDivider(canvas, color, endX, centerLine + yOffset)
+
+            //draw change over dividers
+            if (entry.showChangeOvers.value) {
+                val count = option.values[entry.changeOverColumn.value]?.toInt() ?: 0
+                if (count > 0) {
+                    val segmentWidth = timelineLength / (count + 1)
+                    for (i in 1..count) {
+                        val x = startX + (i * segmentWidth)
+                        drawTimelineDivider(canvas, color, x, centerLine + yOffset)
+                    }
+                }
+            }
 
             // draw icon
             val midX = startX + ((endX - startX) / 2)
