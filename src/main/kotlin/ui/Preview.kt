@@ -37,8 +37,9 @@ import kotlin.math.absoluteValue
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Preview(project: Project) {
+fun Preview() {
     Box(Modifier.fillMaxSize()) {
+        val project = LocalProject.current
         val imageGenerator = remember { ImageGenerator(project.configuration, project.iconStorage) }
         var blockId by remember { mutableIntStateOf(1) }
         var situationId by remember { mutableIntStateOf(1) }
@@ -60,22 +61,22 @@ fun Preview(project: Project) {
             stickyHeader {
                 Surface(
                     Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colors.background
+                    color = MaterialTheme.colors.background,
                 ) {
                     Column(
                         Modifier.padding(10.dp),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                        verticalArrangement = Arrangement.spacedBy(10.dp),
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                            horizontalArrangement = Arrangement.spacedBy(10.dp),
                         ) {
                             Label(Labels.PREVIEW, style = MaterialTheme.typography.h4)
                             Icon(Icons.Default.Preview, null)
                         }
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                            horizontalArrangement = Arrangement.spacedBy(10.dp),
                         ) {
                             Button(onClick = {
                                 if (project.isValidBlockID(blockId) &&
@@ -100,13 +101,13 @@ fun Preview(project: Project) {
                                 blockId,
                                 { blockId = it },
                                 label = { Label(Labels.BLOCK) },
-                                modifier = Modifier.width(200.dp)
+                                modifier = Modifier.width(200.dp),
                             )
                             IntField(
                                 situationId,
                                 { situationId = it },
                                 label = { Label(Labels.SITUATION) },
-                                modifier = Modifier.width(200.dp)
+                                modifier = Modifier.width(200.dp),
                             )
 
                             Button(onClick = {
@@ -133,12 +134,11 @@ fun Preview(project: Project) {
                                     icon = {
                                         Icon(Icons.Default.Tune, null, tint = MaterialTheme.colors.secondaryVariant)
                                     },
-                                    onScrollStateChange = {}
+                                    onScrollStateChange = {},
                                 ) {
                                     Label(Labels.PREVIEW_SITUATION_OVERRIDE_INFO_TITLE, style = TextStyle(fontWeight = FontWeight.Bold))
                                 }
                             }
-
                         }
                     }
                 }
@@ -146,26 +146,28 @@ fun Preview(project: Project) {
             if (situation != null) {
                 items(situation!!.options.values.toList()) { option ->
                     var errorText: String? = null
-                    val image = try {
-                        situationConfig?.let { imageGenerator.generateOption(option, it) }
-                    } catch (e: Throwable) {
-                        errorText = e.toString() + " at " + e.stackTrace[0].toString()
-                        null
-                    }
+                    val image =
+                        try {
+                            situationConfig?.let { imageGenerator.generateOption(option, it) }
+                        } catch (e: Throwable) {
+                            errorText = e.toString() + " at " + e.stackTrace[0].toString()
+                            null
+                        }
 
-                    Column(Modifier.padding(vertical = 5.dp)) { // Add vertical padding between items
+                    Column(Modifier.padding(vertical = 5.dp)) {
+                        // Add vertical padding between items
                         if (image != null) {
                             Box(modifier = Modifier.clip(RoundedCornerShape(10.dp))) {
                                 Image(
                                     image.image,
                                     null,
-                                    modifier = Modifier.fillMaxSize()
+                                    modifier = Modifier.fillMaxSize(),
                                 )
 
                                 if (callbacks.has999Value()) {
                                     if (option.containsValue(callbacks.get999Value())) {
                                         Value999Warning(
-                                            modifier = Modifier.align(Alignment.TopStart)
+                                            modifier = Modifier.align(Alignment.TopStart),
                                         ) {
                                             if (state.isScrollInProgress) {
                                                 it()
@@ -177,13 +179,12 @@ fun Preview(project: Project) {
                                 if (!image.checkWidth()) {
                                     PreviewWarning(
                                         modifier = Modifier.align(Alignment.TopEnd),
-                                        image.neededWidth
+                                        image.neededWidth,
                                     ) {
                                         if (state.isScrollInProgress) {
                                             it()
                                         }
                                     }
-
                                 }
                             }
                         } else {
@@ -194,12 +195,10 @@ fun Preview(project: Project) {
                         }
                     }
                 }
-
             } else {
                 item {
                     Label(Labels.SITUATION_NOT_FOUND)
                 }
-
             }
         }
     }
@@ -209,20 +208,21 @@ fun Preview(project: Project) {
 private fun PreviewWarning(
     modifier: Modifier = Modifier,
     neededWidth: Int,
-    onScrollStateChange: (() -> Unit) -> Unit
+    onScrollStateChange: (() -> Unit) -> Unit,
 ) {
     IconPopUp(
         modifier = modifier,
         icon = { Icon(Icons.Default.Warning, null, tint = MaterialTheme.colors.error) },
         onScrollStateChange,
-        Alignment.CenterEnd
+        Alignment.CenterEnd,
     ) {
         Label(
             Labels.PREVIEW_WARNING_TITLE,
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colors.error
-            )
+            style =
+                TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colors.error,
+                ),
         )
         Label(Labels.PREVIEW_WARNING_DESCRIPTION)
         Text("$neededWidth px", style = TextStyle(fontWeight = FontWeight.Bold))
@@ -233,20 +233,21 @@ private fun PreviewWarning(
 @Composable
 private fun Value999Warning(
     modifier: Modifier = Modifier,
-    onScrollStateChange: (() -> Unit) -> Unit
+    onScrollStateChange: (() -> Unit) -> Unit,
 ) {
     IconPopUp(
         modifier = modifier,
         icon = { Icon(Icons.Default.FileDownloadOff, null, tint = MaterialTheme.colors.secondary) },
         onScrollStateChange,
-        Alignment.CenterStart
+        Alignment.CenterStart,
     ) {
         Label(
             Labels.PREVIEW_999_TITLE,
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colors.secondaryVariant
-            )
+            style =
+                TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colors.secondaryVariant,
+                ),
         )
         Label(Labels.PREVIEW_999_DESCRIPTION)
     }
@@ -258,23 +259,25 @@ private fun IconPopUp(
     icon: @Composable () -> Unit,
     onScrollStateChange: (() -> Unit) -> Unit,
     popUpAlignment: Alignment = Alignment.Center,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     var showPopUp by remember { mutableStateOf(false) }
     onScrollStateChange { showPopUp = false }
     Box(modifier) {
         IconButton({ showPopUp = true }) { icon() }
         if (showPopUp) {
-            Popup(alignment = popUpAlignment,
-                onDismissRequest = { showPopUp = false }) {
+            Popup(
+                alignment = popUpAlignment,
+                onDismissRequest = { showPopUp = false },
+            ) {
                 Surface(
                     color = MaterialTheme.colors.surface,
                     shape = RoundedCornerShape(4.dp),
-                    elevation = 8.dp
+                    elevation = 8.dp,
                 ) {
                     Column(
                         modifier = Modifier.padding(10.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
                     ) {
                         content()
                     }

@@ -16,24 +16,26 @@ import data.generator.resources.ImageConfig
 import data.project.config.legend.Legend
 import ui.Label
 import ui.Labels
+import ui.LocalProject
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ImageConfigPage(imageConfig: ImageConfig) {
+fun ImageConfigPage() {
+    val imageConfig = LocalProject.current.configuration.imageConfig
     Column(
         Modifier.fillMaxSize().padding(10.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         Row(
             modifier = Modifier.padding(10.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Label(Labels.PAGE_IMAGE, style = MaterialTheme.typography.h4)
             Icon(
                 Icons.Default.Image,
                 contentDescription = null,
-                tint = MaterialTheme.colors.onBackground
+                tint = MaterialTheme.colors.onBackground,
             )
         }
 

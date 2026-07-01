@@ -31,6 +31,7 @@ data class ProjectConfiguration(
     val imageConfig: ImageConfig = ImageConfig.loadFromProperties(),
     var blockConfigs: SnapshotStateMap<Int, BlockConfig>? = null,
     var legend: Legend = Legend.loadFromProperties(),
+    val batchIconSettings: BatchIconSettings = BatchIconSettings(),
 ) {
     /**
      * This method adds a single value to the project.
@@ -56,7 +57,10 @@ data class ProjectConfiguration(
      * @param indexA the index of the first single value to be swapped
      * @param indexB the index of the second single value to be swapped
      */
-    fun swapSingleValueOrder(indexA: Int, indexB: Int) {
+    fun swapSingleValueOrder(
+        indexA: Int,
+        indexB: Int,
+    ) {
         if (indexA >= 0 && indexB >= 0 && indexA < singleValueConfigOrder.size && indexB < singleValueConfigOrder.size) {
             val temp = singleValueConfigOrder[indexA]
             singleValueConfigOrder[indexA] = singleValueConfigOrder[indexB]
@@ -68,17 +72,13 @@ data class ProjectConfiguration(
      * This method returns the single value configuration.
      * @return the single value configuration of this project
      */
-    fun getSingleValues(): SnapshotStateMap<UUID, SingleValueConfig> {
-        return singleValueConfig
-    }
+    fun getSingleValues(): SnapshotStateMap<UUID, SingleValueConfig> = singleValueConfig
 
     /**
      * This method returns the configuration of situations.
      * @return the situation configuration of this project
      */
-    fun getOptionConfig(): SnapshotStateMap<String, OptionConfig> {
-        return optionConfig
-    }
+    fun getOptionConfig(): SnapshotStateMap<String, OptionConfig> = optionConfig
 
     /**
      * This method returns the situation config with the given String key or maps a new SituationConfig to the given key
@@ -86,93 +86,98 @@ data class ProjectConfiguration(
      * @param name the key to the situation config
      * @return the situation configuration with the given key
      */
-    fun getOptionConfig(name: String): OptionConfig {
-        return optionConfig.getOrPut(name) {
+    fun getOptionConfig(name: String): OptionConfig =
+        optionConfig.getOrPut(name) {
             val config = OptionConfig()
             config.addTimelineEntry()
 
             config
         }
-    }
 
     /**
      * This method returns the order of single values of a project
      * @return the order of single values
      */
-    fun getSingleValueConfigOrder(): SnapshotStateList<UUID> {
-        return singleValueConfigOrder
-    }
+    fun getSingleValueConfigOrder(): SnapshotStateList<UUID> = singleValueConfigOrder
 
     /**
      * Sets the specified SingleValueColumn to the SingleValue with the given id for all situations
      * @param column the specified SingleValueColumn
      * @param id the UUID of the SingleValue
      */
-    fun setAllSituationColumns(column: SingleValueColumn, id: UUID) {
+    fun setAllSituationColumns(
+        column: SingleValueColumn,
+        id: UUID,
+    ) {
         for (sit in optionConfig.values) {
             sit.singleValueColumns[id] = column
         }
     }
 
     companion object {
-        val serializer = JsonSerializer<ProjectConfiguration> { value, _, ctx ->
-            val obj = JsonObject()
+        val serializer =
+            JsonSerializer<ProjectConfiguration> { value, _, ctx ->
+                val obj = JsonObject()
 
-            obj.add("singleValueConfigOrder", ctx.serialize(value.singleValueConfigOrder))
-            obj.add("singleValueConfig", ctx.serialize(value.singleValueConfig))
-            obj.add("optionConfig", ctx.serialize(value.optionConfig))
-            obj.add("imageConfig", ctx.serialize(value.imageConfig))
-            obj.add("blockConfigs", ctx.serialize(value.blockConfigs))
-            obj.add("legend", ctx.serialize(value.legend))
+                obj.add("singleValueConfigOrder", ctx.serialize(value.singleValueConfigOrder))
+                obj.add("singleValueConfig", ctx.serialize(value.singleValueConfig))
+                obj.add("optionConfig", ctx.serialize(value.optionConfig))
+                obj.add("imageConfig", ctx.serialize(value.imageConfig))
+                obj.add("blockConfigs", ctx.serialize(value.blockConfigs))
+                obj.add("legend", ctx.serialize(value.legend))
+                obj.add("batchIconSettings", ctx.serialize(value.batchIconSettings))
 
-            obj
-        }
-
-        val deserializer = JsonDeserializer { element, _, ctx ->
-            val obj = element.asJsonObject
-
-            val singleValueConfigOrder = mutableStateListOf<UUID>()
-            for (elem in obj.get("singleValueConfigOrder").asJsonArray) {
-                singleValueConfigOrder.add(ctx.deserialize(elem, UUID::class.java))
+                obj
             }
 
-            val singleValueConfig = mutableStateMapOf<UUID, SingleValueConfig>()
-            for ((keyElem, entryElem) in obj.get("singleValueConfig").asJsonObject.entrySet()) {
-                val key = ctx.deserialize<UUID>(JsonPrimitive(keyElem), UUID::class.java)
-                val entry =
-                    ctx.deserialize<SingleValueConfig>(entryElem, SingleValueConfig::class.java)
+        val deserializer =
+            JsonDeserializer { element, _, ctx ->
+                val obj = element.asJsonObject
 
-                singleValueConfig[key] = entry
+                val singleValueConfigOrder = mutableStateListOf<UUID>()
+                for (elem in obj.get("singleValueConfigOrder").asJsonArray) {
+                    singleValueConfigOrder.add(ctx.deserialize(elem, UUID::class.java))
+                }
+
+                val singleValueConfig = mutableStateMapOf<UUID, SingleValueConfig>()
+                for ((keyElem, entryElem) in obj.get("singleValueConfig").asJsonObject.entrySet()) {
+                    val key = ctx.deserialize<UUID>(JsonPrimitive(keyElem), UUID::class.java)
+                    val entry =
+                        ctx.deserialize<SingleValueConfig>(entryElem, SingleValueConfig::class.java)
+
+                    singleValueConfig[key] = entry
+                }
+
+                val optionConfig = mutableStateMapOf<String, OptionConfig>()
+                for ((key, entryElem) in obj.get("optionConfig").asJsonObject.entrySet()) {
+                    val entry = ctx.deserialize<OptionConfig>(entryElem, OptionConfig::class.java)
+
+                    optionConfig[key] = entry
+                }
+
+                val imageConfig =
+                    ctx.deserialize<ImageConfig>(obj.get("imageConfig"), ImageConfig::class.java)
+
+                val blockConfigs = mutableStateMapOf<Int, BlockConfig>()
+                for ((key, entryElem) in obj.get("blockConfigs").asJsonObject.entrySet()) {
+                    val entry = ctx.deserialize<BlockConfig>(entryElem, BlockConfig::class.java)
+
+                    blockConfigs[key.toInt()] = entry
+                }
+
+                val legend = ctx.deserialize<Legend>(obj.get("legend"), Legend::class.java)
+
+                val batchIconSettings = ctx.deserialize<BatchIconSettings>(obj.get("batchIconSettings"), BatchIconSettings::class.java)
+
+                ProjectConfiguration(
+                    singleValueConfigOrder,
+                    singleValueConfig,
+                    optionConfig,
+                    imageConfig,
+                    blockConfigs,
+                    legend,
+                    batchIconSettings,
+                )
             }
-
-            val optionConfig = mutableStateMapOf<String, OptionConfig>()
-            for ((key, entryElem) in obj.get("optionConfig").asJsonObject.entrySet()) {
-                val entry = ctx.deserialize<OptionConfig>(entryElem, OptionConfig::class.java)
-
-                optionConfig[key] = entry
-            }
-
-            val imageConfig =
-                ctx.deserialize<ImageConfig>(obj.get("imageConfig"), ImageConfig::class.java)
-
-            val blockConfigs = mutableStateMapOf<Int, BlockConfig>()
-            for ((key, entryElem) in obj.get("blockConfigs").asJsonObject.entrySet()) {
-                val entry = ctx.deserialize<BlockConfig>(entryElem, BlockConfig::class.java)
-
-                blockConfigs[key.toInt()] = entry
-            }
-
-            val legend = ctx.deserialize<Legend>(obj.get("legend"), Legend::class.java)
-
-
-            ProjectConfiguration(
-                singleValueConfigOrder,
-                singleValueConfig,
-                optionConfig,
-                imageConfig,
-                blockConfigs,
-                legend
-            )
-        }
     }
 }

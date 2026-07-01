@@ -13,25 +13,28 @@ import data.project.config.ProjectConfiguration
 import data.project.data.DataScheme
 import ui.Label
 import ui.Labels
+import ui.LocalProject
 import ui.util.NestedSurface
 
 /**
  * On this page the user can edit the situations of a [ProjectConfiguration].
  * Each situation is shown in a tab. The selected tab is determined by currentSituation
  *
- * @param projectConfiguration the [ProjectConfiguration] this page should edit
  * @state currentSituation String holds the name of the currently selected situation
  * @ui SituationTab for the currently selected situation
  */
 @Composable
-fun ModePage(projectConfiguration: ProjectConfiguration, dataScheme: DataScheme) {
+fun ModePage() {
+    val projectConfiguration = LocalProject.current.configuration
+    val dataScheme = LocalProject.current.getDataScheme()
+
     var selectedTab by remember { mutableStateOf(0) }
 
     Column(Modifier.fillMaxSize().padding(10.dp)) {
         Row(
             modifier = Modifier.padding(10.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Label(Labels.PAGE_MODES, style = MaterialTheme.typography.h4)
             Icon(Icons.Default.ModeOfTravel, contentDescription = null, tint = MaterialTheme.colors.onBackground)
@@ -61,7 +64,8 @@ fun ModePage(projectConfiguration: ProjectConfiguration, dataScheme: DataScheme)
                         selectedSituation,
                         selectedOption,
                         projectConfiguration.getSingleValueConfigOrder(),
-                        projectConfiguration.getSingleValues(), modifier = Modifier.weight(1F)
+                        projectConfiguration.getSingleValues(),
+                        modifier = Modifier.weight(1F),
                     )
                 }
             }

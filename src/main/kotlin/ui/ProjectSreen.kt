@@ -7,7 +7,6 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,27 +22,26 @@ import data.project.data.IconStorage
 import ui.page.export.ExportPage
 import ui.page.image.ImageConfigPage
 import ui.page.legend.LegendPage
-import ui.page.situations.SituationsPage
-import ui.page.singleValue.SingleValuePage
 import ui.page.modes.ModePage
+import ui.page.singleValue.SingleValuePage
+import ui.page.situations.SituationsPage
 
 /**
  * This screen is visible when a valid [Project] is loaded.
  * From here the user can edit the [ProjectConfiguration] of the loaded [Project].
  * This screen has multiple pages. There is always only one page visible.
  *
- * @param project the [Project] that can be edited on this screen
  * @state currentPage Page the currently visible page
  * @ui SingleValuePage when SingleValue is selected
  * @ui SituationPage when Situation is selected
  * @ui ExportPage when Export is selected
  */
 @Composable
-fun ProjectScreen(project: Project) {
+fun ProjectScreen() {
     var currentPage: Page by remember { mutableStateOf(Page.SingleValue) }
 
     CompositionLocalProvider(
-        LocalIconStorage provides project.iconStorage
+        LocalIconStorage provides LocalProject.current.iconStorage,
     ) {
         Column(Modifier.fillMaxSize()) {
             AppBar()
@@ -53,36 +51,36 @@ fun ProjectScreen(project: Project) {
 
                 Box(Modifier.weight(1F)) {
                     when (currentPage) {
-                        Page.SingleValue -> SingleValuePage(project.configuration, project.getDataScheme())
-                        Page.Mode -> ModePage(project.configuration, project.getDataScheme())
-                        Page.Image -> ImageConfigPage(project.configuration.imageConfig)
-                        Page.Situations -> SituationsPage(project.configuration.blockConfigs!!)
-                        Page.Legend -> LegendPage(project.configuration.legend, project)
-                        Page.Export -> ExportPage(project)
+                        Page.SingleValue -> SingleValuePage()
+                        Page.Mode -> ModePage()
+                        Page.Image -> ImageConfigPage()
+                        Page.Situations -> SituationsPage()
+                        Page.Legend -> LegendPage()
+                        Page.Export -> ExportPage()
                     }
                 }
 
                 Box(Modifier.weight(1F).zIndex(-0.1F)) {
-                    Preview(project)
+                    Preview()
                 }
             }
         }
     }
 }
 
-val LocalIconStorage = compositionLocalOf<IconStorage?> { null }
+val LocalIconStorage = androidx.compose.runtime.compositionLocalOf<IconStorage?> { null }
 
 @Composable
 private fun ProjectPageNavigator(
     currentPage: Page,
-    onNavigate: (Page) -> Unit
+    onNavigate: (Page) -> Unit,
 ) {
     Column(modifier = Modifier.width(128.dp)) {
         for (page in Page.entries) {
             NavButton(
                 currentPage == page,
                 page,
-                onNavigate
+                onNavigate,
             )
         }
     }
@@ -92,20 +90,21 @@ private fun ProjectPageNavigator(
 private fun ColumnScope.NavButton(
     selected: Boolean,
     page: Page,
-    onNavigate: (Page) -> Unit
+    onNavigate: (Page) -> Unit,
 ) {
     Button(
         modifier = Modifier.weight(1F).fillMaxWidth(),
         onClick = { onNavigate(page) },
-        colors = ButtonDefaults.buttonColors(
-            if (selected) {
-                MaterialTheme.colors.primary
-            } else {
-                MaterialTheme.colors.surface
-            }
-        ),
+        colors =
+            ButtonDefaults.buttonColors(
+                if (selected) {
+                    MaterialTheme.colors.primary
+                } else {
+                    MaterialTheme.colors.surface
+                },
+            ),
         elevation = null,
-        shape = AbsoluteRoundedCornerShape(topRightPercent = 5, bottomRightPercent = 5)
+        shape = AbsoluteRoundedCornerShape(topRightPercent = 5, bottomRightPercent = 5),
     ) {
         Label(page.label, style = TextStyle(textAlign = TextAlign.Center))
     }
@@ -114,7 +113,9 @@ private fun ColumnScope.NavButton(
 /**
  * The pages of the [ProjectScreen]
  */
-enum class Page(val label: String) {
+enum class Page(
+    val label: String,
+) {
     /**
      * Will show the [SingleValuePage]
      */
@@ -134,5 +135,5 @@ enum class Page(val label: String) {
     /**
      * Will show the [ExportPage]
      */
-    Export(Labels.PAGE_EXPORT)
+    Export(Labels.PAGE_EXPORT),
 }

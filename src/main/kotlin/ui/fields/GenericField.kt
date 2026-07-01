@@ -13,50 +13,63 @@ import ui.page.export.ExportPage
  * @param field the field that gets edited
  */
 @Composable
-fun GenericField(field: FieldData, modifier: Modifier = Modifier) {
+fun GenericField(
+    field: FieldData,
+    modifier: Modifier = Modifier,
+) {
     when (field) {
-        is BooleanFieldData -> BooleanField(
-            field.value.value,
-            { field.value.value = it },
-            modifier
-        ) { Label(field.getLabel()) }
+        is BooleanFieldData -> {
+            BooleanField(
+                field.value.value,
+                { field.value.value = it },
+                modifier,
+            ) { Label(field.getLabel()) }
+        }
 
-        is ColorFieldData -> ColorField(
-            field.value.value,
-            { field.value.value = it },
-            modifier
-        ) { Label(field.getLabel()) }
+        is ColorFieldData -> {
+            ColorField(
+                field.value.value,
+                { field.value.value = it },
+                modifier,
+            ) { Label(field.getLabel()) }
+        }
 
-        is FileSchemeFieldData -> FileSchemeField(
-            field.value.value,
-            { field.value.value = it },
-            field.placeholders,
-            modifier
-        ) { Label(field.getLabel()) }
+        is FileSchemeFieldData -> {
+            FileSchemeField(
+                field.value.value,
+                { field.value.value = it },
+                field.placeholders,
+                modifier,
+            ) { Label(field.getLabel()) }
+        }
 
-        is IntFieldData -> IntField(
-            field.value.value,
-            { field.value.value = it },
-            field.max,
-            field.min,
-            modifier
-        ) { Label(field.getLabel()) }
+        is IntFieldData -> {
+            IntField(
+                field.value.value,
+                { field.value.value = it },
+                field.max,
+                field.min,
+                modifier,
+            ) { Label(field.getLabel()) }
+        }
 
-        is OptionsFieldData -> OptionsField(
-            field.value.value,
-            { field.value.value = it },
-            field.options,
-            modifier,
-            { Label(field.getLabel()) }
-        ) { it }
+        is OptionsFieldData -> {
+            OptionsField(
+                field.value.value,
+                { field.value.value = it },
+                field.options,
+                modifier,
+                { Label(field.getLabel()) },
+            ) { it }
+        }
 
-        is StringFieldData ->
+        is StringFieldData -> {
             when (field.hint) {
                 null -> {
                     TextField(
                         field.value.value,
                         { field.value.value = it },
-                        modifier
+                        modifier,
                     ) { Label(field.getLabel()) }
                 }
 
@@ -64,14 +77,18 @@ fun GenericField(field: FieldData, modifier: Modifier = Modifier) {
                     DirectoryPickerField(
                         field.value.value,
                         { field.value.value = it },
-                        modifier
+                        modifier,
                     ) { Label(field.getLabel()) }
                 }
             }
-        is RangedIntFieldData -> RangedIntField(
-            field.value.value,
-            { field.value.value = it },
-            modifier
-        ) { Label(field.getLabel()) }
+        }
+
+        is RangedIntFieldData -> {
+            RangedIntField(
+                field.value.value,
+                { field.value.value = it },
+                modifier,
+            ) { Label(field.getLabel()) }
+        }
     }
 }

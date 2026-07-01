@@ -26,23 +26,25 @@ import androidx.compose.ui.unit.dp
 import data.project.config.BlockConfig
 import ui.Label
 import ui.Labels
+import ui.LocalProject
 import ui.util.NestedSurface
 
 @Composable
-fun SituationsPage(blockConfigs: SnapshotStateMap<Int, BlockConfig>) {
+fun SituationsPage() {
+    val blockConfigs = LocalProject.current.configuration.blockConfigs!!
     var selectedTab by remember { mutableStateOf(0) }
 
     Column(Modifier.fillMaxSize().padding(10.dp)) {
         Row(
             modifier = Modifier.padding(10.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Label(Labels.PAGE_OVERRIDE_OPTIONS, style = MaterialTheme.typography.h4)
             Icon(
                 Icons.Default.Tune,
                 contentDescription = null,
-                tint = MaterialTheme.colors.onBackground
+                tint = MaterialTheme.colors.onBackground,
             )
         }
         NestedSurface {
@@ -50,10 +52,10 @@ fun SituationsPage(blockConfigs: SnapshotStateMap<Int, BlockConfig>) {
                 TabRow(
                     selectedTabIndex = selectedTab,
                     modifier = Modifier.height(43.dp),
-                    backgroundColor = MaterialTheme.colors.primary
+                    backgroundColor = MaterialTheme.colors.primary,
                 ) {
                     blockConfigs.forEach { entry ->
-                        Tab(entry.key - 1 == selectedTab, onClick = { selectedTab = entry.key - 1}) {
+                        Tab(entry.key - 1 == selectedTab, onClick = { selectedTab = entry.key - 1 }) {
                             Text(entry.key.toString())
                         }
                     }

@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,8 +17,15 @@ import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.ListItem
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.runtime.Composable
@@ -33,80 +42,119 @@ import data.io.utils.result.ExportResult
 import data.io.utils.result.warnings.ExportWarning
 import data.io.utils.result.warnings.InvalidSegmentWarning
 import data.project.Project
+import data.project.config.BatchIconSetting
 import data.resources.exceptions.InvalidSegmentException
+import org.burnoutcrew.reorderable.ItemPosition
 import ui.Label
 import ui.Labels
+import ui.LocalProject
 import ui.fields.GenericField
 import ui.fields.OptionsField
 import ui.util.NestedSurface
 import java.nio.file.Path
 
+enum class ExportTab {
+    DEFAULT,
+    ICON_BATCH,
+    ;
+
+    val label: String
+        get() =
+            when (this) {
+                DEFAULT -> "Default"
+                ICON_BATCH -> "Icon Batch"
+            }
+}
+
 /**
  * On this page the user can export the current [Project].
  * The user also can choose and configure an exporter before exporting
  *
- * @param project the project this page can export
  * @state currentExporter Exporter the currently selected exporter
  * @ui GenericField for every field of the currently selected exporter
  */
 @Composable
-fun ExportPage(project: Project) {
-    var selectedExporter by remember { mutableStateOf(ExporterVariant.Png) }
-
+fun ExportPage() {
     Column(
         Modifier.fillMaxSize().padding(10.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         Row(
             modifier = Modifier.padding(10.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Label(Labels.PAGE_EXPORT, style = MaterialTheme.typography.h4)
             Icon(Icons.Default.Send, contentDescription = null, tint = MaterialTheme.colors.onBackground)
         }
 
+        var selectedTab by remember { mutableStateOf(ExportTab.DEFAULT) }
+        var selectedExporter by remember { mutableStateOf(ExporterVariant.Png) }
+
         NestedSurface {
-            Column(Modifier.padding(10.dp)) {
-                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    Icon(Icons.Default.Tune, contentDescription = null)
-                    Label(Labels.EXPORT_SETTINGS, style = MaterialTheme.typography.h6, modifier = Modifier.padding(bottom = 10.dp))
-                }
-                OptionsField(
-                    selectedExporter,
-                    { selectedExporter = it },
-                    ExporterVariant.entries,
-                    label = {
-                        Label(Labels.EXPORTER)
-                    }) {
-                    it.name
+            Column {
+                TabRow(
+                    selectedTabIndex = selectedTab.ordinal,
+                    modifier = Modifier.height(42.dp),
+                    backgroundColor = MaterialTheme.colors.primary,
+                ) {
+                    ExportTab.entries.forEach { tab ->
+                        Tab(selectedTab == tab, onClick = { selectedTab = tab }) {
+                            Text(tab.label)
+                        }
+                    }
                 }
 
-                Divider(Modifier.fillMaxWidth().padding(horizontal = 10.dp).padding(top = 20.dp))
-
-                ExporterConfigCard(selectedExporter, project, Modifier.weight(1F))
+                when (selectedTab) {
+                    ExportTab.DEFAULT -> DefaultExportContent(selectedExporter) { selectedExporter = it }
+                    ExportTab.ICON_BATCH -> IconBatchExportContent()
+                }
             }
         }
-
     }
 }
 
+@Composable
+fun DefaultExportContent(
+    selectedExporter: ExporterVariant,
+    onExporterChange: (ExporterVariant) -> Unit,
+) {
+    Column(Modifier.padding(10.dp)) {
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            Icon(Icons.Default.Tune, contentDescription = null)
+            Label(Labels.EXPORT_SETTINGS, style = MaterialTheme.typography.h6, modifier = Modifier.padding(bottom = 10.dp))
+        }
+        OptionsField(
+            selectedExporter,
+            onExporterChange,
+            ExporterVariant.entries,
+            label = {
+                Label(Labels.EXPORTER)
+            },
+        ) {
+            it.name
+        }
+
+        Divider(Modifier.fillMaxWidth().padding(horizontal = 10.dp).padding(top = 20.dp))
+
+        ExporterConfigCard(selectedExporter, Modifier.weight(1F))
+    }
+}
 
 @Composable
 private fun ExporterConfigCard(
     exporter: ExporterVariant,
-    project: Project,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val fields = remember(exporter) { exporter.getExporter().getFields() }
 
     val callbacks = LocalGlobalCallbacks.current!!
+    val project = LocalProject.current
 
     fun getExporterConfig() =
         fields.associate {
             it.name to it.field.getValue()
         }
-
 
     Box(modifier) {
         LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(bottom = 10.dp, top = 10.dp)) {
@@ -124,7 +172,7 @@ private fun ExporterConfigCard(
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Center,
         ) {
             Button(onClick = {
                 try {
@@ -136,11 +184,12 @@ private fun ExporterConfigCard(
                         project,
                         exporter,
                         config,
-                        onPathSelected = { exportPath = it }) {
+                        onPathSelected = { exportPath = it },
+                    ) {
                         exportResult = it
                         isExporting = false
                     }
-                } catch (e: InvalidSegmentException){
+                } catch (e: InvalidSegmentException) {
                     exportResult = ExportResult(arrayListOf(InvalidSegmentWarning(e.segment)))
                 }
             }, enabled = !isExporting) {

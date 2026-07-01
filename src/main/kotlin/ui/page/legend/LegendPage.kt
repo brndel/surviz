@@ -40,6 +40,7 @@ import org.burnoutcrew.reorderable.reorderable
 import ui.Label
 import ui.Labels
 import ui.LocalLanguage
+import ui.LocalProject
 import ui.fields.ColorField
 import ui.util.InfoIconBox
 import ui.util.NestedSurface
@@ -47,46 +48,45 @@ import ui.util.TextSwitch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun LegendPage(legend: Legend, project: Project) {
+fun LegendPage() {
+    val project = LocalProject.current
+    val legend = project.configuration.legend
 
     val imageGenerator = remember { ImageGenerator(project.configuration, project.iconStorage) }
 
-    val reorderState = rememberReorderableLazyListState(
-        onMove = { a, b -> legend.swapEntryOrder(a.index, b.index) }
-    )
+    val reorderState =
+        rememberReorderableLazyListState(
+            onMove = { a, b -> legend.swapEntryOrder(a.index, b.index) },
+        )
 
     var color by legend.color
     var segmentPadding by legend.segmentPadding
 
     Column(
         Modifier.fillMaxSize().padding(10.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-
         Row(
             modifier = Modifier.padding(10.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Label(Labels.PAGE_LEGEND, style = MaterialTheme.typography.h4)
             Icon(Icons.Default.Explore, null)
         }
 
-
         Box(Modifier.clip(RoundedCornerShape(10.dp))) {
             Image(
                 imageGenerator.generateLegend(legend),
                 null,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         }
-
-
 
         NestedSurface {
             Column(
                 modifier = Modifier.fillMaxWidth().padding(10.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 ColorField(color, { color = it }, label = { Label(Labels.COLOR) })
                 TextSwitch(
@@ -94,19 +94,19 @@ fun LegendPage(legend: Legend, project: Project) {
                     legend.drawDivider,
                     Labels.LEGEND_DIVIDER_SWITCH_INFO_TITLE,
                     null,
-                    null
+                    null,
                 )
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = "${LocalLanguage.current.getString(Labels.LEGEND_SEGMENT_PADDING)}: $segmentPadding"
+                        text = "${LocalLanguage.current.getString(Labels.LEGEND_SEGMENT_PADDING)}: $segmentPadding",
                     )
                     InfoIconBox(
                         Labels.LEGEND_SEGMENT_PADDING_INFO_TITLE,
                         null,
-                        null
+                        null,
                     )
                 }
 
@@ -120,20 +120,21 @@ fun LegendPage(legend: Legend, project: Project) {
                     },
                     valueRange = 10f..40f,
                     steps = 29,
-                    modifier = Modifier.pointerInput(Unit) {
-
-                    }
+                    modifier =
+                        Modifier.pointerInput(Unit) {
+                        },
                 )
             }
         }
         NestedSurface {
             Column(
                 Modifier.padding(10.dp).weight(1F).fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                Button(onClick = {
-                    legend.addEntry()
-                }
+                Button(
+                    onClick = {
+                        legend.addEntry()
+                    },
                 ) {
                     Icon(Icons.Default.Add, null)
                     Label(Labels.NEW)
@@ -142,13 +143,15 @@ fun LegendPage(legend: Legend, project: Project) {
                 LazyColumn(
                     state = reorderState.listState,
                     modifier = Modifier.reorderable(reorderState),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     items(legend.entries, key = { it.hashCode() }) { entry ->
                         ReorderableItem(reorderState, key = entry.hashCode()) { dragging ->
                             LegendEntryCard(
-                                entry, onDelete = { legend.removeEntry(entry) },
-                                reorderState, dragging = dragging
+                                entry,
+                                onDelete = { legend.removeEntry(entry) },
+                                reorderState,
+                                dragging = dragging,
                             )
                         }
                     }

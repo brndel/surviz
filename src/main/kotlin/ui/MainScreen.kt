@@ -3,6 +3,7 @@ package ui
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import data.project.Project
 
 /**
@@ -20,7 +21,9 @@ fun MainScreen(project: Project?) {
         if (project == null) {
             WelcomeScreen()
         } else {
-            ProjectScreen(project)
+            CompositionLocalProvider(LocalProject provides project) {
+                ProjectScreen()
+            }
         }
     }
 }
