@@ -7,7 +7,9 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializer
 
-
+/**
+ * Mapping of single value dummies, allowing for multiple dummy entries to be stored and retrieved by their key.
+ */
 data class SingleValueDummyMap(val dummies: SnapshotStateList<SingleValueDummy> = mutableStateListOf(SingleValueDummy())) {
 
     fun get(value: Int): String {

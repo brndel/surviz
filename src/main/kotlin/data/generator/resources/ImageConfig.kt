@@ -10,6 +10,15 @@ import ui.fields.fromHex
 import ui.fields.toHex
 import java.util.Properties
 
+/**
+ * ImageConfig is a data class that holds configuration settings for image generation.
+ *
+ * @property width The width of the generated image.
+ * @property timelineScaling The scaling factor for the timeline in the image.
+ * @property backgroundColor The background color of the generated image.
+ * @property alpha The alpha transparency value for all drawn foreground elements in the image.
+ * @property singleValueSize The size of single value icons in the image.
+ */
 data class ImageConfig(
     val width: MutableIntState,
     val timelineScaling: MutableDoubleState,
@@ -34,36 +43,37 @@ data class ImageConfig(
             return ImageConfig(width, timelineScaling, color, alpha, singleValueSize)
         }
 
-        val serializer = JsonSerializer<ImageConfig> { value, _, _ ->
-            val obj = JsonObject()
+        val serializer =
+            JsonSerializer<ImageConfig> { value, _, _ ->
+                val obj = JsonObject()
 
-            obj.addProperty("width", value.width.value)
-            obj.addProperty("timelineScaling", value.timelineScaling.value)
-            obj.addProperty("backgroundColor", value.backgroundColor.value.toHex())
-            obj.addProperty("alpha", value.alpha.value)
-            obj.addProperty("singleValueSize", value.singleValueSize.value)
+                obj.addProperty("width", value.width.value)
+                obj.addProperty("timelineScaling", value.timelineScaling.value)
+                obj.addProperty("backgroundColor", value.backgroundColor.value.toHex())
+                obj.addProperty("alpha", value.alpha.value)
+                obj.addProperty("singleValueSize", value.singleValueSize.value)
 
-            obj
-        }
+                obj
+            }
 
-        val deserializer = JsonDeserializer<ImageConfig> { element, _, _ ->
-            val obj = element.asJsonObject
+        val deserializer =
+            JsonDeserializer<ImageConfig> { element, _, _ ->
+                val obj = element.asJsonObject
 
-            val width = obj.get("width").asInt
-            val timelineScaling = obj.get("timelineScaling").asDouble
-            val colorHex = obj.get("backgroundColor").asString
-            val color = Color.fromHex(colorHex)!!
-            val alpha = obj.get("alpha").asFloat
-            val singleValueSize = obj.get("singleValueSize").asInt
+                val width = obj.get("width").asInt
+                val timelineScaling = obj.get("timelineScaling").asDouble
+                val colorHex = obj.get("backgroundColor").asString
+                val color = Color.fromHex(colorHex)!!
+                val alpha = obj.get("alpha").asFloat
+                val singleValueSize = obj.get("singleValueSize").asInt
 
-            ImageConfig(
-                mutableIntStateOf(width),
-                mutableDoubleStateOf(timelineScaling),
-                mutableStateOf(color),
-                mutableFloatStateOf(alpha),
-                mutableIntStateOf(singleValueSize)
-            )
-        }
+                ImageConfig(
+                    mutableIntStateOf(width),
+                    mutableDoubleStateOf(timelineScaling),
+                    mutableStateOf(color),
+                    mutableFloatStateOf(alpha),
+                    mutableIntStateOf(singleValueSize),
+                )
+            }
     }
 }
-

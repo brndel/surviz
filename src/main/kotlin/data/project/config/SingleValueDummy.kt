@@ -9,6 +9,9 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializer
 
+/**
+ * Holds dummy data for a single value, so it can be manually changed instead of relying on the provided data.
+ */
 data class SingleValueDummy(val key: MutableState<Int> = mutableStateOf(0), val value: MutableState<String> = mutableStateOf("")) {
 
     companion object {

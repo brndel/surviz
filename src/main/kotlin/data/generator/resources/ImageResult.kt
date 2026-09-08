@@ -2,6 +2,9 @@ package data.generator.resources
 
 import androidx.compose.ui.graphics.ImageBitmap
 
+/**
+ * Wrapper class so needed width can be passed along with the image and displayed in the UI
+ */
 data class ImageResult(val image: ImageBitmap, val neededWidth: Int) {
 
     /**
