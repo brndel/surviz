@@ -18,37 +18,51 @@ data class TimelineEntry(
     val column: MutableState<String>,
     val lineType: MutableState<LineType>,
     val showChangeOvers: MutableState<Boolean> = mutableStateOf(false),
-    val changeOverColumn: MutableState<String>
+    val changeOverColumn: MutableState<String>,
+    val showIndividualCost: MutableState<Boolean> = mutableStateOf(false),
+    val individualCostColumn: MutableState<String>,
+    val individualCostSuffix: MutableState<String>,
 ) {
     companion object {
-        val serializer = JsonSerializer<TimelineEntry> { value, _, _ ->
-            val obj = JsonObject()
+        val serializer =
+            JsonSerializer<TimelineEntry> { value, _, _ ->
+                val obj = JsonObject()
 
-            obj.addProperty("icon", value.icon.value)
-            obj.addProperty("column", value.column.value)
-            obj.addProperty("lineType", value.lineType.value.name)
-            obj.addProperty("showChangeOvers", value.showChangeOvers.value)
-            obj.addProperty("changeOverColumn", value.changeOverColumn.value)
+                obj.addProperty("icon", value.icon.value)
+                obj.addProperty("column", value.column.value)
+                obj.addProperty("lineType", value.lineType.value.name)
+                obj.addProperty("showChangeOvers", value.showChangeOvers.value)
+                obj.addProperty("changeOverColumn", value.changeOverColumn.value)
+                obj.addProperty("showIndividualCost", value.showIndividualCost.value)
+                obj.addProperty("individualCostColumn", value.individualCostColumn.value)
+                obj.addProperty("individualCostSuffix", value.individualCostSuffix.value)
 
-            obj
-        }
+                obj
+            }
 
-        val deserializer = JsonDeserializer<TimelineEntry> { element, _, _ ->
-            val obj = element.asJsonObject
+        val deserializer =
+            JsonDeserializer<TimelineEntry> { element, _, _ ->
+                val obj = element.asJsonObject
 
-            val icon = if (obj.has("icon")) obj.get("icon").asString else null
-            val column = obj.get("column").asString
-            val lineType = LineType.valueOf(obj.get("lineType").asString)
-            val showChangeOvers = obj.get("showChangeOvers").asBoolean
-            val changeOverColumn = obj.get("changeOverColumn").asString
+                val icon = if (obj.has("icon")) obj.get("icon").asString else null
+                val column = obj.get("column").asString
+                val lineType = LineType.valueOf(obj.get("lineType").asString)
+                val showChangeOvers = obj.get("showChangeOvers").asBoolean
+                val changeOverColumn = obj.get("changeOverColumn").asString
+                val showIndividualCost = obj.get("showIndividualCost")?.asBoolean ?: false
+                val individualCostColumn = obj.get("individualCostColumn")?.asString ?: ""
+                val individualCostSuffix = obj.get("individualCostSuffix")?.asString ?: ""
 
-            TimelineEntry(
-                mutableStateOf(icon),
-                mutableStateOf(column),
-                mutableStateOf(lineType),
-                mutableStateOf(showChangeOvers),
-                mutableStateOf(changeOverColumn)
-            )
-        }
+                TimelineEntry(
+                    mutableStateOf(icon),
+                    mutableStateOf(column),
+                    mutableStateOf(lineType),
+                    mutableStateOf(showChangeOvers),
+                    mutableStateOf(changeOverColumn),
+                    mutableStateOf(showIndividualCost),
+                    mutableStateOf(individualCostColumn),
+                    mutableStateOf(individualCostSuffix),
+                )
+            }
     }
 }

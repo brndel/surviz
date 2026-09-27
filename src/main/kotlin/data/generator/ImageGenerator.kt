@@ -14,11 +14,11 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextPainter
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.createFontFamilyResolver
+import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
@@ -30,8 +30,10 @@ import data.generator.resources.ImageConfig
 import data.generator.resources.ImageResult
 import data.generator.resources.LineType
 import data.generator.resources.TextType
-import data.project.config.ProjectConfiguration
+import data.generator.utils.drawDivider
+import data.generator.utils.resizeBitmap
 import data.project.config.OptionConfig
+import data.project.config.ProjectConfiguration
 import data.project.config.SituationConfig
 import data.project.config.columns.ZeroColumn
 import data.project.config.legend.Legend
@@ -47,7 +49,7 @@ import java.util.Properties
  */
 class ImageGenerator(
     private var config: ProjectConfiguration,
-    private var iconStorage: IconStorage
+    private var iconStorage: IconStorage,
 ) {
     private val cachedIcons = LinkedHashMap<String, ImageBitmap>()
 
@@ -69,9 +71,9 @@ class ImageGenerator(
         imageConfig = config.imageConfig
     }
 
-    ///////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////////
     // public functions
-    ///////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////////
 
     /**
      * This method generates an Image for the given situation.
@@ -80,7 +82,10 @@ class ImageGenerator(
      *
      * @throws NoSuchFieldException if no configuration was found for on of the options
      */
-    fun generateSituation(situation: Situation, situationConfig: SituationConfig): ImageResult {
+    fun generateSituation(
+        situation: Situation,
+        situationConfig: SituationConfig,
+    ): ImageResult {
         var maxWidth = 0
         var maxNeededWidth = 0
         val imageList = ArrayList<ImageBitmap>()
@@ -110,7 +115,10 @@ class ImageGenerator(
      *
      * @throws NoSuchFieldException if no configuration was found for the option
      */
-    fun generateOption(option: SituationOption, situationConfig: SituationConfig): ImageResult {
+    fun generateOption(
+        option: SituationOption,
+        situationConfig: SituationConfig,
+    ): ImageResult {
         // initialize values
         var neededWidth = 0
         val optionConfig =
@@ -118,11 +126,11 @@ class ImageGenerator(
 
         // scale image dynamically based on count of single values
         val singleValueCount = config.getSingleValues().size
-        val singleValueSectionSize = kotlin.math.max(
-            singleValueCount * imageConfig.singleValueSize.value,
-            properties.getProperty("single_value_min_width").toInt()
-        )
-
+        val singleValueSectionSize =
+            kotlin.math.max(
+                singleValueCount * imageConfig.singleValueSize.value,
+                properties.getProperty("single_value_min_width").toInt(),
+            )
 
         val width = imageConfig.width.value
         val color = optionConfig.color.value
@@ -130,22 +138,22 @@ class ImageGenerator(
         val image = ImageBitmap(width, height)
         val canvas = Canvas(image)
 
-        //fill background
+        // fill background
         val backgroundColor = Paint()
         backgroundColor.color = imageConfig.backgroundColor.value
         canvas.drawRect(0F, 0F, width.toFloat(), height.toFloat(), backgroundColor)
 
-        //draw option title
+        // draw option title
         drawText(
             canvas,
             optionConfig.name.value,
             color,
             Offset(
                 properties.getProperty("option_title_x_offset").toFloat() + padding,
-                properties.getProperty("option_title_y_offset").toFloat() + padding
+                properties.getProperty("option_title_y_offset").toFloat() + padding,
             ),
             textType = TextType.Title,
-            false
+            false,
         )
 
         // draw single values
@@ -157,14 +165,14 @@ class ImageGenerator(
         val dividerX =
             padding + singleValueSectionSize + properties.getProperty("column_padding").toFloat()
 
-        val linePaint = Paint().apply {
-            style = PaintingStyle.Stroke
-            strokeWidth = properties.getProperty("divider_weight").toFloat()
-            this.color = Color(properties.getProperty("divider_color").toLong(16))
-        }
+        val linePaint =
+            Paint().apply {
+                style = PaintingStyle.Stroke
+                strokeWidth = properties.getProperty("divider_weight").toFloat()
+                this.color = Color(properties.getProperty("divider_color").toLong(16))
+            }
 
         drawDivider(canvas, dividerX, centerLine, dividerLength, linePaint)
-
 
         // draw timeline
         val timelineWidth =
@@ -176,7 +184,7 @@ class ImageGenerator(
                 dividerX,
                 centerLine,
                 neededWidth,
-                situationConfig
+                situationConfig,
             )
 
         // calculate needed width
@@ -196,7 +204,7 @@ class ImageGenerator(
      * @return [ImageBitmap] of the legend
      */
     fun generateLegend(legend: Legend): ImageBitmap {
-        //initialize values
+        // initialize values
         val segmentPadding = legend.segmentPadding.value
 
         val color = legend.color.value
@@ -208,11 +216,12 @@ class ImageGenerator(
         val iconSize = properties.getProperty("legend_icon_size").toInt()
 
         val dividerHeight = properties.getProperty("legend_divider_height").toFloat()
-        val dividerPaint = Paint().apply {
-            style = PaintingStyle.Stroke
-            strokeWidth = properties.getProperty("divider_weight").toFloat()
-            this.color = Color(properties.getProperty("divider_color").toLong(16))
-        }
+        val dividerPaint =
+            Paint().apply {
+                style = PaintingStyle.Stroke
+                strokeWidth = properties.getProperty("divider_weight").toFloat()
+                this.color = Color(properties.getProperty("divider_color").toLong(16))
+            }
         val drawDivider = legend.drawDivider.value
 
         var currentBitmap = ImageBitmap(width, legendHeight)
@@ -220,7 +229,7 @@ class ImageGenerator(
 
         var canvas = Canvas(currentBitmap)
 
-        //fill background
+        // fill background
         val backgroundColor = Paint()
         backgroundColor.color = imageConfig.backgroundColor.value
         canvas.drawRect(0F, 0F, width.toFloat(), legendHeight.toFloat(), backgroundColor)
@@ -232,7 +241,7 @@ class ImageGenerator(
 
         var isFirstSegment = true
 
-        //go trough all entries
+        // go trough all entries
         for (entry in legend.entries) {
             val icon = resizeBitmap(entry.path.value?.let { getIcon(it) }, iconSize, iconSize)
             val iconWidth = icon?.width ?: 0
@@ -244,10 +253,11 @@ class ImageGenerator(
             if (entry.isIcon.value) {
                 segmentWidth += iconWidth
                 segmentWidth += iconPadding
-                segmentWidth += getTextLayoutResult(
-                    entry.description.value,
-                    textType = TextType.Legend
-                ).size.width
+                segmentWidth +=
+                    getTextLayoutResult(
+                        entry.description.value,
+                        textType = TextType.Legend,
+                    ).size.width
             } else {
                 segmentWidth =
                     getTextLayoutResult(combinedText, textType = TextType.Legend).size.width
@@ -262,14 +272,14 @@ class ImageGenerator(
                 isFirstSegment = true
             }
 
-            //only draw divider if not first segment
+            // only draw divider if not first segment
             if (!isFirstSegment && drawDivider) {
                 drawDivider(
                     canvas,
                     x.toFloat() - segmentPadding / 2,
                     center.toFloat(),
                     dividerHeight,
-                    dividerPaint
+                    dividerPaint,
                 )
             }
 
@@ -279,7 +289,7 @@ class ImageGenerator(
                     canvas,
                     icon,
                     color,
-                    Offset(x + (iconWidth / 2F), center.toFloat())
+                    Offset(x + (iconWidth / 2F), center.toFloat()),
                 )
                 drawText(
                     canvas,
@@ -288,7 +298,7 @@ class ImageGenerator(
                     Offset((x + iconWidth + iconPadding).toFloat(), center.toFloat()),
                     TextType.Legend,
                     centerX = false,
-                    centerY = true
+                    centerY = true,
                 )
             } else {
                 drawText(
@@ -298,7 +308,7 @@ class ImageGenerator(
                     Offset(x.toFloat(), center.toFloat()),
                     TextType.Legend,
                     centerX = false,
-                    centerY = true
+                    centerY = true,
                 )
             }
 
@@ -311,9 +321,9 @@ class ImageGenerator(
         return fuseBitmapList(bitmaps)
     }
 
-    ///////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////////
     // private functions
-    ///////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////////
 
     /**
      * Draws text on a [canvas]
@@ -334,7 +344,7 @@ class ImageGenerator(
         textType: TextType = TextType.Label,
         centerX: Boolean,
         centerY: Boolean = false,
-        width: Int? = null
+        width: Int? = null,
     ) {
         val textLayoutResult = getTextLayoutResult(text, textType, color, width)
         // center  text if necessary
@@ -358,37 +368,41 @@ class ImageGenerator(
         text: String,
         textType: TextType = TextType.Label,
         color: Color = Color.Black,
-        width: Int? = null
+        width: Int? = null,
     ): TextLayoutResult {
         // configure text style
         val fontSize: TextUnit = properties.getProperty(textType.fontSizeKey).toFloat().sp
-        val fontFamily = FontFamily(
-            fonts = listOf(
-                Font(
-                    resource = "fonts/Poppins-Regular.ttf",
-                    weight = FontWeight.W400,
-                    style = FontStyle.Normal
-                )
+        val fontFamily =
+            FontFamily(
+                fonts =
+                    listOf(
+                        Font(
+                            resource = "fonts/Poppins-Regular.ttf",
+                            weight = FontWeight.W400,
+                            style = FontStyle.Normal,
+                        ),
+                    ),
             )
-        )
 
-        val style = TextStyle(
-            color = color,
-            fontSize = fontSize,
-            fontWeight = textType.fontWeight,
-            fontFamily = fontFamily,
-            textAlign = if (width != null) TextAlign.Center else null
-        )
+        val style =
+            TextStyle(
+                color = color,
+                fontSize = fontSize,
+                fontWeight = textType.fontWeight,
+                fontFamily = fontFamily,
+                textAlign = if (width != null) TextAlign.Center else null,
+            )
 
         val measurer = TextMeasurer(createFontFamilyResolver(), Density(1.0F), LayoutDirection.Ltr)
 
         return measurer.measure(
             text,
             style,
-            constraints = Constraints(
-                minWidth = width ?: 0,
-                maxWidth = width ?: Constraints.Infinity
-            )
+            constraints =
+                Constraints(
+                    minWidth = width ?: 0,
+                    maxWidth = width ?: Constraints.Infinity,
+                ),
         )
     }
 
@@ -413,21 +427,43 @@ class ImageGenerator(
      * @param color [Color] of the [icon]
      * @param center center point the [icon] should be drawn on
      */
-    private fun drawIcon(canvas: Canvas, icon: ImageBitmap?, color: Color, center: Offset) {
+    private fun drawIcon(
+        canvas: Canvas,
+        icon: ImageBitmap?,
+        color: Color,
+        center: Offset,
+    ) {
         if (icon == null) return
 
         // color black icons
         val paint = Paint()
-        paint.colorFilter = ColorFilter.colorMatrix(
-            ColorMatrix(
-                floatArrayOf(
-                    0.0F, 0.0F, 0.0F, 0.0F, color.red * 255,
-                    0.0F, 0.0F, 0.0F, 0.0F, color.green * 255,
-                    0.0F, 0.0F, 0.0F, 0.0F, color.blue * 255,
-                    0.0F, 0.0F, 0.0F, color.alpha, 0.0F
-                )
+        paint.colorFilter =
+            ColorFilter.colorMatrix(
+                ColorMatrix(
+                    floatArrayOf(
+                        0.0F,
+                        0.0F,
+                        0.0F,
+                        0.0F,
+                        color.red * 255,
+                        0.0F,
+                        0.0F,
+                        0.0F,
+                        0.0F,
+                        color.green * 255,
+                        0.0F,
+                        0.0F,
+                        0.0F,
+                        0.0F,
+                        color.blue * 255,
+                        0.0F,
+                        0.0F,
+                        0.0F,
+                        color.alpha,
+                        0.0F,
+                    ),
+                ),
             )
-        )
         val width = icon.width
         val height = icon.height
         val position = Offset(center.x - (width / 2), center.y - (height / 2))
@@ -448,7 +484,7 @@ class ImageGenerator(
         color: Color,
         optionConfig: OptionConfig,
         option: SituationOption,
-        centerLine: Float
+        centerLine: Float,
     ) {
         for ((index, id) in config.getSingleValueConfigOrder().withIndex()) {
             val yOffset = properties.getProperty("single_value_y_offset").toFloat()
@@ -467,7 +503,9 @@ class ImageGenerator(
 
             // get prefix
             val prefix =
-                singleValueConfig.prefix.value.takeIf { it.isNotEmpty() }?.let { "$it " } ?: ""
+                singleValueConfig.prefix.value
+                    .takeIf { it.isNotEmpty() }
+                    ?.let { "$it " } ?: ""
 
             val unit = singleValueConfig.unit.value
 
@@ -481,23 +519,27 @@ class ImageGenerator(
             val count = index + 1
             val size = imageConfig.singleValueSize.value.toFloat()
 
-            val text = if (singleValueConfig.isDummy.value) {
-                singleValueConfig.dummies.get(value.toInt())
-            } else {
-                "$prefix$printedValue $unit"
-            }
+            val text =
+                if (singleValueConfig.isDummy.value) {
+                    singleValueConfig.dummies.get(value.toInt())
+                } else {
+                    "$prefix$printedValue $unit"
+                }
 
             val x = padding.toFloat() + (size * count) - (size / 2)
             drawText(
-                canvas, text,
+                canvas,
+                text,
                 newColor,
                 Offset(
                     x,
-                    centerLine + properties.getProperty("single_value_text_padding")
-                        .toFloat() + yOffset
+                    centerLine +
+                        properties
+                            .getProperty("single_value_text_padding")
+                            .toFloat() + yOffset,
                 ),
                 TextType.Label,
-                true
+                true,
             )
 
             // draw icon
@@ -511,28 +553,30 @@ class ImageGenerator(
                     newColor,
                     Offset(
                         x,
-                        centerLine - properties.getProperty("single_value_icon_padding")
-                            .toFloat() - (iconHeight / 2) + yOffset
-                    )
+                        centerLine -
+                            properties
+                                .getProperty("single_value_icon_padding")
+                                .toFloat() - (iconHeight / 2) + yOffset,
+                    ),
                 )
             }
 
             if (singleValueConfig.hasDivider.value) {
-                val paint = Paint().apply {
-                    style = PaintingStyle.Stroke
-                    strokeWidth = properties.getProperty("divider_weight").toFloat()
-                    this.color = Color(properties.getProperty("divider_color").toLong(16))
-                }
+                val paint =
+                    Paint().apply {
+                        style = PaintingStyle.Stroke
+                        strokeWidth = properties.getProperty("divider_weight").toFloat()
+                        this.color = Color(properties.getProperty("divider_color").toLong(16))
+                    }
 
                 drawDivider(
                     canvas,
                     x + (size / 2),
                     centerLine,
                     singleValueConfig.dividerLength.value,
-                    paint
+                    paint,
                 )
             }
-
         }
     }
 
@@ -554,7 +598,7 @@ class ImageGenerator(
         dividerX: Float,
         centerLine: Float,
         neededWidth: Int,
-        situationConfig: SituationConfig
+        situationConfig: SituationConfig,
     ): Int {
         var startX = dividerX + properties.getProperty("column_padding").toFloat()
         val timelinePadding = properties.getProperty("timeline_padding").toFloat()
@@ -586,13 +630,13 @@ class ImageGenerator(
                 Offset(startX, centerLine + yOffset),
                 Offset(endX, centerLine + yOffset),
                 entry.lineType.value,
-                color
+                color,
             )
             // draw divider
             drawTimelineDivider(canvas, color, startX, centerLine + yOffset)
             drawTimelineDivider(canvas, color, endX, centerLine + yOffset)
 
-            //draw change over dividers
+            // draw change over dividers
             if (entry.showChangeOvers.value) {
                 val count = option.values[entry.changeOverColumn.value]?.toInt() ?: 0
                 if (count > 0) {
@@ -612,15 +656,13 @@ class ImageGenerator(
             val iconSize = properties.getProperty("timeline_icon_size").toInt()
             val resizedIcon = resizeBitmap(icon, iconSize, iconSize)
 
-
             val iconHeight = icon?.height ?: 0
             drawIcon(
                 canvas,
                 resizedIcon,
                 color,
-                Offset(midX, centerLine - timelinePadding - (iconHeight / 2) + yOffset)
+                Offset(midX, centerLine - timelinePadding - (iconHeight / 2) + yOffset),
             )
-
 
             // draw text
             val unit = properties.getProperty("timeline_time_unit")
@@ -631,10 +673,30 @@ class ImageGenerator(
                 color,
                 Offset(midX, centerLine + timelinePadding + yOffset),
                 textType = TextType.Label,
-                true
+                true,
             )
 
             startX = endX
+
+            if (entry.showIndividualCost.value) {
+                val individualCostValue = option.values[entry.individualCostColumn.value]
+                val individualCostSuffix = entry.individualCostSuffix.value
+                if (individualCostValue != null) {
+                    drawText(
+                        canvas,
+                        text =
+                            if (individualCostSuffix != "") {
+                                "$individualCostValue $individualCostSuffix"
+                            } else {
+                                "$individualCostValue"
+                            },
+                        color,
+                        Offset(midX, centerLine + timelinePadding + yOffset + 30),
+                        textType = TextType.Label,
+                        true,
+                    )
+                }
+            }
         }
         return width
     }
@@ -647,17 +709,23 @@ class ImageGenerator(
      * @param x x-position of the divider
      * @param centerLine y-position of the center line
      */
-    private fun drawTimelineDivider(canvas: Canvas, color: Color, x: Float, centerLine: Float) {
-        val linePaint = Paint().apply {
-            style = PaintingStyle.Stroke
-            strokeWidth = properties.getProperty("timeline_weight").toFloat()
-            this.color = color
-        }
+    private fun drawTimelineDivider(
+        canvas: Canvas,
+        color: Color,
+        x: Float,
+        centerLine: Float,
+    ) {
+        val linePaint =
+            Paint().apply {
+                style = PaintingStyle.Stroke
+                strokeWidth = properties.getProperty("timeline_weight").toFloat()
+                this.color = color
+            }
         val dividerHeight = properties.getProperty("timeline_divider_height").toFloat()
         canvas.drawLine(
             Offset(x, centerLine - dividerHeight / 2),
             Offset(x, centerLine + dividerHeight / 2),
-            linePaint
+            linePaint,
         )
     }
 
@@ -675,7 +743,7 @@ class ImageGenerator(
         start: Offset,
         end: Offset,
         type: LineType,
-        color: Color
+        color: Color,
     ) {
         // create path effect
         val lineKey = type.lineKey
@@ -701,27 +769,6 @@ class ImageGenerator(
         canvas.drawLine(start, end, paint)
     }
 
-    /**
-     * Resizes the given bitmap to given size
-     *
-     * @param bitmap [ImageBitmap] to resize
-     * @param width width of resized bitmap
-     * @param height height of resized bitmap
-     * @return resized [ImageBitmap]
-     */
-    private fun resizeBitmap(bitmap: ImageBitmap?, width: Int, height: Int): ImageBitmap? {
-        if (bitmap == null) return null
-        val image = ImageBitmap(width, height)
-        val canvas = Canvas(image)
-        canvas.drawImageRect(
-            bitmap,
-            srcSize = IntSize(bitmap.width, bitmap.height),
-            dstSize = IntSize(width, height),
-            paint = Paint()
-        )
-        return image
-    }
-
     private fun getIcon(key: String): ImageBitmap? {
         if (cachedIcons.containsKey(key)) {
             return cachedIcons[key]
@@ -729,13 +776,5 @@ class ImageGenerator(
         val icon = iconStorage.getIcon(key) ?: return null
         cachedIcons[key] = icon
         return icon
-    }
-
-    private fun drawDivider(canvas: Canvas, x: Float, centerY: Float, length: Float, paint: Paint) {
-        canvas.drawLine(
-            Offset(x, centerY - length / 2),
-            Offset(x, centerY + length / 2),
-            paint
-        )
     }
 }

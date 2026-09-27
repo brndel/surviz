@@ -12,7 +12,6 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonSerializer
 import data.generator.resources.LineType
 import data.project.config.columns.SchemeColumns
-
 import data.project.config.columns.SingleValueColumn
 import ui.fields.fromHex
 import ui.fields.toHex
@@ -29,18 +28,23 @@ data class OptionConfig(
     val name: MutableState<String> = mutableStateOf(""),
     val color: MutableState<Color> = mutableStateOf(Color.Black),
     val singleValueColumns: SnapshotStateMap<UUID, SingleValueColumn> = mutableStateMapOf(),
-    private val timeline: SnapshotStateList<TimelineEntry> = mutableStateListOf()
-
-
+    private val timeline: SnapshotStateList<TimelineEntry> = mutableStateListOf(),
 ) {
     /**
      * this method adds a new timeline entry.
      */
     fun addTimelineEntry() {
-        val newTimelineEntry = TimelineEntry(
-            mutableStateOf(null), mutableStateOf(""), mutableStateOf(LineType.Solid),
-            mutableStateOf(false), mutableStateOf("")
-        )
+        val newTimelineEntry =
+            TimelineEntry(
+                mutableStateOf(null),
+                mutableStateOf(""),
+                mutableStateOf(LineType.Solid),
+                mutableStateOf(false),
+                mutableStateOf(""),
+                mutableStateOf(false),
+                mutableStateOf(""),
+                mutableStateOf(""),
+            )
         timeline.add(newTimelineEntry)
     }
 
@@ -57,7 +61,10 @@ data class OptionConfig(
      * @param indexA the index of the first timeline entry to be swapped
      * @param indexB the index of the second timeline entry to be swapped
      */
-    fun swapTimelineOrder(indexA: Int, indexB: Int) {
+    fun swapTimelineOrder(
+        indexA: Int,
+        indexB: Int,
+    ) {
         if (indexA >= 0 && indexB >= 0 && indexA < timeline.size && indexB < timeline.size) {
             val temp = timeline[indexA]
             timeline[indexA] = timeline[indexB]
@@ -69,9 +76,7 @@ data class OptionConfig(
      * This method returns the timeline of this situation.
      * @return the timeline to be returned
      */
-    fun getTimeline(): List<TimelineEntry> {
-        return timeline
-    }
+    fun getTimeline(): List<TimelineEntry> = timeline
 
     /**
      * This method gets the SingleValueColumn that is mapped to the given UUID or maps SchemeColumns to the UUID if
@@ -79,55 +84,55 @@ data class OptionConfig(
      * @param id the UUID key
      * @return the SingleValueColumn that is mapped to the key id
      */
-    fun getColumns(id: UUID): SingleValueColumn {
-        return singleValueColumns.getOrPut(id) { SchemeColumns }
-    }
+    fun getColumns(id: UUID): SingleValueColumn = singleValueColumns.getOrPut(id) { SchemeColumns }
 
     companion object {
-        val serializer = JsonSerializer<OptionConfig> { value, _, ctx ->
-            val obj = JsonObject()
+        val serializer =
+            JsonSerializer<OptionConfig> { value, _, ctx ->
+                val obj = JsonObject()
 
-            obj.addProperty("name", value.name.value)
-            obj.add("color", ctx.serialize(value.color.value.toHex()))
-            obj.add("singleValueColumns", ctx.serialize(value.singleValueColumns))
-            obj.add("timeline", ctx.serialize(value.timeline))
+                obj.addProperty("name", value.name.value)
+                obj.add("color", ctx.serialize(value.color.value.toHex()))
+                obj.add("singleValueColumns", ctx.serialize(value.singleValueColumns))
+                obj.add("timeline", ctx.serialize(value.timeline))
 
-            obj
-        }
-
-        val deserializer = JsonDeserializer<OptionConfig> { element, _, ctx ->
-            val obj = element.asJsonObject
-
-            val name = obj.get("name").asString
-            val color = Color.fromHex(obj.get("color").asString)!!
-
-            val jsonSingleValueColumns = obj.get("singleValueColumns").asJsonObject
-
-            val singleValueColumns = mutableStateMapOf<UUID, SingleValueColumn>()
-
-            for (entry in jsonSingleValueColumns.entrySet()) {
-                val uuid = UUID.fromString(entry.key)
-                val singleValueColumn =
-                    ctx.deserialize<SingleValueColumn>(entry.value, SingleValueColumn::class.java)
-
-                singleValueColumns[uuid] = singleValueColumn
+                obj
             }
 
-            val timeline = mutableStateListOf<TimelineEntry>()
+        val deserializer =
+            JsonDeserializer<OptionConfig> { element, _, ctx ->
+                val obj = element.asJsonObject
 
-            val jsonTimeline = obj.get("timeline").asJsonArray
+                val name = obj.get("name").asString
+                val color = Color.fromHex(obj.get("color").asString)!!
 
-            for (entry in jsonTimeline) {
-                val timelineEntry = ctx.deserialize<TimelineEntry>(entry, TimelineEntry::class.java)
-                timeline.add(timelineEntry)
+                val jsonSingleValueColumns = obj.get("singleValueColumns").asJsonObject
+
+                val singleValueColumns = mutableStateMapOf<UUID, SingleValueColumn>()
+
+                for (entry in jsonSingleValueColumns.entrySet()) {
+                    val uuid = UUID.fromString(entry.key)
+                    val singleValueColumn =
+                        ctx.deserialize<SingleValueColumn>(entry.value, SingleValueColumn::class.java)
+
+                    singleValueColumns[uuid] = singleValueColumn
+                }
+
+                val timeline = mutableStateListOf<TimelineEntry>()
+
+                val jsonTimeline = obj.get("timeline").asJsonArray
+
+                for (entry in jsonTimeline) {
+                    val timelineEntry = ctx.deserialize<TimelineEntry>(entry, TimelineEntry::class.java)
+                    timeline.add(timelineEntry)
+                }
+
+                OptionConfig(
+                    mutableStateOf(name),
+                    mutableStateOf(color),
+                    singleValueColumns,
+                    timeline,
+                )
             }
-
-            OptionConfig(
-                mutableStateOf(name),
-                mutableStateOf(color),
-                singleValueColumns,
-                timeline
-            )
-        }
     }
 }

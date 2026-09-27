@@ -1,6 +1,5 @@
 package data.project
 
-
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
@@ -39,7 +38,7 @@ data class Project(
     private val data: MutableState<ProjectData>,
     private val dataScheme: MutableState<DataScheme>,
     val configuration: ProjectConfiguration = ProjectConfiguration(),
-    val iconStorage: IconStorage = IconStorage()
+    val iconStorage: IconStorage = IconStorage(),
 ) {
     init {
         val blockConfigs = mutableStateMapOf<Int, BlockConfig>()
@@ -51,51 +50,47 @@ data class Project(
             }
             blockConfigs[block.id] = blockConfig
         }
-        if(configuration.blockConfigs == null) {
+        if (configuration.blockConfigs == null) {
             configuration.blockConfigs = blockConfigs
         }
     }
+
     fun getDataScheme(): DataScheme = dataScheme.value
 
-    fun getAllBlocks(): List<Block> {
-        return data.value.getBlocks()
-    }
+    fun getAllBlocks(): List<Block> = data.value.getBlocks()
 
-    fun getMaxBlockID(): Int {
-        return data.value.getMaxBlockID()
-    }
+    fun getMaxBlockID(): Int = data.value.getMaxBlockID()
 
-    fun getMaxSituationID(id: Int): Int {
-        return data.value.getMaxSituationID(id)
-    }
+    fun getMaxSituationID(id: Int): Int = data.value.getMaxSituationID(id)
 
-    fun isValidBlockID(blockId: Int): Boolean {
-        return data.value.getBlock(blockId) != null
-    }
+    fun isValidBlockID(blockId: Int): Boolean = data.value.getBlock(blockId) != null
 
-    fun isValidSituationID(blockId: Int, situationId: Int): Boolean {
-        return data.value.getBlock(blockId)?.getSituation(situationId) != null
-    }
+    fun isValidSituationID(
+        blockId: Int,
+        situationId: Int,
+    ): Boolean = data.value.getBlock(blockId)?.getSituation(situationId) != null
 
-    fun hasReachedMax(blockId: Int, situationId: Int): Boolean {
-        return blockId == getMaxBlockID() && situationId == getMaxSituationID(blockId)
-    }
+    fun hasReachedMax(
+        blockId: Int,
+        situationId: Int,
+    ): Boolean = blockId == getMaxBlockID() && situationId == getMaxSituationID(blockId)
 
-    fun hasReachedMin(blockId: Int, situationId: Int): Boolean {
-        return blockId == 1 && situationId == 1
-    }
+    fun hasReachedMin(
+        blockId: Int,
+        situationId: Int,
+    ): Boolean = blockId == 1 && situationId == 1
 
-    fun getBlock(id: Int): Block? {
-        return data.value.getBlock(id)
-    }
+    fun getBlock(id: Int): Block? = data.value.getBlock(id)
 
-    fun getSituation(block: Int, situation: Int): Situation? {
-        return data.value.getSituation(block, situation)
-    }
+    fun getSituation(
+        block: Int,
+        situation: Int,
+    ): Situation? = data.value.getSituation(block, situation)
 
-    fun getSituationConfig(block: Int, situation: Int): SituationConfig {
-        return configuration.blockConfigs!![block]?.situationConfigs?.get(situation) ?: SituationConfig()
-    }
+    fun getSituationConfig(
+        block: Int,
+        situation: Int,
+    ): SituationConfig = configuration.blockConfigs!![block]?.situationConfigs?.get(situation) ?: SituationConfig()
 
     fun getSituationConfig(situation: Situation): SituationConfig {
         for (block in data.value.getBlocks()) {
@@ -113,7 +108,10 @@ data class Project(
      * differs from the new one.
      * @return True if the project data was loaded successfully, false otherwise.
      */
-    fun loadProjectData(data: ProjectData, force: Boolean = false): Boolean {
+    fun loadProjectData(
+        data: ProjectData,
+        force: Boolean = false,
+    ): Boolean {
         if (force || dataScheme.value.compareTo(data.dataScheme)) {
             this.data.value = data
             return true
@@ -143,7 +141,6 @@ data class Project(
     }
 
     companion object {
-
         const val DEFAULT_FILE_NAME = "project.svz"
 
         val defaultSaveDirectory by lazy {
@@ -201,7 +198,7 @@ data class Project(
                 mutableStateOf(data),
                 mutableStateOf(data.dataScheme),
                 config,
-                IconStorage()
+                IconStorage(),
             )
         }
 
@@ -229,33 +226,27 @@ data class Project(
                 // Project Config
                 .registerTypeAdapter(
                     ProjectConfiguration::class.java,
-                    ProjectConfiguration.serializer
-                )
-                .registerTypeAdapter(
+                    ProjectConfiguration.serializer,
+                ).registerTypeAdapter(
                     ProjectConfiguration::class.java,
-                    ProjectConfiguration.deserializer
-                )
-                .registerTypeAdapter(SingleValueConfig::class.java, SingleValueConfig.serializer)
+                    ProjectConfiguration.deserializer,
+                ).registerTypeAdapter(SingleValueConfig::class.java, SingleValueConfig.serializer)
                 .registerTypeAdapter(SingleValueConfig::class.java, SingleValueConfig.deserializer)
                 .registerTypeAdapter(SingleValueIcon::class.java, SingleValueIcon.serializer)
                 .registerTypeAdapter(SingleValueIcon::class.java, SingleValueIcon.deserializer)
                 .registerTypeAdapter(
                     SingleValueIconLevel::class.java,
-                    SingleValueIconLevel.serializer
-                )
-                .registerTypeAdapter(
+                    SingleValueIconLevel.serializer,
+                ).registerTypeAdapter(
                     SingleValueIconLevel::class.java,
-                    SingleValueIconLevel.deserializer
-                )
-                .registerTypeAdapter(
+                    SingleValueIconLevel.deserializer,
+                ).registerTypeAdapter(
                     SingleValueDummyMap::class.java,
-                    SingleValueDummyMap.serializer
-                )
-                .registerTypeAdapter(
+                    SingleValueDummyMap.serializer,
+                ).registerTypeAdapter(
                     SingleValueDummyMap::class.java,
-                    SingleValueDummyMap.deserializer
-                )
-                .registerTypeAdapter(SingleValueDummy::class.java, SingleValueDummy.serializer)
+                    SingleValueDummyMap.deserializer,
+                ).registerTypeAdapter(SingleValueDummy::class.java, SingleValueDummy.serializer)
                 .registerTypeAdapter(SingleValueDummy::class.java, SingleValueDummy.deserializer)
                 .registerTypeAdapter(ImageConfig::class.java, ImageConfig.serializer)
                 .registerTypeAdapter(ImageConfig::class.java, ImageConfig.deserializer)
@@ -282,48 +273,48 @@ data class Project(
                 .create()
         }
 
-        private val serializer = JsonSerializer<Project> { value, _, ctx ->
-            val obj = JsonObject()
+        private val serializer =
+            JsonSerializer<Project> { value, _, ctx ->
+                val obj = JsonObject()
 
-            obj.addProperty("version", VERSION)
-            obj.add("configuration", ctx.serialize(value.configuration))
-            obj.add("dataScheme", ctx.serialize(value.dataScheme.value))
-            obj.add("iconStorage", ctx.serialize(value.iconStorage))
-            obj.add("data", ctx.serialize(value.data.value))
+                obj.addProperty("version", VERSION)
+                obj.add("configuration", ctx.serialize(value.configuration))
+                obj.add("dataScheme", ctx.serialize(value.dataScheme.value))
+                obj.add("iconStorage", ctx.serialize(value.iconStorage))
+                obj.add("data", ctx.serialize(value.data.value))
 
-            obj
-        }
-
-        private val deserializer = JsonDeserializer<Project> { element, _, ctx ->
-            val obj = element.asJsonObject ?: throw CorruptFileException()
-
-            val version = if (obj.has("version")) obj.get("version").asString else null
-            if (version == null || version != VERSION) {
-                throw InvalidVersionException(version ?: "null", VERSION)
+                obj
             }
 
-            val configuration =
-                ctx.deserialize<ProjectConfiguration>(
-                    obj.get("configuration"),
-                    ProjectConfiguration::class.java
+        private val deserializer =
+            JsonDeserializer<Project> { element, _, ctx ->
+                val obj = element.asJsonObject ?: throw CorruptFileException()
+
+                val version = if (obj.has("version")) obj.get("version").asString else null
+                if (version == null || !READABLE_VERSIONS.contains(version)) {
+                    throw InvalidVersionException(version ?: "null", VERSION)
+                }
+
+                val configuration =
+                    ctx.deserialize<ProjectConfiguration>(
+                        obj.get("configuration"),
+                        ProjectConfiguration::class.java,
+                    )
+                val dataScheme =
+                    ctx.deserialize<DataScheme>(obj.get("dataScheme"), DataScheme::class.java)
+                val iconStorage =
+                    ctx.deserialize<IconStorage>(obj.get("iconStorage"), IconStorage::class.java)
+                val data = ctx.deserialize<ProjectData>(obj.get("data"), ProjectData::class.java)
+
+                Project(
+                    mutableStateOf(data),
+                    mutableStateOf(dataScheme),
+                    configuration,
+                    iconStorage,
                 )
-            val dataScheme =
-                ctx.deserialize<DataScheme>(obj.get("dataScheme"), DataScheme::class.java)
-            val iconStorage =
-                ctx.deserialize<IconStorage>(obj.get("iconStorage"), IconStorage::class.java)
-            val data = ctx.deserialize<ProjectData>(obj.get("data"), ProjectData::class.java)
+            }
 
-            Project(
-                mutableStateOf(data),
-                mutableStateOf(dataScheme),
-                configuration,
-                iconStorage
-            )
-        }
-
-        private const val VERSION = "1.8"
+        private const val VERSION = "1.9"
+        private val READABLE_VERSIONS = listOf("1.8", "1.9")
     }
 }
-
-
-

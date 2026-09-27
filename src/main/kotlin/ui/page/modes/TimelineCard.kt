@@ -1,11 +1,18 @@
 package ui.page.modes
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
@@ -34,78 +41,110 @@ import ui.util.TextSwitch
  * @ui TextField for the column of the entry
  * @ui IconField for the icon of the entry
  */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun TimelineCard(
     entry: TimelineEntry,
     onDelete: () -> Unit,
     columns: List<String>,
-    reorderState: ReorderableState<*>
+    reorderState: ReorderableState<*>,
 ) {
     var icon by entry.icon
     var column by entry.column
     var lineType by entry.lineType
     var showChangeOvers by entry.showChangeOvers
     var changeOverColumn by entry.changeOverColumn
+    var individualCostColumn by entry.individualCostColumn
+    var unit by entry.individualCostSuffix
 
     NestedSurface {
         Row(
             Modifier.padding(10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             ReorderHandle(reorderState)
 
             Column(
                 Modifier.weight(1F),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                Row(
-                    Modifier.padding(10.dp),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    IconField(icon) { icon = it }
-
-                    OptionsField(
-                        column,
-                        { column = it },
-                        options = columns,
-                        label = { Label(Labels.COLUMN) },
-                        modifier = Modifier.weight(1F)
+                NestedSurface {
+                    FlowRow(
+                        Modifier.padding(10.dp).fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp),
                     ) {
-                        it
-                    }
+                        IconField(icon) { icon = it }
 
-                    OptionsField(
-                        lineType,
-                        { lineType = it },
-                        LineType.entries.toList(),
-                        label = { Label(Labels.FIELD_LINE_TYPE) },
-                        modifier = Modifier.weight(1F)
-                    ) {
-                        LocalLanguage.current.getString(it.label)
+                        OptionsField(
+                            column,
+                            { column = it },
+                            options = columns,
+                            label = { Label(Labels.COLUMN) },
+                        ) {
+                            it
+                        }
+
+                        OptionsField(
+                            lineType,
+                            { lineType = it },
+                            LineType.entries.toList(),
+                            label = { Label(Labels.FIELD_LINE_TYPE) },
+                        ) {
+                            LocalLanguage.current.getString(it.label)
+                        }
                     }
                 }
-                Row(
-                    Modifier.padding(10.dp),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    TextSwitch(
-                        Labels.TIMELINE_CHANGEOVER_SWITCH,
-                        entry.showChangeOvers,
-                        Labels.TIMELINE_CHANGEOVER_SWITCH_INFO,
-                        null,
-                        null
-                    )
-                    OptionsField(
-                        changeOverColumn,
-                        { changeOverColumn = it },
-                        options = columns,
-                        label = { Label(Labels.COLUMN) },
-                        modifier = Modifier.weight(1F)
+                NestedSurface {
+                    FlowRow(
+                        Modifier.padding(10.dp).fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp),
                     ) {
-                        it
+                        TextSwitch(
+                            Labels.TIMELINE_CHANGEOVER_SWITCH,
+                            entry.showChangeOvers,
+                            Labels.TIMELINE_CHANGEOVER_SWITCH_INFO,
+                            null,
+                            null,
+                        )
+                        OptionsField(
+                            changeOverColumn,
+                            { changeOverColumn = it },
+                            options = columns,
+                            label = { Label(Labels.COLUMN) },
+                        ) {
+                            it
+                        }
+                    }
+                }
+                NestedSurface {
+                    FlowRow(
+                        modifier = Modifier.padding(10.dp).fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp),
+                    ) {
+                        TextSwitch(
+                            Labels.TIMELINE_ADDITIONAL_VALUE_TITLE,
+                            entry.showIndividualCost,
+                            Labels.TIMELINE_ADDITIONAL_VALUE_INFO,
+                            null,
+                            null,
+                        )
+
+                        OptionsField(
+                            individualCostColumn,
+                            { individualCostColumn = it },
+                            options = columns,
+                            label = { Label(Labels.COLUMN) },
+                        ) {
+                            it
+                        }
+
+                        OutlinedTextField(unit, { unit = it }, label = {
+                            Label(Labels.FIELD_UNIT)
+                        })
                     }
                 }
             }
