@@ -1,0 +1,3 @@
+- Ziel dieses Branches: Nutzer:innen sollen Icons einzeln oder stapelweise mit optionalem Zusatztext exportieren können.
+- Die UI ist bis auf die Preview größtenteils vorhanden; die Bildgenerierung fehlt noch.
+- Das Feature wurde von Gabriel angefragt, die Anforderungen sind jedoch noch nicht finalisiert.
