@@ -4,6 +4,17 @@ import data.project.ProjectData
 import java.io.File
 import kotlin.math.max
 
+/**
+ * Importer for CSV files produced for SurViz data tables.
+ *
+ * Assumptions:
+ * - semicolon (";") is used as separator
+ * - first row contains column keys
+ * - numeric values may use comma as decimal separator
+ *
+ * The TabularImporter contract is implemented to allow the generic importer pipeline
+ * to parse rows and map them to the internal ProjectData structure.
+ */
 object CsvImporter : TabularImporter {
 
     override val extensions: List<String>

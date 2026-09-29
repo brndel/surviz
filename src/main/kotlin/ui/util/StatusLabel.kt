@@ -1,3 +1,6 @@
+/**
+ * Status label shown in the corner of the application to display transient status messages.
+ */
 package ui.util
 
 import androidx.compose.animation.AnimatedContent

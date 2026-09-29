@@ -1,3 +1,9 @@
+/**
+ * Simple dropdown selector backed by an OutlinedTextField and a DropdownMenu.
+ *
+ * Displays the currently selected item using itemToString and allows choosing from options.
+ * onValueChange is called with the newly selected item.
+ */
 package ui.fields
 
 import androidx.compose.foundation.layout.Box

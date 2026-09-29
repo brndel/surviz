@@ -1,3 +1,11 @@
+/**
+ * Generic controlled text input that converts between a String representation and a typed value.
+ *
+ * The component keeps a local text buffer while the field is focused and uses the provided
+ * parse/toString functions to validate and emit typed values.
+ *
+ * Type parameter T is the value type managed by this field (e.g., Int, Double, String).
+ */
 package ui.fields
 
 import androidx.compose.material.OutlinedTextField

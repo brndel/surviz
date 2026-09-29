@@ -1,3 +1,6 @@
+/**
+ * Legend editing UI components for legend entries.
+ */
 package ui.page.legend
 
 import androidx.compose.animation.core.animateDpAsState

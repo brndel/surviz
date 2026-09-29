@@ -1,3 +1,8 @@
+/**
+ * Top application bar composable and related UI helpers.
+ *
+ * Hosts grouped AppBar buttons and exposes the main navigation controls.
+ */
 package ui
 
 import LocalGlobalCallbacks

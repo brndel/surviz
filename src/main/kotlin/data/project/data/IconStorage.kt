@@ -32,12 +32,16 @@ import kotlin.io.path.extension
 
 
 /**
- * This class represents  icon storage.
- * To ensure flexibility all icons stored in the icon storage.
- * So when accessed on different devices the icons are available.
- * The icons are stored in the project data and can be accessed with getIcon.
+ * Provides centralized storage for icons used by a project.
  *
- * @property internalIcons The icons of the project
+ * Contains both built-in (internal) icons and user-added icons. User icons are
+ * persisted in the project file (base64 content) so projects remain portable.
+ * Icons can be retrieved via getIcon(name) and listed with getInternalIconNames()/getUserIconNames().
+ *
+ * Serialization/deserialization preserves original file content and recreates files
+ * in a local save directory if the original path is missing.
+ *
+ * @property internalIcons cached built-in icons loaded from resources
  */
 data class IconStorage(
     private val userIcons: SnapshotStateMap<String, UserIcon> = mutableStateMapOf()
@@ -214,9 +218,10 @@ data class IconStorage(
                 g2d.drawImage(tmp, 0, 0, null)
                 g2d.dispose()
 
-                val tempFile = File.createTempFile("image", ".png")
-                ImageIO.write(dimg, "png", tempFile)
-                val resizedBitmap = loadImageBitmap(FileInputStream(tempFile))
+                // write resized image to in-memory stream instead of a temp file
+                val baos = java.io.ByteArrayOutputStream()
+                ImageIO.write(dimg, "png", baos)
+                val resizedBitmap = loadImageBitmap(baos.toByteArray().inputStream())
 
                 // center image
                 val image = ImageBitmap(ICON_SIZE, ICON_SIZE)

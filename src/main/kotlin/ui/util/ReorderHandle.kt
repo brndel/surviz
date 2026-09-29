@@ -1,3 +1,6 @@
+/**
+ * Small drag handle used for reordering lists/items in the UI.
+ */
 package ui.util
 
 import androidx.compose.foundation.layout.padding

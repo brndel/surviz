@@ -1,3 +1,7 @@
+/**
+ * Project screen — main editing surface for a loaded project. Hosts different
+ * project configuration pages (single values, situations, legend, image settings, export).
+ */
 package ui
 
 import androidx.compose.foundation.layout.*

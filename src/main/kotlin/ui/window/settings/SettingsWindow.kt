@@ -1,3 +1,6 @@
+/**
+ * Settings window top-level composable. Hosts SettingsWindowContent and manages interactions.
+ */
 package ui.window.settings
 
 import androidx.compose.foundation.layout.Box

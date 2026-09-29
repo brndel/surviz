@@ -1,3 +1,6 @@
+/**
+ * Page container for image generation configuration.
+ */
 package ui.page.image
 
 import androidx.compose.foundation.ExperimentalFoundationApi

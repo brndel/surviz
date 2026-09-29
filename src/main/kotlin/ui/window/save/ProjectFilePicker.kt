@@ -1,3 +1,6 @@
+/**
+ * File picker UI used when loading or saving projects.
+ */
 package ui.window.save
 
 import LocalGlobalCallbacks

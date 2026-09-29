@@ -22,12 +22,16 @@ import kotlin.io.path.Path
 import kotlin.io.path.createParentDirectories
 
 /**
- * This class represents a project,which is the root of every SurViz project.
- * All relevant information like [data] ,[dataScheme] ,project [configuration]
- * and the [iconStorage] of the project is stored here.
- * From here other projects can be accessed by loading or creating them.
+ * Represents a SurViz project — the root container for all project data and configuration.
  *
+ * Stores:
+ * - data: the project's runtime data (blocks, situations, options)
+ * - dataScheme: the schema describing the data structure
+ * - configuration: user-editable project configuration (blocks, single values, timeline entries)
+ * - iconStorage: bundled and user-provided icons used by the project
  *
+ * This class provides helpers to load/save project files, create new projects from
+ * ProjectData, and access per-situation configuration objects.
  *
  * @property data the data of the project.
  * @property dataScheme the data scheme of the project.

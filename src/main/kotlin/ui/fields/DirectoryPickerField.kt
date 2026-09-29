@@ -1,3 +1,6 @@
+/**
+ * Directory picker field with a simple text input and directory selection behavior.
+ */
 package ui.fields
 
 import androidx.compose.material.Icon

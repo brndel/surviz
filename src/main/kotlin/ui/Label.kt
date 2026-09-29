@@ -1,3 +1,6 @@
+/**
+ * Small convenience wrappers around Text used across the UI for consistent styling.
+ */
 package ui
 
 import androidx.compose.material.LocalTextStyle

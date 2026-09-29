@@ -1,3 +1,6 @@
+/**
+ * Numeric input field for Double values. Supports comma as decimal separator and optional min/max.
+ */
 package ui.fields
 
 import androidx.compose.runtime.Composable

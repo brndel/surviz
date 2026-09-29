@@ -1,11 +1,40 @@
 # SurViz
 
-SurViz is a tool for better visualizing stated choice surveys.
+SurViz is a desktop application for visualizing stated choice survey data and exporting option visuals.
+
+## Current status
+
+- Core functionality implemented: NGene (.ngd) and CSV importers, bundled and user icon storage (PNG/SVG), image generation for situations/options, PNG and HTML exporters, and a preview UI with project settings.
+- Configuration for image layout is available in src/main/resources/config/image_generator.properties.
 
 ## Usage
 
->[!tip]
->See `notes/User_guide` or *Help* window for detailed explanation
+Build and run with Gradle:
+
+```bash
+./gradlew run
+```
+
+Package a native distribution for the current OS
+
+1. Update the project version in build.gradle.kts
+
+   - Open build.gradle.kts and set the version to the desired package version (for example: version = "1.0.1"). If you use the Compose nativeDistributions block, ensure packageVersion (or windows/mac/linux block settings) reflect the same value.
+
+2. Build the distribution for the host OS:
+
+```bash
+./gradlew packageDistributionForCurrentOS
+```
+
+This task will create a native distribution (installer or bundle) for the operating system you run it on. The produced artifacts are placed under the build/ directory (e.g. build/compose or build/distributions depending on the plugin configuration).
+
+Refer to the in-app Help window or notes/User_guide for detailed user instructions.
+
+## Recent developer notes
+
+- Codebase received documentation (KDoc) improvements and small refactors to ImageGenerator and IconStorage: property-access helpers and in-memory PNG resizing were added to reduce filesystem I/O and improve readability.
+
 
 ## Supported file types
 

@@ -1,3 +1,6 @@
+/**
+ * Dialog used to save a project to disk; wraps ProjectFilePicker and related controls.
+ */
 package ui.window.save
 
 import androidx.compose.foundation.ExperimentalFoundationApi

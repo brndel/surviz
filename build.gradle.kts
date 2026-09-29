@@ -43,11 +43,11 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Exe, TargetFormat.Deb)
             packageName = "SurViz"
-            packageVersion = "1.0.6"
+            packageVersion = "1.0.7"
             vendor = "com.surviz"
-            modules("java.compiler", "java.instrument" , "java.sql", "jdk.unsupported")
+            modules("java.compiler", "java.instrument", "java.sql", "jdk.unsupported")
 
-            windows{
+            windows {
                 iconFile.set(File("src/main/resources/logo.ico"))
                 menuGroup = ""
             }

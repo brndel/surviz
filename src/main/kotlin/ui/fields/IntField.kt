@@ -1,3 +1,6 @@
+/**
+ * Integer input field wrapper with optional bounds and label support.
+ */
 package ui.fields
 
 import androidx.compose.runtime.Composable

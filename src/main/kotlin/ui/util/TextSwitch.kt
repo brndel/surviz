@@ -1,3 +1,6 @@
+/**
+ * Small toggle switch with labels for on/off states.
+ */
 package ui.util
 
 import androidx.compose.foundation.layout.Arrangement

@@ -1,3 +1,6 @@
+/**
+ * Export page that exposes exporter options and triggers the export workflow.
+ */
 package ui.page.export
 
 import LocalGlobalCallbacks

@@ -1,3 +1,6 @@
+/**
+ * Color picker field wrapper used by project configuration pages.
+ */
 package ui.fields
 
 import androidx.compose.foundation.layout.Box

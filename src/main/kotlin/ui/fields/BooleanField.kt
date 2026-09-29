@@ -1,3 +1,6 @@
+/**
+ * Simple boolean checkbox field used in forms and exporter/importer UIs.
+ */
 package ui.fields
 
 import androidx.compose.foundation.layout.Arrangement

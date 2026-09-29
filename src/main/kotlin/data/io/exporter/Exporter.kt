@@ -6,20 +6,26 @@ import data.resources.fields.NamedField
 import java.nio.file.Path
 
 /**
- * This interface describes the necessary methods for an exporter.
+ * Defines the contract for data exporters (e.g., PNG, HTML).
+ *
+ * Implementations should perform the export according to exportConfig and return an ExportResult.
+ * The exportConfig map contains exporter-specific keys (documented by each exporter).
  */
 interface Exporter {
     /**
-     * This method exports the data.
-     * @param project The project.
-     * @param exportConfig The export configuration.
-     * @param onPathSelected can get called if a path is selected in exporting process
+     * Export the given project using exporter-specific options.
+     *
+     * @param project The project to export.
+     * @param exportConfig Map with exporter-specific configuration keys and values.
+     * @param onPathSelected Optional callback invoked if the exporter determines a filesystem
+     *                       path (e.g., when prompting the user). Receives the selected Path.
+     * @return an ExportResult describing success, warnings or errors.
      */
     fun export(project: Project, exportConfig: Map<String, Any>, onPathSelected: ((Path) -> Unit)?): ExportResult
 
     /**
-     * This method returns the fields that the UI uses to configure the export.
-     * * @return The fields that can be exported.
+     * Returns the UI fields used to configure the exporter.
+     * @return list of NamedField describing available configuration options
      */
     fun getFields(): List<NamedField>
 

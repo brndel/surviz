@@ -30,6 +30,7 @@ import data.generator.resources.ImageConfig
 import data.generator.resources.ImageResult
 import data.generator.resources.LineType
 import data.generator.resources.TextType
+import data.generator.utils.createStrokePaint
 import data.generator.utils.drawDivider
 import data.generator.utils.resizeBitmap
 import data.project.config.OptionConfig
@@ -43,7 +44,14 @@ import data.project.data.SituationOption
 import java.util.Properties
 
 /**
- * This class describes the image generator.
+ * Generates ImageBitmaps for situations, options and legends according to the current
+ * ProjectConfiguration and ImageConfig properties.
+ *
+ * Responsibilities:
+ * - render single-value column area, timeline sections, icons and labels
+ * - respect scaling and layout properties from config / properties file
+ * - cache icon bitmaps to avoid repeated loading
+ *
  * @param config The project configuration.
  * @param iconStorage The icon storage.
  */
@@ -129,7 +137,7 @@ class ImageGenerator(
         val singleValueSectionSize =
             kotlin.math.max(
                 singleValueCount * imageConfig.singleValueSize.value,
-                properties.getProperty("single_value_min_width").toInt(),
+                propInt("single_value_min_width"),
             )
 
         val width = imageConfig.width.value
@@ -149,8 +157,8 @@ class ImageGenerator(
             optionConfig.name.value,
             color,
             Offset(
-                properties.getProperty("option_title_x_offset").toFloat() + padding,
-                properties.getProperty("option_title_y_offset").toFloat() + padding,
+                propFloat("option_title_x_offset") + padding,
+                propFloat("option_title_y_offset") + padding,
             ),
             textType = TextType.Title,
             false,
@@ -161,16 +169,11 @@ class ImageGenerator(
         drawSingleValues(canvas, color, optionConfig, option, centerLine)
 
         // draw divider line
-        val dividerLength = properties.getProperty("divider_length").toFloat()
+        val dividerLength = propFloat("divider_length")
         val dividerX =
-            padding + singleValueSectionSize + properties.getProperty("column_padding").toFloat()
+            padding + singleValueSectionSize + propFloat("column_padding")
 
-        val linePaint =
-            Paint().apply {
-                style = PaintingStyle.Stroke
-                strokeWidth = properties.getProperty("divider_weight").toFloat()
-                this.color = Color(properties.getProperty("divider_color").toLong(16))
-            }
+        val linePaint = createStrokePaint(propString("divider_color").toLong(16), propFloat("divider_weight"))
 
         drawDivider(canvas, dividerX, centerLine, dividerLength, linePaint)
 
@@ -191,7 +194,7 @@ class ImageGenerator(
         neededWidth += singleValueSectionSize
         neededWidth += timelineWidth
         neededWidth += 2 * padding
-        neededWidth += 2 * properties.getProperty("column_padding").toInt()
+        neededWidth += 2 * propInt("column_padding")
 
         return ImageResult(image, neededWidth)
     }
@@ -213,15 +216,10 @@ class ImageGenerator(
 
         val width = imageConfig.width.value
 
-        val iconSize = properties.getProperty("legend_icon_size").toInt()
+        val iconSize = propInt("legend_icon_size")
 
-        val dividerHeight = properties.getProperty("legend_divider_height").toFloat()
-        val dividerPaint =
-            Paint().apply {
-                style = PaintingStyle.Stroke
-                strokeWidth = properties.getProperty("divider_weight").toFloat()
-                this.color = Color(properties.getProperty("divider_color").toLong(16))
-            }
+        val dividerHeight = propFloat("legend_divider_height")
+        val dividerPaint = createStrokePaint(propString("divider_color").toLong(16), propFloat("divider_weight"))
         val drawDivider = legend.drawDivider.value
 
         var currentBitmap = ImageBitmap(width, legendHeight)
@@ -237,7 +235,7 @@ class ImageGenerator(
         var x = padding
         val center = legendHeight / 2
 
-        val iconPadding = properties.getProperty("legend_icon_padding").toInt()
+        val iconPadding = propInt("legend_icon_padding")
 
         var isFirstSegment = true
 
@@ -371,7 +369,7 @@ class ImageGenerator(
         width: Int? = null,
     ): TextLayoutResult {
         // configure text style
-        val fontSize: TextUnit = properties.getProperty(textType.fontSizeKey).toFloat().sp
+        val fontSize: TextUnit = propFloat(textType.fontSizeKey).sp
         val fontFamily =
             FontFamily(
                 fonts =
@@ -487,7 +485,7 @@ class ImageGenerator(
         centerLine: Float,
     ) {
         for ((index, id) in config.getSingleValueConfigOrder().withIndex()) {
-            val yOffset = properties.getProperty("single_value_y_offset").toFloat()
+            val yOffset = propFloat("single_value_y_offset")
 
             // don't draw if wrong config
             val singleValueConfig = config.getSingleValues()[id] ?: continue
@@ -534,9 +532,7 @@ class ImageGenerator(
                 Offset(
                     x,
                     centerLine +
-                        properties
-                            .getProperty("single_value_text_padding")
-                            .toFloat() + yOffset,
+                        propFloat("single_value_text_padding") + yOffset,
                 ),
                 TextType.Label,
                 true,
@@ -554,20 +550,13 @@ class ImageGenerator(
                     Offset(
                         x,
                         centerLine -
-                            properties
-                                .getProperty("single_value_icon_padding")
-                                .toFloat() - (iconHeight / 2) + yOffset,
+                            propFloat("single_value_icon_padding") - (iconHeight / 2) + yOffset,
                     ),
                 )
             }
 
             if (singleValueConfig.hasDivider.value) {
-                val paint =
-                    Paint().apply {
-                        style = PaintingStyle.Stroke
-                        strokeWidth = properties.getProperty("divider_weight").toFloat()
-                        this.color = Color(properties.getProperty("divider_color").toLong(16))
-                    }
+                val paint = createStrokePaint(propString("divider_color").toLong(16), propFloat("divider_weight"))
 
                 drawDivider(
                     canvas,
@@ -600,9 +589,9 @@ class ImageGenerator(
         neededWidth: Int,
         situationConfig: SituationConfig,
     ): Int {
-        var startX = dividerX + properties.getProperty("column_padding").toFloat()
-        val timelinePadding = properties.getProperty("timeline_padding").toFloat()
-        val yOffset = properties.getProperty("timeline_y_offset").toFloat()
+        var startX = dividerX + propFloat("column_padding")
+        val timelinePadding = propFloat("timeline_padding")
+        val yOffset = propFloat("timeline_y_offset")
         var width = neededWidth
 
         // go over every section
@@ -653,7 +642,7 @@ class ImageGenerator(
 
             val icon = entry.icon.value?.let { getIcon(it) }
 
-            val iconSize = properties.getProperty("timeline_icon_size").toInt()
+            val iconSize = propInt("timeline_icon_size")
             val resizedIcon = resizeBitmap(icon, iconSize, iconSize)
 
             val iconHeight = icon?.height ?: 0
@@ -665,7 +654,7 @@ class ImageGenerator(
             )
 
             // draw text
-            val unit = properties.getProperty("timeline_time_unit")
+            val unit = propString("timeline_time_unit")
 
             drawText(
                 canvas,
@@ -715,13 +704,8 @@ class ImageGenerator(
         x: Float,
         centerLine: Float,
     ) {
-        val linePaint =
-            Paint().apply {
-                style = PaintingStyle.Stroke
-                strokeWidth = properties.getProperty("timeline_weight").toFloat()
-                this.color = color
-            }
-        val dividerHeight = properties.getProperty("timeline_divider_height").toFloat()
+        val linePaint = createStrokePaint(color, propFloat("timeline_weight"))
+        val dividerHeight = propFloat("timeline_divider_height")
         canvas.drawLine(
             Offset(x, centerLine - dividerHeight / 2),
             Offset(x, centerLine + dividerHeight / 2),
@@ -752,8 +736,8 @@ class ImageGenerator(
         var pathEffect: PathEffect? = null
 
         if (lineKey != null && spaceKey != null) {
-            val lineLength = properties.getProperty(lineKey).toFloat()
-            val spaceLength = properties.getProperty(spaceKey).toFloat()
+            val lineLength = propFloat(lineKey)
+            val spaceLength = propFloat(spaceKey)
 
             pathEffect = PathEffect.dashPathEffect(floatArrayOf(lineLength, spaceLength))
         }
@@ -762,7 +746,7 @@ class ImageGenerator(
         val paint = Paint()
         paint.style = PaintingStyle.Stroke
         paint.color = color
-        paint.strokeWidth = properties.getProperty("timeline_weight").toFloat()
+        paint.strokeWidth = propFloat("timeline_weight")
         paint.pathEffect = pathEffect
 
         // draw line
@@ -777,4 +761,13 @@ class ImageGenerator(
         cachedIcons[key] = icon
         return icon
     }
+
+    // helper accessors for property values
+    private fun propString(key: String): String = properties.getProperty(key)
+
+    private fun propInt(key: String): Int = properties.getProperty(key).toInt()
+
+    private fun propFloat(key: String): Float = properties.getProperty(key).toFloat()
+
+    private fun propDouble(key: String): Double = properties.getProperty(key).toDouble()
 }

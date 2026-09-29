@@ -5,7 +5,11 @@ import data.resources.exceptions.CorruptFileException
 import java.io.File
 
 /**
- * This interface describes the necessary methods for an importer.
+ * Contract for file importers that produce ProjectData.
+ *
+ * Implementations should declare supported file extensions and provide a robust
+ * readFile implementation. importFile wraps readFile and converts unexpected
+ * exceptions into CorruptFileException to keep error handling consistent.
  */
 interface Importer {
     val extensions : List<String>

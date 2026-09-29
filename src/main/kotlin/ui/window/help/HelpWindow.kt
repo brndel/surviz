@@ -1,3 +1,6 @@
+/**
+ * Help window that shows documentation and help entries for the application.
+ */
 package ui.window.help
 
 import androidx.compose.foundation.layout.*

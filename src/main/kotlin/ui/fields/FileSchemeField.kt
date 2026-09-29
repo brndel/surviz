@@ -1,3 +1,6 @@
+/**
+ * Field used to configure filename schemes for exporters (placeholders like $block$, $situation$).
+ */
 package ui.fields
 
 import LocalGlobalCallbacks

@@ -1,4 +1,8 @@
+/**
+ * Timeline configuration card used on the Mode pages — defines timeline entries and presentation.
+ */
 package ui.page.modes
+
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

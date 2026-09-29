@@ -1,3 +1,6 @@
+/**
+ * Legend configuration page exposing legend entries and options.
+ */
 package ui.page.legend
 
 import androidx.compose.foundation.ExperimentalFoundationApi

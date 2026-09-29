@@ -1,3 +1,6 @@
+/**
+ * Card showing icon selection and preview for a single value configuration.
+ */
 package ui.page.singleValue
 
 import androidx.compose.foundation.layout.Arrangement

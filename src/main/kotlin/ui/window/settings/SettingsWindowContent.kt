@@ -1,3 +1,6 @@
+/**
+ * Content of the settings window: language selection, theme, special numeric settings.
+ */
 package ui.window.settings
 
 import androidx.compose.foundation.layout.*

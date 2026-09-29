@@ -1,3 +1,6 @@
+/**
+ * Centralized UI label definitions and localized string keys used by the application.
+ */
 package ui
 
 import androidx.compose.runtime.compositionLocalOf

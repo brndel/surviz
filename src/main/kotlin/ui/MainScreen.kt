@@ -1,3 +1,7 @@
+/**
+ * Root screen selection composable. Shows WelcomeScreen or ProjectScreen depending on
+ * whether a Project is loaded. Keeps layout styling consistent for the app surface.
+ */
 package ui
 
 import androidx.compose.material.MaterialTheme

@@ -1,3 +1,6 @@
+/**
+ * Integer field with a specified range; used in forms where bounded numeric input is required.
+ */
 package ui.fields
 
 import androidx.compose.foundation.layout.Arrangement

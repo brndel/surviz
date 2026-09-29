@@ -1,3 +1,8 @@
+/**
+ * Utility helpers that differ across platforms.
+ *
+ * platformPath selects a sensible default path depending on the detected OS and current user.
+ */
 package util
 
 fun platformPath(windows: (String) -> String, linux: (String) -> String, mac: (String) -> String): String {

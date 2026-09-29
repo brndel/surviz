@@ -9,7 +9,16 @@ import data.resources.exceptions.CorruptFileException
 import java.io.File
 
 /**
- * This class implements the [Importer] interface and imports the project from an NGene file.
+ * Imports project data from an NGene (.ngd) file and adapts it to the TabularImporter
+ * contract used by the application.
+ *
+ * Notes / assumptions:
+ * - the .ngd file contains metadata rows like ";alts", ";rows" and ";block" used to
+ *   determine alternatives, row- and block-counts
+ * - table rows are tab-separated and end with an extra separator character (dropped by split)
+ * - numeric values use dot as decimal separator
+ *
+ * The importer throws CorruptFileException when required metadata rows are missing.
  */
 object NgeneImporter : TabularImporter {
     ////////////////////////////////////////////////////////////////////////////////

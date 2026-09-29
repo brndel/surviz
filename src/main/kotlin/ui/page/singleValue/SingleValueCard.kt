@@ -1,3 +1,6 @@
+/**
+ * UI for configuring a single value entry, including label, icon and formatting.
+ */
 package ui.page.singleValue
 
 import androidx.compose.animation.core.animateDpAsState

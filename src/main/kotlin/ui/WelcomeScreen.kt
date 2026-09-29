@@ -1,3 +1,7 @@
+/**
+ * Welcome screen shown when no project is loaded. Provides quick access to create/load
+ * projects and open settings or help.
+ */
 package ui
 
 import LocalGlobalCallbacks

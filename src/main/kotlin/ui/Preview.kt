@@ -1,3 +1,7 @@
+/**
+ * Preview UI for rendering generated images for a selected situation and providing
+ * quick navigation and warnings related to rendering (width/999-values).
+ */
 package ui
 
 import LocalGlobalCallbacks

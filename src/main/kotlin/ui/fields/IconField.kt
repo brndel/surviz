@@ -1,3 +1,6 @@
+/**
+ * Field used to select an icon from internal or user-provided icon storage.
+ */
 package ui.fields
 
 import androidx.compose.foundation.BorderStroke

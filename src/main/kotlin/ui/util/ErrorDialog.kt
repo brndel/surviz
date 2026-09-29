@@ -1,3 +1,7 @@
+/**
+ * Simple error dialog composable used to show file/import related errors mapped from
+ * domain exceptions to user-friendly labels.
+ */
 package ui.util
 
 import androidx.compose.foundation.layout.Arrangement

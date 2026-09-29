@@ -1,3 +1,6 @@
+/**
+ * Small composable that shows an icon with an informational popup — used for help tips.
+ */
 package ui.util
 
 import LocalGlobalCallbacks

@@ -1,3 +1,6 @@
+/**
+ * User guide content displayed in the help window.
+ */
 package ui.window.help
 
 import androidx.compose.foundation.Image

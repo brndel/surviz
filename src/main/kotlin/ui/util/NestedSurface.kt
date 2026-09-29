@@ -1,3 +1,6 @@
+/**
+ * Surface wrapper that visually nests content (e.g., cards inside pages) with padding and elevation.
+ */
 package ui.util
 
 import androidx.compose.foundation.BorderStroke

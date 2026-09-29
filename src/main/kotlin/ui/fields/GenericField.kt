@@ -1,3 +1,6 @@
+/**
+ * Generic field helpers and small wrappers for consistent form layout.
+ */
 package ui.fields
 
 import androidx.compose.runtime.Composable

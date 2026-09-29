@@ -1,3 +1,6 @@
+/**
+ * Page containing UI to manage all single value configurations for the project.
+ */
 package ui.page.singleValue
 
 import androidx.compose.foundation.layout.*

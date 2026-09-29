@@ -1,3 +1,6 @@
+/**
+ * Controls to edit image generation settings (ImageConfig) used by ImageGenerator.
+ */
 package ui.page.image
 
 import androidx.compose.foundation.layout.Arrangement

@@ -1,3 +1,6 @@
+/**
+ * Page for configuring named modes (used to group settings or perspectives).
+ */
 package ui.page.modes
 
 import androidx.compose.foundation.layout.*

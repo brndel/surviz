@@ -1,3 +1,6 @@
+/**
+ * Export dialog components for configuring and launching export tasks.
+ */
 package ui.page.export
 
 import androidx.compose.foundation.layout.Arrangement

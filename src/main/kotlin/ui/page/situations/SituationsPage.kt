@@ -1,3 +1,6 @@
+/**
+ * Page listing all blocks and situations with controls to edit and preview them.
+ */
 package ui.page.situations
 
 import androidx.compose.foundation.layout.Arrangement

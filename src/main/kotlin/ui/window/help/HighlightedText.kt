@@ -1,3 +1,6 @@
+/**
+ * Helper composable to highlight text sections in help or guide dialogs.
+ */
 package ui.window.help
 
 import androidx.compose.material.MaterialTheme

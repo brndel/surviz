@@ -1,3 +1,6 @@
+/**
+ * UI components for configuring situation-specific overrides and timeline scales.
+ */
 package ui.page.situations
 
 import androidx.compose.foundation.layout.Arrangement

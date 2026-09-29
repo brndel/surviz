@@ -1,3 +1,6 @@
+/**
+ * Tab UI for navigating/editing situations inside the Situations page.
+ */
 package ui.page.situations
 
 import androidx.compose.foundation.layout.Arrangement

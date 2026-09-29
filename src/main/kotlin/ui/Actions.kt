@@ -1,3 +1,8 @@
+/**
+ * UI actions and keyboard shortcut mapping used by the AppBar and global UI.
+ *
+ * Contains AppBarAction definitions, grouped action sets, and Shortcut helper logic.
+ */
 package ui
 
 import GlobalCallbacks

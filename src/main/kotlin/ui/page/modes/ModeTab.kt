@@ -1,3 +1,6 @@
+/**
+ * UI for mode tabs that switch between different configuration areas.
+ */
 package ui.page.modes
 
 import androidx.compose.foundation.layout.Arrangement
